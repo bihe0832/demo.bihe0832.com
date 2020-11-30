@@ -1,0 +1,12 @@
+{
+  "showRedMaxVersionCode": 2,
+  "needUpdateMinVersionCode": 2,
+  "forceUpdateMinVersionCode": 0,
+  "forceUpdateList": " ",
+  "needUpdateList": " ",
+  "newVersionName": "1.0.0",
+  "newVersionCode": 2,
+  "newVersionInfo": "1. 全新UI和开发框架 <BR> 2. 支持卸载",
+  "newVersionMD5": "7a413381aa84c837cc5de1577aec23a9",
+  "newVersionURL": "https://github.com/bihe0832/AndroidAppFactory-Sample/releases/download/V1.0.0.1/ZAPK_V1.0.0_1_release.apk"
+}
