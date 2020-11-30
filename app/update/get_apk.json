@@ -4,9 +4,9 @@
   "forceUpdateMinVersionCode": 0,
   "forceUpdateList": " ",
   "needUpdateList": " ",
-  "newVersionName": "1.1.0",
-  "newVersionCode": 15,
-  "newVersionInfo": "1. 全新UI和开发框架 <BR> 2. 支持卸载",
-  "newVersionMD5": "5647b5ffec26638947c3873b55e7ea97",
-  "newVersionURL": "https://cdn.bihe0832.com/app/update/releases/ZAPK_V1.1.0_15_1130_official.apk"
+  "newVersionName": "1.1.1",
+  "newVersionCode": 16,
+  "newVersionInfo": "1. 优化APP更新逻辑",
+  "newVersionMD5": "226d653ce9720c5172b40462d98b90ab",
+  "newVersionURL": "https://cdn.bihe0832.com/app/update/releases/ZAPK_V1.1.1_16_1130_official.apk"
 }
