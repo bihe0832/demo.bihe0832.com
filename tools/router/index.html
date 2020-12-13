@@ -1,0 +1,86 @@
+<!DOCTYPE html lang="zh-CN">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <link rel="Shortcut Icon" href="https://microdemo.bihe0832.com/res/images/zixie_32.ico">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <title>Android路由跳转链接生成工具 — 子勰</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <h4>Android路由跳转链接生成工具 — <a href="https://blog.bihe0832.com" target="_blank">子勰</a></h4>
+            <div>
+                <p> 在页面下方输入路由地址后点击「生成二维码」即可生成支持打开路由的跳转地址 </p>
+            </div>
+
+            <div class="form-group">
+                <div class="input-group">
+                    <span class="input-group-addon">路由地址：</span>
+                    <input id="router-input" type="text" class="form-control" placeholder="请输入完整的路由路径，不需要URL编码"
+                        value="mna://herovideo?appid=1104466820&heroid=花木兰&heroname=花木兰">
+                    <input id="router-result" type="text" class="form-control" disabled="true" value="扫码后跳转的URL为：">
+                </div>
+                <span class="text-primary">注意事项：路由地址请填写完整路径，如果是URL，不需要编码</span>
+            </div>
+
+            <div>
+                <button id="button-show-qrcode" type="button" class="btn btn-primary" data-toggle="button">刷新二维码</button>
+                <button id="button-jump" type="button" class="btn btn-primary" data-toggle="button">点击直接跳转</button>
+            </div>
+
+            <div class="span4">
+                <img id="img-qrcode" src="https://qr.topscan.com/api.php?text=http://blog.bihe0832.com"
+                    style="width: 150px;height: 150px;">
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        var indexUrl = "https://microdemo.bihe0832.com/MyJS/router/jump.html?value="
+        function getUrlParam(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) return unescape(r[2]);
+            return "";
+        }
+
+        function getFinalURL(){
+            return indexUrl + encodeURIComponent(encodeURI($("#router-input").get(0).value))
+        }
+
+        function updateURL() {
+            var resultURL = getFinalURL()
+            $("#router-result").get(0).value = "扫码后跳转的URL为：" + resultURL
+            $("#img-qrcode").get(0).src = "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=" + encodeURIComponent(resultURL)
+        }
+
+        $("#router-input").on("input", function (e) {
+            updateURL()
+        });
+
+        $("#button-show-qrcode").click(function () {
+            updateURL()
+        });
+
+        $("#button-jump").click(function () {
+            window.location.href = getFinalURL()
+        });
+
+        $(document).ready(function () {
+            var routerURL = decodeURIComponent(decodeURI(getUrlParam("value")))
+            $("#router-input").get(0).value = routerURL
+            updateURL(routerURL)
+        })
+    </script>
+</body>
+
+</html>
