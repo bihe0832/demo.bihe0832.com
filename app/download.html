@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <meta name="format-detection" content="telephone=no" />
+  <link rel = "Shortcut Icon" href="https://cdn.bihe0832.com/res/images/zixie_32.ico" />
+  <title>AndroidAppFactory —— 基于AAF的开发事例</title>
+  <meta name="author" CONTENT="子勰(bihe0832), code@bihe0832.com" />
+  <meta name="keywords" content="子勰,bihe0832" />
+  <meta name="description" content="AndroidAppFactory —— 基于AAF的开发事例" />
+
+  <meta property="og:title" content="AndroidAppFactory —— 基于AAF的开发事例" />
+  <meta property="og:locale" content="en_US" />
+  <meta name="google-site-verification" content="3wzNgbjvFNHkH-8QpougMZ0s9Y4GEjG49kEb49QQqpw" />
+  <meta property="og:description" content="AndroidAppFactory —— 基于AAF的开发事例" />
+  <link rel="canonical" href="https://android.bihe0832.com/" />
+  <meta property="og:url" content="https://android.bihe0832.com/" />
+  <meta property="og:site_name" content="基于AAF的开发事例" />
+
+    <script type="text/javascript" src="https://cdn.bihe0832.com/js/brower.js" charset="UTF-8"></script>
+
+    <script type="text/javascript"> 
+   var system ={
+       win : false,
+       mac : false,
+       xll : false
+     };
+     var p = navigator.platform;
+     system.win = p.indexOf("Win") == 0;
+     system.mac = p.indexOf("Mac") == 0;
+     system.x11 = (p == "X11") || (p.indexOf("Linux") == 0);
+     if(!(system.win||system.mac||system.xll)){
+        // window.location.href="./jump.html";
+     }
+    </script>
+<style type="text/css">
+    .color-white{
+        color:#eee;
+      }
+      .hover-white:hover{
+        color:#ccc;
+        font-size: 105%;
+      }
+      .download_qrcode{
+        width: 120px;
+      }
+</style>
+
+	<!--[if lt IE 9]>
+	  <style type="text/css">
+	    .services{
+	      display:none;
+	    }
+	    .text-center p{
+	    /*解决低版本IE没有边界问题*/
+	    	text-align: center;
+	    }
+	    .list-inline{
+	    	margin-top: 30px;
+	    }
+	    </style>
+	<![endif]-->
+	<!--[if lte IE 7]>
+	  <style type="text/css">
+		  .vert-text{
+		      margin-top: 15%;
+		  }
+		  .list-inline li{
+	    	display: inline;
+   			list-style-type: none;
+	    }
+	    .caption{
+	    	left:0;
+	    	padding:0px 0px;
+	    	margin:-10px;
+		}
+	  </style>
+	<![endif]-->
+    <script src="https://cdn.bihe0832.com/js/jquery-1.9.1.min.js"></script>
+
+</head>
+<body>
+    <div id="top" class="header">
+      <div class="vert-text">
+       <div class="container">
+        <div class="row">
+          <div class="col-md-6 col-md-offset-3 text-center color-white">
+            <h2>基于AAF的开发的应用</h2>
+            <hr>
+            <BR>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4 text-center">
+            <div class="service-item  color-white" >
+              <img class="download_qrcode" alt="扫描下载应用信息获取" src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=https://cdn.bihe0832.com/app/release/ZAPK_V1.1.1_16_1130_official.apk">
+              <h3>应用信息查看工具</h3>
+              <h4><a class="color-white hover-white" href="https://cdn.bihe0832.com/app/release/ZAPK_V1.1.1_16_1130_official.apk">点击下载到本地</a></h4>
+            </div>
+          </div>
+          <div class="col-md-4 text-center" >
+            <div class="service-item color-white">
+              <img class="download_qrcode" alt="扫描下载来拼图" src="http://cdn.bihe0832.com/images/head.jpg">
+              <h3>来拼图</h3>
+              <h4>开发中，敬请期待</h4>
+            </div>
+          </div>
+          <div class="col-md-4 text-center">
+            <div class="service-item color-white">
+              <img class="download_qrcode" alt="扫描Readhub" src="http://cdn.bihe0832.com/images/head.jpg">
+              <h3>Readhub</h3>
+              <h4>开发中，敬请期待</h4>
+            </div>
+          </div>
+        
+      </div>
+      </div>
+        </div>
+    
+    </div>
+    <!-- /Full Page Image Header Area -->
+
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6 col-md-offset-3 text-center">
+            <ul class="list-inline">
+                <li><a href="https://android.bihe0832.com/samples/"  target="_blank">事例首页</a></li>
+                <li><a href="https://github.com/bihe0832/AndroidAppFactory-Sample"  target="_blank">事例源码</a></li>
+                <li><a href="https://android.bihe0832.com/" target="_blank">框架介绍</a></li>
+                <li><a href="https://github.com/bihe0832/AndroidAppFactory"  target="_blank">框架源码</a></li>
+                <li><a href="https://blog.bihe0832.com/repositories.html"  target="_blank">关于作者</a></li>
+            </ul>
+            <hr>
+            <span>
+              Copyright &copy; 子勰  All Rights Reserved
+            </span>
+          </div>
+        </div>
+      </div>
+    </footer>
+    <!-- /Footer -->
+
+   <!-- Bootstrap core CSS -->
+   <link href="./../css/bootstrap.min.css" rel="stylesheet">
+   <!-- Add custom CSS here -->
+   <link href="./css/style.min.css" rel="stylesheet">
+    
+   <script type="text/javascript" charset="UTF-8">
+    var _mtac = {};
+    (function() {
+      var mta = document.createElement("script");
+      mta.src = "http://pingjs.qq.com/h5/stats.js?v2.0.4";
+      mta.setAttribute("name", "MTAH5");
+      mta.setAttribute("sid", "500724774");
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(mta, s);
+    })();
+  </script>
+  </body>
+</html>
