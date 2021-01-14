@@ -1,12 +1,12 @@
 {
-  "showRedMaxVersionCode": 37,
-  "needUpdateMinVersionCode": 37,
+  "showRedMaxVersionCode": 40,
+  "needUpdateMinVersionCode": 40,
   "forceUpdateMinVersionCode": 0,
   "forceUpdateList": " ",
   "needUpdateList": " ",
-  "newVersionName": "1.0.0",
-  "newVersionCode": 37,
-  "newVersionInfo": "1. 体验优化 <BR> 2. Bug 修复",
-  "newVersionMD5": "b2eb6b39703f6ecb0c2db4678304a038",
-  "newVersionURL": "https://cdn.bihe0832.com/app/release/ZPUZZLE_V1.0.1_37_0108_official.apk"
+  "newVersionName": "1.1.0",
+  "newVersionCode": 41,
+  "newVersionInfo": "1. 添加隐私及权限授权 <BR> 2. Bug修复，功能优化",
+  "newVersionMD5": "3da88b56bc3e4e4426c50e2ada592fea",
+  "newVersionURL": "https://cdn.bihe0832.com/app/release/ZPUZZLE_V1.1.0_41_0114_official.apk"
 }

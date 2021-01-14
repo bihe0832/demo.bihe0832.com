@@ -1,12 +1,12 @@
 {
-  "showRedMaxVersionCode": 15,
-  "needUpdateMinVersionCode": 15,
+  "showRedMaxVersionCode": 40,
+  "needUpdateMinVersionCode": 40,
   "forceUpdateMinVersionCode": 0,
   "forceUpdateList": " ",
   "needUpdateList": " ",
-  "newVersionName": "1.1.1",
-  "newVersionCode": 16,
-  "newVersionInfo": "1. 优化APP更新逻辑",
-  "newVersionMD5": "226d653ce9720c5172b40462d98b90ab",
-  "newVersionURL": "https://cdn.bihe0832.com/app/release/ZAPK_V1.1.1_16_1130_official.apk"
+  "newVersionName": "1.2.0",
+  "newVersionCode": 41,
+  "newVersionInfo": "1. 添加隐私及权限授权",
+  "newVersionMD5": "cac34effb15b751d8cd887c7ba893388",
+  "newVersionURL": "https://cdn.bihe0832.com/app/release/ZAPK_V1.2.0_41_0114_official.apk"
 }
