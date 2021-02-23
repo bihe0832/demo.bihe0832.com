@@ -1,0 +1,333 @@
+<!DOCTYPE HTML>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <meta name="format-detection" content="telephone=no" />
+  <link rel="Shortcut Icon" href="https://cdn.bihe0832.com/res/images/zixie_32.ico" />
+
+  <title>子勰常用开发工具</title>
+  <meta name="author" CONTENT="子勰(bihe0832), code@bihe0832.com" />
+  <meta name="keywords" content="子勰,bihe0832" />
+  <meta name="description" content="子勰常用开发工具" />
+  <meta property="og:title" content="子勰常用开发工具" />
+  <meta property="og:locale" content="en_US" />
+  <meta name="google-site-verification" content="3wzNgbjvFNHkH-8QpougMZ0s9Y4GEjG49kEb49QQqpw" />
+  <meta property="og:description" content="" />
+  <link rel="canonical" href="https://blog.bihe0832.com/" />
+  <meta property="og:url" content="https://blog.bihe0832.com/" />
+  <meta property="og:site_name" content="子勰的博客" />
+  <meta property="og:type" content="article" />
+  <script type="application/ld+json">
+  {
+      "@type":"BlogPosting",
+      "url":"https://blog.bihe0832.com/",
+      "headline":"首页",
+      "dateModified":" 2021-01-06 17:28:45 +0800",
+      "datePublished":" ",
+      "author":{"@type":"Person","name":"子勰"},
+      "description":"",
+      "publisher":{
+          "@type":"Organization",
+          "name":"子勰",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://blog.bihe0832.com/public/img/head.jpg"
+          }
+        },
+      "image": "https://blog.bihe0832.com/public/img/cv.png",
+      "mainEntityOfPage":{"@type":"WebPage",
+      "@id":"https://blog.bihe0832.com/"},
+      "@context":"http://schema.org"
+    }
+  </script>
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "name": "",
+        "item": "https://blog.bihe0832.com/"
+      },{
+        "@type": "ListItem",
+        "position": 2,
+        "name": "首页",
+        "item": "https://blog.bihe0832.com/"
+      }]
+    }
+  </script>
+  <script type="text/javascript" charset="UTF-8">
+    var _mtac = {};
+    (function () {
+      var mta = document.createElement("script");
+      mta.src = "//pingjs.qq.com/h5/stats.js?v2.0.4";
+      mta.setAttribute("name", "MTAH5");
+      mta.setAttribute("sid", "500724774");
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(mta, s);
+    })();
+  </script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.bihe0832.com/res/css/global.css" />
+  <style type="text/css">
+    * {
+      margin: 0;
+      padding: 0;
+      text-underline: none;
+      text-decoration: none;
+      font-family: "Microsoft YaHei", sans-serif;
+      -webkit-tap-highlight-color: transparent;
+      -webkit-font-smoothing: antialiased;
+    }
+    html, body, #app {
+      position: relative;
+      padding: 0;
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      color: #333333;
+    }
+    [v-cloak] {
+      display: none;
+    }
+    #app {
+      padding: 60px;
+      overflow: auto;
+      box-sizing: border-box;
+    background-color: #eeeeee;
+    }
+    #app::-webkit-scrollbar { width: 0 !important;}
+    .title {
+      padding: 0 0 60px;
+      width: 100%;
+      color: white;
+      font-size: 40px;
+      font-weight: 800;
+      text-align: center;
+      text-shadow: 5px 2px 10px #0000009c;
+    }
+    .sum {
+      position: fixed;
+      bottom: 0;
+      right: 0;
+      padding: 6px 20px;
+      color: white;
+      font-weight: bold;
+      border-radius: 4px;
+      border-bottom-right-radius: 0;
+      border: 1px solid transparent;
+      background: rgba(0, 0, 0, 0.6);
+      z-index: 4;
+    }
+    a {
+      position: relative;
+      display: inline-block;
+      top: 0;
+      padding-bottom: 10px;
+      width: 360px;
+      height: 280px;
+      color: white;
+      overflow: hidden;
+      border: 1px solid #051e70;
+      border-radius: 4px;
+      text-decoration: none;
+      background-color: #051e70;
+      transition: 0.3s all;
+    }
+    .img {
+      width: 100%;
+      height: 180px;
+      background-size: cover;
+      background-position-x: center;
+      -webkit-background-size: cover;
+    }
+    .name, .intro, .tips {
+      position: absolute;
+      left: 20px;
+      width: calc(360px - 53px);
+      transition: 0.5s all;
+    }
+    .name {
+      top: 190px;
+      font-size: 20px;
+      font-weight: bolder;
+    }
+    .name i {
+      position: relative;
+      top: -3px;
+      display: inline-block;
+      margin-left: 10px;
+      font-size: 12px;
+      padding: 2px 6px;
+      border-radius: 4px;
+      color: white;
+      background-color: #56B962;
+    }
+    .intro {
+      top: 226px;
+      font-size: 14px;
+    }
+    .tips {
+      bottom: 0;
+      left: 100%;
+      width: 360px;
+      height: 140px;
+      color: white;
+      font-size: 30px;
+      font-weight: bold;
+      text-align: center;
+      line-height: 140px;
+    }
+    .tips img {
+      display: inline-block;
+      margin-right: 6px;
+      height: 36px;
+      vertical-align: sub;
+    }
+    section {
+      display: grid;
+      justify-content: space-evenly;
+      justify-items: center;
+      grid-row-gap: 50px;
+      grid-template-columns: repeat(auto-fill, 400px);
+    }
+    section a:hover {
+      top: -10px;
+      color: #00333333;
+      border: 1px solid transparent;
+      background: rgba(0, 0, 0, 0.2);
+      box-shadow: 2px 11px 20px 0 rgba(0, 0, 0, 0.6);
+    }
+    section a:hover .name, section a:hover .intro {
+      left: -100%;
+    }
+    section a:hover .tips {
+      left: 0;
+    }
+
+    </style>
+  </head>
+  
+  <body>
+  <div id="app" v-cloak>
+    <div class="title">子勰常用开发工具</div>
+    <section>
+      <a v-for="tool in toolList" :href="tool.url" target="_blank">
+        <div class="img" :style="`background-image: url(${tool.img})`"></div>
+            <p class="name">{{ tool.name }}<i v-if="tool.isOwner">原创</i></p>
+            <p class="intro">{{ tool.intro }}</p>
+            <p class="tips"><img src="./../images/go.png">{{ tool.isArticle ? '点击查看' : '点击前往' }}</p>
+      </a>
+    </section>
+  </div>
+  </body>
+  <script src="./../js/vue/2.6.10/vue.min.js"></script>
+  <script>
+  
+  new Vue({
+    el: '#app',
+    data() {
+      return {
+        sumStr: '',
+        toolList: [
+          {
+            isOwner: true,
+            name: 'Android  JSBridge 调试',
+            intro: '子勰的Jsbridge测试Demo，使用方式链接有介绍',
+            img: 'https://android.bihe0832.com/doc/tools/jsbridge_result.png',
+            url: 'https://cdn.bihe0832.com/tools/jsbridge/index.html'
+          },
+          {
+            isOwner: true,
+            name: 'Schema拉起Android应用',
+            intro: 'H5页面通过指定Schema拉起Android应用',
+            img: 'https://android.bihe0832.com/doc/tools/router_page.png',
+            url: 'https://cdn.bihe0832.com/tools/router/index.html'
+          },
+          {
+            isOwner: true,
+            name: 'Android开发常用工具资源',
+            intro: '图标制作、 Android 权限列表及设置权限的跳转方式、Material Design 指南及调色板',
+            img: 'https://cdn.bihe0832.com/images/cv.png',
+            url: 'https://blog.bihe0832.com/my_android.html'
+          },
+          {
+            isOwner: true,
+            name: 'AAF',
+            intro: 'Android 终端开发方案 AAF 相关链接，例如源码、Demo、文档等',
+            img: 'https://blog.bihe0832.com/public/img/androidappfactory.png',
+            url: 'https://android.bihe0832.com/doc/summary/links.html'
+          },
+          {
+            isOwner: true,
+            name: '开发常用资源',
+            intro: '开发中常用的资源，静态资源例如空页面、CSS；方便开发测试的各种素材等',
+            img: 'https://cdn.bihe0832.com/images/cv.png',
+            url: 'https://blog.bihe0832.com/cdn-list.html'
+          },
+          
+          {
+            isOwner: true,
+            name: '颜色透明度对照表',
+            intro: '颜色透明度对照表',
+            img: 'https://cdn.bihe0832.com/images/cv.png',
+            url: 'https://blog.bihe0832.com/color-alpha.html'
+          },
+          {
+          isOwner: true,
+          name: '常用颜色',
+          intro: '常用颜色参考工具，独立开发时，可临时顶替使用',
+          img: './color.jpeg',
+          url: './color.html'
+        },
+          {
+            isOwner: false,
+            name: '查询、编码、转义类工具',
+            intro: 'MD5、Timestamp、Unicode编码、加解密如AES、DES；emoji 、RGB转HEX、代码格式化如 HTML、XML、CSS、JSON、Java、SQL',
+            img: 'http://csstools.chinaz.com/tools/images/public/logos/logo-index.png',
+            url: 'https://blog.bihe0832.com/tools_for_developer.html'
+          },
+          {
+            isOwner: false,
+            name: 'web 开发类工具',
+            intro: 'HTTP状态码详解、常见端口、911查IP、Ping、DNS、Traceroute、淘宝IP库',
+            img: 'http://csstools.chinaz.com/tools/images/public/logos/logo-index.png',
+            url: 'https://blog.bihe0832.com/tools_for_developer.html'
+          },
+          {
+            isOwner: true,
+            name: 'Logo制作',
+            intro: '制作类似pubhorn 的Icon',
+            img: 'https://blog.bihe0832.com/public/img/androidappfactory.png',
+            url: 'https://cdn.bihe0832.com/tools/logo/index.html'
+          },
+          {
+            isOwner: true,
+            name: '多码合一',
+            intro: '通过这几个JS接口，可以轻松获取到当前打开页面的浏览器类型',
+            img: 'https://cdn.bihe0832.com/images/cv.png',
+            url: 'https://microdemo.bihe0832.com/MultiQrcode/index.html'
+          },
+          {
+            isOwner: true,
+            name: 'ascii字符画',
+            intro: '根据文字、图片、流程图生成字符画：',
+            img: 'https://cdn.bihe0832.com/images/cv.png',
+            url: 'https://blog.bihe0832.com/tools_for_developer.html'
+          },
+          {
+            isOwner: true,
+            name: 'font-awesome',
+            intro: '专为Bootstrap设计的，一个字体文件， 249 个图标，用CSS控制样式',
+            img: 'https://cdn.bihe0832.com/images/cv.png',
+            url: 'http://blog.bihe0832.com/pages/font-awesome.html'
+          },
+        ]
+      }
+    }
+  })
+  </script>
+  
+  </html>
