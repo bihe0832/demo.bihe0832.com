@@ -118,7 +118,7 @@
   }
   .g-box {
     margin: 20px auto;
-    max-width: 1100px;
+    max-width: 1200px;
   }
   .p-action {
     width: 100%;
@@ -266,22 +266,26 @@ new Vue({
       tipsTimeout: 0,
       pictureList: [
         'android_favicon.png',
+        'android_32.ico',
         'zixie_32.ico',
         'head.jpg',
-        'cv_512.jpg',
         'cv.png',
         'cv_1080.jpg',
-        
+        'cv_512.jpg',
       ],
-      audioList:
-        [
+      audioList:[
+        'friend.mp3',
+        'fuyuan.mp3',
+        'time.mp3',
+        'xiangsi.mp3',
         ],
-      videoList:
-        [
-
+      videoList:[
+        'http://vfx.mtime.cn/Video/2019/03/12/mp4/190312083533415853.mp4',
+        'http://vfx.mtime.cn/Video/2019/03/18/mp4/190318214226685784.mp4',
+        'http://vfx.mtime.cn/Video/2019/03/14/mp4/190314223540373995.mp4',
+        'http://vfx.mtime.cn/Video/2019/03/19/mp4/190319104618910544.mp4',
         ],
-      dataList:
-        [
+      dataList:[
           { name: '空白页', onlineURL: 'https://cdn.bihe0832.com/blank.html' },
           { name: '简洁版空白页', onlineURL: 'https://cdn.bihe0832.com/blank_simple.html' },
           { name: '全局CSS', onlineURL: 'http://cdn.bihe0832.com/css/global.css' },
@@ -289,12 +293,23 @@ new Vue({
           { name: 'Markdown Table CSS', onlineURL: 'http://cdn.bihe0832.com/css/markdown-table.css' },
           { name: 'bootstrap', onlineURL: 'http://cdn.bihe0832.com/css/bootstrap.min.css' },
           { name: 'jquery', onlineURL: 'http://cdn.bihe0832.com/js/jquery-1.9.1.min.js' },
+          { name: 'Vue', onlineURL: 'http://cdn.bihe0832.com/js/js/vue/2.6.10/vue.min.js' },
           { name: '多码合一', onlineURL: 'http://cdn.bihe0832.com/js/brower.js' },
+          { name: '无加密M3U8', onlineURL: 'http://1257120875.vod2.myqcloud.com/0ef121cdvodtransgzp1257120875/3055695e5285890780828799271/v.f230.m3u8' },
         ]
     }
   },
 
   created() {
+  
+    ['audioList'].forEach((subject) => {
+      let tempList = []
+      this[subject].forEach((item) => {
+        tempList.push('http://cdn.bihe0832.com/audio/' + item);
+      })
+      this[subject] = tempList;
+    }),
+
     ['pictureList'].forEach((subject) => {
       let tempList = []
       this[subject].forEach((item) => {
@@ -303,21 +318,13 @@ new Vue({
       this[subject] = tempList;
     })
 
-    ['audioList'].forEach((subject) => {
-      let tempList = []
-      this[subject].forEach((item) => {
-        tempList.push('http://cdn.bihe0832.com/audio/' + item);
-      })
-      this[subject] = tempList;
-    })
-
-    ['videoList'].forEach((subject) => {
-      let tempList = []
-      this[subject].forEach((item) => {
-        tempList.push('http://cdn.bihe0832.com/video/' + item);
-      })
-      this[subject] = tempList;
-    })
+    // ['videoList'].forEach((subject) => {
+    //   let tempList = []
+    //   this[subject].forEach((item) => {
+    //     tempList.push('http://cdn.bihe0832.com/video/' + item);
+    //   })
+    //   this[subject] = tempList;
+    // })
   },
 
   methods: {
