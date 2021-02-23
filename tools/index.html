@@ -100,7 +100,7 @@
     }
     #app::-webkit-scrollbar { width: 0 !important;}
     .title {
-      padding: 0 0 60px;
+      padding: 0 0 30px;
       width: 100%;
       color: white;
       font-size: 40px;
@@ -108,6 +108,15 @@
       text-align: center;
       text-shadow: 5px 2px 10px #0000009c;
     }
+
+    .userinfo {
+      padding: 0 0 30px;
+      width: 100%;
+      color: white;
+      text-align: center;
+      text-shadow: 5px 2px 10px #0000009c;
+    }
+
     .sum {
       position: fixed;
       bottom: 0;
@@ -121,7 +130,7 @@
       background: rgba(0, 0, 0, 0.6);
       z-index: 4;
     }
-    a {
+    .content {
       position: relative;
       display: inline-block;
       top: 0;
@@ -213,8 +222,12 @@
   <body>
   <div id="app" v-cloak>
     <div class="title">子勰常用开发工具</div>
+    <div class="userinfo">
+      <a href="https://blog.bihe0832.com/" target="_blank"><img src="https://img.shields.io/badge/Blog-子勰-brightgreen"></a>
+      <a href="https://github.com/bihe0832" target="_blank"><img src="https://img.shields.io/badge/Github-bihe0832-brightgreen"></a>
+    </div>
     <section>
-      <a v-for="tool in toolList" :href="tool.url" target="_blank">
+      <a class="content" v-for="tool in toolList" :href="tool.url" target="_blank" >
         <div class="img" :style="`background-image: url(${tool.img})`"></div>
             <p class="name">{{ tool.name }}<i v-if="tool.isOwner">原创</i></p>
             <p class="intro">{{ tool.intro }}</p>
