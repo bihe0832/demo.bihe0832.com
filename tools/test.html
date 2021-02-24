@@ -243,12 +243,13 @@
     </ul>
   </section>
   <!--常用文件-->
-  <section class="p-data g-box">
-    <h1>常用文件</h1>
+
+  <section class="p-data g-box" v-for="item in dataList">
+    <h1>{{item.title}}</h1>
     <ul class="data">
-      <li v-for="item in dataList" @click="copyToClipboard(item.onlineURL)">
-        <span class="name">{{item.name}}</span>
-        <span class="value">{{item.onlineURL}}</span>
+      <li v-for="iteminfo in item.data">
+        <span class="name">{{iteminfo.name}}</span>
+        <span class="value">{{iteminfo.onlineURL}}</span>
       </li>
     </ul>
   </section>
@@ -291,21 +292,39 @@ new Vue({
         'https://vfx.mtime.cn/Video/2019/03/19/mp4/190319104618910544.mp4',
         ],
       dataList:[
-          { name: '空白页', onlineURL: 'https://cdn.bihe0832.com/blank.html' },
-          { name: '简洁版空白页', onlineURL: 'https://cdn.bihe0832.com/blank_simple.html' },
-          { name: '全局CSS', onlineURL: 'http://cdn.bihe0832.com/css/global.css' },
-          { name: 'Markdown CSS', onlineURL: 'http://cdn.bihe0832.com/css/markdown.css' },
-          { name: 'Markdown Table CSS', onlineURL: 'http://cdn.bihe0832.com/css/markdown-table.css' },
-          { name: 'bootstrap', onlineURL: 'http://cdn.bihe0832.com/css/bootstrap.min.css' },
-          { name: 'jquery', onlineURL: 'http://cdn.bihe0832.com/js/jquery-1.9.1.min.js' },
-          { name: 'Vue', onlineURL: 'http://cdn.bihe0832.com/js/js/vue/2.6.10/vue.min.js' },
-          { name: '多码合一', onlineURL: 'http://cdn.bihe0832.com/js/brower.js' },
-          { name: '无加密M3U8', onlineURL: 'http://1257120875.vod2.myqcloud.com/0ef121cdvodtransgzp1257120875/3055695e5285890780828799271/v.f230.m3u8' },
-          { name: 'APK下载', onlineURL: 'https://cdn.bihe0832.com/app/release/ZAPK_official.apk' },
-          { name: 'Split APK下载', onlineURL: 'http://dldir1.qq.com/INO/packages/inner/20200917/com.supercell.brawlstars.zip' },
-          { name: 'OBB APK下载', onlineURL: 'http://dldir1.qq.com/INO/packages/inner/20200917/jp.co.sumzap.pj0007.zip' },
-          { name: '超2G OBB APK下载', onlineURL: 'http://dldir1.qq.com/INO/packages/inner/20200927/com.herogame.gplay.lastdayrulessurvival_20200927.zip' },
-        ]
+        {
+          title:"网页及前端资源",
+          data:
+          [
+            { name: '空白页', onlineURL: 'https://cdn.bihe0832.com/blank.html' },
+            { name: '简洁版空白页', onlineURL: 'https://cdn.bihe0832.com/blank_simple.html' },
+            { name: '全局CSS', onlineURL: 'http://cdn.bihe0832.com/css/global.css' },
+            { name: 'Markdown CSS', onlineURL: 'http://cdn.bihe0832.com/css/markdown.css' },
+            { name: 'Markdown Table CSS', onlineURL: 'http://cdn.bihe0832.com/css/markdown-table.css' },
+            { name: 'bootstrap', onlineURL: 'http://cdn.bihe0832.com/css/bootstrap.min.css' },
+            { name: 'jquery', onlineURL: 'http://cdn.bihe0832.com/js/jquery-1.9.1.min.js' },
+            { name: 'Vue', onlineURL: 'http://cdn.bihe0832.com/js/js/vue/2.6.10/vue.min.js' },
+            { name: '多码合一', onlineURL: 'http://cdn.bihe0832.com/js/brower.js' },
+          ]
+        },
+        {
+          title:"APK资源",
+          data:
+          [
+            { name: 'APK下载', onlineURL: 'https://cdn.bihe0832.com/app/release/ZAPK_official.apk' },
+            { name: 'Split APK下载', onlineURL: 'http://dldir1.qq.com/INO/packages/inner/20200917/com.supercell.brawlstars.zip' },
+            { name: 'OBB APK下载', onlineURL: 'http://dldir1.qq.com/INO/packages/inner/20200917/jp.co.sumzap.pj0007.zip' },
+            { name: '超2G OBB APK下载', onlineURL: 'http://dldir1.qq.com/INO/packages/inner/20200927/com.herogame.gplay.lastdayrulessurvival_20200927.zip' },
+          ]
+        },
+        {
+          title:"其他资源",
+          data:
+          [
+            { name: '无加密M3U8', onlineURL: 'http://1257120875.vod2.myqcloud.com/0ef121cdvodtransgzp1257120875/3055695e5285890780828799271/v.f230.m3u8' },
+          ]
+        },
+      ]
     }
   },
 
