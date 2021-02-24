@@ -229,7 +229,7 @@
     <h1>常用音频</h1>
     <ul>
       <li v-for="item in audioList" @click="copyToClipboard(item)">
-        <audio :src="item" controls></audio>
+        <audio :src="item" controls></audio>{{item}}
       </li>
     </ul>
   </section>
