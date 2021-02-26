@@ -214,7 +214,7 @@
   <a class="p-other" target="_blank" href="http://cdn.bihe0832.com/tools/index.html">更多实用工具</a>
 
   <!--提示-->
-  <section class="p-action g-box">常用资源文件(点击复制)</section>
+  <section class="p-action g-box">常用资源文件(所有资源点击即可复制URL)</section>
 
   <section class="p-picture g-box">
     <h1>常用图片</h1>
@@ -235,7 +235,7 @@
   </section>
   <!--常用视频-->
   <section class="p-video g-box">
-    <h1>常用视频，来自（http://www.mtime.com/）</h1>
+    <h1>常用视频，（来自：http://www.mtime.com/，若不能正常播放，请复制链接后新窗口打开）</h1>
     <ul>
       <li v-for="item in videoList" @click="copyToClipboard(item)">
         <video :src="item" controls></video>
