@@ -58,9 +58,9 @@
     </p>
     <script type="text/javascript" charset="UTF-8">
       var vConsole = new window.VConsole();
-      document.addEventListener('activityStateCallback', function (e) {
-          console.log(e);
-       }, false);
+      window.activityStateCallback = function (args) {
+        console.log("window.activityStateCallback: ", args); // @debug
+      };
   </script>
   </body>
 </html>
