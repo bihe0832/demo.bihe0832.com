@@ -61,8 +61,8 @@
       window.activityStateCallback = function (args) {
         console.log("window.activityStateCallback: ", args); // @debug
       };
-      
-      document.addEventListener(eventName, function (evt) {
+
+      document.addEventListener("activityStateCallback", function (evt) {
         console.log("document.addEventListener: ", eventName); 
         console.log("document.addEventListener: ", evt); 
     });
