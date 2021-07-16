@@ -58,14 +58,14 @@
     </p>
     <script type="text/javascript" charset="UTF-8">
       var vConsole = new window.VConsole();
+
       window.activityStateCallback = function (args) {
         console.log("window.activityStateCallback: ", args); // @debug
       };
 
-      document.addEventListener("activityStateCallback", function (evt) {
-        console.log("document.addEventListener: ", eventName); 
-        console.log("document.addEventListener: ", evt); 
-    });
+      window.addEventListener("activityStateCallback", event => {
+        console.log("activityStateCallback事件触发, result is :" + event.data.result + ", data is :" + event.data.data);
+      });
   </script>
   </body>
 </html>
