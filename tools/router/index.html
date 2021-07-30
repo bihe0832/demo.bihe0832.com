@@ -38,8 +38,8 @@
             </div>
 
             <div class="span4">
-                <img id="img-qrcode" src="https://qr.topscan.com/api.php?text=http://blog.bihe0832.com"
-                    style="width: 150px;height: 150px;">
+                <!-- <img id="img-qqrcode" src="https://qr.topscan.com/api.php?text=http://blog.bihe0832.com" style="width: 150px;height: 150px;"> -->
+                <iframe id="img-qrcode" width="300px" height="500px" src="https://cli.im/api/qrcode/code?mhid=sELPDFnok80gPHovKdI&text=http://blog.bihe0832.com&mhid=sELPDFnok80gPHovKdI" frameborder=0 allowfullscreen></iframe>
             </div>
         </div>
     </div>
@@ -60,7 +60,8 @@
         function updateURL() {
             var resultURL = getFinalURL()
             $("#router-result").get(0).value = "扫码后跳转的URL为：" + resultURL
-            $("#img-qrcode").get(0).src = "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=" + encodeURIComponent(resultURL)
+            // $("#img-qrcode").get(0).src = "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=" + encodeURIComponent(resultURL)
+            $("#img-qrcode").get(0).src = "https://cli.im/api/qrcode/code?mhid=sELPDFnok80gPHovKdI&text=" + encodeURIComponent(resultURL)
         }
 
         $("#router-input").on("input", function (e) {
