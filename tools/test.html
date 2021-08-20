@@ -247,7 +247,7 @@
   <section class="p-data g-box" v-for="item in dataList">
     <h1>{{item.title}}</h1>
     <ul class="data">
-      <li v-for="iteminfo in item.data"  @click="copyToClipboard(item)>
+      <li v-for="iteminfo in item.data"  @click="copyToClipboard(iteminfo.onlineURL)" >
         <span class="name">{{iteminfo.name}}</span>
         <span class="value">{{iteminfo.onlineURL}}</span>
       </li>
