@@ -66,6 +66,10 @@
       window.addEventListener("activityStateCallback", event => {
         console.log("activityStateCallback事件触发, result is :" + event.data.result + ", data is :" + event.data.data);
       });
+
+      window.addEventListener("downloadListener", event => {
+        console.log("downloadListener事件触发, result is :" + event.data.result + ", data is :" + event.data.data);
+      });
   </script>
   </body>
 </html>
