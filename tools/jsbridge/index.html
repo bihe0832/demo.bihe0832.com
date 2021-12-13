@@ -64,11 +64,11 @@
       };
 
       window.addEventListener("activityStateCallback", event => {
-        console.log("activityStateCallback事件触发, result is :" + event.data.result + ", data is :" + event.data.data);
+        console.log("activityStateCallback事件触发, result is :" + event.data);
       });
 
       window.addEventListener("downloadListener", event => {
-        console.log("downloadListener事件触发, result is :" + event.data.result + ", data is :" + event.data.data);
+        console.log("downloadListener事件触发, result is :" + event.data);
       });
   </script>
   </body>
