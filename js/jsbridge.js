@@ -116,3 +116,4 @@
  };
 	
  ZixieJSBridge.callback = callback;
+ ZixieJSBridge.call = call;
