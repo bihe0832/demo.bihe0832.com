@@ -39,7 +39,9 @@
 
             <div class="span4">
                 <!-- <img id="img-qqrcode" src="https://qr.topscan.com/api.php?text=http://blog.bihe0832.com" style="width: 150px;height: 150px;"> -->
-                <iframe id="img-qrcode" width="300px" height="500px" src="https://ewm.nkia.cn/api.php?text=http%3A%2F%2Fblog.bihe0832.com" frameborder=0 allowfullscreen></iframe>
+                <iframe id="img-qrcode1" width="300px" height="500px" src="https://api.qrserver.com/v1/create-qr-code/?data=http%3A%2F%2Fblog.bihe0832.com" frameborder=0 allowfullscreen></iframe>
+                <!-- <iframe id="img-qrcode2" width="300px" height="500px" src="https://www.lofter.com/genBitmaxImage?url=http%3A%2F%2Fblog.bihe0832.com" frameborder=0 allowfullscreen></iframe> -->
+                <!-- <iframe id="img-qrcode3" width="300px" height="500px" src="https://qrcode.jp/qr?s=5&q=http%3A%2F%2Fblog.bihe0832.com" frameborder=0 allowfullscreen></iframe> -->
             </div>
         </div>
     </div>
@@ -60,8 +62,9 @@
         function updateURL() {
             var resultURL = getFinalURL()
             $("#router-result").get(0).value = "扫码后跳转的URL为：" + resultURL
-            // $("#img-qrcode").get(0).src = "https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=" + encodeURIComponent(resultURL)
-            $("#img-qrcode").get(0).src = "https://ewm.nkia.cn/api.php?text=" + encodeURIComponent(resultURL)
+            $("#img-qrcode1").get(0).src = "https://api.qrserver.com/v1/create-qr-code/?data=" + encodeURIComponent(resultURL)
+            // $("#img-qrcode2").get(0).src = "https://www.lofter.com/genBitmaxImage?url=" + encodeURIComponent(resultURL)
+            // $("#img-qrcode3").get(0).src = "https://qrcode.jp/qr?s=5&q=" + encodeURIComponent(resultURL)
         }
 
         $("#router-input").on("input", function (e) {
