@@ -124,8 +124,9 @@
       color: red;
     }
 
-    #copy-button {
+    .button {
       color: red;
+      line-height: 1.75;
       font-weight: bolder;
       padding: 10px 10px 10px 10px;
     }
@@ -183,8 +184,9 @@
         </form>
       </div>
       <div class="right">
-        <div id="copy-button"></div>
+        <div id="copy-button" class="button"></div>
         <div id="json-output"></div>
+        <div id="update-result" class="button"></div>
       </div>
     </div>
   </div>
@@ -227,6 +229,22 @@
     const json = JSON.stringify(data, null, "<BR>&nbsp;&nbsp;&nbsp;&nbsp;").replace(/}$/, '<BR>}');;
     output.innerHTML = json;
     copyButton.innerHTML = "在左侧窗格输入配置，右侧即可生成工具Json；点击此处一键复制到剪切板"
+
+    var result = "当前更新效果为：<BR>" 
+    if (parseInt(document.getElementById('showRedMaxVersionCode').value) > 0) {
+      result = result + document.getElementById('showRedMaxVersionCode').value + " 以上版本仅展示红点<BR>" 
+    }
+
+    if (parseInt(document.getElementById('needUpdateMinVersionCode').value) > 0) {
+      result = result + document.getElementById('needUpdateMinVersionCode').value + " 以上版本弹框引导更新，弹框可以取消<BR>" 
+    }
+
+    if (parseInt(document.getElementById('forceUpdateMinVersionCode').value) > 0) {
+      result = result + document.getElementById('forceUpdateMinVersionCode').value  + " 以上版本弹框不可取消，取消自动退出应用<BR>" 
+    }
+
+    document.getElementById('update-result').innerHTML = result
+
   }
 
   copyButton.addEventListener('click', (e) => {
@@ -318,7 +336,5 @@
     event.target.value = event.target.value.replace(/[^0-9\s]/g, '');
   });
 
-
 </script>
-
 </html>
