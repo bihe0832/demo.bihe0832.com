@@ -166,26 +166,23 @@
       var path = "https://cdn.bihe0832.com/tools/router/index.html?value=" + encodeURIComponent(encodeURI(routerURL))
       var MultiQrcodeLink = {
         PC: path,
-        android: routerURL
+        mobile: routerURL
       };
       if (ZixieJS.browser.isPc()) {
-        document.getElementById("tips").innerHTML = "请使用Android手机体验打开链接体验";
+        document.getElementById("tips").innerHTML = "请使用手机体验打开链接体验";
         window.location.href = MultiQrcodeLink.PC;
       } else {
         var devices = ZixieJS.browser.getDevices();
-        if (ZixieJS.browser.devices.android == devices) {
-          var app = ZixieJS.browser.getSuperAPP();
-          if (ZixieJS.browser.app.wechat == app) {
-            document.getElementById("tips").innerHTML = "由于微信平台限制无法主动跳转，请点击右上角选择用系统浏览器打开链接";
-          } else {
-            window.location.href = MultiQrcodeLink.android;
-          }
+        var app = ZixieJS.browser.getSuperAPP();
+        if (ZixieJS.browser.app.wechat == app) {
+          document.getElementById("tips").innerHTML = "由于微信平台限制无法主动跳转，请点击右上角选择用系统浏览器打开链接";
         } else {
-          document.getElementById("tips").innerHTML = "请使用Android手机体验打开链接体验";
+          window.location.href = MultiQrcodeLink.mobile;
         }
       }
+      
       document.getElementById("openAPP").onclick = function () {
-        window.location.href = MultiQrcodeLink.android;
+        window.location.href = MultiQrcodeLink.mobile;
       };
 
       document.getElementById("downloadAPP").onclick = function () {
