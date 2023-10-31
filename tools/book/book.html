@@ -1,0 +1,236 @@
+<!DOCTYPE HTML>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+  <meta name="format-detection" content="telephone=no" />
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+  <meta http-equiv="Expires" content="0">
+  <link rel="Shortcut Icon" href="https://cdn.bihe0832.com/images/zixie_32.ico" />
+
+  <title>书籍推荐配置生成工具</title>
+  <meta name="author" content="子勰(bihe0832), code@bihe0832.com" />
+  <meta name="keywords" content="子勰,bihe0832" />
+  <meta name="description" content="书籍推荐配置生成工具" />
+  <meta property="og:title" content="首页" />
+  <meta property="og:locale" content="en_US" />
+  <meta name="google-site-verification" content="3wzNgbjvFNHkH-8QpougMZ0s9Y4GEjG49kEb49QQqpw" />
+  <meta property="og:description" content="" />
+  <link rel="canonical" href="https://blog.bihe0832.com/" />
+  <meta property="og:url" content="https://blog.bihe0832.com/" />
+  <meta property="og:site_name" content="书籍推荐配置生成工具" />
+  <meta property="og:type" content="article" />
+  <script type="application/ld+json">
+  {
+      "@type":"BlogPosting",
+      "url":"https://blog.bihe0832.com/",
+      "headline":"首页",
+      "dateModified":" 2021-01-06 17:28:45 +0800",
+      "datePublished":" ",
+      "author":{"@type":"Person","name":"子勰"},
+      "description":"",
+      "publisher":{
+          "@type":"Organization",
+          "name":"子勰",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://blog.bihe0832.com/public/img/head.jpg"
+          }
+        },
+      "image": "https://blog.bihe0832.com/public/img/cv.png",
+      "mainEntityOfPage":{"@type":"WebPage",
+      "@id":"https://blog.bihe0832.com/"},
+      "@context":"http://schema.org"
+    }
+  </script>
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      "itemListElement": [{
+        "@type": "ListItem",
+        "position": 1,
+        "name": "",
+        "item": "https://blog.bihe0832.com/"
+      },{
+        "@type": "ListItem",
+        "position": 2,
+        "name": "首页",
+        "item": "https://blog.bihe0832.com/"
+      }]
+    }
+  </script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.bihe0832.com/css/global.css" />
+
+  <style type="text/css">
+    body {
+      line-height: 1.25;
+      font-family: Microsoft Yahei;
+      color: #333;
+      font-size: 1.8 em;
+      width: 1200px;
+      margin: auto auto;
+    }
+
+    .form-info {
+      margin-top: 40px;
+      flex-direction: column;
+      display: flex;
+    }
+
+    .title {
+      margin: auto auto;
+      line-height: 1.75;
+    }
+
+    .container {
+      display: flex;
+      margin-top: 10px;
+      justify-content: flex-start;
+    }
+
+    .left {
+      flex: 7;
+      padding: 16px;
+    }
+
+    .right {
+      flex: 4;
+      max-width: 440px;
+      padding: 16px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+
+    form input {
+      margin-bottom: 10px;
+      margin-top: 4px;
+      padding-left: 4px;
+      height: 2em;
+    }
+
+    form label {
+      color: #333;
+      font-weight: bolder;
+    }
+
+    .special {
+      color: red;
+    }
+
+    .button {
+      color: red;
+      line-height: 1.75;
+      font-weight: bolder;
+      padding: 10px 10px 10px 10px;
+    }
+
+    #json-output {
+      background-color: #eee;
+      margin-top: 20px;
+      padding: 10px;
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <div class="form-info">
+    <h2 class="title">书籍推荐配置生成工具</h2>
+    <div class="container">
+      <div class="left">
+        <form>
+          <label>书籍分类「category」（如育儿之道）:</label>
+          <input type="text" id="category" name="category" />
+
+          <label >系列名称「title」（如整体养育）:</label>
+          <input type="text" id="title" name="title" />
+
+          <label>书名「bookList」:</label>
+          <input type="text" id="bookList" name="bookList" />
+
+          <label>作者「author」:</label>
+          <input type="text" id="author" name="author" />
+
+          <label>简介「desc」:</label>
+          <input type="text" id="desc" name="desc" />
+
+          <label >推荐语「recommend」:</label>
+          <input type="text" id="recommend" name="recommend" />
+
+          <label >封面「photo」:</label>
+          <input type="text" id="photo" name="photo" />
+      
+        </form>
+      </div>
+      <div class="right">
+        <div id="copy-button" class="button"></div>
+        <div id="json-output"></div>
+        <div id="update-result" class="button"></div>
+      </div>
+    </div>
+  </div>
+
+
+
+</body>
+<script>
+
+  const form = document.querySelector('form');
+  const copyButton = document.getElementById('copy-button');
+  const output = document.getElementById('json-output')
+
+  // Retrieve form data from localStorage
+  const storedFormData = JSON.parse(localStorage.getItem('book_form_data'));
+  if (storedFormData != null) {
+    // Iterate over stored form data and set values
+    for (const key in storedFormData) {
+      if (storedFormData.hasOwnProperty(key)) {
+        document.querySelector('input[name="' + `${key}` + '"]').value = `${storedFormData[key]}`;
+      }
+    }
+  }
+
+  updateAndSaveJson()
+  form.addEventListener('input', (e) => {
+    e.preventDefault();
+    updateAndSaveJson()
+  });
+
+  function updateAndSaveJson() {
+    const formData = new FormData(form);
+    // Store form data in localStorage
+    const data = {};
+    formData.forEach((value, key) => {
+      data[key] = value;
+    });
+    localStorage.setItem('book_form_data', JSON.stringify(data));
+    const json = JSON.stringify(data, null, "<BR>&nbsp;&nbsp;&nbsp;&nbsp;").replace(/}$/, '<BR>}');;
+    output.innerHTML = json;
+    copyButton.innerHTML = "在左侧窗格输入配置，右侧即可生成工具Json；点击此处一键复制到剪切板"
+  }
+
+  copyButton.addEventListener('click', (e) => {
+    const textArea = document.createElement('textarea');
+    const formData = new FormData(form);
+    const data = {};
+    formData.forEach((value, key) => {
+      data[key] = value;
+    });
+    const json = JSON.stringify(data, null, "");
+    textArea.value = json;
+    document.body.appendChild(textArea);
+    textArea.select();
+    document.execCommand('copy');
+    document.body.removeChild(textArea);
+    copyButton.innerHTML = "内容已复制到剪切板；点击此处一键复制到剪切板"
+  });
+</script>
+</html>

@@ -241,7 +241,6 @@
     }
 
     document.getElementById('update-result').innerHTML = result
-
   }
 
   copyButton.addEventListener('click', (e) => {
@@ -257,7 +256,7 @@
     textArea.select();
     document.execCommand('copy');
     document.body.removeChild(textArea);
-    copyButton.innerHTML = "内容已复制到剪切板"
+    copyButton.innerHTML = "内容已复制到剪切板；点击此处一键复制到剪切板"
   });
 </script>
 
