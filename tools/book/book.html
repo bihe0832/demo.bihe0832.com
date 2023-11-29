@@ -188,9 +188,6 @@
       </div>
     </div>
   </div>
-
-
-
 </body>
 <script>
 
@@ -199,7 +196,7 @@
   const output = document.getElementById('json-output')
 
   // Retrieve form data from localStorage
-  const storedFormData = JSON.parse(localStorage.getItem('book_form_data'));
+  const storedFormData = JSON.parse(localStorage.getItem('book_form_data_new'));
   if (storedFormData != null) {
     // Iterate over stored form data and set values
     for (const key in storedFormData) {
