@@ -219,7 +219,7 @@
     formData.forEach((value, key) => {
       data[key] = value;
     });
-    localStorage.setItem('book_form_data', JSON.stringify(data));
+    localStorage.setItem('book_form_data_new', JSON.stringify(data));
     const json = JSON.stringify(data, null, "<BR>&nbsp;&nbsp;&nbsp;&nbsp;").replace(/}$/, '<BR>}');;
     output.innerHTML = json;
     copyButton.innerHTML = "在左侧窗格输入配置，右侧即可生成工具Json；点击此处一键复制到剪切板"
