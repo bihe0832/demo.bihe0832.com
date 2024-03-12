@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>书籍列表</title>
+  <style>
+    #book-list {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+    }
+
+    .book-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: 20px;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      width: 200px;
+      box-sizing: border-box;
+    }
+
+    .book-item img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    .book-item h3 {
+      margin: 10px 0;
+    }
+
+    .book-item a {
+      color: #0077cc;
+      text-decoration: none;
+    }
+  </style>
+</head>
+<body>
+  <div id="book-list">
+    <!-- 书籍列表的HTML结构将在这里插入 -->
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
+  <script>
+    async function fetchData() {
+      const response = await fetch('book_simple.json');
+      const dataList = await response.json();
+
+      const bookList = document.getElementById('book-list');
+
+      dataList.forEach(data => {
+        const bookItem = document.createElement('div');
+        bookItem.className = 'book-item';
+
+        const bookImage = document.createElement('img');
+        bookImage.src = data.photo;
+        bookImage.alt = data.title;
+
+        const bookTitle = document.createElement('h3');
+        bookTitle.textContent = data.title;
+
+        const bookLink = document.createElement('a');
+        bookLink.href = data.xiaohongshu;
+        bookLink.textContent = '查看详情';
+
+        bookItem.appendChild(bookImage);
+        bookItem.appendChild(bookTitle);
+        bookItem.appendChild(bookLink);
+
+        bookList.appendChild(bookItem);
+      });
+
+      new Sortable(bookList, {
+        animation: 150,
+        ghostClass: 'sortable-ghost'
+      });
+    }
+
+    fetchData();
+  </script>
+</body>
+</html>
