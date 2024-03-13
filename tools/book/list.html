@@ -106,7 +106,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
   <script>
     async function fetchData() {
-      const response = await fetch('book_simple.json');
+      const response = await fetch('https://cdn.bihe0832.com/tools/book/book_simple.json');
       const dataList = await response.json();
 
       const bookList = document.getElementById('book-list');
@@ -116,7 +116,7 @@
         bookItem.className = 'book-item';
 
         const bookImage = document.createElement('img');
-        bookImage.src = './photos/' + data.localFolder + '_photo.jpg';
+        bookImage.src = 'https://cdn.bihe0832.com/tools/book/photos/' + data.localFolder + '_photo.jpg';
         bookImage.alt = data.title;
 
         const bookTitle = document.createElement('h3');
