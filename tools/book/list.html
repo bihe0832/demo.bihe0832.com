@@ -122,12 +122,16 @@
         const bookTitle = document.createElement('h3');
         bookTitle.textContent = data.title;
 
+        const bookAge = document.createElement('h5');
+        bookAge.textContent = "推荐年龄：" + data.bestage;
+
         const bookLink = document.createElement('a');
         bookLink.href = data.xiaohongshu;
         bookLink.textContent = '查看详情';
 
         bookItem.appendChild(bookImage);
         bookItem.appendChild(bookTitle);
+        bookItem.appendChild(bookAge);
         bookItem.appendChild(bookLink);
 
         bookList.appendChild(bookItem);
