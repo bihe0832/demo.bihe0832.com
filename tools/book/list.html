@@ -64,7 +64,7 @@
     }
   </script>
   <style>
-    #book-list {
+    .book-list {
       display: flex;
       flex-wrap: wrap;
       justify-content: space-around;
@@ -99,49 +99,68 @@
 </head>
 <body>
   <h2 class="title">皮卡丘的图书馆</h2>
-  <div id="book-list">
+  <h2 class="title">育儿之道</h2>
+  <div id="book-list-dao" class="book-list">
+    <!-- 书籍列表的HTML结构将在这里插入 -->
+  </div>
+  <h2 class="title">育儿之术</h2>
+  <div id="book-list-shu" class="book-list">
+    <!-- 书籍列表的HTML结构将在这里插入 -->
+  </div>
+  <h2 class="title">绘本书单</h2>
+  <div id="book-list-huiben" class="book-list">
     <!-- 书籍列表的HTML结构将在这里插入 -->
   </div>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
   <script>
+
+    let dataMap = new Map([
+      ["育儿之道",'book-list-dao'],
+      ["育儿之术",'book-list-shu'],
+      ["绘本书单",'book-list-huiben']
+    ])
+
+    function createBookItem(data){
+      const bookItem = document.createElement('div');
+      bookItem.className = 'book-item';
+
+      const bookImage = document.createElement('img');
+      bookImage.src = 'https://cdn.bihe0832.com/tools/book/photos/' + data.localFolder + '_photo_optimized.jpg';
+      bookImage.alt = data.title;
+
+      const bookTitle = document.createElement('h3');
+      bookTitle.textContent = data.title;
+
+      const bookAge = document.createElement('p');
+      bookAge.textContent = "推荐年龄：" + data.bestage;
+
+      const bookLink = document.createElement('a');
+      bookLink.href = data.xiaohongshu;
+      bookLink.target = "_blank"
+      bookLink.textContent = '查看详情';
+
+      bookItem.appendChild(bookImage);
+      bookItem.appendChild(bookTitle);
+      bookItem.appendChild(bookAge);
+      bookItem.appendChild(bookLink);
+      return bookItem;
+    }
+    
     async function fetchData() {
       const response = await fetch('book_simple.json');
-      const dataList = await response.json();
+      const dataList =  response.json();
 
-      const bookList = document.getElementById('book-list');
-
-      dataList.forEach(data => {
-        const bookItem = document.createElement('div');
-        bookItem.className = 'book-item';
-
-        const bookImage = document.createElement('img');
-        bookImage.src = 'https://cdn.bihe0832.com/tools/book/photos/' + data.localFolder + '_photo_optimized.jpg';
-        bookImage.alt = data.title;
-
-        const bookTitle = document.createElement('h3');
-        bookTitle.textContent = data.title;
-
-        const bookAge = document.createElement('p');
-        bookAge.textContent = "推荐年龄：" + data.bestage;
-
-        const bookLink = document.createElement('a');
-        bookLink.href = data.xiaohongshu;
-        bookLink.target = "_blank"
-        bookLink.textContent = '查看详情';
-
-        bookItem.appendChild(bookImage);
-        bookItem.appendChild(bookTitle);
-        bookItem.appendChild(bookAge);
-        bookItem.appendChild(bookLink);
-
-        bookList.appendChild(bookItem);
-      });
-
-      new Sortable(bookList, {
-        animation: 150,
-        ghostClass: 'sortable-ghost'
-      });
+      new Set(dataList.map((word) => word.category)).forEach(category=>{
+        const daoBookList = document.getElementById(dataMap.get(category));
+        dataList.filter((word) => word.category == category).forEach(data => {
+          daoBookList.appendChild(createBookItem(data));
+        });
+        new Sortable(daoBookList, {
+          animation: 150,
+          ghostClass: 'sortable-ghost'
+        });
+      })
     }
 
     fetchData();
