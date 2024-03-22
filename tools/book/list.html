@@ -146,10 +146,10 @@
       bookItem.appendChild(bookLink);
       return bookItem;
     }
-    
+
     async function fetchData() {
       const response = await fetch('book_simple.json');
-      const dataList =  response.json();
+      const dataList =  await response.json();
 
       new Set(dataList.map((word) => word.category)).forEach(category=>{
         const daoBookList = document.getElementById(dataMap.get(category));
