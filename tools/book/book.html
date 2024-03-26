@@ -204,7 +204,7 @@
   const output = document.getElementById('json-output')
 
   // Retrieve form data from localStorage
-  const storedFormData = JSON.parse(localStorage.getItem('book_form_data_new'));
+  const storedFormData = JSON.parse(localStorage.getItem('book_form_data_new_2'));
   if (storedFormData != null) {
     // Iterate over stored form data and set values
     for (const key in storedFormData) {
@@ -227,7 +227,7 @@
     formData.forEach((value, key) => {
       data[key] = value;
     });
-    localStorage.setItem('book_form_data_new_1', JSON.stringify(data));
+    localStorage.setItem('book_form_data_new_2', JSON.stringify(data));
     const json = JSON.stringify(data, null, "<BR>&nbsp;&nbsp;&nbsp;&nbsp;").replace(/}$/, '<BR>}');;
     output.innerHTML = json;
     copyButton.innerHTML = "在左侧窗格输入配置，右侧即可生成工具Json；点击此处一键复制到剪切板"
