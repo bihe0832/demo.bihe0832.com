@@ -153,7 +153,7 @@
 
       new Set(dataList.map((word) => word.category)).forEach(category=>{
         const daoBookList = document.getElementById(dataMap.get(category));
-        dataList.filter((word) => word.category == category).forEach(data => {
+        dataList.filter((word) => word.category == category).reverse().forEach(data => {
           daoBookList.appendChild(createBookItem(data));
         });
         new Sortable(daoBookList, {
