@@ -160,6 +160,7 @@
   .p-color .color .background .value { }
   /*字体颜色*/
   .p-font {
+    font-weight: bold;
     padding: 30px;
   }
   .p-font li {
@@ -203,7 +204,7 @@
     cursor: pointer;
     display: inline-block;
     font-size: 14px;
-    font-weight: 600;
+    font-weight: bold;
     line-height: 20px;
     padding: 6px 12px;
   }
@@ -220,7 +221,7 @@
     left: 50%;
     color: #67c23a;
     font-size: 18px;
-    font-weight: normal;
+    font-weight: bold;
     border-radius: 4px;
     z-index: 3;
     display: inline-block;
@@ -251,7 +252,7 @@
     <ul class="color">
       <template v-if="type === 'button'">
         <li v-for="item in colorList" class="button" @click="copyToClipboard(item)">
-          <div class="case " :style="`background-color:${item}; border: solid 1px ${item};`">{{item}}</div>
+          <div class="case " :style="`background-color:${item}; border: solid 1px ${item};font-weight: bold;`">{{item}}</div>
         </li>
       </template>
       <template v-if="type === 'font'">
@@ -261,7 +262,7 @@
       </template>
       <template v-if="type === 'background'">
         <li v-for="item in colorList" class="background" @click="copyToClipboard(item)">
-          <div class="case " :style="`background-color:${item};`">{{item}}</div>
+          <div class="case " :style="`background-color:${item};font-weight: bold;`">{{item}}</div>
         </li>
       </template>
     </ul>
