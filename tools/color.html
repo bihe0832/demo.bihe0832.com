@@ -188,7 +188,7 @@
     text-align: center;
   }
   .font {
-    font-weight: bold;
+    font-weight: bolder;
   }
 
   .p-other {
@@ -244,9 +244,9 @@
   <section class="p-color g-box">
     <h1>常用颜色值（点击复制）</h1>
     <ul class="type">
+      <li :class="{active: type === 'background'}" @click="type = 'background'">背景颜色</li>
       <li :class="{active: type === 'button'}" @click="type = 'button'">按钮</li>
       <li :class="{active: type === 'font'}" @click="type = 'font'">字体颜色</li>
-      <li :class="{active: type === 'background'}" @click="type = 'background'">背景颜色</li>
     </ul>
     <ul class="color">
       <template v-if="type === 'button'">
@@ -256,7 +256,7 @@
       </template>
       <template v-if="type === 'font'">
         <li v-for="item in colorList" class="font" @click="copyToClipboard(item)">
-          <div class="case " :style="`color:${item};`">字体颜色测试文案{{item}}</div>
+          <div class="case " :style="`color:${item};font-size:20px;`">字体颜色测试文案{{item}}</div>
         </li>
       </template>
       <template v-if="type === 'background'">
@@ -293,7 +293,7 @@
     <h1>常用边框颜色</h1>
     <ul>
       <li v-for="item in borderColorList" @click="copyToClipboard(item)">
-        <div class="case" :style="`color:${item};`">点击复制</div>
+        <div class="case" :style="`border-color:${item};border-width:`">点击复制</div>
         <div class="value">{{item}}</div>
       </li>
     </ul>
@@ -310,49 +310,62 @@ new Vue({
       tips: '点击复制颜色', // 顶部提示
       showTips: false,
       tipsTimeout: 0,
-      type: 'button', // 表现形式
+      type: 'background', // 表现形式
       colorList: [ // 常用颜色
-        '#1abc9c',
-        '#16a085',
-        '#2ecc71',
-        '#27ae60',
-        '#3498db',
-        '#2980b9',
-        '#9b59b6',
-        '#8e44ad',
-        '#34495e',
-        '#2c3e50',
-        '#f1c40f',
-        '#f39c12',
-        '#e67e22',
-        '#d35400',
-        '#e74c3c',
-        '#c0392b',
-        '#ecf0f1',
-        '#bdc3c7',
-        '#95a5a6',
-        '#7f8c8d',
-        '#3D8AC7',
+        '#F84D4D', 
+        '#FF6B42',
+        '#5BA3EB',
+        '#06BB9A',
+        '#8E7EF0',
+        '#F4B919',
+        '#226BAB',
+        '#C4C4C4',
+        '#C00000',
+        '#2ECC71',
+        '#0ACD76',
+        '#27AE60', 
         '#56B962',
+        '#00B26D',
+        '#49BE83',
+        '#7BD784', 
+        '#1ABC9C',
+        '#16A085',
+        '#7DD8B7',
+        '#3AC9B0',
+        '#55ADA3',
+        '#007B6A',
+        '#9B59B6',
+        '#8E44AD',
+        '#F1C40F',
+        '#F39C12',
+        '#E67E22',
+        '#FF6600',
+        '#D35400',
+        '#F66F2C',
+        '#DC5350',
+        '#E74C3C',
+        '#C0392B',
+        '#ECF0F1',
+        '#BDC3C7',
+        '#95A5A6',
+        '#7F8C8D',
+        '#3D8AC7',
+        '#3498DB',
+        '#2980B9',
         '#54C0DC',
         '#F2AE57',
-        '#DC5350',
-        '#F66F2C',
         '#EFCA78',
         '#7CCAF9',
         '#5A83DB',
-        '#ffe100',
-        '#7BD784',
-        '#fefce0',
+        '#FFE100',
+        '#FEFCE0',
         '#EFEFEF',
         '#EA98BA',
         '#F56C65',
-        '#7DD8B7',
         '#A9B9A3',
         '#CEE47C',
         '#FF763E',
         '#686E6E',
-        '#3AC9B0',
         '#B178C1',
         '#EC4C40',
         '#9C6261',
@@ -362,7 +375,6 @@ new Vue({
         '#FF6274',
         '#BC6315',
         '#918837',
-        '#0ACD76',
         '#9142AA',
         '#D55413',
         '#5F5F61',
@@ -370,9 +382,6 @@ new Vue({
         '#B05D99',
         '#AA7878',
         '#B69F79',
-        '#007B6A',
-        '#55ADA3',
-        '#49BE83',
         '#33495D',
         '#CF6056',
         '#61687A',
@@ -386,7 +395,6 @@ new Vue({
         '#F4CF4F',
         '#7E7498',
         '#8AA989',
-        '#00B26D',
         '#9D9B34',
         '#E5956B',
         '#FAB34E',
@@ -397,36 +405,36 @@ new Vue({
         '#584C58',
         '#EA98BA',
         '#F56C65',
-        '#7DD8B7',
         '#A9B9A3',
         '#CFE57D',
         '#FF783C',
         '#686E6E',
-        '#3AC9B0',
         '#B178C1',
         '#EC4C40',
+        '#34495E',
+        '#2C3E50',
       ],
       fontColorList: [ // 常用黑色字体颜色
-        '#1a2a3a',
-        '#2a3a4a',
-        '#3a4a5a',
-        '#4a5a6a',
+        '#1A2A3A',
+        '#2A3A4A',
+        '#3A4A5A',
+        '#4A5A6A',
 
         'rgb(51,51,51)',
         '#333333',
         '#666666',
         '#999999',
-        '#aaaaaa',
-        '#cccccc',
-        '#e5e5e5',
-        '#eeeeee',
+        '#AAAAAA',
+        '#CCCCCC',
+        '#E5E5E5',
+        '#EEEEEE',
         '#F8F8F8',
       ],
       borderColorList:[
-        '#aaaaaa',
-        '#bbbbbb',
-        '#cccccc',
-        '#dddddd',
+        '#AAAAAA',
+        '#BBBBBB',
+        '#CCCCCC',
+        '#DDDDDD',
       ],
       alphaList:[
         '00',
