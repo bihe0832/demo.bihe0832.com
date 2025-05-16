@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html>
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0">
+    <title>皮卡丘学数学之鸡兔同笼双假设演示</title>
+    <meta name="author" CONTENT="子勰(bihe0832), code@bihe0832.com" />
+    <meta name="keywords" content="子勰,bihe0832,工具咩" />
+    <meta name="description" content="皮卡丘学数学之鸡兔同笼双假设演示" />
+    <meta property="og:title" content="皮卡丘学数学之鸡兔同笼双假设演示" />
+    <meta property="og:locale" content="en_US" />
+    <meta name="google-site-verification" content="3wzNgbjvFNHkH-8QpougMZ0s9Y4GEjG49kEb49QQqpw" />
+    <meta property="og:description" content="" />
+    <link rel="canonical" href="https://blog.bihe0832.com/" />
+    <meta property="og:url" content="https://blog.bihe0832.com/" />
+    <meta property="og:site_name" content="工具咩" />
+    <meta property="og:type" content="article" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="Expires" content="0">
+
+    <style>
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            background: #fff3e0;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        .method-selector {
+            margin: 15px 0;
+            text-align: center;
+        }
+
+        .method-btn {
+            padding: 8px 20px;
+            margin: 0 5px;
+            background: #a1887f;
+            color: white;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-block;
+        }
+
+        .method-btn.active {
+            background: #6d4c41;
+            transform: scale(1.1);
+        }
+
+        .input-group {
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        input {
+            padding: 8px;
+            margin: 0 10px;
+            width: 80px;
+            border: 2px solid #8d6e63;
+            border-radius: 5px;
+        }
+
+        .barn {
+            width: 100%;
+            min-height: 120px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0;
+            padding: 10px 15px;
+            justify-content: flex-start;
+            align-content: flex-start;
+            border: 4px solid #8d6e63;
+            border-radius: 15px;
+            background: #efebe9;
+            margin: 20px auto;
+        }
+
+        .animal {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 6px;
+            flex-shrink: 0;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+            animation: fadeIn 0.5s, float 3s infinite;
+            margin: 0 4px 4px 0;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .steps {
+            padding: 15px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin: 20px auto;
+            max-width: 800px;
+        }
+
+        .step {
+            padding: 8px;
+            margin: 3px 0;
+            border-left: 3px solid transparent;
+            transition: all 0.3s;
+            opacity: 0.6;
+        }
+
+        .step.active {
+            border-left-color: #d32f2f;
+            background: #ffebee;
+            opacity: 1;
+            transform: scale(1.02);
+        }
+
+        .controls {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        button {
+            padding: 10px 25px;
+            margin: 0 10px;
+            font-size: 16px;
+            background: #8d6e63;
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        button:hover {
+            transform: scale(1.05);
+        }
+
+        button:disabled {
+            background: #bcaaa4;
+            cursor: not-allowed;
+        }
+
+        .highlight {
+            color: #d32f2f;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h2>皮卡丘学数学之鸡兔同笼双假设演示</h2>
+    
+    <div class="method-selector">
+        <span class="method-btn active" onclick="toggleMethod('chicken')">🐔 先假设全是鸡</span>
+        <span class="method-btn" onclick="toggleMethod('rabbit')">🐇 先假设全是兔</span>
+    </div>
+
+    <div class="input-group">
+        <input type="number" id="heads" placeholder="头数" min="1" value="5">
+        <input type="number" id="legs" placeholder="脚数" min="2" value="16">
+        <button onclick="startCalculation()">开始计算</button>
+    </div>
+
+    <div class="controls">
+        <button id="prevBtn" onclick="prevStep()" disabled>◀ 上一步</button>
+        <button id="nextBtn" onclick="nextStep()" disabled>下一步 ▶</button>
+    </div>
+
+    <div class="barn" id="barn"></div>
+    
+    <div class="steps" id="steps"></div>
+
+    <script>
+        const CHICKEN_IMG = 'https://pic.616pic.com/ys_bnew_img/00/48/84/t4CJgl2Gje.jpg';
+        const RABBIT_IMG = 'https://pic.huitu.com/pic/20250222/1426047_20250222005945276375_0.jpg';
+        let stepsData = [];
+        let currentStep = 0;
+        let currentMethod = 'chicken';
+
+        function toggleMethod(method) {
+            currentMethod = method;
+            document.querySelectorAll('.method-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.textContent.includes(method === 'chicken' ? '鸡' : '兔'));
+            });
+            if(document.getElementById('heads').value) startCalculation();
+        }
+
+        function createAnimal(imgSrc) {
+            const animal = document.createElement('img');
+            animal.src = imgSrc;
+            animal.className = 'animal';
+            setTimeout(() => animal.style.animation = 'fadeIn 0.5s, float 3s infinite', 50);
+            return animal;
+        }
+
+        function updateBarn(chickens, rabbits) {
+            const barn = document.getElementById('barn');
+            barn.innerHTML = '';
+            
+            const barnWidth = barn.offsetWidth - 30;
+            const itemWidth = 84;
+            const animalsPerRow = Math.max(1, Math.floor(barnWidth / itemWidth));
+            
+            // 创建动物数组
+            const animals = [];
+            for(let i=0; i<chickens; i++) animals.push(createAnimal(CHICKEN_IMG));
+            for(let i=0; i<rabbits; i++) animals.push(createAnimal(RABBIT_IMG));
+            
+            // 严格左对齐排列
+            animals.forEach(animal => barn.appendChild(animal));
+
+            // 自动高度调整
+            const rows = Math.ceil(animals.length / animalsPerRow);
+            barn.style.minHeight = `${rows * 84 + 20}px`;
+        }
+
+        function createStep(text, chickens, rabbits) {
+            const step = document.createElement('div');
+            step.className = 'step';
+            step.innerHTML = text.replace(/(\d+)/g, '<span class="highlight">$1</span>');
+            step.dataset.chickens = chickens;
+            step.dataset.rabbits = rabbits;
+            return step;
+        }
+
+        function generateSteps(heads, legs) {
+            const steps = [];
+            if(currentMethod === 'chicken') {
+                const assumedLegs = heads * 2;
+                const extraLegs = legs - assumedLegs;
+                const rabbits = extraLegs / 2;
+                const chickens = heads - rabbits;
+                
+                steps.push(
+                    [`第一步： 假设全是鸡 → 总脚数：${heads} × 2 = ${assumedLegs}`, heads, 0],
+                    [`第二步： 实际多出脚：${legs} - ${assumedLegs} = ${extraLegs}`, heads, 0],
+                    [`第三步： 每换 1 兔多 2 脚 → 需要换：${extraLegs} ÷ 2 = ${rabbits} 兔`, chickens, rabbits],
+                    [`第四步： 验证结果：${chickens} 鸡 × 2 + ${rabbits} 兔 × 4 = ${legs} 脚`, chickens, rabbits]
+                );
+            } else {
+                const assumedLegs = heads * 4;
+                const diff = assumedLegs - legs;
+                const chickens = diff / 2;
+                const rabbits = heads - chickens;
+                
+                steps.push(
+                    [`第一步： 假设全是兔 → 总脚数：${heads} × 4 = ${assumedLegs}`, 0, heads],
+                    [`第二步： 实际缺少脚：${assumedLegs} - ${legs} = ${diff}`, 0, heads],
+                    [`第三步： 每换 1 鸡少 2 脚 → 需要换：${diff} ÷ 2 = ${chickens} 鸡`, chickens, rabbits],
+                    [`第四步： 验证结果：${chickens} 鸡 × 2 + ${rabbits} 兔 × 4 = ${legs} 脚`, chickens, rabbits]
+                );
+            }
+            return steps;
+        }
+
+        function showStep(stepIndex) {
+            document.getElementById('prevBtn').disabled = stepIndex <= 0;
+            document.getElementById('nextBtn').disabled = stepIndex >= stepsData.length - 1;
+            stepsData.forEach((step, index) => step.classList.toggle('active', index === stepIndex));
+            const currentData = stepsData[stepIndex].dataset;
+            updateBarn(currentData.chickens, currentData.rabbits);
+        }
+
+        function nextStep() { if(currentStep < stepsData.length - 1) showStep(++currentStep); }
+        function prevStep() { if(currentStep > 0) showStep(--currentStep); }
+
+        function startCalculation() {
+            const heads = parseInt(document.getElementById('heads').value);
+            const legs = parseInt(document.getElementById('legs').value);
+            
+            if(!heads || !legs || legs < heads*2 || legs > heads*4 || legs%2 !== 0) {
+                alert("请输入有效数值：\n1. 脚数 ≥ 头数×2\n2. 脚数 ≤ 头数×4\n3. 脚数必须是偶数");
+                return;
+            }
+
+            const stepContainer = document.getElementById('steps');
+            stepContainer.innerHTML = '';
+            stepsData = [];
+
+            generateSteps(heads, legs).forEach(([text, c, r]) => {
+                stepsData.push(stepContainer.appendChild(createStep(text, c, r)));
+            });
+
+            currentStep = 0;
+            showStep(currentStep);
+        }
+    </script>
+</body>
+</html>
