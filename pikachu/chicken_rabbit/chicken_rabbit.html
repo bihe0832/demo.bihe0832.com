@@ -208,7 +208,6 @@
             const animal = document.createElement('img');
             animal.src = imgSrc;
             animal.className = 'animal';
-            setTimeout(() => animal.style.animation = 'fadeIn 0.5s, float 3s infinite', 50);
             return animal;
         }
 
@@ -286,9 +285,10 @@
         function startCalculation() {
             const heads = parseInt(document.getElementById('heads').value);
             const legs = parseInt(document.getElementById('legs').value);
-            
-            if(!heads || !legs || legs < heads*2 || legs > heads*4 || legs%2 !== 0) {
-                alert("请输入有效数值：\n1. 脚数 ≥ 头数×2\n2. 脚数 ≤ 头数×4\n3. 脚数必须是偶数");
+            const legsMin = heads*2;
+            const legsMax = heads*4;
+            if(!heads || !legs || legs < legsMin || legs > legsMax || legs%2 !== 0) {
+                alert("请输入正确的头和脚的数量：\n1. 脚数应该是在 " + legsMin + " 与 " + legsMax + "之间\n2. 脚数必须是偶数");
                 return;
             }
 
