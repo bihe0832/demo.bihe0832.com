@@ -185,10 +185,10 @@
         <button id="nextBtn" onclick="nextStep()" disabled>下一步 ▶</button>
     </div>
 
-    <div class="barn" id="barn"></div>
-    
     <div class="steps" id="steps"></div>
 
+    <div class="barn" id="barn"></div>
+    
     <script>
         const CHICKEN_IMG = './chicken.jpg';
         const RABBIT_IMG = './rabbit.jpg';
@@ -251,9 +251,9 @@
                 const chickens = heads - rabbits;
                 
                 steps.push(
-                    [`第一步： 假设全是鸡 → 总脚数：${heads} × 2 = ${assumedLegs}`, heads, 0],
-                    [`第二步： 实际多出脚：${legs} - ${assumedLegs} = ${extraLegs}`, heads, 0],
-                    [`第三步： 每换 1 兔多 2 脚 → 需要换：${extraLegs} ÷ 2 = ${rabbits} 兔`, chickens, rabbits],
+                    [`第一步： 假设全是鸡 → 总脚数为：${heads} × 2 = ${assumedLegs}`, heads, 0],
+                    [`第二步： 实际上多出了：${legs} - ${assumedLegs} = ${extraLegs} 只脚`, heads, 0],
+                    [`第三步： 每把一只鸡替换为兔可用掉 2 只脚 → 则需要换：${extraLegs} ÷ 2 = ${rabbits} 只兔`, chickens, rabbits],
                     [`第四步： 验证结果：${chickens} 鸡 × 2 + ${rabbits} 兔 × 4 = ${legs} 脚`, chickens, rabbits]
                 );
             } else {
@@ -263,9 +263,9 @@
                 const rabbits = heads - chickens;
                 
                 steps.push(
-                    [`第一步： 假设全是兔 → 总脚数：${heads} × 4 = ${assumedLegs}`, 0, heads],
-                    [`第二步： 实际缺少脚：${assumedLegs} - ${legs} = ${diff}`, 0, heads],
-                    [`第三步： 每换 1 鸡少 2 脚 → 需要换：${diff} ÷ 2 = ${chickens} 鸡`, chickens, rabbits],
+                    [`第一步： 假设全是兔 → 总脚数为：${heads} × 4 = ${assumedLegs}`, 0, heads],
+                    [`第二步： 实际上缺少：${assumedLegs} - ${legs} = ${diff} 只脚`, 0, heads],
+                    [`第三步： 每把一只兔替换为鸡可少用 2 只脚 → 则需要换：${diff} ÷ 2 = ${chickens} 只鸡`, chickens, rabbits],
                     [`第四步： 验证结果：${chickens} 鸡 × 2 + ${rabbits} 兔 × 4 = ${legs} 脚`, chickens, rabbits]
                 );
             }
