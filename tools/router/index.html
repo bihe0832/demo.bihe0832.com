@@ -15,6 +15,14 @@
     <script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
     <script src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
     <title>终端路由跳转链接生成工具 — 子勰</title>
+    <style type="text/css">
+    .qr-caption {
+        margin-top: 25px;
+        font-size: 16px;
+        color: #333;
+        font-weight: bolder;
+    }
+    </style>
 </head>
 
 <body>
@@ -41,8 +49,13 @@
             </div>
 
             <div class="span4">
+                <p class="qr-caption">扫码后跳转URL的二维码</p>
+                <iframe id="img-qrcode1" width="300px" height="300px" src="https://api.qrserver.com/v1/create-qr-code/?data=http%3A%2F%2Fblog.bihe0832.com" frameborder=0 allowfullscreen></iframe>
+            </div>
+            <div class="span4">
                 <!-- <img id="img-qqrcode" src="https://qr.topscan.com/api.php?text=http://blog.bihe0832.com" style="width: 150px;height: 150px;"> -->
-                <iframe id="img-qrcode1" width="300px" height="500px" src="https://api.qrserver.com/v1/create-qr-code/?data=http%3A%2F%2Fblog.bihe0832.com" frameborder=0 allowfullscreen></iframe>
+                <p class="qr-caption">输入框内容对应的二维码</p>
+                <iframe id="img-qrcode2" width="300px" height="300px" src="https://api.qrserver.com/v1/create-qr-code/?data=http%3A%2F%2Fblog.bihe0832.com" frameborder=0 allowfullscreen></iframe>
                 <!-- <iframe id="img-qrcode2" width="300px" height="500px" src="https://www.lofter.com/genBitmaxImage?url=http%3A%2F%2Fblog.bihe0832.com" frameborder=0 allowfullscreen></iframe> -->
                 <!-- <iframe id="img-qrcode3" width="300px" height="500px" src="https://qrcode.jp/qr?s=5&q=http%3A%2F%2Fblog.bihe0832.com" frameborder=0 allowfullscreen></iframe> -->
             </div>
@@ -66,6 +79,12 @@
             var resultURL = getFinalURL()
             $("#router-result").get(0).value = "扫码后跳转的URL为：" + resultURL
             $("#img-qrcode1").get(0).src = "https://api.qrserver.com/v1/create-qr-code/?data=" + encodeURIComponent(resultURL)
+            if($("#router-input").get(0).value.length > 0){
+                $("#img-qrcode2").get(0).src = "https://api.qrserver.com/v1/create-qr-code/?data=" + encodeURIComponent(encodeURI($("#router-input").get(0).value))
+            }else{
+                $("#img-qrcode2").get(0).src = ""
+            }
+            
             // $("#img-qrcode2").get(0).src = "https://www.lofter.com/genBitmaxImage?url=" + encodeURIComponent(resultURL)
             // $("#img-qrcode3").get(0).src = "https://qrcode.jp/qr?s=5&q=" + encodeURIComponent(resultURL)
         }
