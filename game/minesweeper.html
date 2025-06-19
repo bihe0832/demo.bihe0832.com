@@ -1,67 +1,60 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <head>
-		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-		<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
-		<meta name="apple-mobile-web-app-capable" content="yes" />
-		<meta name="apple-mobile-web-app-status-bar-style" content="black" />
-		<meta name="format-detection" content="telephone=no" />    
-		<meta http-equiv="Pragma" content="no-cache">
-		<meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
-		<meta http-equiv="Expires" content="0">
-		<link rel="Shortcut Icon" href="https://cdn.bihe0832.com/images/zixie_32.ico" />
-		<title>皮卡丘小游戏之经典扫雷</title>
-		<meta name="author" CONTENT="子勰(bihe0832), code@bihe0832.com" />
-		<meta name="keywords" content="子勰,bihe0832,工具咩" />
-		<meta name="description" content="皮卡丘学数学之鸡兔同笼双假设演示" />
-		<meta property="og:title" content="皮卡丘学数学之鸡兔同笼双假设演示" />
-		<meta property="og:locale" content="en_US" />
-		<meta name="google-site-verification" content="3wzNgbjvFNHkH-8QpougMZ0s9Y4GEjG49kEb49QQqpw" />
-		<meta property="og:description" content="" />
-		<link rel="canonical" href="https://blog.bihe0832.com/" />
-		<meta property="og:url" content="https://blog.bihe0832.com/" />
-		<meta property="og:site_name" content="工具咩" />
-		<meta property="og:type" content="article" />
-		<meta name="apple-mobile-web-app-capable" content="yes">
-		<meta name="apple-mobile-web-app-status-bar-style" content="black">
-		<meta name="format-detection" content="telephone=no">
-		<meta http-equiv="Pragma" content="no-cache">
-		<meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
-		<meta http-equiv="Expires" content="0">
-	
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>经典扫雷游戏</title>
     <style>
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            -webkit-touch-callout: none;
+        }
+        
         body {
             font-family: Arial, sans-serif;
-            text-align: center;
             background-color: #f0f0f0;
             margin: 0;
-            padding: 20px;
+            padding: 10px;
+            min-width: 0;
+            touch-action: manipulation;
+        }
+        
+        .page-container {
+            max-width: 100%;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
         
         h1 {
             color: #333;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
+            text-align: center;
+            width: 100%;
+            font-size: 1.5rem;
         }
         
         .game-container {
             display: inline-block;
             background-color: #c0c0c0;
-            padding: 20px;
-            border: 6px solid;
+            padding: 10px;
+            border: 4px solid;
             border-color: #808080 #ffffff #ffffff #808080;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
+            max-width: 100%;
+            overflow: auto;
         }
         
         .game-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
-            padding: 10px 20px;
+            margin-bottom: 10px;
+            padding: 5px 10px;
             background-color: #c0c0c0;
-            border: 6px solid;
+            border: 4px solid;
             border-color: #ffffff #808080 #808080 #ffffff;
         }
         
@@ -70,20 +63,31 @@
             background-color: black;
             color: red;
             font-family: monospace;
-            font-size: 48px;
-            padding: 5px 10px;
+            font-size: 24px;
+            padding: 2px 5px;
             border: 2px solid #808080;
+            min-width: 70px;
+            justify-content: center;
         }
         
         .face-button {
-            width: 52px;
-            height: 52px;
-            font-size: 40px;
-            cursor: pointer;
-            background-color: #c0c0c0;
-            border: 6px solid;
-            border-color: #ffffff #808080 #808080 #ffffff;
-        }
+			width: 36px;
+			height: 36px;
+			font-size: 24px; /* 适当调整字体大小 */
+			cursor: pointer;
+			background-color: #c0c0c0;
+			border: 6px solid;
+			border-color: #ffffff #808080 #808080 #ffffff;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			position: absolute;
+			left: 50%;
+			transform: translateX(-50%);
+			padding: 0; /* 确保内边距为0 */
+			line-height: 1; /* 重置行高 */
+			box-sizing: border-box; /* 包含边框在内计算尺寸 */
+		}
         
         .face-button:active {
             border-color: #808080 #ffffff #ffffff #808080;
@@ -91,32 +95,37 @@
         
         .game-board {
             display: grid;
-            grid-template-columns: repeat(var(--cols), 48px);
-            grid-template-rows: repeat(var(--rows), 48px);
-            gap: 2px;
+            grid-template-columns: repeat(var(--cols), minmax(30px, 1fr));
+            grid-template-rows: repeat(var(--rows), minmax(30px, 1fr));
+            gap: 1px;
             background-color: #808080;
-            border: 6px solid;
+            border: 4px solid;
             border-color: #808080 #ffffff #ffffff #808080;
+            touch-action: none;
         }
         
         .cell {
-            width: 48px;
-            height: 48px;
+            width: 100%;
+            height: 100%;
+            min-width: 30px;
+            min-height: 30px;
             background-color: #c0c0c0;
             display: flex;
             justify-content: center;
             align-items: center;
             font-weight: bold;
-            font-size: 32px;
+            font-size: 1.2rem;
             cursor: pointer;
-            border: 4px solid;
+            border: 3px solid;
             border-color: #ffffff #808080 #808080 #ffffff;
             user-select: none;
+            -webkit-user-select: none;
+            touch-action: manipulation;
         }
         
         .cell.revealed {
             background-color: #c0c0c0;
-            border: 2px solid #808080;
+            border: 1px solid #808080;
         }
         
         .cell.mine {
@@ -137,126 +146,296 @@
         .number-8 { color: gray; }
         
         .difficulty-selector {
-            margin: 20px 0;
+            margin: 15px 0;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
         }
         
-        button {
-            padding: 10px 20px;
-            margin: 0 10px;
+        .difficulty-selector button {
+            padding: 8px 12px;
             cursor: pointer;
-            font-size: 16px;
+            font-size: 0.9rem;
+            min-width: 120px;
+            border: 2px solid #808080;
+            background-color: #c0c0c0;
         }
         
         .instructions {
-            max-width: 800px;
+            width: 100%;
+            max-width: 600px;
             margin: 0 auto;
             background-color: #e0e0e0;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
-            text-align: left;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 0 8px rgba(0,0,0,0.1);
+            font-size: 0.9rem;
         }
         
         .instructions h2 {
             color: #333;
             margin-top: 0;
             border-bottom: 2px solid #808080;
-            padding-bottom: 10px;
+            padding-bottom: 8px;
             text-align: center;
+            font-size: 1.2rem;
         }
         
         .instructions h3 {
             color: #444;
-            margin-top: 20px;
+            margin-top: 15px;
+            font-size: 1rem;
         }
         
         .instructions ul {
-            padding-left: 20px;
+            padding-left: 18px;
+            margin: 8px 0;
         }
         
         .instructions li {
-            margin-bottom: 10px;
-            font-size: 16px;
+            margin-bottom: 6px;
+            line-height: 1.4;
+        }
+        
+        @media (min-width: 600px) {
+            .game-container {
+                padding: 15px;
+            }
+            
+            .game-header {
+                padding: 8px 15px;
+                margin-bottom: 15px;
+            }
+            
+            .counter {
+                font-size: 28px;
+                min-width: 80px;
+            }
+            
+            .face-button {
+                width: 42px;
+                height: 42px;
+                font-size: 24px;
+            }
+            
+            .cell {
+                min-width: 36px;
+                min-height: 36px;
+                font-size: 1.4rem;
+            }
+            
+            .difficulty-selector button {
+                min-width: 140px;
+                padding: 10px 15px;
+                font-size: 1rem;
+            }
+        }
+        
+        @media (min-width: 768px) {
+            h1 {
+                font-size: 2rem;
+                margin-bottom: 20px;
+            }
+            
+            .game-container {
+                padding: 20px;
+            }
+            
+            .game-header {
+                padding: 10px 20px;
+                margin-bottom: 20px;
+            }
+            
+            .counter {
+                font-size: 36px;
+                min-width: 100px;
+            }
+            
+            .face-button {
+                width: 48px;
+                height: 48px;
+                font-size: 24px;
+            }
+            
+            .cell {
+                min-width: 42px;
+                min-height: 42px;
+                font-size: 1.6rem;
+            }
+            
+            .difficulty-selector button {
+                min-width: 160px;
+                padding: 12px 18px;
+                font-size: 1.1rem;
+            }
+            
+            .instructions {
+                padding: 20px;
+                font-size: 1rem;
+            }
+            
+            .instructions h2 {
+                font-size: 1.5rem;
+            }
+            
+            .instructions h3 {
+                font-size: 1.2rem;
+            }
+        }
+
+		
+        /* 胜利弹窗 - 经典扫雷风格 */
+        .victory-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .victory-content {
+            background-color: #c0c0c0;
+            padding: 20px;
+            border: 4px solid;
+            border-color: #ffffff #808080 #808080 #ffffff;
+            box-shadow: 3px 3px 10px rgba(0,0,0,0.5);
+            text-align: center;
+            max-width: 300px;
+            width: 80%;
+        }
+        
+        .victory-content h2 {
+            color: #000;
+            margin: 0 0 15px 0;
+            font-size: 24px;
+            text-shadow: 1px 1px 0 #fff;
+        }
+        
+        .victory-stats {
+            background-color: #c0c0c0;
+            border: 2px solid #808080;
+            padding: 10px;
+            margin: 10px 0;
+            font-size: 14px;
             line-height: 1.5;
+            text-align: left; /* 左对齐统计信息 */
         }
         
-        .instructions-columns {
+        .victory-stats div {
+            margin-bottom: 5px;
+        }
+        
+        .victory-stats div:last-child {
+            margin-bottom: 0;
+        }
+        
+        .victory-buttons {
             display: flex;
-            gap: 30px;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 15px;
         }
         
-        .instructions-column {
-            flex: 1;
+        .victory-button {
+            padding: 8px 15px;
+            background-color: #c0c0c0;
+            border: 3px solid;
+            border-color: #ffffff #808080 #808080 #ffffff;
+            font-weight: bold;
+            cursor: pointer;
+            min-width: 80px;
+        }
+        
+        .victory-button:active {
+            border-color: #808080 #ffffff #ffffff #808080;
+        }
+        
+        .victory-emoji {
+            font-size: 40px;
+            margin-bottom: 10px;
+            display: block;
         }
     </style>
 </head>
 <body>
-    <h1>经典扫雷游戏</h1>
-    
-    <div class="difficulty-selector">
-        <button onclick="startGame(9, 9, 10)">初级 (9×9, 10雷)</button>
-        <button onclick="startGame(16, 16, 40)">中级 (16×16, 40雷)</button>
-        <button onclick="startGame(30, 16, 99)">高级 (30×16, 99雷)</button>
-    </div>
-    
-    <div class="game-container">
-        <div class="game-header">
-            <div class="counter" id="mine-counter">010</div>
-            <button class="face-button" id="face-button" onclick="resetGame()">😊</button>
-            <div class="counter" id="timer">000</div>
-        </div>
-        <div class="game-board" id="game-board"></div>
-    </div>
-    
-    <div class="instructions">
-        <h2>扫雷游戏玩法说明</h2>
+    <div class="page-container">
+        <h1>经典扫雷游戏</h1>
         
-        <div class="instructions-columns">
-            <div class="instructions-column">
-                <h3>游戏目标</h3>
-                <p>在不触雷的情况下，揭示所有非地雷格子。</p>
-                
-                <h3>基本操作</h3>
-                <ul>
-                    <li><strong>左键点击格子</strong>：揭示该格子</li>
-                    <li><strong>右键点击格子</strong>：标记/取消标记为地雷</li>
-                    <li><strong>数字</strong>：表示周围8个格子中的地雷数量</li>
-                    <li><strong>第一次点击</strong>：永远不会点到地雷</li>
-                </ul>
-                
-                <h3>游戏状态</h3>
-                <ul>
-                    <li>😊：游戏进行中</li>
-                    <li>😮：鼠标按下时</li>
-                    <li>😵：踩到地雷，游戏失败</li>
-                    <li>😎：游戏胜利</li>
-                </ul>
-            </div>
-            
-            <div class="instructions-column">
-                <h3>游戏策略</h3>
-                <ul>
-                    <li>从数字1开始，逐步推理周围地雷位置</li>
-                    <li>当确定某格是地雷时，右键标记它</li>
-                    <li>当某格周围的地雷都已标记，可以同时点击左右键快速揭示周围格子</li>
-                    <li>不确定时，可以先揭示其他区域</li>
-                </ul>
-                
-                <h3>难度级别</h3>
-                <ul>
-                    <li><strong>初级</strong>：9×9 格子，10个地雷</li>
-                    <li><strong>中级</strong>：16×16 格子，40个地雷</li>
-                    <li><strong>高级</strong>：30×16 格子，99个地雷</li>
-                </ul>
-                
-                <h3>提示</h3>
-                <ul>
-                    <li>点击笑脸按钮可以重新开始游戏</li>
-                    <li>左上角显示剩余地雷数</li>
-                    <li>右上角显示游戏时间</li>
-                </ul>
-            </div>
+        <div class="difficulty-selector">
+            <button onclick="startGame(9, 9, 10)">初级 (9×9, 10雷)</button>
+            <button onclick="startGame(16, 16, 40)">中级 (16×16, 40雷)</button>
+            <button onclick="startGame(30, 16, 99)">高级 (30×16, 99雷)</button>
         </div>
+        
+        <div class="game-container">
+            <div class="game-header">
+                <div class="counter" id="mine-counter">010</div>
+                <button class="face-button" id="face-button" onclick="resetGame()">😊</button>
+                <div class="counter" id="timer">000</div>
+            </div>
+            <div class="game-board" id="game-board"></div>
+        </div>
+        
+        <div class="instructions">
+            <h2>扫雷游戏玩法说明</h2>
+            
+            <h3>游戏目标</h3>
+            <p>在不触雷的情况下，揭示所有非地雷格子。</p>
+            
+            <h3>基本操作</h3>
+            <ul>
+                <li><strong>点击格子</strong>：揭示该格子</li>
+                <li><strong>长按格子</strong>：标记/取消标记为地雷</li>
+                <li><strong>数字</strong>：表示周围8个格子中的地雷数量</li>
+                <li><strong>第一次点击</strong>：永远不会点到地雷</li>
+            </ul>
+            
+            <h3>游戏策略</h3>
+            <ul>
+                <li>从数字1开始，逐步推理周围地雷位置</li>
+                <li>当确定某格是地雷时，长按标记它</li>
+                <li>当某格周围的地雷都已标记，可以快速点击揭示周围格子</li>
+                <li>不确定时，可以先揭示其他区域</li>
+            </ul>
+            
+            <h3>游戏状态</h3>
+            <ul>
+                <li>😊：游戏进行中</li>
+                <li>😮：点击格子时</li>
+                <li>😵：踩到地雷，游戏失败</li>
+                <li>😎：游戏胜利</li>
+            </ul>
+        </div>
+		<!-- 在body底部添加胜利弹窗HTML -->
+		<!-- 胜利弹窗HTML -->
+		<div class="victory-modal" id="victory-modal">
+			<div class="victory-content">
+				<span class="victory-emoji">🏆</span>
+				<h2>扫雷成功!</h2>
+				
+				<div class="victory-stats" id="victory-stats">
+					<!-- 这里会动态插入游戏统计信息 -->
+				</div>
+				
+				<div class="victory-buttons">
+					<button class="victory-button" onclick="resetGame();document.getElementById('victory-modal').style.display='none'">
+						再玩一次
+					</button>
+					<button class="victory-button" onclick="document.getElementById('victory-modal').style.display='none'">
+						查看棋盘
+					</button>
+				</div>
+			</div>
+		</div>
+	
+	
     </div>
     
     <script>
@@ -273,7 +452,9 @@
             firstClick: true,
             timer: 0,
             timerInterval: null,
-            minesLeft: 10
+            minesLeft: 10,
+            touchStartTime: 0,
+            touchStartIndex: -1
         };
         
         // DOM元素
@@ -318,11 +499,51 @@
                 cell.className = 'cell';
                 cell.dataset.index = i;
                 
-                // 添加事件监听器
+                // 添加点击事件监听器
                 cell.addEventListener('click', () => handleCellClick(i));
+                
+                // 添加右键/长按事件监听器
                 cell.addEventListener('contextmenu', (e) => {
                     e.preventDefault();
                     handleRightClick(i);
+                });
+                
+                // 触摸事件处理
+                cell.addEventListener('touchstart', (e) => {
+                    e.preventDefault();
+                    gameState.touchStartTime = Date.now();
+                    gameState.touchStartIndex = i;
+                    
+                    // 显示按下状态
+                    if (!gameState.gameOver && !gameState.gameWon && !gameState.flagged[i]) {
+                        faceButton.textContent = '😮';
+                    }
+                });
+                
+                cell.addEventListener('touchend', (e) => {
+                    e.preventDefault();
+                    const touchDuration = Date.now() - gameState.touchStartTime;
+                    
+                    if (gameState.touchStartIndex === i) {
+                        if (touchDuration > 500) { // 长按
+                            handleRightClick(i);
+                        } else { // 短按
+                            handleCellClick(i);
+                        }
+                    }
+                    
+                    // 恢复笑脸
+                    if (!gameState.gameOver && !gameState.gameWon) {
+                        faceButton.textContent = '😊';
+                    }
+                    
+                    gameState.touchStartIndex = -1;
+                });
+                
+                cell.addEventListener('touchmove', (e) => {
+                    e.preventDefault();
+                    // 如果移动距离较大，取消当前触摸
+                    gameState.touchStartIndex = -1;
                 });
                 
                 // 鼠标按下和抬起事件
@@ -421,7 +642,7 @@
             checkWin();
         }
         
-        // 处理右键点击（插旗）
+        // 处理右键点击/长按（插旗）
         function handleRightClick(index) {
             if (gameState.gameOver || gameState.gameWon || gameState.revealed[index]) {
                 return;
@@ -488,9 +709,8 @@
             }
         }
         
-        // 检查是否胜利
+        // 更新checkWin函数
         function checkWin() {
-            // 检查是否所有非地雷格子都已揭示
             let allNonMinesRevealed = true;
             for (let i = 0; i < gameState.rows * gameState.cols; i++) {
                 if (gameState.board[i] !== -1 && !gameState.revealed[i]) {
@@ -499,7 +719,6 @@
                 }
             }
             
-            // 或者所有地雷都已正确标记
             let allMinesFlagged = true;
             for (let i = 0; i < gameState.rows * gameState.cols; i++) {
                 if (gameState.board[i] === -1 && !gameState.flagged[i]) {
@@ -513,17 +732,57 @@
                 faceButton.textContent = '😎';
                 clearInterval(gameState.timerInterval);
                 
-                // 标记所有地雷
-                for (let i = 0; i < gameState.rows * gameState.cols; i++) {
-                    if (gameState.board[i] === -1) {
-                        const cell = gameBoard.children[i];
+                // 显示所有地雷和未揭示的安全格子
+                revealFinalBoard();
+                
+                // 显示胜利弹窗
+                showVictoryMessage();
+            }
+        }
+        
+        // 新增函数：显示最终棋盘状态
+        function revealFinalBoard() {
+            for (let i = 0; i < gameState.rows * gameState.cols; i++) {
+                const cell = gameBoard.children[i];
+                
+                if (gameState.board[i] === -1) {
+                    // 地雷格子：显示地雷或旗帜
+                    if (!gameState.flagged[i]) {
+                        cell.textContent = '💣';
+                        cell.classList.add('mine');
+                    } else {
                         cell.textContent = '🚩';
-                        gameState.flagged[i] = true;
+                    }
+                    cell.classList.add('revealed');
+                } else if (!gameState.revealed[i]) {
+                    // 未揭示的安全格子：显示数字或空白
+                    cell.classList.add('revealed');
+                    if (gameState.board[i] > 0) {
+                        cell.textContent = gameState.board[i];
+                        cell.classList.add(`number-${gameState.board[i]}`);
                     }
                 }
-                gameState.minesLeft = 0;
-                updateMineCounter();
             }
+        }
+        
+        // 更新showVictoryMessage函数
+        function showVictoryMessage() {
+            const modal = document.getElementById('victory-modal');
+            const stats = document.getElementById('victory-stats');
+            
+            // 获取难度名称
+            let difficulty = '';
+            if (gameState.rows === 9 && gameState.cols === 9 && gameState.mines === 10) {
+                difficulty = '初级 (9×9, 10雷)';
+            } else if (gameState.rows === 16 && gameState.cols === 16 && gameState.mines === 40) {
+                difficulty = '中级 (16×16, 40雷)';
+            } else {
+                difficulty = '高级 (30×16, 99雷)';
+            }
+            
+            stats.innerHTML = `<div><strong>难度:</strong> ${difficulty}，<strong>用时:</strong> ${gameState.timer}秒</div>`;
+            
+            modal.style.display = 'flex';
         }
         
         // 开始计时器

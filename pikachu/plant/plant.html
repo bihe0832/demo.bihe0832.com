@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+    <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no" />    
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="Expires" content="0">
+    <link rel="Shortcut Icon" href="https://cdn.bihe0832.com/images/zixie_32.ico" />
+
+    <title>皮卡丘学数学之植树问题演示</title>
+    <meta name="author" CONTENT="子勰(bihe0832), code@bihe0832.com" />
+    <meta name="keywords" content="子勰,bihe0832,工具咩" />
+    <meta name="description" content="皮卡丘学数学之植树问题演示" />
+    <meta property="og:title" content="皮卡丘学数学之植树问题演示" />
+    <meta property="og:locale" content="en_US" />
+    <meta name="google-site-verification" content="3wzNgbjvFNHkH-8QpougMZ0s9Y4GEjG49kEb49QQqpw" />
+    <meta property="og:description" content="" />
+    <link rel="canonical" href="https://blog.bihe0832.com/" />
+    <meta property="og:url" content="https://blog.bihe0832.com/" />
+    <meta property="og:site_name" content="工具咩" />
+    <meta property="og:type" content="article" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="Expires" content="0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #1a2980, #26d0ce);
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+            margin: 20px 0;
+        }
+        header {
+            background: linear-gradient(90deg, #2c3e50, #4a235a);
+            color: white;
+            padding: 25px 30px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+        }
+        header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 25px;
+            padding: 20px;
+        }
+        .problem-setup {
+            background: #f0f9ff;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 6px 15px rgba(0, 0, 极光0, 0.08);
+        }
+        .solution-visual {
+            display: grid;
+            grid-template-rows: auto 1fr;
+            gap: 20px;
+        }
+        .visualization {
+            background: #edf7fe;
+            border-radius: 15px;
+            padding: 20px;
+            min-height: 350px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+        .solution-steps {
+            background: #f8f9ff;
+            border-radius: 15px;
+            padding: 20px;
+            min-height: 280px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
+            position: relative;
+        }
+        .panel-title {
+            font-size: 1.4rem;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #3498db;
+            display: flex;
+            align-items: center;
+        }
+        .panel-title i {
+            margin-right: 10px;
+            font-size: 1.6rem;
+        }
+        .control-group {
+            margin-bottom: 20px;
+        }
+        .control-group h3 {
+            font-size: 1.1rem;
+            margin-bottom: 12px;
+            color: #2980b9;
+            display: flex;
+            align-items: center;
+        }
+        .control-group h3 i {
+            margin-right: 8px;
+            font-size: 1.2rem;
+        }
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        .checkbox-option {
+            display: flex;
+            align-items: center;
+            background: #e8f4ff;
+            padding: 12px 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            flex: 1;
+            min-width: 140px;
+        }
+        .checkbox-option:hover {
+            background: #d5e8ff;
+        }
+        .checkbox-option.active {
+            background: #3498db;
+            color: white;
+        }
+        .checkbox-option input {
+            margin-right: 10px;
+            cursor: pointer;
+        }
+        .slider-container {
+            padding: 10px 15px;
+            background: #e8f4ff;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+        .slider-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        input[type="range"] {
+            width: 100%;
+            height: 8px;
+            border-radius: 5px;
+            background: #bdc3c7;
+            outline: none;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: #3498db;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+        .value-display {
+            text-align: center;
+            font-size: 1.1rem;
+            font-weight: 600;
+            padding: 5px 15px;
+            background: white;
+            border-radius: 30px;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+            display: inline-block;
+            margin-top: 10px;
+            color: #3498db;
+        }
+        .calculate-btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            border: none;
+            background: linear-gradient(90deg, #3498db, #2c3e50);
+            color: white;
+            font-size: 1.2rem;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.3s, background 0.3s;
+            margin-top: 20px;
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+        }
+        .calculate-btn:hover {
+            transform: translateY(-3px);
+            background: linear-gradient(90deg, #2c3e50, #3498db);
+        }
+        .calculate-btn:active {
+            transform: translateY(1px);
+        }
+        .road-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            gap: 15px;
+            position: relative;
+            margin-top: 15px;
+        }
+        .road-section {
+            height: 110px;
+            border-radius: 10px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            overflow: hidden;
+            transition: all 0.5s ease;
+        }
+        .road-small {
+            background: linear-gradient(90deg, #7f8c8d, #95a5a6);
+        }
+        .road-large {
+            background: linear-gradient(90deg, #34495e, #2c3e50);
+        }
+        .divider {
+            background: linear-gradient(90deg, #16a085, #1abc9c);
+            height: 120px;
+        }
+        .trees-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            margin-left: 25px;
+            margin-right: 25px;
+        }
+        .tree {
+            position: absolute;
+            width: 45px;
+            height: 80px;
+            transform: translateX(-50%) translateY(110px);
+            bottom: 0;
+            z-index: 10;
+            transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-end;
+        }
+
+        .tree.planted {
+  
+            transform: translateX(-50%) translateY(0); 
+        }
+
+        .tree img {
+            width: 45px;
+            height: 80px;
+            object-fit: contain;
+            filter: drop-shadow(0 5px 8px rgba(0,0,0,0.4));
+            transform: translateY(20px);
+        }
+        .tree.planted img {
+            transform: translateY(0);
+            transition: transform 0.5s ease;
+        }
+        .tree-label {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 13px;
+            font-weight: bold;
+            color: white;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+            white-space: nowrap;
+        }
+        /* 精简分步解答样式 */
+        .steps-container {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 15px;
+            padding: 10px 0;
+            max-height: 380px;
+            overflow-y: auto;
+        }
+        .step {
+            padding: 15px;
+            border-radius: 12px;
+            background: linear-gradient(to right, #e3f2fd, #bbdefb);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        .step.active {
+            background: linear-gradient(to right, #c5e1fa, #a5d5f8);
+            box-shadow: 0 6px 12px rgba(33, 150, 243, 0.25);
+            border-left: 4px solid #2196F3;
+        }
+        .step-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 5px;
+        }
+        .step-number {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            background: #2196F3;
+            color: white;
+            border-radius: 50%;
+            font-weight: bold;
+            margin-right: 15px;
+            flex-shrink: 0;
+        }
+        .step-title {
+            font-weight: 700;
+            color: #0d47a1;
+            font-size: 1.1rem;
+        }
+        .step-content {
+            color: #212121;
+            line-height: 1.6;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+        }
+        .step-content .formula {
+            background: rgba(255, 255, 255, 0.85);
+            padding: 8px 12px;
+            border-radius: 8px;
+            margin: 0 0 0 10px;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            font-size: 1.1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border-left: 4px solid #2196F3;
+        }
+        .step-content .highlight {
+            color: #d32f2f;
+            font-weight: bold;
+            padding: 0 4px;
+            border-radius: 3px;
+        }
+        .navigation {
+            display: flex;
+            gap: 15px;
+            padding: 10px 0;
+            justify-content: center;
+            margin-top: 15px;
+        }
+        .nav-btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            background: #2196F3;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 8px rgba(33, 150, 243, 0.3);
+        }
+        .nav-btn:hover {
+            background: #1976D2;
+            transform: translateY(-2px);
+        }
+        .nav-btn:disabled {
+            background: #bbdefb;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .road-info {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 15px;
+        }
+        .info-card {
+            background: white;
+            border-radius: 10px;
+            padding: 15px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .info-card .label {
+            font-weight: bold;
+            color: #2c3e50;
+            margin-bottom: 8px;
+        }
+        .info-card .value {
+            font-size: 1.4rem;
+            font-weight: bold;
+            color: #e74c3c;
+        }
+        .road-label {
+            font-size: 14px;
+            font-weight: bold;
+            color: white;
+            position: absolute;
+            z-index: 5;
+            left: 20px;
+            top: 10px;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+        }
+        .counter {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            background: rgba(255,255,255,0.2);
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+        }
+        .tree-amount-badge {
+            position: absolute;
+            bottom: 80px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0,0,0,0.6);
+            color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+        }
+        .position-indicator {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(45deg, #ff9a9e, #fad0c4);
+            color: #2c3e50;
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 11px;
+            font-weight: bold;
+            z-index: 20;
+            white-space: nowrap;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        .tree-image-info {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: #fff;
+            font-size: 10px;
+            background: rgba(0,0,0,0.5);
+            padding: 2px 5px;
+            border-radius: 5px;
+        }
+        @media (max-width: 900px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+            .step-content {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .step-content .formula {
+                margin: 10px 0 0 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>皮卡丘学数学之植树问题演示</h1>
+            <p>分步解答一目了然</p>
+        </header>
+        
+        <div class="content">
+            <div class="problem-setup">
+                <div class="panel-title">
+                    <i class="fas fa-cog"></i>
+                    <span>问题设置</span>
+                </div>
+                
+                <div class="control-group">
+                    <h3><i class="fas fa-road"></i> 道路类型</h3>
+                    <div class="checkbox-group">
+                        <label class="checkbox-option active" id="road-small">
+                            <input type="radio" name="road-type" value="small" checked>
+                            小路（单边）
+                        </label>
+                        <label class="checkbox-option" id="road-large">
+                            <input type="radio" name="road-type" value="large">
+                            大路（双边）
+                        </label>
+                        <label class="checkbox-option" id="road-divider">
+                            <input type="radio" name="road-type" value="divider">
+                            带隔离带
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <h3><i class="fas fa-tree"></i> 隔离带方案</h3>
+                    <div class="checkbox-group">
+                        <label class="checkbox-option active" id="divider-none">
+                            <input type="radio" name="divider-option" value="none" checked>
+                            不植树
+                        </label>
+                        <label class="checkbox-option" id="divider-single">
+                            <input type="radio" name="divider-option" value="single">
+                            植一排树
+                        </label>
+                        <label class="checkbox-option" id="divider-double">
+                            <input type="radio" name="divider-option" value="double">
+                            植两排树
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <h3><i class="fas fa-ruler"></i> 道路长度</h3>
+                    <div class="slider-container">
+                        <div class="slider-label">
+                            <span>道路长度</span>
+                            <span><span id="length-value">4</span>米</span>
+                        </div>
+                        <input type="range" min="1" max="20" value="4" step="1" id="length-slider">
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <h3><i class="fas fa-exchange-alt"></i> 植树间隔</h3>
+                    <div class="slider-container">
+                        <div class="slider-label">
+                            <span>间隔距离</span>
+                            <span><span id="interval-value">2</span>米</span>
+                        </div>
+                        <input type="range" min="1" max="5" value="2" step="1" id="interval-slider">
+                    </div>
+                </div>
+                
+                <button id="calculate-btn" class="calculate-btn">
+                    <i class="fas fa-play-circle"></i> 开始解答
+                </button>
+                
+                <div class="road-info">
+                    <div class="info-card">
+                        <div class="label">道路长度</div>
+                        <div class="value" id="info-length">4米</div>
+                    </div>
+                    <div class="info-card">
+                        <div class="label">树间隔</div>
+                        <div class="value" id="info-interval">2米</div>
+                    </div>
+                    <div class="info-card">
+                        <div class="label">总树数</div>
+                        <div class="value" id="info-trees">？</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="solution-visual">
+                <div class="visualization">
+                    <div class="panel-title">
+                        <i class="fas fa-road"></i>
+                        <span>道路示意图</span>
+                        <div class="counter">步骤: <span id="step-counter">1</span>/5</div>
+                    </div>
+                    <div class="road-container" id="road-container">
+                        <!-- 道路可视化由JS生成 -->
+                    </div>
+                </div>
+                
+                <div class="solution-steps">
+                    <div class="panel-title">
+                        <i class="fas fa-list-ol"></i>
+                        <span>分步解答</span>
+                    </div>
+                    <div class="steps-container" id="steps-container">
+                        <!-- 步骤内容将由JavaScript生成 -->
+                    </div>
+                    <div class="navigation">
+                        <button id="prev-step" class="nav-btn" disabled>
+                            <i class="fas fa-arrow-left"></i> 上一步
+                        </button>
+                        <button id="next-step" class="nav-btn">
+                            下一步 <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 全局变量
+        let roadType = 'small';
+        let dividerOption = 'none';
+        let roadLength = 4;
+        let treeInterval = 2;
+        let treesPerSide = 0;
+        let currentStep = 0;
+        const totalSteps = 5;
+        const treeImageUrl = './tree.png';
+
+        // DOM元素引用
+        const lengthSlider = document.getElementById('length-slider');
+        const intervalSlider = document.getElementById('interval-slider');
+        const lengthValue = document.getElementById('length-value');
+        const intervalValue = document.getElementById('interval-value');
+        const calculateBtn = document.getElementById('calculate-btn');
+        const prevStepBtn = document.getElementById('prev-step');
+        const nextStepBtn = document.getElementById('next-step');
+        const roadContainer = document.getElementById('road-container');
+        const stepsContainer = document.getElementById('steps-container');
+        const infoLength = document.getElementById('info-length');
+        const infoInterval = document.getElementById('info-interval');
+        const infoTrees = document.getElementById('info-trees');
+        const stepCounter = document.getElementById('step-counter');
+
+        // 初始化
+        function init() {
+            if (!infoTrees || !infoLength || !infoInterval) {
+                console.error("错误：未找到DOM元素");
+                return;
+            }
+            
+            updateSliderValues();
+            renderRoad();
+            renderSteps();
+            setupEventListeners();
+        }
+
+        // 设置事件监听
+        function setupEventListeners() {
+            lengthSlider.addEventListener('input', function() {
+                roadLength = parseFloat(this.value);
+                updateSliderValues();
+                reset();
+            });
+            
+            intervalSlider.addEventListener('input', function() {
+                treeInterval = parseFloat(this.value);
+                updateSliderValues();
+                reset();
+            });
+            
+            document.querySelectorAll('input[name="road-type"]').forEach(input => {
+                input.addEventListener('change', function() {
+                    roadType = this.value;
+                    updateRoadTypeControls();
+                    reset();
+                });
+            });
+            
+            document.querySelectorAll('input[name="divider-option"]').forEach(input => {
+                input.addEventListener('change', function() {
+                    dividerOption = this.value;
+                    roadType = `divider`;
+                    updateRoadTypeControls();
+                    updateDividerOptionControls();
+                    reset();
+                });
+            });
+            
+            calculateBtn.addEventListener('click', function() {
+              reset()
+            });
+            
+            prevStepBtn.addEventListener('click', function() {
+                if (currentStep > 0) {
+                    currentStep--;
+                    updateStepVisibility();
+                }
+            });
+            
+            nextStepBtn.addEventListener('click', function() {
+                if (currentStep < totalSteps - 1) {
+                    currentStep++;
+                    updateStepVisibility();
+                }
+            });
+        }
+
+        function reset(){
+                resetRoad();
+                renderSteps();
+                currentStep = 0;
+                updateStepVisibility();
+        }
+        // 更新滑块值显示
+        function updateSliderValues() {
+            lengthValue.textContent = roadLength;
+            intervalValue.textContent = treeInterval;
+        }
+        
+        // 更新道路类型控制
+        function updateRoadTypeControls() {
+            const roadTypes = ['small', 'large', 'divider'];
+            roadTypes.forEach(type => {
+                document.getElementById(`road-${type}`).classList.remove('active');
+            });
+            document.getElementById(`road-${roadType}`).classList.add('active');
+        }
+        
+        // 更新隔离带选项控制
+        function updateDividerOptionControls() {
+            const dividerOptions = ['none', 'single', 'double'];
+            dividerOptions.forEach(option => {
+                document.getElementById(`divider-${option}`).classList.remove('active');
+            });
+            document.getElementById(`divider-${dividerOption}`).classList.add('active');
+        }
+
+        // 重置道路
+        function resetRoad() {
+            treesPerSide = Math.floor(roadLength / treeInterval) + 1;
+            updateInfoCards();
+            renderRoad();
+            currentStep = 0;
+            updateStepVisibility();
+        }
+
+        // 更新信息卡片
+        function updateInfoCards() {
+            infoLength.textContent = `${roadLength}米`;
+            infoInterval.textContent = `${treeInterval}米`;
+        }
+
+        // 渲染道路可视化
+        function renderRoad() {
+            roadContainer.innerHTML = '';
+            
+            if (roadType === 'small') {
+                createRoadSection('small', '小路（单边）', treesPerSide);
+            } else if (roadType === 'large') {
+                createRoadSection('large', '左侧道路', treesPerSide);
+                createRoadSection('large', '右侧道路', treesPerSide);
+            } else if (roadType === 'divider') {
+                createRoadSection('large', '左侧道路', treesPerSide);
+                createDividerSection();
+                createRoadSection('large', '右侧道路', treesPerSide);
+            }
+        }
+        
+        // 创建道路区域
+        function createRoadSection(type, label, treeCount) {
+            const section = document.createElement('div');
+            section.className = `road-section road-${type}`;
+            
+            const labelEl = document.createElement('极光div');
+            labelEl.className = 'road-label';
+            labelEl.textContent = label;
+            section.appendChild(labelEl);
+            
+            const treesContainer = document.createElement('div');
+            treesContainer.className = 'trees-container';
+            
+            // 计算树的位置
+            const adjustedLength = (treeCount - 1) * treeInterval;
+            const startOffset = (roadLength - adjustedLength) / 2;
+            
+            // 添加树
+            for (let i = 0; i < treeCount; i++) {
+                const position = startOffset + i * treeInterval;
+                const positionPercentage = (position / roadLength) * 90;
+                
+                const tree = document.createElement('div');
+                tree.className = 'tree';
+                tree.style.left = positionPercentage + '%';
+                tree.style.bottom = '20px';
+
+                
+                // 设置是否植植
+                const shouldShow = (
+                    (roadType === 'small' && currentStep >= 1) ||
+                    (label.includes('左侧') && currentStep >= 1) ||
+                    (label.includes('右侧') && currentStep >= 2)
+                );
+                
+                tree.classList.toggle('planted', shouldShow);
+                
+                
+                const treeImg = document.createElement('img');
+                treeImg.src = treeImageUrl;
+                treeImg.alt = '树';
+                tree.appendChild(treeImg);
+                
+                // 添加树位置信息
+                const treeInfo = document.createElement('div');
+                treeInfo.className = 'tree-image-info';
+                treeInfo.textContent = `${i+1}/${treeCount}`;
+                tree.appendChild(treeInfo);
+                
+                treesContainer.appendChild(tree);
+                
+                // 添加位置指示器
+                if (shouldShow) {
+                    const indicator = document.createElement('div');
+                    indicator.className = 'position-indicator';
+                    indicator.textContent = `${position}米`;
+                    tree.appendChild(indicator);
+                }
+            }
+            
+            section.appendChild(treesContainer);
+            roadContainer.appendChild(section);
+            
+            // 添加树数量标签
+            if (treeCount > 0 && currentStep >= 1) {
+                const badge = document.createElement('div');
+                badge.className = 'tree-amount-badge';
+                badge.textContent = `${treeCount}棵树`;
+                section.appendChild(badge);
+            }
+        }
+        
+        // 创建隔离带
+        function createDividerSection() {
+            const section = document.createElement('div');
+            section.className = 'road-section divider';
+            
+            const labelEl = document.createElement('div');
+            labelEl.className = 'road-label';
+            labelEl.textContent = '隔离带';
+            section.appendChild(labelEl);
+            
+            const treesContainer = document.createElement('div');
+            treesContainer.className = 'trees-container';
+            
+            let treeCount = 0;
+            if (dividerOption !== 'none') {
+                treeCount = dividerOption === 'single' ? treesPerSide : treesPerSide * 2;
+            }
+            
+            // 计算树的位置
+            const adjustedLength = (treesPerSide - 1) * treeInterval;
+            const startOffset = (roadLength - adjustedLength) / 2;
+            
+            // 添加树
+            for (let i = 0; i < treeCount; i++) {
+                let position, positionPercentage, group;
+                
+                if (dividerOption === 'single') {
+                    position = startOffset + i * treeInterval;
+                    positionPercentage = (position / roadLength) * 90;
+                    group = "";
+                } else {
+                    group = i < treesPerSide ? " (左)" : " (右)";
+                    const index = i % treesPerSide;
+                    position = startOffset + index * treeInterval;
+                    positionPercentage = (position / roadLength) * 90;
+                }
+                
+                const tree = document.createElement('div');
+                tree.className = 'tree';
+                
+                // 设置位置
+                if (dividerOption === 'single') {
+                    tree.style.left = positionPercentage + '%';
+                    tree.style.bottom = '20px';
+                } else {
+                  tree.style.left = positionPercentage + '%';
+                    if (i < treesPerSide) {
+                        tree.style.top = `-20px`;
+                    } else {
+                        tree.style.bottom = `0px`;
+                    }
+                }
+                
+                // 是否显示树
+                tree.classList.toggle('planted', currentStep >= 3);
+                
+                const treeImg = document.createElement('img');
+                treeImg.src = treeImageUrl;
+                treeImg.alt = '隔离带树';
+                tree.appendChild(treeImg);
+                
+                treesContainer.appendChild(tree);
+                
+                // 位置指示器
+                if (currentStep >= 3) {
+                    const indicator = document.createElement('div');
+                    indicator.className = 'position-indicator';
+                    indicator.textContent = `${position}米${group}`;
+                    tree.appendChild(indicator);
+                }
+            }
+            
+            section.appendChild(treesContainer);
+            roadContainer.appendChild(section);
+            
+            // 添加树数量标签
+            if (treeCount > 0 && currentStep >= 3) {
+                const badge = document.createElement('div');
+                badge.className = 'tree-amount-badge';
+                badge.textContent = `${treeCount}棵树`;
+                section.appendChild(badge);
+            }
+        }
+
+        // 更新步骤可见性
+        function updateStepVisibility() {
+            stepCounter.textContent = currentStep + 1;
+            prevStepBtn.disabled = currentStep === 0;
+            nextStepBtn.disabled = currentStep === totalSteps - 1;
+            
+            const steps = document.querySelectorAll('.step');
+            steps.forEach((step, index) => {
+                step.classList.toggle('active', index === currentStep);
+            });
+            
+            renderRoad();
+        }
+
+        // 精简后的渲染解题步骤（每步仅一句话）
+        function renderSteps() {
+            treesPerSide = Math.floor(roadLength / treeInterval) + 1;
+            const totalTrees = calculateTotalTrees();
+            
+            stepsContainer.innerHTML = `
+                <div class="step active">
+                    <div class="step-title">
+                        1、明确题目：道路类型为${roadType === 'divider' ? 
+                            (dividerOption === 'none' ? `隔离带不植树` : 
+                                (dividerOption === 'single' ? `隔离带植一排` : `隔离带植两排`))
+                            : (roadType === 'small' ? `单侧植树` : `两侧植树` )
+                        }， 道路长度 ${roadLength} 米 ， 植树间隔${treeInterval}米
+                    </div>
+          
+                </div>
+                <div class="step">
+                    <div class="step-title">
+                        2、单侧树量：道路长度（${roadLength}）÷ 植树间隔（${treeInterval}） + 端头（1）= ${treesPerSide}
+                    </div>
+          
+                </div>
+                <div class="step">
+                    <div class="step-title">
+                        3、道路两侧树量：${roadType === 'small' ? 
+                            `仅单侧植树，总树数：${treesPerSide}` : 
+                            `两侧植树，道路两侧总树数 = ${treesPerSide} × 2 = ${treesPerSide * 2}`
+                        }
+                    </div>
+          
+                </div>
+                <div class="step">
+                    <div class="step-title">
+                        4、隔离带树量：${roadType === 'divider' ? 
+                            (dividerOption === 'none' ? 
+                                `隔离带不植树，隔离带树量 = 0` : 
+                                (dividerOption === 'single' ? 
+                                    `隔离带植单排树，隔离带树量 = ${treesPerSide}` : 
+                                    `隔离带植双排树，隔离带树量 = ${treesPerSide} × 2 = ${treesPerSide * 2}`))
+                            : `无隔离带，隔离带树量 = 0`
+                        }
+                    </div>
+          
+                </div>
+                 <div class="step">
+                    <div class="step-title">
+                        5、最终结果：总树数 = ${getTotalTreeFormula()}
+                    </div>
+          
+                </div>
+            `;
+            
+            currentStep = 0;
+            updateStepVisibility();
+        }
+        
+        // 计算总树数
+        function calculateTotalTrees() {
+            let totalTrees = treesPerSide;
+            
+            if (roadType === 'large') totalTrees = treesPerSide * 2;
+            if (roadType === 'divider') {
+                totalTrees = treesPerSide * 2;
+                if (dividerOption === 'single') totalTrees += treesPerSide;
+                if (dividerOption === 'double') totalTrees += treesPerSide * 2;
+            }
+            
+            return totalTrees;
+        }
+        
+        // 获取总树数公式
+        function getTotalTreeFormula() {
+            if (roadType === 'small') return `${treesPerSide}`;
+            if (roadType === 'large') return `两侧植树：${treesPerSide * 2}`;
+            
+            let formula = `两侧植树（${treesPerSide * 2}）`;
+            if (dividerOption === 'single') formula += ` + 隔离带植树（${treesPerSide}） = ${treesPerSide * 2 + treesPerSide}`;
+            if (dividerOption === 'double') formula += ` + 隔离带植树（${treesPerSide * 2}）= ${treesPerSide * 2 + treesPerSide * 2}`;
+            
+            return formula;
+        }
+
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
