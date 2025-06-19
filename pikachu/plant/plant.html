@@ -495,12 +495,20 @@
                 margin: 10px 0 0 0;
             }
         }
+
+         .highlight {
+            color: #e74c3c;
+            font-weight: bold;
+            background-color: #ffecb3;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>皮卡丘学数学之植树问题演示</h1>
+            <h1><i class="fas fa-calculator"></i> 皮卡丘学数学之植树问题演示</h1>
             <p>分步解答一目了然</p>
         </header>
         
@@ -657,7 +665,6 @@
             
             updateSliderValues();
             renderRoad();
-            renderSteps();
             setupEventListeners();
         }
 
@@ -837,7 +844,7 @@
             roadContainer.appendChild(section);
             
             // 添加树数量标签
-            if (treeCount > 0 && currentStep >= 1) {
+            if (treeCount > 0 && currentStep >= 2) {
                 const badge = document.createElement('div');
                 badge.className = 'tree-amount-badge';
                 badge.textContent = `${treeCount}棵树`;
@@ -942,6 +949,13 @@
             
             renderRoad();
         }
+        // 高亮数字的函数
+        function highlightNumbers(text) {
+            // 匹配所有数字（包括小数和整数）
+            return text.replace(/\d+(\.\d+)?/g, match => 
+                ` <span class="highlight">${match}</span> `
+            );
+        }
 
         // 精简后的渲染解题步骤（每步仅一句话）
         function renderSteps() {
@@ -951,45 +965,45 @@
             stepsContainer.innerHTML = `
                 <div class="step active">
                     <div class="step-title">
-                        1、明确题目：道路类型为${roadType === 'divider' ? 
+                        1、明确题目：道路类型为<span class="highlight">${roadType === 'divider' ? 
                             (dividerOption === 'none' ? `隔离带不植树` : 
-                                (dividerOption === 'single' ? `隔离带植一排` : `隔离带植两排`))
+                                (dividerOption === 'single' ? `隔离带植一排树` : `隔离带植两排树`))
                             : (roadType === 'small' ? `单侧植树` : `两侧植树` )
-                        }， 道路长度 ${roadLength} 米 ， 植树间隔${treeInterval}米
+                        }</span>， 道路长度 ${highlightNumbers(roadLength.toString())} 米 ， 植树间隔 ${highlightNumbers(treeInterval.toString())}米
                     </div>
           
                 </div>
                 <div class="step">
                     <div class="step-title">
-                        2、单侧树量：道路长度（${roadLength}）÷ 植树间隔（${treeInterval}） + 端头（1）= ${treesPerSide}
+                        2、单侧植树数：道路长度${highlightNumbers(roadLength.toString())}÷ 植树间隔 ${highlightNumbers(treeInterval.toString())} + 端头${highlightNumbers("1")}= ${highlightNumbers(treesPerSide.toString())}
                     </div>
           
                 </div>
                 <div class="step">
                     <div class="step-title">
-                        3、道路两侧树量：${roadType === 'small' ? 
-                            `仅单侧植树，总树数：${treesPerSide}` : 
-                            `两侧植树，道路两侧总树数 = ${treesPerSide} × 2 = ${treesPerSide * 2}`
+                        3、道路两侧植树数：${roadType === 'small' ? 
+                            `仅单侧植树，总植树数：${highlightNumbers(treesPerSide.toString())}` : 
+                            `两侧植树，道路两侧总植树数 = ${highlightNumbers(treesPerSide.toString())} × ${highlightNumbers("2")} = ${highlightNumbers((treesPerSide * 2).toString())}`
                         }
                     </div>
           
                 </div>
                 <div class="step">
                     <div class="step-title">
-                        4、隔离带树量：${roadType === 'divider' ? 
+                        4、隔离带植树数：${roadType === 'divider' ? 
                             (dividerOption === 'none' ? 
-                                `隔离带不植树，隔离带树量 = 0` : 
+                                `隔离带不植树，隔离带植树数 = ${highlightNumbers("0")}` : 
                                 (dividerOption === 'single' ? 
-                                    `隔离带植单排树，隔离带树量 = ${treesPerSide}` : 
-                                    `隔离带植双排树，隔离带树量 = ${treesPerSide} × 2 = ${treesPerSide * 2}`))
-                            : `无隔离带，隔离带树量 = 0`
+                                    `隔离带植单排树，隔离带植树数 = ${highlightNumbers(treesPerSide.toString())}` : 
+                                    `隔离带植双排树，隔离带植树数 = ${highlightNumbers(treesPerSide.toString())} × ${highlightNumbers("2")} = ${highlightNumbers((treesPerSide * 2).toString())}`))
+                            : `无隔离带，隔离带植树数 = ${highlightNumbers("0")}`
                         }
                     </div>
           
                 </div>
                  <div class="step">
                     <div class="step-title">
-                        5、最终结果：总树数 = ${getTotalTreeFormula()}
+                        5、最终结果：总植树数 = ${highlightNumbers(getTotalTreeFormula())}
                     </div>
           
                 </div>
@@ -1018,9 +1032,9 @@
             if (roadType === 'small') return `${treesPerSide}`;
             if (roadType === 'large') return `两侧植树：${treesPerSide * 2}`;
             
-            let formula = `两侧植树（${treesPerSide * 2}）`;
-            if (dividerOption === 'single') formula += ` + 隔离带植树（${treesPerSide}） = ${treesPerSide * 2 + treesPerSide}`;
-            if (dividerOption === 'double') formula += ` + 隔离带植树（${treesPerSide * 2}）= ${treesPerSide * 2 + treesPerSide * 2}`;
+            let formula = `两侧植树${treesPerSide * 2}）`;
+            if (dividerOption === 'single') formula += ` + 隔离带植树${treesPerSide} = ${treesPerSide * 2 + treesPerSide}`;
+            if (dividerOption === 'double') formula += ` + 隔离带植树${treesPerSide * 2}= ${treesPerSide * 2 + treesPerSide * 2}`;
             
             return formula;
         }
