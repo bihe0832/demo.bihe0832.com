@@ -1032,7 +1032,7 @@
             if (roadType === 'small') return `${treesPerSide}`;
             if (roadType === 'large') return `两侧植树：${treesPerSide * 2}`;
             
-            let formula = `两侧植树${treesPerSide * 2}）`;
+            let formula = `两侧植树${treesPerSide * 2}`;
             if (dividerOption === 'single') formula += ` + 隔离带植树${treesPerSide} = ${treesPerSide * 2 + treesPerSide}`;
             if (dividerOption === 'double') formula += ` + 隔离带植树${treesPerSide * 2}= ${treesPerSide * 2 + treesPerSide * 2}`;
             
