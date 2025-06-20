@@ -537,7 +537,7 @@
                     </div>
                 </div>
                 
-                <div class="control-group">
+                <div class="control-group" id="divider">
                     <h3><i class="fas fa-tree"></i> 隔离带方案</h3>
                     <div class="checkbox-group">
                         <label class="checkbox-option active" id="divider-none">
@@ -664,6 +664,7 @@
             }
             
             updateSliderValues();
+            updateDividerOptionControls()
             renderRoad();
             setupEventListeners();
         }
@@ -742,11 +743,17 @@
         
         // 更新隔离带选项控制
         function updateDividerOptionControls() {
-            const dividerOptions = ['none', 'single', 'double'];
-            dividerOptions.forEach(option => {
-                document.getElementById(`divider-${option}`).classList.remove('active');
-            });
-            document.getElementById(`divider-${dividerOption}`).classList.add('active');
+            if(roadType == 'divider'){
+                document.getElementById('divider').style.visibility = 'visible'
+                const dividerOptions = ['none', 'single', 'double'];
+                dividerOptions.forEach(option => {
+                    document.getElementById(`divider-${option}`).classList.remove('active');
+                });
+                document.getElementById(`divider-${dividerOption}`).classList.add('active');
+            }else{
+                document.getElementById('divider').style.visibility = 'hidden'
+            }
+            
         }
 
         // 重置道路
@@ -756,6 +763,7 @@
             renderRoad();
             currentStep = 0;
             updateStepVisibility();
+            updateDividerOptionControls()
         }
 
         // 更新信息卡片
@@ -966,8 +974,8 @@
                 <div class="step active">
                     <div class="step-title">
                         1、明确题目：道路类型为<span class="highlight">${roadType === 'divider' ? 
-                            (dividerOption === 'none' ? `隔离带不植树` : 
-                                (dividerOption === 'single' ? `隔离带植一排树` : `隔离带植两排树`))
+                            (dividerOption === 'none' ? `带隔离带但不植树` : 
+                                (dividerOption === 'single' ? `带隔离带且植一排树` : `带隔离带且植两排树`))
                             : (roadType === 'small' ? `单侧植树` : `两侧植树` )
                         }</span>， 道路长度 ${highlightNumbers(roadLength.toString())} 米 ， 植树间隔 ${highlightNumbers(treeInterval.toString())}米
                     </div>
@@ -983,7 +991,7 @@
                     <div class="step-title">
                         3、道路两侧植树数：${roadType === 'small' ? 
                             `仅单侧植树，总植树数：${highlightNumbers(treesPerSide.toString())}` : 
-                            `两侧植树，道路两侧总植树数 = ${highlightNumbers(treesPerSide.toString())} × ${highlightNumbers("2")} = ${highlightNumbers((treesPerSide * 2).toString())}`
+                            `两侧植树，道路两侧总植树数    ${highlightNumbers(treesPerSide.toString())} × ${highlightNumbers("2")} = ${highlightNumbers((treesPerSide * 2).toString())}`
                         }
                     </div>
           
@@ -992,18 +1000,18 @@
                     <div class="step-title">
                         4、隔离带植树数：${roadType === 'divider' ? 
                             (dividerOption === 'none' ? 
-                                `隔离带不植树，隔离带植树数 = ${highlightNumbers("0")}` : 
+                                `隔离带不植树，隔离带植树数    ${highlightNumbers("0")}` : 
                                 (dividerOption === 'single' ? 
-                                    `隔离带植单排树，隔离带植树数 = ${highlightNumbers(treesPerSide.toString())}` : 
-                                    `隔离带植双排树，隔离带植树数 = ${highlightNumbers(treesPerSide.toString())} × ${highlightNumbers("2")} = ${highlightNumbers((treesPerSide * 2).toString())}`))
-                            : `无隔离带，隔离带植树数 = ${highlightNumbers("0")}`
+                                    `隔离带植单排树，隔离带植树数    ${highlightNumbers(treesPerSide.toString())}` : 
+                                    `隔离带植双排树，隔离带植树数    ${highlightNumbers(treesPerSide.toString())} × ${highlightNumbers("2")} = ${highlightNumbers((treesPerSide * 2).toString())}`))
+                            : `无隔离带，隔离带植树数    ${highlightNumbers("0")}`
                         }
                     </div>
           
                 </div>
                  <div class="step">
                     <div class="step-title">
-                        5、最终结果：总植树数 = ${highlightNumbers(getTotalTreeFormula())}
+                        5、最终结果：总植树数   ${highlightNumbers(getTotalTreeFormula())}
                     </div>
           
                 </div>
