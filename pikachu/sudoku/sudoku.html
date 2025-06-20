@@ -962,10 +962,10 @@
             
             // 根据关卡难度挖空（从简单到困难）
             let holes;
-            if (level <= 3) holes = 25; // 简单
-            else if (level <= 6) holes = 35; // 中等
-            else if (level <= 9) holes = 45; // 困难
-            else holes = 55; // 专家
+            if (level <= 3) holes = 30 + level * 2; // 简单
+            else if (level <= 6) holes = 36 + level * 2 ; // 中等
+            else if (level <= 9) holes = 40 + level * 2; // 困难
+            else holes = 63; // 专家
             
             // 确保我们不会移除太多数字导致数独无解
             holes = Math.min(holes, 81 - 17); // 留下至少17个数字
