@@ -1,169 +1,210 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN">
 <head>
-  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
-  <meta name="apple-mobile-web-app-capable" content="yes" />
-  <meta name="apple-mobile-web-app-status-bar-style" content="black" />
-  <meta name="format-detection" content="telephone=no" />
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+  <meta name="viewport"
+        content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0"/>
+  <meta name="apple-mobile-web-app-capable" content="yes"/>
+  <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+  <meta name="format-detection" content="telephone=no"/>
   <meta http-equiv="Pragma" content="no-cache">
   <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
   <meta http-equiv="Expires" content="0">
-  <link rel="Shortcut Icon" href="https://cdn.bihe0832.com/images/zixie_32.ico" />
+  <link rel="Shortcut Icon" href="https://cdn.bihe0832.com/images/zixie_32.ico"/>
 
-  <title>书籍推荐列表</title>
-  <meta name="author" content="子勰(bihe0832), code@bihe0832.com" />
-  <meta name="keywords" content="子勰,bihe0832" />
-  <meta name="description" content="书籍推荐列表" />
-  <meta property="og:title" content="首页" />
-  <meta property="og:locale" content="en_US" />
-  <meta name="google-site-verification" content="3wzNgbjvFNHkH-8QpougMZ0s9Y4GEjG49kEb49QQqpw" />
-  <meta property="og:description" content="" />
-  <link rel="canonical" href="https://blog.bihe0832.com/" />
-  <meta property="og:url" content="https://blog.bihe0832.com/" />
-  <meta property="og:site_name" content="书籍推荐列表" />
-  <meta property="og:type" content="article" />
+  <title>皮卡丘的图书馆</title>
+  <meta name="author" content="子勰(bihe0832), code@bihe0832.com"/>
+  <meta name="keywords" content="子勰,bihe0832"/>
+  <meta name="description" content="皮卡丘的图书馆"/>
+  <meta property="og:title" content="首页"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta name="google-site-verification" content="3wzNgbjvFNHkH-8QpougMZ0s9Y4GEjG49kEb49QQqpw"/>
+  <meta property="og:description" content=""/>
+  <link rel="canonical" href="https://blog.bihe0832.com/"/>
+  <meta property="og:url" content="https://blog.bihe0832.com/"/>
+  <meta property="og:site_name" content="书籍推荐列表"/>
+  <meta property="og:type" content="article"/>
   <script type="application/ld+json">
-  {
-      "@type":"BlogPosting",
-      "url":"https://blog.bihe0832.com/",
-      "headline":"首页",
-      "dateModified":" 2021-01-06 17:28:45 +0800",
-      "datePublished":" ",
-      "author":{"@type":"Person","name":"子勰"},
-      "description":"",
-      "publisher":{
-          "@type":"Organization",
-          "name":"子勰",
-          "logo": {
-            "@type": "ImageObject",
-            "url": "https://blog.bihe0832.com/public/img/head.jpg"
-          }
-        },
+    {
+      "@type": "BlogPosting",
+      "url": "https://blog.bihe0832.com/",
+      "headline": "首页",
+      "dateModified": " 2021-01-06 17:28:45 +0800",
+      "datePublished": " ",
+      "author": {
+        "@type": "Person",
+        "name": "子勰"
+      },
+      "description": "",
+      "publisher": {
+        "@type": "Organization",
+        "name": "子勰",
+        "logo": {
+        }
+      },
       "image": "https://blog.bihe0832.com/public/img/cv.png",
-      "mainEntityOfPage":{"@type":"WebPage",
-      "@id":"https://blog.bihe0832.com/"},
-      "@context":"http://schema.org"
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "@id": "https://blog.bihe0832.com/"
+      },
+      "@context": "http://schema.org"
     }
   </script>
   <script type="application/ld+json">
     {
-      "@context": "https://schema.org",
-      "@type": "BreadcrumbList",
-      "itemListElement": [{
-        "@type": "ListItem",
-        "position": 1,
-        "name": "",
-        "item": "https://blog.bihe0832.com/"
-      },{
-        "@type": "ListItem",
-        "position": 2,
-        "name": "首页",
-        "item": "https://blog.bihe0832.com/"
-      }]
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "",
+          "item": "https://blog.bihe0832.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "首页",
+          "item": "https://blog.bihe0832.com/"
+        }
+      ]
     }
   </script>
-  <style>
-    .book-list {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-around;
-    }
 
-    .book-item {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      margin: 20px;
-      padding: 20px;
-      border: 1px solid #ddd;
-      border-radius: 10px;
-      width: 260px;
-      box-sizing: border-box;
-    }
 
-    .book-item img {
-      max-width: 100%;
-      height: auto;
-    }
-
-    .book-item h3 {
-      margin: 10px 0;
-    }
-
-    .book-item a {
-      color: #0077cc;
-      text-decoration: none;
-    }
-  </style>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+        rel="stylesheet">
+  <link href="styles.css" rel="stylesheet">
 </head>
-<body>
-  <h2 class="title">皮卡丘的图书馆</h2>
-  <h2 class="title">育儿之道</h2>
-  <div id="book-list-dao" class="book-list">
-    <!-- 书籍列表的HTML结构将在这里插入 -->
+<body class="bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-100 min-h-screen">
+<!-- 头部搜索区域 -->
+<header class="search-container py-8 mb-8">
+  <div class="max-w-full px-8 mx-32">
+    <h1 class="text-4xl font-bold text-white text-center mb-6">
+      <i class="fas fa-book-open mr-3"></i>皮卡丘的图书馆
+    </h1>
+
+    <!-- 搜索框 -->
+    <div class="max-w-4xl mx-auto mb-6">
+      <div class="relative">
+        <input
+            type="text"
+            id="searchInput"
+            placeholder="搜索书名、作者、关键词、年龄、简介、推荐语..."
+            class="w-full px-6 py-4 text-lg rounded-full border-2 border-white/30 bg-white/10 text-white placeholder-white/70 focus:outline-none focus:border-white/50 focus:bg-white/20 transition-all backdrop-blur-sm"
+        >
+        <button
+            class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-purple-600 transition-colors">
+          <i class="fas fa-search text-xl"></i>
+        </button>
+      </div>
+    </div>
+
+    <!-- 分类筛选 -->
+    <div class="flex flex-wrap justify-center gap-3 mb-4">
+      <button
+          class="category-btn active px-6 py-2 rounded-full bg-white/20 text-white hover:bg-white/30 transition-all"
+          data-category="all">
+        全部分类
+      </button>
+      <div id="categoryButtons" class="flex flex-wrap justify-center gap-3">
+        <!-- 动态生成分类按钮 -->
+      </div>
+    </div>
+
+    <!-- 年龄分类筛选 -->
+    <div class="flex flex-wrap justify-center gap-3 mb-4">
+      <button
+          class="bestage-btn active px-6 py-2 rounded-full bg-white/20 text-white hover:bg-white/30 transition-all"
+          data-bestage="all">
+        全部年龄
+      </button>
+      <div id="bestageButtons" class="flex flex-wrap justify-center gap-3">
+        <!-- 动态生成年龄分类按钮 -->
+      </div>
+    </div>
+
+    <!-- 标签筛选 -->
+    <div class="flex flex-wrap justify-center gap-2" id="tagButtons">
+      <!-- 动态生成标签按钮 -->
+    </div>
   </div>
-  <h2 class="title">育儿之术</h2>
-  <div id="book-list-shu" class="book-list">
-    <!-- 书籍列表的HTML结构将在这里插入 -->
+</header>
+
+<!-- 主要内容区域 -->
+<main class="max-w-full px-8 mx-32">
+  <!-- 加载状态 -->
+  <div id="loadingState" class="text-center py-12">
+    <div class="loading mx-auto mb-4"></div>
+    <p class="text-gray-600">正在加载图书数据...</p>
   </div>
-  <h2 class="title">绘本书单</h2>
-  <div id="book-list-huiben" class="book-list">
-    <!-- 书籍列表的HTML结构将在这里插入 -->
+
+  <!-- 统计信息已移除 -->
+
+  <!-- 图书网格 -->
+  <div id="booksGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 2xl:grid-cols-6 gap-8">
+    <!-- 动态生成图书卡片 -->
   </div>
 
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Sortable/1.14.0/Sortable.min.js"></script>
-  <script>
+  <!-- 无结果提示 -->
+  <div id="noResults" class="hidden text-center py-12">
+    <div class="text-6xl text-gray-300 mb-4">📚</div>
+    <h3 class="text-xl font-semibold text-gray-600 mb-2">没有找到相关图书</h3>
+    <p class="text-gray-500">试试调整搜索条件或选择其他分类</p>
+  </div>
+</main>
 
-    let dataMap = new Map([
-      ["育儿之道",'book-list-dao'],
-      ["育儿之术",'book-list-shu'],
-      ["绘本书单",'book-list-huiben']
-    ])
+<!-- 图书详情弹窗 -->
+<div id="bookModal"
+     class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden opacity-0 transition-all duration-300">
+  <div class="flex items-center justify-center min-h-screen p-4 max-w-6xl mx-auto">
+    <div
+        class="bg-white rounded-3xl shadow-2xl max-w-7xl w-full h-[90vh] overflow-hidden transform scale-95 transition-transform duration-300"
+        id="modalContent">
+      <!-- 关闭按钮 -->
+      <button id="closeModal"
+              class="absolute top-4 right-4 z-10 w-10 h-10 bg-white/90 rounded-full flex items-center justify-center text-gray-600 hover:text-gray-800 hover:bg-white transition-all shadow-lg">
+        <i class="fas fa-times"></i>
+      </button>
 
-    function createBookItem(data){
-      const bookItem = document.createElement('div');
-      bookItem.className = 'book-item';
+      <!-- 模态框内容 - 左右布局 -->
+      <div class="flex h-full">
+        <!-- 左侧图片轮播 -->
+        <div class="w-1/2 relative bg-gray-100">
+          <div id="imageCarousel" class="relative h-full">
+            <!-- 轮播图片容器 -->
+            <div id="carouselImages" class="w-full h-full">
+              <!-- 动态生成轮播图片 -->
+            </div>
 
-      const bookImage = document.createElement('img');
-      bookImage.src = 'https://cdn.bihe0832.com/tools/book/photos/' + data.localFolder + '_photo.jpg';
-      bookImage.alt = data.title;
+            <!-- 轮播控制按钮 -->
+            <button id="prevImage"
+                    class="absolute left-4 top-1/2 transform -translate-y-1/2 w-10 h-10 bg-white/80 rounded-full flex items-center justify-center text-gray-700 hover:bg-white transition-all shadow-lg">
+              <i class="fas fa-chevron-left"></i>
+            </button>
+            <button id="nextImage"
+                    class="absolute right-4 top-1/2 transform -translate-y-1/2 w-10 h-10 bg-white/80 rounded-full flex items-center justify-center text-gray-700 hover:bg-white transition-all shadow-lg">
+              <i class="fas fa-chevron-right"></i>
+            </button>
 
-      const bookTitle = document.createElement('h3');
-      bookTitle.textContent = data.title;
+            <!-- 轮播指示器 -->
+            <div id="carouselIndicators"
+                 class="absolute bottom-4 left-1/2 transform -translate-x-1/2 flex space-x-2">
+              <!-- 动态生成指示器 -->
+            </div>
+          </div>
+        </div>
 
-      const bookAge = document.createElement('p');
-      bookAge.textContent = "推荐年龄：" + data.bestage;
+        <!-- 右侧详情信息 -->
+        <div class="w-1/2 p-8 overflow-y-auto">
+          <div id="bookDetails">
+            <!-- 动态生成图书详情 -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-      const bookLink = document.createElement('a');
-      bookLink.href = data.xiaohongshu;
-      bookLink.target = "_blank"
-      bookLink.textContent = '查看详情';
-
-      bookItem.appendChild(bookImage);
-      bookItem.appendChild(bookTitle);
-      bookItem.appendChild(bookAge);
-      bookItem.appendChild(bookLink);
-      return bookItem;
-    }
-
-    async function fetchData() {
-      const response = await fetch('book_simple.json');
-      const dataList =  await response.json();
-
-      new Set(dataList.map((word) => word.category)).forEach(category=>{
-        const daoBookList = document.getElementById(dataMap.get(category));
-        dataList.filter((word) => word.category == category).forEach(data => {
-          daoBookList.appendChild(createBookItem(data));
-        });
-        new Sortable(daoBookList, {
-          animation: 150,
-          ghostClass: 'sortable-ghost'
-        });
-      })
-    }
-
-    fetchData();
-  </script>
+<script src="main.js"></script>
 </body>
 </html>
