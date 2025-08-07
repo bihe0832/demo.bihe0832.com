@@ -34,10 +34,11 @@ class BookRecommendationSystem {
     async loadBooks() {
         try {
             try {
-                const response = await fetch('./book.json');
+                const response = await fetch('./book_simple.json');
                 if (response.ok) {
                     const books = await response.json();
-                    this.books = books.filter(book=> book.version > 2)
+//                    this.books = books.filter(book=> book.version > 2)
+                    this.books = books;
                     this.filteredBooks = [...this.books];
                     console.log('成功加载本地JSON数据:', this.books.length, '本书籍');
                     return;
@@ -285,7 +286,7 @@ class BookRecommendationSystem {
                         </div>
                     </div>
 
-                    <p class="text-sm text-gray-600 line-clamp-3">${book.recommend || book.recommendText || book.descText  || book.desc || '暂无简介'}</p>
+                    <p class="text-sm text-gray-600 line-clamp-3">${book.recommend || book.recommendText || book.desc || book.descText || '暂无简介'}</p>
                 </div>
             </div>
         `;
@@ -444,23 +445,6 @@ class BookRecommendationSystem {
                         内容简介
                     </div>
                     <div class="detail-content">${book.desc}</div>
-                </div>
-            ` : ''}
-
-
-
-            ${book.xiaohongshu ? `
-                <div class="detail-section">
-                    <div class="detail-title">
-                        <i class="fas fa-external-link-alt text-red-500"></i>
-                        相关链接
-                    </div>
-                    <div class="detail-content">
-                        <a href="${book.xiaohongshu}" target="_blank" class="external-link-btn">
-                            <i class="fab fa-instagram"></i>
-                            在小红书查看详情
-                        </a>
-                    </div>
                 </div>
             ` : ''}
         `;
