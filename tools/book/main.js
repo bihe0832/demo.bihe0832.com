@@ -34,7 +34,7 @@ class BookRecommendationSystem {
     async loadBooks() {
         try {
             try {
-                const response = await fetch('./book_simple.json');
+                const response = await fetch('./book.json');
                 if (response.ok) {
                     const books = await response.json();
 //                    this.books = books.filter(book=> book.version > 2)
@@ -298,7 +298,7 @@ class BookRecommendationSystem {
         return `
             <div class="book-card rounded-2xl overflow-hidden shadow-lg cursor-pointer" data-book-id="${book.id}">
                 <div class="relative overflow-hidden">
-                    <img src="${book.imageList && book.imageList.length > 0 ? book.imageList[0] : './photos/' + book.localFolder + '_photo.jpg'}" alt="${bookTitle}" class="book-image w-full aspect-[3/4] object-cover">
+                    <img src="${'./photos/' + book.localFolder + '_photo.jpg' }" alt="${bookTitle}" class="book-image w-full aspect-[3/4] object-cover">
                     <div class="absolute top-3 right-3 bg-white/90 backdrop-blur-sm rounded-full px-2 py-1 text-xs font-semibold text-gray-700">
                         ${book.category}
                     </div>
