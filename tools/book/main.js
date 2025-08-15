@@ -34,7 +34,7 @@ class BookRecommendationSystem {
     async loadBooks() {
         try {
             try {
-                const response = await fetch('./book.json');
+                const response = await fetch('./book_simple.json');
                 if (response.ok) {
                     const books = await response.json();
 //                    this.books = books.filter(book=> book.version > 2)
@@ -366,9 +366,7 @@ class BookRecommendationSystem {
     // 设置轮播图片
     setupCarouselImages(book) {
         // 使用imageList中的图片
-        this.carouselImages = book.imageList && book.imageList.length > 0
-            ? book.imageList
-            : ["./photos/"+ book.localFolder + "_photo.jpg"];
+        this.carouselImages = book.imageList && book.imageList.length > 0 ? book.imageList: [];
         this.currentImageIndex = 0;
         this.renderCarousel();
     }
