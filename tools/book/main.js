@@ -80,6 +80,12 @@ class BookRecommendationSystem {
             if (e.target.classList.contains('tag-btn')) {
                 this.handleTagClick(e.target);
             }
+            // 添加关键词标签点击处理
+            if (e.target.classList.contains('keyword-tag')) {
+                e.stopPropagation(); // 阻止事件冒泡
+                this.handleKeywordTagClick(e.target);
+                return; // 直接返回，不执行后续的图书卡片点击处理
+            }
             if (e.target.closest('.book-card')) {
                 this.handleBookClick(e.target.closest('.book-card'));
             }
@@ -138,11 +144,51 @@ class BookRecommendationSystem {
         this.filterBooks();
     }
 
+    // 处理关键词标签点击 - 修改为选中标签而非搜索
+    handleKeywordTagClick(tagElement) {
+        const keyword = tagElement.textContent.trim();
+
+        // 阻止事件冒泡，避免触发图书详情弹框
+        event.stopPropagation();
+
+        // 清除所有标签的选中状态
+        document.querySelectorAll('.tag-btn').forEach(btn => btn.classList.remove('active'));
+
+        // 找到对应的标签按钮并选中
+        const targetTagBtn = document.querySelector(`[data-tag="${keyword}"]`);
+        if (targetTagBtn) {
+            targetTagBtn.classList.add('active');
+            this.currentTag = keyword;
+        } else {
+            // 如果没有找到对应的标签按钮，选中"全部标签"
+            const allTagBtn = document.querySelector('[data-tag="all"]');
+            if (allTagBtn) {
+                allTagBtn.classList.add('active');
+            }
+            this.currentTag = 'all';
+        }
+
+        // 执行筛选
+        this.filterBooks();
+
+        // 滚动到搜索结果区域
+        document.getElementById('booksGrid').scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+        });
+    }
+
     // 处理图书点击
     handleBookClick(card) {
         const bookId = parseInt(card.dataset.bookId);
         const book = this.books.find(b => b.id === bookId);
         if (book) {
+            // 检查imageList是否为空
+            if (!book.imageList || book.imageList.length === 0) {
+                // 显示提示信息
+                this.showImageNotAvailableMessage();
+                return;
+            }
             this.showBookDetail(book);
         }
     }
@@ -151,7 +197,7 @@ class BookRecommendationSystem {
     renderCategories() {
         const categories = [...new Set(this.books.map(book => book.category))];
         const container = document.getElementById('categoryButtons');
-        
+
         container.innerHTML = categories.map(category => `
             <button class="category-btn px-4 py-2 rounded-full bg-white/20 text-white hover:bg-white/30 transition-all text-sm" data-category="${category}">
                 ${category}
@@ -163,7 +209,7 @@ class BookRecommendationSystem {
     renderBestages() {
         const bestages = [...new Set(this.books.map(book => book.bestage).filter(age => age))];
         const container = document.getElementById('bestageButtons');
-        
+
         container.innerHTML = bestages.map(bestage => `
             <button class="bestage-btn px-4 py-2 rounded-full bg-white/20 text-white hover:bg-white/30 transition-all text-sm" data-bestage="${bestage}">
                 ${bestage}
@@ -176,7 +222,7 @@ class BookRecommendationSystem {
         const allKeywords = this.books.flatMap(book => book.keywords || []);
         const uniqueKeywords = [...new Set(allKeywords)];
         const container = document.getElementById('tagButtons');
-        
+
         container.innerHTML = `
             <button class="tag-btn active px-3 py-1 rounded-full bg-white/20 text-white hover:bg-white/30 transition-all text-xs" data-tag="all">
                 全部标签
@@ -193,23 +239,22 @@ class BookRecommendationSystem {
     filterBooks() {
         this.filteredBooks = this.books.filter(book => {
             const bookTitle = book.bookList || book.title || '';
-            const matchesSearch = !this.searchQuery || 
+            const matchesSearch = !this.searchQuery ||
                 bookTitle.toLowerCase().includes(this.searchQuery) ||
                 book.author.toLowerCase().includes(this.searchQuery) ||
-                (book.keywords && book.keywords.some(keyword => 
+                (book.keywords && book.keywords.some(keyword =>
                     keyword.toLowerCase().includes(this.searchQuery)
                 )) ||
-                (book.descText && book.descText.toLowerCase().includes(this.searchQuery)) ||
-                (book.recommendText && book.recommendText.toLowerCase().includes(this.searchQuery)) ||
+                (book.recommend && book.recommend.toLowerCase().includes(this.searchQuery)) ||
                 (book.bestage && book.bestage.toLowerCase().replace(/\s+/g, '').includes(this.searchQuery.replace(/\s+/g, '')));
 
-            const matchesCategory = this.currentCategory === 'all' || 
+            const matchesCategory = this.currentCategory === 'all' ||
                 book.category === this.currentCategory;
 
-            const matchesBestage = this.currentBestage === 'all' || 
+            const matchesBestage = this.currentBestage === 'all' ||
                 book.bestage === this.currentBestage;
 
-            const matchesTag = this.currentTag === 'all' || 
+            const matchesTag = this.currentTag === 'all' ||
                 (book.keywords && book.keywords.includes(this.currentTag));
 
             return matchesSearch && matchesCategory && matchesBestage && matchesTag;
@@ -231,7 +276,7 @@ class BookRecommendationSystem {
 
         noResults.classList.add('hidden');
         container.innerHTML = this.filteredBooks.sort(function(a,b){return a.id - b.id}).map(book => this.createBookCard(book)).join('');
-        
+
         // 添加淡入动画
         container.querySelectorAll('.book-card').forEach((card, index) => {
             card.style.animationDelay = `${index * 0.1}s`;
@@ -243,7 +288,7 @@ class BookRecommendationSystem {
     createBookCard(book) {
         const doubanStars = this.generateStars(book.rating?.average || 0, 10);
         const wereadRating = book.wereadRating || {};
-        const wereadPercent = wereadRating.total ? 
+        const wereadPercent = wereadRating.total ?
             Math.round((wereadRating.good / wereadRating.total) * 100) : 0;
 
         // 处理书名显示
@@ -253,13 +298,13 @@ class BookRecommendationSystem {
         return `
             <div class="book-card rounded-2xl overflow-hidden shadow-lg cursor-pointer" data-book-id="${book.id}">
                 <div class="relative overflow-hidden">
-                    <img src="./photos/${book.localFolder}_photo.jpg" alt="${bookTitle}" class="book-image w-full aspect-[3/4] object-cover">
+                    <img src="${book.imageList && book.imageList.length > 0 ? book.imageList[0] : './photos/' + book.localFolder + '_photo.jpg'}" alt="${bookTitle}" class="book-image w-full aspect-[3/4] object-cover">
                     <div class="absolute top-3 right-3 bg-white/90 backdrop-blur-sm rounded-full px-2 py-1 text-xs font-semibold text-gray-700">
                         ${book.category}
                     </div>
                     ${bestAge ? `<div class="absolute top-3 left-3">${bestAge}</div>` : ''}
                 </div>
-                
+
                 <div class="p-4">
                     <h3 class="text-lg font-bold text-gray-800 mb-2 line-clamp-2">${bookTitle}</h3>
                     <p class="text-sm text-gray-600 mb-3">${book.author}</p>
@@ -271,22 +316,25 @@ class BookRecommendationSystem {
                       </div>
                     <!-- 豆瓣评分 -->
                     <div class="rating-container mb-2">
-                        <div class="rating-stars">${doubanStars}</div>
-                        <span class="rating-text">豆瓣 ${book.rating?.average || 'N/A'}</span>
+                        <span class="rating-text">豆瓣：${book.rating?.average || '评分不足'}</span>
                         <span class="rating-text">(${book.rating?.numRaters || 0}人)</span>
-                    </div>
-                    
-                    <!-- 微信读书评分 -->
-                    <div class="rating-container mb-3">
-                        <div class="flex items-center gap-2">
-                            <div class="w-16 h-2 bg-gray-200 rounded-full overflow-hidden">
-                                <div class="h-full bg-green-500 rounded-full" style="width: ${wereadPercent}%"></div>
-                            </div>
-                            <span class="rating-text">微信读书 ${wereadRating.title || '评分不足'}</span>
-                        </div>
+                        <div class="rating-stars">${doubanStars}</div>
                     </div>
 
-                    <p class="text-sm text-gray-600 line-clamp-3">${book.recommend || book.recommendText || book.desc || book.descText || '暂无简介'}</p>
+                    <!-- 微信读书评分 -->
+                    <div class="rating-container mb-3">
+                        <span class="rating-text">
+                          ${wereadRating.total > 0
+                            ? (wereadRating.title !== '评分不足'
+                                ? `微信读书：<i class="fas fa-star text-yellow-500 ml-1">${wereadRating.title}</i> ${wereadPercent}% 推荐 (${wereadRating?.total || 0}人) `
+                                : `微信读书：${wereadPercent}% 推荐 (${wereadRating?.total || 0}人)`
+                            )
+                            : `微信读书：${wereadRating.title || '评分不足'}`
+                          }
+                        </span>
+                    </div>
+
+                    <p class="text-sm text-gray-600 line-clamp-4">${book.recommend || '暂无简介'}</p>
                 </div>
             </div>
         `;
@@ -296,7 +344,7 @@ class BookRecommendationSystem {
     generateStars(rating, maxRating = 10) {
         const stars = Math.round((rating / maxRating) * 5);
         let starsHtml = '';
-        
+
         for (let i = 1; i <= 5; i++) {
             if (i <= stars) {
                 starsHtml += '<i class="fas fa-star rating-star"></i>';
@@ -304,7 +352,7 @@ class BookRecommendationSystem {
                 starsHtml += '<i class="fas fa-star rating-star empty"></i>';
             }
         }
-        
+
         return starsHtml;
     }
 
@@ -317,10 +365,10 @@ class BookRecommendationSystem {
 
     // 设置轮播图片
     setupCarouselImages(book) {
-        // 模拟本地文件夹图片，实际应用中需要从服务器获取
-        this.carouselImages = [
-        "./photos/"+ book.localFolder + "_photo.jpg"
-        ];
+        // 使用imageList中的图片
+        this.carouselImages = book.imageList && book.imageList.length > 0
+            ? book.imageList
+            : ["./photos/"+ book.localFolder + "_photo.jpg"];
         this.currentImageIndex = 0;
         this.renderCarousel();
     }
@@ -331,7 +379,7 @@ class BookRecommendationSystem {
         const indicators = document.getElementById('carouselIndicators');
 
         container.innerHTML = this.carouselImages.map((image, index) => `
-            <img src="${image}" alt="图书图片 ${index + 1}" 
+            <img src="${image}" alt="图书图片 ${index + 1}"
                  class="carousel-image ${index === this.currentImageIndex ? 'active' : '' } object-contain w-full h-full">
         `).join('');
 
@@ -362,91 +410,26 @@ class BookRecommendationSystem {
     // 渲染图书详情
     renderBookDetails(book) {
         const container = document.getElementById('bookDetails');
-        const doubanStars = this.generateStars(book.rating?.average || 0, 10);
-        const wereadRating = book.wereadRating || {};
-        const wereadPercent = wereadRating.total ? 
-            Math.round((wereadRating.good / wereadRating.total) * 100) : 0;
-
-        const bookTitle = book.bookList || book.title || '未知书名';
 
         container.innerHTML = `
-            <div class="detail-section">
-                <h2 class="text-2xl font-bold text-gray-800 mb-2">${bookTitle}</h2>
-                <p class="text-lg text-gray-600 mb-4">作者：${book.author}</p>
-                
-                <div class="flex items-center gap-4 mb-4">
-                    <span class="px-3 py-1 bg-purple-100 text-purple-700 rounded-full text-sm font-medium">
-                        ${book.category}
-                    </span>
-                    ${book.bestage ? `<span class="px-2 py-1 bg-blue-100 text-blue-600 rounded-full text-sm">推荐年龄：${book.bestage}</span>` : ''}
-                </div>
+            <div class="flex flex-row gap-4">
+                <button onclick="window.open('${book.xiaohongshu}', '_blank')"
+                        class="flex-1 bg-gradient-to-r from-pink-500 to-red-500 hover:from-pink-600 hover:to-red-600 text-white font-bold py-4 px-6 rounded-full text-lg shadow-lg transform hover:scale-105 transition-all duration-200 flex items-center justify-center gap-2 whitespace-nowrap">
+                    <svg class="w-5 h-5 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+                    </svg>
+                    <span>前往小红书查看</span>
+                </button>
+                <button onclick="window.open('${book.wxmp}', '_blank')"
+                        class="flex-1 bg-gradient-to-r from-green-500 to-emerald-500 hover:from-green-600 hover:to-emerald-600 text-white font-bold py-4 px-6 rounded-full text-lg shadow-lg transform hover:scale-105 transition-all duration-200 flex items-center justify-center gap-2 whitespace-nowrap">
+                    <svg class="w-5 h-5 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M13.5 2C13.5 2 13.5 2 13.5 2L13.5 2C13.5 2 13.5 2 13.5 2zM13.5 2C13.5 2 13.5 2 13.5 2L13.5 2C13.5 2 13.5 2 13.5 2z"/>
+                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8z"/>
+                        <path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/>
+                    </svg>
+                    <span>前往公众号查看</span>
+                </button>
             </div>
-
-            ${book.keywords && book.keywords.length > 0 ? `
-                            <div class="detail-section">
-                                <div class="detail-title">
-                                    <i class="fas fa-tags text-purple-500"></i>
-                                    关键词
-                                </div>
-                                <div class="detail-content">
-                                    <div class="flex flex-wrap gap-2">
-                                        ${book.keywords.map(keyword =>
-                                            `<span class="keyword-tag">${keyword}</span>`
-                                        ).join('')}
-                                    </div>
-                                </div>
-                            </div>
-                        ` : ''}
-
-            <div class="detail-section">
-                <div class="detail-title">
-                    <i class="fas fa-star text-yellow-500"></i>
-                    评分信息
-                </div>
-                <div class="detail-content">
-                    <div class="mb-3">
-                        <div class="flex items-center gap-3 mb-1">
-                            <span class="font-medium">豆瓣评分：</span>
-                            <div class="rating-stars">${doubanStars}</div>
-                            <span class="text-lg font-bold text-orange-600">${book.rating?.average || 'N/A'}</span>
-                        </div>
-                        <p class="text-sm text-gray-500">${book.rating?.numRaters || 0}人评价</p>
-                    </div>
-                    
-                    <div>
-                        <div class="flex items-center gap-3 mb-1">
-                            <span class="font-medium">微信读书：</span>
-                            <div class="flex items-center gap-2">
-                                <div class="w-20 h-3 bg-gray-200 rounded-full overflow-hidden">
-                                    <div class="h-full bg-green-500 rounded-full" style="width: ${wereadPercent}%"></div>
-                                </div>
-                                <span class="text-lg font-bold text-green-600">${wereadPercent}%</span>
-                            </div>
-                        </div>
-                        <p class="text-sm text-gray-500">${wereadRating.total || 0}人评价 (${wereadRating.title || '暂无评价'})</p>
-                    </div>
-                </div>
-            </div>
-
-            ${book.recommend ? `
-                <div class="detail-section">
-                    <div class="detail-title">
-                        <i class="fas fa-thumbs-up text-blue-500"></i>
-                        推荐语
-                    </div>
-                    <div class="detail-content">${book.recommend}</div>
-                </div>
-            ` : ''}
-
-            ${book.desc ? `
-                <div class="detail-section">
-                    <div class="detail-title">
-                        <i class="fas fa-info-circle text-green-500"></i>
-                        内容简介
-                    </div>
-                    <div class="detail-content">${book.desc}</div>
-                </div>
-            ` : ''}
         `;
     }
 
@@ -470,11 +453,39 @@ class BookRecommendationSystem {
         document.body.style.overflow = 'auto';
     }
 
+    // wxmp字段现在是普通URL，直接通过window.open打开
+
     // 统计信息功能已移除
 
     // 隐藏加载状态
     hideLoading() {
         document.getElementById('loadingState').classList.add('hidden');
+    }
+
+    // 显示图片不可用提示
+    showImageNotAvailableMessage() {
+        // 创建提示弹框
+        const alertDiv = document.createElement('div');
+        alertDiv.className = 'fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50';
+        alertDiv.innerHTML = `
+            <div class="bg-white rounded-2xl p-8 mx-4 max-w-md text-center shadow-2xl transform">
+                <div class="text-6xl mb-4">📚</div>
+                <h3 class="text-xl font-bold text-gray-800 mb-2">图片正在完善中</h3>
+                <p class="text-gray-600 mb-6">书籍图片正在完善，敬请期待~</p>
+                <button class="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors" onclick="this.closest('.fixed').remove()">
+                    知道了
+                </button>
+            </div>
+        `;
+
+        document.body.appendChild(alertDiv);
+
+        // 3秒后自动关闭
+        setTimeout(() => {
+            if (alertDiv.parentNode) {
+                alertDiv.remove();
+            }
+        }, 3000);
     }
 
     // 显示错误信息

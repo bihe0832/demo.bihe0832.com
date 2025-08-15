@@ -73,7 +73,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
         rel="stylesheet">
-  <link href="styles.css" rel="stylesheet">
+  <link href="styles.css?23222" rel="stylesheet">
 </head>
 <body class="bg-gradient-to-br from-purple-50 via-blue-50 to-indigo-100 min-h-screen">
 <!-- 头部搜索区域 -->
@@ -166,10 +166,10 @@
         <i class="fas fa-times"></i>
       </button>
 
-      <!-- 模态框内容 - 左右布局 -->
-      <div class="flex h-full">
-        <!-- 左侧图片轮播 -->
-        <div class="w-1/2 relative bg-gray-100">
+      <!-- 模态框内容 - 上下布局 -->
+      <div class="flex flex-col h-full">
+        <!-- 上方图片轮播 - 占用大部分空间 -->
+        <div class="flex-1 relative bg-gray-100">
           <div id="imageCarousel" class="relative h-full">
             <!-- 轮播图片容器 -->
             <div id="carouselImages" class="w-full h-full">
@@ -194,8 +194,8 @@
           </div>
         </div>
 
-        <!-- 右侧详情信息 -->
-        <div class="w-1/2 p-8 overflow-y-auto">
+        <!-- 下方按钮区域 - 固定高度 -->
+        <div class="h-20 p-4 bg-white border-t border-gray-100 flex items-center justify-center">
           <div id="bookDetails">
             <!-- 动态生成图书详情 -->
           </div>
