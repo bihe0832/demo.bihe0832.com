@@ -1,78 +1,38 @@
-// 课程表数据
-const scheduleData = {
-    timeSlots: [
-        '08:50-09:30',
-        '09:40-10:20', 
-        '10:30-11:10',
-        '11:20-12:00',
-        '14:05-14:45',
-        '14:55-15:35'
-    ],
-    courses: {
-        '周一': [
-            '英语',
-            '语文',
-            '数学', 
-            '综合/围棋',
-            '美术',
-            '体育'
-        ],
-        '周二': [
-            '语文',
-            '数学',
-            '道法',
-            '语文',
-            '音乐',
-            '体育'
-        ],
-        '周三': [
-            '语文',
-            '英语',
-            '语文',
-            '美术',
-            '体育健康',
-            '科学'
-        ],
-        '周四': [
-            '语文',
-            '语文',
-            '数学',
-            '音乐',
-            '体育',
-            '书法'
-        ],
-        '周五': [
-            '数学',
-            '语文',
-            '道法',
-            '劳动',
-            '体育',
-            '班会'
-        ]
-    }
-};
+// 全局变量存储从JSON加载的数据
+let scheduleData = null;
+let subjectColors = null;
 
-// 科目颜色映射 - 使用高对比度纯色，确保不同课程颜色区分度高
-const subjectColors = {
-    '语文': '#dc2626',      // 鲜红色
-    '数学': '#2563eb',      // 鲜蓝色
-    '英语': '#16a34a',      // 鲜绿色
-    '体育': '#e11d48',      // 玫瑰红色
-    '音乐': '#ea580c',      // 橙色
-    '美术': '#9333ea',      // 紫色
-    '科学': '#0891b2',      // 青色
-    '道法': '#1e40af',      // 深蓝色
-    '综合/围棋': '#ca8a04',  // 金黄色
-    '体育健康': '#e11d48',   // 玫瑰红色（与体育相同）
-    '劳动': '#15803d',      // 深绿色
-    '书法': '#7c3aed',      // 深紫色
-    '班会': '#374151'       // 深灰色
-};
+// 异步加载数据
+async function loadData() {
+    try {
+        const response = await fetch('./data.json');
+        if (!response.ok) {
+            throw new Error('Failed to load data.json');
+        }
+        const data = await response.json();
+        scheduleData = {
+            timeSlots: data.timeSlots,
+            courses: data.courses
+        };
+        subjectColors = data.subjectColors;
+        return true;
+    } catch (error) {
+        console.error('Error loading data:', error);
+        return false;
+    }
+}
 
 // 页面加载完成后初始化
-document.addEventListener('DOMContentLoaded', function() {
-    renderSchedule();
-    setupImageInput();
+document.addEventListener('DOMContentLoaded', async function() {
+    // 先加载数据，然后初始化页面
+    const dataLoaded = await loadData();
+    if (dataLoaded) {
+        renderSchedule();
+        setupImageInput();
+    } else {
+        // 如果数据加载失败，显示错误信息
+        document.body.innerHTML = '<div class="flex items-center justify-center min-h-screen"><div class="text-red-500 text-xl">数据加载失败，请检查data.json文件</div></div>';
+    }
 });
 
 // 渲染课程表
@@ -88,11 +48,18 @@ function renderSchedule() {
         // 时间列
         const timeCell = document.createElement('td');
         timeCell.className = 'p-2';
+        const [startTime, endTime] = timeSlot.split('-');
         timeCell.innerHTML = `
             <div class="time-column-slot">
-                <div class="flex flex-col items-center justify-center text-blue-600">
-                    <i class="fas fa-clock mb-1 text-base"></i>
-                    <span class="text-base leading-tight">${timeSlot}</span>
+                <div class="flex flex-col items-center justify-center text-blue-600 md:flex-col">
+                    <div class="flex flex-col items-center justify-center block md:hidden">
+                        <span class="text-sm leading-tight">${startTime}</span>
+                        <span class="text-sm leading-tight">${endTime}</span>
+                    </div>
+                    <div class="hidden md:flex md:flex-col md:items-center md:justify-center">
+                        <i class="fas fa-clock text-blue-600 mb-1"></i>
+                        <span class="text-sm leading-tight">${timeSlot}</span>
+                    </div>
                 </div>
             </div>
         `;
@@ -102,65 +69,24 @@ function renderSchedule() {
         days.forEach(day => {
             const courseCell = document.createElement('td');
             courseCell.className = 'p-2';
-            
             const course = scheduleData.courses[day][index];
-            if (course && course.trim() !== '') {
-                courseCell.innerHTML = `
-                    <div class="time-slot">
-                        <div class="subject-tag" style="background: ${subjectColors[course] || '#6b7280'}">
-                            ${course}
-                        </div>
-                    </div>
-                `;
-            } else {
-                courseCell.innerHTML = `
-                    <div class="time-slot">
-                        <span class="text-gray-400 text-sm">
-                            <i class="fas fa-coffee"></i> 休息
-                        </span>
-                    </div>
-                `;
-            }
+            const color = subjectColors[course] || '#6b7280';
             
+            courseCell.innerHTML = `
+                <div class="course-slot p-4 text-center min-h-[70px] flex items-center justify-center rounded-lg cursor-pointer hover:opacity-80 transition-opacity" 
+                     style="background-color: ${color}E0; border: 2px solid ${color};" 
+                     data-day="${day}" 
+                     data-time="${timeSlot}" 
+                     data-course="${course}">
+                    <div class="text-white font-semibold" style="color: white;">
+                        <span class="text-base">${course}</span>
+                    </div>
+                </div>
+            `;
             row.appendChild(courseCell);
         });
         
         scheduleBody.appendChild(row);
-        
-        // 在第4节课后添加午休空行（index为3表示第4节课）
-        if (index === 3) {
-            const lunchBreakRow = document.createElement('tr');
-            lunchBreakRow.className = 'lunch-break-row';
-            
-            // 午休时间列
-            const lunchTimeCell = document.createElement('td');
-            lunchTimeCell.className = 'p-2';
-            lunchTimeCell.innerHTML = `
-                <div class="time-column-slot">
-                    <div class="flex flex-col items-center justify-center text-orange-600">
-                        <i class="fas fa-utensils mb-1 text-base"></i>
-                        <span class="text-base leading-tight">12:00-14:05</span>
-                    </div>
-                </div>
-            `;
-            lunchBreakRow.appendChild(lunchTimeCell);
-            
-            // 午休内容列
-            days.forEach(() => {
-                const lunchCell = document.createElement('td');
-                lunchCell.className = 'p-2';
-                lunchCell.innerHTML = `
-                    <div class="lunch-break-slot p-4 text-center min-h-[70px] flex items-center justify-center bg-yellow-200 rounded-lg">
-                        <div class="text-orange-600 font-semibold">
-                            <span class="text-sm">午休时间</span>
-                        </div>
-                    </div>
-                `;
-                lunchBreakRow.appendChild(lunchCell);
-            });
-            
-            scheduleBody.appendChild(lunchBreakRow);
-        }
     });
 }
 
@@ -414,14 +340,39 @@ function showNotification(message, type = 'info') {
 
 // 添加一些交互效果
 document.addEventListener('DOMContentLoaded', function() {
-    // 为课程格子添加点击效果
+    let isHighlightMode = false;
+    let currentHighlightColor = null;
+    
+    // 为课程格子添加点击效果和高亮功能
     document.addEventListener('click', function(e) {
-        if (e.target.closest('.time-slot')) {
-            const slot = e.target.closest('.time-slot');
+        if (e.target.closest('.course-slot')) {
+            const slot = e.target.closest('.course-slot');
+            
+            // 点击动画效果
             slot.style.transform = 'scale(0.95)';
             setTimeout(() => {
                 slot.style.transform = 'scale(1)';
             }, 150);
+            
+            // 获取点击的课程名称
+            const courseName = slot.getAttribute('data-course');
+            
+            if (courseName) {
+                // 获取课程颜色
+                const courseColor = subjectColors[courseName];
+                
+                // 如果当前已经高亮相同颜色，则取消高亮
+                if (isHighlightMode && currentHighlightColor === courseColor) {
+                    isHighlightMode = false;
+                    currentHighlightColor = null;
+                    clearHighlight();
+                } else {
+                    // 否则高亮新的颜色
+                    isHighlightMode = true;
+                    currentHighlightColor = courseColor;
+                    highlightCourse(courseColor);
+                }
+            }
         }
     });
     
@@ -430,8 +381,64 @@ document.addEventListener('DOMContentLoaded', function() {
         if (e.ctrlKey && e.key === 'Enter') {
             applyImage();
         }
+        // 按ESC键取消高亮
+        if (e.key === 'Escape' && isHighlightMode) {
+            isHighlightMode = false;
+            currentHighlightColor = null;
+            clearHighlight();
+        }
     });
 });
+
+// 高亮指定颜色的课程函数
+function highlightCourse(targetColor) {
+    const allSlots = document.querySelectorAll('.course-slot');
+    
+    allSlots.forEach(slot => {
+        const slotCourse = slot.getAttribute('data-course');
+        const slotColor = subjectColors[slotCourse];
+        
+        // 检查是否为相同颜色
+        const isSameColor = slotColor === targetColor;
+        
+        if (isSameColor) {
+            // 高亮相同颜色的课程
+            slot.style.opacity = '1';
+            slot.style.transform = 'scale(1.05)';
+            slot.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.3)';
+            slot.style.zIndex = '10';
+            slot.style.transition = 'all 0.3s ease';
+        } else {
+            // 其他课程变暗
+            slot.style.opacity = '0.3';
+            slot.style.transform = 'scale(0.95)';
+            slot.style.filter = 'grayscale(50%)';
+            slot.style.transition = 'all 0.3s ease';
+        }
+    });
+}
+
+// 清除高亮效果的函数
+function clearHighlight() {
+    const allSlots = document.querySelectorAll('.course-slot');
+    
+    allSlots.forEach(slot => {
+        slot.style.opacity = '';
+        slot.style.transform = '';
+        slot.style.boxShadow = '';
+        slot.style.zIndex = '';
+        slot.style.filter = '';
+        slot.style.transition = 'all 0.3s ease';
+    });
+    
+    // 清除过渡效果
+    setTimeout(() => {
+        const allSlots = document.querySelectorAll('.course-slot');
+        allSlots.forEach(slot => {
+            slot.style.transition = '';
+        });
+    }, 300);
+}
 
 // 导出功能（可选）
 function exportSchedule() {
