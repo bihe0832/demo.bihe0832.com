@@ -2,6 +2,14 @@
 let scheduleData = null;
 let subjectColors = null;
 
+const DEFAULT_BACKGROUND_GRADIENT = 'linear-gradient(135deg, #f9a8d4 0%, #f472b6 50%, #ec4899 100%)';
+const DEFAULT_BACKGROUND_COLOR = 'rgba(244, 114, 182, 0.85)';
+const FALLBACK_DOMINANT_COLORS = [
+    { r: 249, g: 168, b: 212 },
+    { r: 244, g: 114, b: 182 },
+    { r: 236, g: 72, b: 153 }
+];
+
 // 异步加载数据
 async function loadData() {
     try {
@@ -227,7 +235,7 @@ function extractDominantColors(img) {
         }
         
         // 找出最常见的颜色
-        const sortedColors = Object.entries(colorMap)
+            const sortedColors = Object.entries(colorMap)
             .sort(([,a], [,b]) => b - a)
             .slice(0, 3)
             .map(([color]) => {
@@ -235,19 +243,10 @@ function extractDominantColors(img) {
                 return { r, g, b };
             });
         
-        return sortedColors.length > 0 ? sortedColors : [
-            { r: 99, g: 102, b: 241 },  // 默认蓝色
-            { r: 139, g: 92, b: 246 },  // 默认紫色
-            { r: 168, g: 85, b: 247 }   // 默认粉紫色
-        ];
-        
+        return sortedColors.length > 0 ? sortedColors : FALLBACK_DOMINANT_COLORS;
     } catch (e) {
         // 如果无法提取颜色（跨域等问题），返回默认颜色
-        return [
-            { r: 99, g: 102, b: 241 },
-            { r: 139, g: 92, b: 246 },
-            { r: 168, g: 85, b: 247 }
-        ];
+        return FALLBACK_DOMINANT_COLORS;
     }
 }
 
@@ -285,7 +284,7 @@ function applySimpleImageBackground(imageUrl) {
     scheduleTable.style.backgroundSize = 'cover';
     scheduleTable.style.backgroundPosition = 'center';
     scheduleTable.style.backgroundRepeat = 'no-repeat';
-    scheduleTable.style.backgroundColor = 'rgba(99, 102, 241, 0.85)';
+    scheduleTable.style.backgroundColor = DEFAULT_BACKGROUND_COLOR;
     scheduleTable.style.backdropFilter = 'blur(5px)';
 }
 
@@ -458,7 +457,8 @@ function resetBackground() {
     scheduleTable.style.backgroundPosition = '';
     scheduleTable.style.backgroundRepeat = '';
     scheduleTable.style.backgroundBlendMode = '';
-    scheduleTable.style.backgroundColor = '#4f46e5';
+    scheduleTable.style.backgroundColor = '';
+    scheduleTable.style.background = DEFAULT_BACKGROUND_GRADIENT;
     scheduleTable.style.backdropFilter = '';
     
     showNotification('背景已重置', 'success');
