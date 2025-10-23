@@ -458,7 +458,7 @@ function resetBackground() {
     scheduleTable.style.backgroundPosition = '';
     scheduleTable.style.backgroundRepeat = '';
     scheduleTable.style.backgroundBlendMode = '';
-    scheduleTable.style.backgroundColor = '#6366f1';
+    scheduleTable.style.backgroundColor = '#4f46e5';
     scheduleTable.style.backdropFilter = '';
     
     showNotification('背景已重置', 'success');
