@@ -1,4 +1,5 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
+<html lang="zh-CN">
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
@@ -11,7 +12,7 @@
   <link rel="Shortcut Icon" href="https://cdn.bihe0832.com/images/zixie_32.ico" />
 
   <title>皮卡丘学习资源</title>
-  <meta name="author" CONTENT="子勰(bihe0832), code@bihe0832.com" />
+  <meta name="author" content="子勰(bihe0832), code@bihe0832.com" />
   <meta name="keywords" content="子勰,bihe0832" />
   <meta name="description" content="子勰常用资源" />
   <meta property="og:title" content="子勰常用资源" />
@@ -21,6 +22,7 @@
   <link rel="canonical" href="https://blog.bihe0832.com/" />
   <meta property="og:url" content="https://blog.bihe0832.com/" />
   <meta property="og:site_name" content="子勰的博客" />
+  
   <script type="text/javascript" charset="UTF-8">
     var _mtac = {};
     (function () {
@@ -32,225 +34,277 @@
       s.parentNode.insertBefore(mta, s);
     })();
   </script>
+  
   <link rel="stylesheet" type="text/css" href="https://cdn.bihe0832.com/css/global.css" />
+  
   <style type="text/css">
-  * {
-    margin: 0;
-    padding: 0;
-    font-family: "Microsoft YaHei", sans-serif;
-  }
-  h1 { margin-bottom: 10px }
-  li {
-    list-style: none;
-    cursor: pointer;
-    opacity: 1;
-    transition: 0.2s all;
-  }
-  li:active {
-    opacity: 0.7;
-    border: solid 2px #0ACD76 !important;
-  }
-  body {
-    padding-top: 50px;
-  }
-  [v-cloak] {
-    display: none;
-  }
-  .p-other {
-    position: fixed;
-    right: 50px;
-    bottom: 70px;
-    background-color: #eff3f6;
-    background-image: linear-gradient(-180deg, #fafbfc, #eff3f6 90%);
-    color: #24292e;
-    border: 1px solid rgba(27, 31, 35, .2);
-    border-radius: 3px;
-    cursor: pointer;
-    display: inline-block;
-    font-size: 14px;
-    font-weight: 600;
-    line-height: 20px;
-    padding: 6px 12px;
-  }
-  .p-other:hover {
-    opacity: 0.9;
-  }
-  .p-other {
-    bottom: 30px;
-  }
-  .g-box {
-    margin: 20px auto;
-    max-width: 1200px;
-  }
-  .p-action {
-    width: 100%;
-    margin: 20px auto;
-    font-size: 34px;
-    font-weight: bold;
-    text-align: center;
-    max-width: 1100px;
-  }
-  /*其他静态资源*/
-  .p-data li {
-    padding: 10px;
-    margin: 10px;
-    border: solid 2px lightgrey;
-  }
-  .p-data .name {
-    display: inline-block;
-    font-weight: bolder;
-    width: 200px;
-  }
-  .p-data .value {
-    display: inline-block;
-    min-width: 100px;
-  }
-  /*常用图片资源*/
-  .p-picture {
-    padding: 30px;
-  }
-  .p-picture .picture li {
-    width: 100px;
-    margin: 10px;
-    display: inline-block;
-    border: solid 2px lightgrey;
-  }
-  .p-picture img { width: 100%; }
-  /*常用音频资源*/
-  .p-audio {
-    text-align: left;
-    width: 100%;
-    padding: 30px;
-  }
-  .p-audio li {
-    margin: 6px;
-    width: 100%;
-    list-style: none;
-    border: solid 2px lightgrey;
-  }
-  .p-audio audio {
-    width: 600px;
-  }
-  /*常用视频资源*/
-  .p-video {
-    text-align: left;
-    width: 100%;
-    padding: 30px;
-  }
-  .p-video li {
-    margin: 6px;
-    width: 500px;
-    list-style: none;
-    display: inline-block;
-    border: solid 2px lightgrey;
-  }
-  .p-video video {
-    width: 100%;
-  }
+    * {
+      margin: 0;
+      padding: 0;
+      font-family: "Microsoft YaHei", sans-serif;
+    }
+    
+    h1 { 
+      margin-bottom: 10px;
+    }
+    
+    li {
+      list-style: none;
+      cursor: pointer;
+      opacity: 1;
+      transition: 0.2s all;
+    }
+    
+    li:active {
+      opacity: 0.7;
+      border: solid 2px #0ACD76 !important;
+    }
+    
+    body {
+      padding-top: 50px;
+    }
+    
+    [v-cloak] {
+      display: none;
+    }
+    
+    .p-other {
+      position: fixed;
+      right: 50px;
+      bottom: 30px;
+      background-color: #eff3f6;
+      background-image: linear-gradient(-180deg, #fafbfc, #eff3f6 90%);
+      color: #24292e;
+      border: 1px solid rgba(27, 31, 35, .2);
+      border-radius: 3px;
+      cursor: pointer;
+      display: inline-block;
+      font-size: 14px;
+      font-weight: 600;
+      line-height: 20px;
+      padding: 6px 12px;
+    }
+    
+    .p-other:hover {
+      opacity: 0.9;
+    }
+    
+    .g-box {
+      margin: 20px auto;
+      max-width: 1200px;
+    }
+    
+    .p-action {
+      width: 100%;
+      margin: 20px auto;
+      font-size: 34px;
+      font-weight: bold;
+      text-align: center;
+      max-width: 1100px;
+    }
+    
+    /* 其他静态资源 */
+    .p-data li {
+      padding: 10px;
+      margin: 10px;
+      border: solid 2px lightgrey;
+    }
+    
+    .p-data .name {
+      display: inline-block;
+      font-weight: bolder;
+      width: 200px;
+    }
+    
+    .p-data .value {
+      display: inline-block;
+      min-width: 100px;
+    }
+    
+    /* 常用图片资源 */
+    .p-picture {
+      padding: 30px;
+    }
+    
+    .p-picture .picture li {
+      width: 100px;
+      margin: 10px;
+      display: inline-block;
+      border: solid 2px lightgrey;
+    }
+    
+    .p-picture img { 
+      width: 100%; 
+    }
+    
+    /* 常用音频资源 */
+    .p-audio {
+      text-align: left;
+      width: 100%;
+      padding: 30px;
+    }
+    
+    .p-audio li {
+      margin: 6px;
+      width: 100%;
+      list-style: none;
+      border: solid 2px lightgrey;
+    }
+    
+    .p-audio audio {
+      width: 600px;
+    }
+    
+    /* 常用视频资源 */
+    .p-video {
+      text-align: left;
+      width: 100%;
+      padding: 30px;
+    }
+    
+    .p-video li {
+      margin: 6px;
+      width: 500px;
+      list-style: none;
+      display: inline-block;
+      border: solid 2px lightgrey;
+    }
+    
+    .p-video video {
+      width: 100%;
+    }
 
-  .c-tips {
-    position: fixed;
-    padding: 12px 20px;
-    top: -100px;
-    left: 50%;
-    color: #67c23a;
-    font-size: 18px;
-    font-weight: normal;
-    border-radius: 4px;
-    z-index: 3;
-    display: inline-block;
-    border: 1px solid #e1f3d8;
-    transition: 0.5s all cubic-bezier(0.68, -0.55, 0.265, 1.55);
-    transform: translate(-50%);
-    background-color: #f0f9eb;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-  }
-  .c-tips--show {
-    top: 10px;
-  }
+    .c-tips {
+      position: fixed;
+      padding: 12px 20px;
+      top: -100px;
+      left: 50%;
+      color: #67c23a;
+      font-size: 18px;
+      font-weight: normal;
+      border-radius: 4px;
+      z-index: 3;
+      display: inline-block;
+      border: 1px solid #e1f3d8;
+      transition: 0.5s all cubic-bezier(0.68, -0.55, 0.265, 1.55);
+      transform: translate(-50%);
+      background-color: #f0f9eb;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    }
+    
+    .c-tips--show {
+      top: 10px;
+    }
   </style>
 </head>
+
 <body>
-<section id="app" v-cloak>
+  <section id="app" v-cloak>
+    <!-- 提示 -->
+    <section class="p-action g-box">皮卡丘学习资源</section>
 
-  <!--提示-->
-  <section class="p-action g-box">皮卡丘学习资源</section>
-
-  <section class="p-data g-box" v-for="item in dataList">
-    <h1>{{item.title}}</h1>
-    <ul class="data">
-      <li v-for="iteminfo in item.data"  @click="copyToClipboard(iteminfo.onlineURL)" >
-        <span class="name">{{iteminfo.name}}</span>
-        <span class="value">{{iteminfo.onlineURL}}</span>
-      </li>
-    </ul>
+    <section class="p-data g-box" v-for="item in dataList">
+      <h1>{{item.title}}</h1>
+      <ul class="data">
+        <li v-for="iteminfo in item.data" @click="copyToClipboard(iteminfo.onlineURL)">
+          <span class="name">{{iteminfo.name}}</span>
+          <span class="value">{{iteminfo.onlineURL}}</span>
+        </li>
+      </ul>
+    </section>
   </section>
-</section>
-</body>
-<script src="./../js/vue/2.6.10/vue.min.js"></script>
-<script>
-new Vue({
-  el: '#app',
 
-  data() {
-    return {
-      tips: '点击复制颜色', // 顶部提示
-      showTips: false,
-      tipsTimeout: 0,
-      dataList:[
-        {
-          title:"学习相关",
-          data:
-          [
-            { name: '皮卡丘的课程表', onlineURL: 'https://cdn.bihe0832.com/pikachu/curriculum/index.html' },
-            { name: '皮卡丘行为要求金字塔', onlineURL: 'https://cdn.bihe0832.com/pikachu/rule/index.html' },
-          ]
-        },
-        {
-          title:"绘本相关",
-          data:
-          [
-            { name: '皮卡丘图书馆', onlineURL: 'https://cdn.bihe0832.com/tools/book/list.html' },
-            { name: '书籍配置生成', onlineURL: 'https://cdn.bihe0832.com/tools/book/book.html' },
-          ]
-        },
-        {
-          title:"数学相关",
-          data:
-          [
-            { name: '🐔🐰 鸡兔同笼', onlineURL: 'https://cdn.bihe0832.com/pikachu/chicken_rabbit/chicken_rabbit.html' },
-            { name: '🌲 植树问题 🌲', onlineURL: 'https://cdn.bihe0832.com/pikachu/plant/plant.html' },
-            { name: '🔢 数独计算 🔢', onlineURL: 'https://cdn.bihe0832.com/pikachu/sudoku/sudoku.html' },
-          ]
-        },
-        {
-          title:"历史相关",
-          data:
-          [
-            { name: '中国历史时间轴', onlineURL: 'https://cdn.bihe0832.com/pikachu/history/china.png' },
-          ]
-        },
-        {
-          title:"游戏相关",
-          data:
-          [
-            { name: '扫雷游戏', onlineURL: 'https://cdn.bihe0832.com/game/minesweeper.html' },
+  <script src="./../js/vue/2.6.10/vue.min.js"></script>
+  <script>
+    new Vue({
+      el: '#app',
+
+      data() {
+        return {
+          tips: '点击复制颜色', // 顶部提示
+          showTips: false,
+          tipsTimeout: 0,
+          dataList: [
+            {
+              title: "学习相关",
+              data: [
+                { 
+                  name: '皮卡丘的课程表', 
+                  onlineURL: 'https://cdn.bihe0832.com/pikachu/curriculum/index.html' 
+                },
+                { 
+                  name: '皮卡丘行为要求金字塔', 
+                  onlineURL: 'https://cdn.bihe0832.com/pikachu/rule/index.html' 
+                }
+              ]
+            },
+            {
+              title: "绘本相关",
+              data: [
+                { 
+                  name: '皮卡丘图书馆', 
+                  onlineURL: 'https://cdn.bihe0832.com/tools/book/list.html' 
+                },
+                { 
+                  name: '书籍配置生成', 
+                  onlineURL: 'https://cdn.bihe0832.com/tools/book/book.html' 
+                }
+              ]
+            },
+            {
+              title: "数学相关",
+              data: [
+                { 
+                  name: '🐔🐰 鸡兔同笼', 
+                  onlineURL: 'https://cdn.bihe0832.com/pikachu/chicken_rabbit/chicken_rabbit.html' 
+                },
+                { 
+                  name: '🌲 植树问题 🌲', 
+                  onlineURL: 'https://cdn.bihe0832.com/pikachu/plant/plant.html' 
+                },
+                { 
+                  name: '🔢 数独计算 🔢', 
+                  onlineURL: 'https://cdn.bihe0832.com/pikachu/sudoku/sudoku.html' 
+                }
+              ]
+            },
+            {
+              title: "历史相关",
+              data: [
+                { 
+                  name: '中国历史时间轴', 
+                  onlineURL: 'https://cdn.bihe0832.com/pikachu/history/china.png' 
+                }
+              ]
+            },
+            {
+              title: "游戏相关",
+              data: [
+                { 
+                  name: '扫雷游戏', 
+                  onlineURL: 'https://cdn.bihe0832.com/game/minesweeper.html' 
+                },
+                { 
+                  name: '星之卡比资源站', 
+                  onlineURL: 'https://www.nintendo.com/tw/switch/a2jya/' 
+                }
+              ]
+            }
           ]
         }
-      ]
-    }
-  },
+      },
 
-  created() {
-  
-  },
+      created() {
+        // 初始化逻辑
+      },
 
-  methods: {
-    // 拷贝剪切板
-    copyToClipboard(content) {
-      window.open(content, '_blank');
-    }
-  }
-})
-</script>
+      methods: {
+        // 点击打开链接
+        copyToClipboard(content) {
+          window.open(content, '_blank');
+        }
+      }
+    });
+  </script>
+</body>
 </html>
