@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+  <meta http-equiv="Expires" content="0">
+  <link rel="Shortcut Icon" href="https://cdn.bihe0832.com/images/zixie_32.ico">
+  
+  <title>中国历史朝代表 - 皮卡丘学习资源</title>
+  <meta name="author" content="子勰(bihe0832), code@bihe0832.com">
+  <meta name="keywords" content="中国历史,朝代表,历史学习,皮卡丘">
+  <meta name="description" content="中国历史朝代表，包含各朝代时间、开国君主、重要事件等信息">
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: "Microsoft YaHei", "PingFang SC", "Helvetica Neue", sans-serif;
+      line-height: 1.6;
+      color: #333;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+    
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 15px;
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+    
+    .header {
+      background: linear-gradient(135deg, #ff6b6b 0%, #ffecd2 100%);
+      padding: 30px;
+      text-align: center;
+      color: white;
+    }
+    
+    .header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+    
+    .header p {
+      font-size: 1.2rem;
+      opacity: 0.9;
+    }
+    
+    .table-container {
+      padding: 30px;
+      overflow-x: auto;
+    }
+    
+    .dynasty-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    }
+    
+    .dynasty-table th {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      padding: 15px 12px;
+      font-weight: bold;
+      font-size: 1.1rem;
+      text-align: center;
+      border-right: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    
+    .dynasty-table th:last-child {
+      border-right: none;
+    }
+    
+    .dynasty-table td {
+      padding: 12px;
+      text-align: center;
+      border-bottom: 1px solid #e0e0e0;
+      border-right: 1px solid #e0e0e0;
+      font-size: 0.95rem;
+    }
+    
+    .dynasty-table td:last-child {
+      border-right: none;
+    }
+    
+    .dynasty-table tbody tr:last-child td {
+      border-bottom: none;
+    }
+    
+    /* 按朝代分组的背景色 - 每个朝代的所有行都使用相同背景色 */
+    .dynasty-table tbody tr {
+      background-color: #ffffff;
+    }
+    
+    /* 朝代分组背景色 - 应用到整行的所有单元格 */
+    .dynasty-group-1,
+    .dynasty-group-1 td { background-color: #f8f9fa; }
+    
+    .dynasty-group-2,
+    .dynasty-group-2 td { background-color: #ffffff; }
+    
+    .dynasty-group-3,
+    .dynasty-group-3 td { background-color: #f0f8ff; }
+    
+    .dynasty-group-4,
+    .dynasty-group-4 td { background-color: #f5f5f5; }
+    
+    .dynasty-group-5,
+    .dynasty-group-5 td { background-color: #fafafa; }
+    
+    .dynasty-group-6,
+    .dynasty-group-6 td { background-color: #f9f9f9; }
+    
+    .dynasty-group-7,
+    .dynasty-group-7 td { background-color: #f6f8fa; }
+    
+    .dynasty-group-8,
+    .dynasty-group-8 td { background-color: #fbfbfb; }
+    
+    .dynasty-table tbody tr:hover {
+      background-color: #e3f2fd;
+      transform: scale(1.01);
+      transition: all 0.2s ease;
+    }
+    
+    .dynasty-name {
+      font-weight: bold;
+      color: #2c3e50;
+      font-size: 1.05rem;
+    }
+    
+    .period {
+      font-weight: 600;
+      color: #1976d2;
+    }
+    
+    .capital {
+      color: #d32f2f;
+      font-weight: 500;
+    }
+    
+    .location {
+      color: #388e3c;
+    }
+    
+    .ethnicity {
+      color: #7b1fa2;
+      font-weight: 500;
+    }
+    
+    .emperor {
+      color: #e65100;
+      font-weight: 500;
+    }
+    
+    .summary {
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+      color: white;
+      padding: 20px;
+      text-align: center;
+      font-size: 1.1rem;
+      font-weight: bold;
+      line-height: 1.8;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+    }
+    
+    @media (max-width: 768px) {
+      .container {
+        margin: 10px;
+        border-radius: 10px;
+      }
+      
+      .table-container {
+        padding: 15px;
+      }
+      
+      .dynasty-table {
+        font-size: 0.85rem;
+      }
+      
+      .dynasty-table th,
+      .dynasty-table td {
+        padding: 8px 6px;
+      }
+      
+      .header h1 {
+        font-size: 2rem;
+      }
+      
+      .summary {
+        font-size: 1rem;
+        padding: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>中国历史朝代顺序表</h1>
+      <p>从三皇五帝到清朝的完整朝代信息</p>
+    </div>
+    
+    <div class="table-container">
+      <table class="dynasty-table">
+        <thead>
+          <tr>
+            <th>朝代</th>
+            <th>分期</th>
+            <th>子时期</th>
+            <th>起讫年代</th>
+            <th>都城</th>
+            <th>今地</th>
+            <th>统治民族</th>
+            <th>开国皇帝</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- 三皇五帝 -->
+          <tr class="dynasty-group-1">
+            <td colspan="3" class="dynasty-name">三皇五帝</td>
+            <td class="period">约公元前2697-2070年</td>
+            <td class="capital">-</td>
+            <td class="location">-</td>
+            <td class="ethnicity">华夏族</td>
+            <td class="emperor">伏羲、神农、黄帝等</td>
+          </tr>
+          
+          <!-- 夏商周 -->
+          <tr class="dynasty-group-2">
+            <td colspan="3" class="dynasty-name">夏朝</td>
+            <td class="period">约公元前2070-1600年</td>
+            <td class="capital">安邑</td>
+            <td class="location">山西夏县</td>
+            <td class="ethnicity">华夏族</td>
+            <td class="emperor">夏禹</td>
+          </tr>
+          <tr class="dynasty-group-3">
+            <td colspan="3" class="dynasty-name">商朝</td>
+            <td class="period">约公元前1600-1046年</td>
+            <td class="capital">亳</td>
+            <td class="location">河南商丘</td>
+            <td class="ethnicity">华夏族</td>
+            <td class="emperor">商汤</td>
+          </tr>
+          
+          <!-- 周朝 -->
+          <tr class="dynasty-group-4">
+            <td rowspan="3" class="dynasty-name">周</td>
+            <td class="dynasty-name">西周</td>
+            <td>-</td>
+            <td class="period">约前1046-771年</td>
+            <td class="capital">镐京</td>
+            <td class="location">陕西西安</td>
+            <td class="ethnicity">华夏族</td>
+            <td class="emperor">周武王姬发</td>
+          </tr>
+          <tr class="dynasty-group-4">
+            <td rowspan="2" class="dynasty-name">东周</td>
+            <td class="dynasty-name">春秋</td>
+            <td class="period">前770-476年</td>
+            <td class="capital">洛邑</td>
+            <td class="location">河南洛阳</td>
+            <td class="ethnicity">华夏族</td>
+            <td class="emperor">周平王姬宜臼</td>
+          </tr>
+          <tr class="dynasty-group-4">
+            <td class="dynasty-name">战国</td>
+            <td class="period">前475-221年</td>
+            <td class="capital">洛邑</td>
+            <td class="location">河南洛阳</td>
+            <td class="ethnicity">华夏族</td>
+            <td class="emperor">-</td>
+          </tr>
+          
+          <!-- 秦朝 -->
+          <tr class="dynasty-group-5">
+            <td colspan="3" class="dynasty-name">秦朝</td>
+            <td class="period">前221-207年</td>
+            <td class="capital">咸阳</td>
+            <td class="location">陕西咸阳</td>
+            <td class="ethnicity">华夏族</td>
+            <td class="emperor">始皇帝嬴政</td>
+          </tr>
+          
+          <!-- 汉朝 -->
+          <tr class="dynasty-group-6">
+            <td rowspan="3" class="dynasty-name">汉</td>
+            <td colspan="2" class="dynasty-name">西汉</td>
+            <td class="period">前206-公元8年</td>
+            <td class="capital">长安</td>
+            <td class="location">陕西西安</td>
+            <td class="ethnicity">汉族</td>
+            <td class="emperor">汉高祖刘邦</td>
+          </tr>
+          <tr class="dynasty-group-6">
+            <td colspan="2" class="dynasty-name">新朝</td>
+            <td class="period">9-23年</td>
+            <td class="capital">常安</td>
+            <td class="location">陕西西安</td>
+            <td class="ethnicity">汉族</td>
+            <td class="emperor">王莽</td>
+          </tr>
+          <tr class="dynasty-group-6">
+            <td colspan="2" class="dynasty-name">东汉</td>
+            <td class="period">25-220年</td>
+            <td class="capital">洛阳</td>
+            <td class="location">河南洛阳</td>
+            <td class="ethnicity">汉族</td>
+            <td class="emperor">光武帝刘秀</td>
+          </tr>
+          
+          <!-- 三国 -->
+          <tr class="dynasty-group-7">
+            <td rowspan="3" class="dynasty-name">三国</td>
+            <td colspan="2" class="dynasty-name">曹魏</td>
+            <td class="period">220-265年</td>
+            <td class="capital">洛阳</td>
+            <td class="location">河南洛阳</td>
+            <td class="ethnicity">汉族</td>
+            <td class="emperor">魏文帝曹丕</td>
+          </tr>
+          <tr class="dynasty-group-7">
+            <td colspan="2" class="dynasty-name">蜀汉</td>
+            <td class="period">221-263年</td>
+            <td class="capital">成都</td>
+            <td class="location">四川成都</td>
+            <td class="ethnicity">汉族</td>
+            <td class="emperor">汉昭烈帝刘备</td>
+          </tr>
+          <tr class="dynasty-group-7">
+            <td colspan="2" class="dynasty-name">孙吴</td>
+            <td class="period">222-280年</td>
+            <td class="capital">建业</td>
+            <td class="location">江苏南京</td>
+            <td class="ethnicity">汉族</td>
+            <td class="emperor">吴大帝孙权</td>
+          </tr>
+          
+          <!-- 晋朝 -->
+          <tr class="dynasty-group-8">
+            <td rowspan="2" class="dynasty-name">晋</td>
+            <td colspan="2" class="dynasty-name">西晋</td>
+            <td class="period">265-316年</td>
+            <td class="capital">洛阳</td>
+            <td class="location">河南洛阳</td>
+            <td class="ethnicity">汉族</td>
+            <td class="emperor">晋武帝司马炎</td>
+          </tr>
+          <tr class="dynasty-group-8">
+            <td colspan="2" class="dynasty-name">东晋</td>
+            <td class="period">317-420年</td>
+            <td class="capital">建康</td>
+            <td class="location">江苏南京</td>
+            <td class="ethnicity">汉族</td>
+            <td class="emperor">晋元帝司马睿</td>
+          </tr>
+          
+          <!-- 十六国时期 -->
+          <tr class="dynasty-group-1">
+            <td rowspan="16" class="dynasty-name">十六国</td>
+            <td colspan="2" class="dynasty-name">前赵(汉赵)</td>
+            <td class="period">304-329年</td>
+            <td class="capital">平阳</td>
+            <td class="location">山西临汾</td>
+            <td class="ethnicity">匈奴族</td>
+            <td class="emperor">光文皇帝刘渊</td>
+          </tr>
+          <tr class="dynasty-group-1">
+            <td colspan="2" class="dynasty-name">成汉</td>
+            <td class="period">306-347年</td>
+            <td class="capital">成都</td>
+            <td class="location">四川成都</td>
+            <td class="ethnicity">巴氐族</td>
+            <td class="emperor">太宗武皇帝李雄</td>
+          </tr>
+          <tr class="dynasty-group-1">
+            <td colspan="2" class="dynasty-name">前凉</td>
+            <td class="period">314-363年</td>
+            <td class="capital">姑臧</td>
+            <td class="location">甘肃武威</td>
+            <td class="ethnicity">汉族</td>
+            <td class="emperor">高祖明王张茂</td>
+          </tr>
+          <tr class="dynasty-group-1">
+            <td colspan="2" class="dynasty-name">后赵</td>
+            <td class="period">319-351年</td>
+            <td class="capital">襄国</td>
+            <td class="location">河北邢台</td>
+            <td class="ethnicity">羯族</td>
+            <td class="emperor">高祖明皇帝石勒</td>
+          </tr>
+          <tr class="dynasty-group-1">
+            <td colspan="2" class="dynasty-name">前燕</td>
+            <td class="period">337-370年</td>
+            <td class="capital">龙城</td>
+            <td class="location">辽宁朝阳</td>
+            <td class="ethnicity">鲜卑族</td>
+            <td class="emperor">太祖文明皇帝慕容皝</td>
+          </tr>
+          <tr class="dynasty-group-1">
+            <td colspan="2" class="dynasty-name">前秦</td>
+            <td class="period">351-394年</td>
+            <td class="capital">长安</td>
+            <td class="location">陕西西安</td>
+            <td class="ethnicity">氐族</td>
+            <td class="emperor">世宗明皇帝苻健</td>
+          </tr>
+          <tr class="dynasty-group-1">
+            <td colspan="2" class="dynasty-name">后秦</td>
+            <td class="period">384-417年</td>
+            <td class="capital">长安</td>
+            <td class="location">陕西西安</td>
+            <td class="ethnicity">羌族</td>
+            <td class="emperor">太祖武昭皇帝姚苌</td>
+          </tr>
+          <tr class="dynasty-group-1">
+            <td colspan="2" class="dynasty-name">后燕</td>
+            <td class="period">384-407年</td>
+            <td class="capital">中山</td>
+            <td class="location">河北定州</td>
+            <td class="ethnicity">鲜卑族</td>
+            <td class="emperor">世祖成武皇帝慕容垂</td>
+          </tr>
+          <tr class="dynasty-group-1">
+            <td colspan="2" class="dynasty-name">西秦</td>
+            <td class="period">385-431年</td>
+            <td class="capital">苑川</td>
+            <td class="location">甘肃榆中</td>
+            <td class="ethnicity">鲜卑族</td>
+            <td class="emperor">烈祖宣烈王乞伏国仁</td>
+          </tr>
+          <tr class="dynasty-group-1">
+            <td colspan="2" class="dynasty-name">后凉</td>
+            <td class="period">386-403年</td>
+            <td class="capital">姑臧</td>
+            <td class="location">甘肃武威</td>
+            <td class="ethnicity">氐族</td>
+            <td class="emperor">太祖懿武皇帝吕光</td>
+          </tr>
+          <tr class="dynasty-group-1">
+            <td colspan="2" class="dynasty-name">南凉</td>
+            <td class="period">397-414年</td>
+            <td class="capital">西平</td>
+            <td class="location">青海西宁</td>
+            <td class="ethnicity">鲜卑族</td>
+            <td class="emperor">烈祖武王秃发乌孤</td>
+          </tr>
+          <tr class="dynasty-group-1">
+            <td colspan="2" class="dynasty-name">南燕</td>
+            <td class="period">398-410年</td>
+            <td class="capital">广固</td>
+            <td class="location">山东益都</td>
+            <td class="ethnicity">鲜卑族</td>
+            <td class="emperor">世宗献武皇帝慕容德</td>
+          </tr>
+          <tr class="dynasty-group-1">
+            <td colspan="2" class="dynasty-name">西凉</td>
+            <td class="period">407-421年</td>
+            <td class="capital">酒泉</td>
+            <td class="location">甘肃酒泉</td>
+            <td class="ethnicity">汉族</td>
+            <td class="emperor">太祖昭武皇帝李暠</td>
+          </tr>
+          <tr class="dynasty-group-1">
+            <td colspan="2" class="dynasty-name">胡夏</td>
+            <td class="period">407-431年</td>
+            <td class="capital">统万城</td>
+            <td class="location">陕西靖边</td>
+            <td class="ethnicity">匈奴族</td>
+            <td class="emperor">世祖武烈皇帝赫连勃勃</td>
+          </tr>
+          <tr class="dynasty-group-1">
+            <td colspan="2" class="dynasty-name">北燕</td>
+            <td class="period">407-436年</td>
+            <td class="capital">和龙</td>
+            <td class="location">辽宁朝阳</td>
+            <td class="ethnicity">高句丽族</td>
+            <td class="emperor">惠懿皇帝高云</td>
+          </tr>
+          <tr class="dynasty-group-1">
+            <td colspan="2" class="dynasty-name">北凉</td>
+            <td class="period">397-439年</td>
+            <td class="capital">张掖</td>
+            <td class="location">甘肃张掖</td>
+            <td class="ethnicity">匈奴族</td>
+            <td class="emperor">太祖武宣王沮渠蒙逊</td>
+          </tr>
+          <!-- 南朝 -->
+          <tr class="dynasty-group-2">
+            <td rowspan="4" class="dynasty-name">南朝</td>
+            <td colspan="2" class="dynasty-name">宋</td>
+            <td class="period">420-479年</td>
+            <td class="capital">建康</td>
+            <td class="location">江苏南京</td>
+            <td class="ethnicity">汉族</td>
+            <td class="emperor">宋武帝刘裕</td>
+          </tr>
+          <tr class="dynasty-group-2">
+            <td colspan="2" class="dynasty-name">齐</td>
+            <td class="period">479-502年</td>
+            <td class="capital">建康</td>
+            <td class="location">江苏南京</td>
+            <td class="ethnicity">汉族</td>
+            <td class="emperor">齐高帝萧道成</td>
+          </tr>
+          <tr class="dynasty-group-2">
+            <td colspan="2" class="dynasty-name">梁</td>
+            <td class="period">502-557年</td>
+            <td class="capital">建康</td>
+            <td class="location">江苏南京</td>
+            <td class="ethnicity">汉族</td>
+            <td class="emperor">梁武帝萧衍</td>
+          </tr>
+          <tr class="dynasty-group-2">
+            <td colspan="2" class="dynasty-name">陈</td>
+            <td class="period">557-589年</td>
+            <td class="capital">建康</td>
+            <td class="location">江苏南京</td>
+            <td class="ethnicity">汉族</td>
+            <td class="emperor">陈武帝陈霸先</td>
+          </tr>
+          
+          <!-- 北朝 -->
+          <tr class="dynasty-group-3">
+            <td rowspan="5" class="dynasty-name">北朝</td>
+            <td colspan="2" class="dynasty-name">北魏</td>
+            <td class="period">386-534年</td>
+            <td class="capital">平城/洛阳</td>
+            <td class="location">山西大同/河南洛阳</td>
+            <td class="ethnicity">鲜卑族</td>
+            <td class="emperor">魏道武帝拓跋珪</td>
+          </tr>
+          <tr class="dynasty-group-3">
+            <td colspan="2" class="dynasty-name">东魏</td>
+            <td class="period">534-550年</td>
+            <td class="capital">邺</td>
+            <td class="location">河北临漳</td>
+            <td class="ethnicity">鲜卑族</td>
+            <td class="emperor">魏孝静帝元善见</td>
+          </tr>
+          <tr class="dynasty-group-3">
+            <td colspan="2" class="dynasty-name">西魏</td>
+            <td class="period">535-556年</td>
+            <td class="capital">长安</td>
+            <td class="location">陕西西安</td>
+            <td class="ethnicity">鲜卑族</td>
+            <td class="emperor">魏文帝元宝炬</td>
+          </tr>
+          <tr class="dynasty-group-3">
+            <td colspan="2" class="dynasty-name">北齐</td>
+            <td class="period">550-577年</td>
+            <td class="capital">邺</td>
+            <td class="location">河北临漳</td>
+            <td class="ethnicity">鲜卑族</td>
+            <td class="emperor">齐文宣帝高洋</td>
+          </tr>
+          <tr class="dynasty-group-3">
+            <td colspan="2" class="dynasty-name">北周</td>
+            <td class="period">557-581年</td>
+            <td class="capital">长安</td>
+            <td class="location">陕西西安</td>
+            <td class="ethnicity">鲜卑族</td>
+            <td class="emperor">周孝闵帝宇文觉</td>
+          </tr>
+          
+          <!-- 隋朝 -->
+          <tr class="dynasty-group-5">
+            <td colspan="3" class="dynasty-name">隋朝</td>
+            <td class="period">581-618年</td>
+            <td class="capital">大兴</td>
+            <td class="location">陕西西安</td>
+            <td class="ethnicity">汉族</td>
+            <td class="emperor">隋文帝杨坚</td>
+          </tr>
+          
+          <!-- 唐朝 -->
+          <tr class="dynasty-group-6">
+            <td colspan="3" class="dynasty-name">唐朝</td>
+            <td class="period">618-907年</td>
+            <td class="capital">长安</td>
+            <td class="location">陕西西安</td>
+            <td class="ethnicity">汉族</td>
+            <td class="emperor">唐高祖李渊</td>
+          </tr>
+          
+          <!-- 五代十国 -->
+          <tr class="dynasty-group-7">
+            <td rowspan="15" class="dynasty-name">五代十国</td>
+            <td colspan="2" class="dynasty-name">后梁</td>
+            <td class="period">907-923年</td>
+            <td class="capital">汴</td>
+            <td class="location">河南开封</td>
+            <td class="ethnicity">汉族</td>
+            <td class="emperor">梁太祖朱温</td>
+          </tr>
+          <tr class="dynasty-group-7">
+            <td colspan="2" class="dynasty-name">后唐</td>
+            <td class="period">923-936年</td>
+            <td class="capital">洛阳</td>
+            <td class="location">河南洛阳</td>
+            <td class="ethnicity">汉族</td>
+            <td class="emperor">唐庄宗李存勖</td>
+          </tr>
+          <tr class="dynasty-group-7">
+            <td colspan="2" class="dynasty-name">后晋</td>
+            <td class="period">936-947年</td>
+            <td class="capital">汴</td>
+            <td class="location">河南开封</td>
+            <td class="ethnicity">汉族</td>
+            <td class="emperor">晋高祖石敬瑭</td>
+          </tr>
+          <tr class="dynasty-group-7">
+            <td colspan="2" class="dynasty-name">后汉</td>
+            <td class="period">947-950年</td>
+            <td class="capital">汴</td>
+            <td class="location">河南开封</td>
+            <td class="ethnicity">汉族</td>
+            <td class="emperor">汉高祖刘知远</td>
+          </tr>
+          <tr class="dynasty-group-7">
+            <td colspan="2" class="dynasty-name">后周</td>
+            <td class="period">951-960年</td>
+            <td class="capital">汴</td>
+            <td class="location">河南开封</td>
+            <td class="ethnicity">汉族</td>
+            <td class="emperor">周太祖郭威</td>
+          </tr>
+          <tr class="dynasty-group-7">
+            <td colspan="2" class="dynasty-name">前蜀</td>
+            <td class="period">891-925年</td>
+            <td class="capital">成都</td>
+            <td class="location">四川成都</td>
+            <td class="ethnicity">汉族</td>
+            <td class="emperor">高祖王建</td>
+          </tr>
+          <tr class="dynasty-group-7">
+            <td colspan="2" class="dynasty-name">后蜀</td>
+            <td class="period">925-965年</td>
+            <td class="capital">成都</td>
+            <td class="location">四川成都</td>
+            <td class="ethnicity">汉族</td>
+            <td class="emperor">高祖孟知祥</td>
+          </tr>
+          <tr class="dynasty-group-7">
+            <td colspan="2" class="dynasty-name">杨吴</td>
+            <td class="period">892-937年</td>
+            <td class="capital">扬州</td>
+            <td class="location">江苏扬州</td>
+            <td class="ethnicity">汉族</td>
+            <td class="emperor">太祖杨行密</td>
+          </tr>
+          <tr class="dynasty-group-7">
+            <td colspan="2" class="dynasty-name">南唐</td>
+            <td class="period">937-975年</td>
+            <td class="capital">金陵</td>
+            <td class="location">江苏南京</td>
+            <td class="ethnicity">汉族</td>
+            <td class="emperor">烈祖李昪</td>
+          </tr>
+          <tr class="dynasty-group-7">
+            <td colspan="2" class="dynasty-name">吴越</td>
+            <td class="period">893-978年</td>
+            <td class="capital">杭州</td>
+            <td class="location">浙江杭州</td>
+            <td class="ethnicity">汉族</td>
+            <td class="emperor">武肃王钱镠</td>
+          </tr>
+          <tr class="dynasty-group-7">
+            <td colspan="2" class="dynasty-name">闽国</td>
+            <td class="period">893-945年</td>
+            <td class="capital">长乐</td>
+            <td class="location">福建福州</td>
+            <td class="ethnicity">汉族</td>
+            <td class="emperor">太祖王审知</td>
+          </tr>
+          <tr class="dynasty-group-7">
+            <td colspan="2" class="dynasty-name">马楚</td>
+            <td class="period">896-951年</td>
+            <td class="capital">长沙</td>
+            <td class="location">湖南长沙</td>
+            <td class="ethnicity">汉族</td>
+            <td class="emperor">武穆王马殷</td>
+          </tr>
+          <tr class="dynasty-group-7">
+            <td colspan="2" class="dynasty-name">南汉</td>
+            <td class="period">905-971年</td>
+            <td class="capital">兴王府</td>
+            <td class="location">广东广州</td>
+            <td class="ethnicity">汉族</td>
+            <td class="emperor">高祖刘龑</td>
+          </tr>
+          <tr class="dynasty-group-7">
+            <td colspan="2" class="dynasty-name">南平</td>
+            <td class="period">907-963年</td>
+            <td class="capital">荆州</td>
+            <td class="location">湖北荆州</td>
+            <td class="ethnicity">汉族</td>
+            <td class="emperor">武信王高季兴</td>
+          </tr>
+          <tr class="dynasty-group-7">
+            <td colspan="2" class="dynasty-name">北汉</td>
+            <td class="period">951-979年</td>
+            <td class="capital">太原</td>
+            <td class="location">山西太原</td>
+            <td class="ethnicity">汉族</td>
+            <td class="emperor">世祖刘崇</td>
+          </tr>
+          
+          <!-- 宋朝 -->
+          <tr class="dynasty-group-8">
+            <td rowspan="2" class="dynasty-name">宋</td>
+            <td colspan="2" class="dynasty-name">北宋</td>
+            <td class="period">960-1127年</td>
+            <td class="capital">开封</td>
+            <td class="location">河南开封</td>
+            <td class="ethnicity">汉族</td>
+            <td class="emperor">宋太祖赵匡胤</td>
+          </tr>
+          <tr class="dynasty-group-8">
+            <td colspan="2" class="dynasty-name">南宋</td>
+            <td class="period">1127-1279年</td>
+            <td class="capital">临安</td>
+            <td class="location">浙江杭州</td>
+            <td class="ethnicity">汉族</td>
+            <td class="emperor">宋高宗赵构</td>
+          </tr>
+          
+          <!-- 辽金西夏并立 -->
+          <tr class="dynasty-group-1">
+            <td colspan="3" class="dynasty-name">辽国</td>
+            <td class="period">907-1125年</td>
+            <td class="capital">皇都</td>
+            <td class="location">辽宁</td>
+            <td class="ethnicity">契丹族</td>
+            <td class="emperor">太祖耶律阿保机</td>
+          </tr>
+          <tr class="dynasty-group-2">
+            <td colspan="3" class="dynasty-name">大理</td>
+            <td class="period">937-1254年</td>
+            <td class="capital">太和城</td>
+            <td class="location">云南大理</td>
+            <td class="ethnicity">白族</td>
+            <td class="emperor">太祖段思平</td>
+          </tr>
+          <tr class="dynasty-group-3">
+            <td colspan="3" class="dynasty-name">西夏</td>
+            <td class="period">1032-1227年</td>
+            <td class="capital">兴庆府</td>
+            <td class="location">宁夏银川</td>
+            <td class="ethnicity">党项族</td>
+            <td class="emperor">景宗李元昊</td>
+          </tr>
+          <tr class="dynasty-group-4">
+            <td colspan="3" class="dynasty-name">金</td>
+            <td class="period">1115-1234年</td>
+            <td class="capital">中都/开封</td>
+            <td class="location">北京/河南开封</td>
+            <td class="ethnicity">女真族</td>
+            <td class="emperor">金太祖阿骨打</td>
+          </tr>
+          
+          <!-- 元朝 -->
+          <tr class="dynasty-group-5">
+            <td colspan="3" class="dynasty-name">元朝</td>
+            <td class="period">1206-1368年</td>
+            <td class="capital">大都</td>
+            <td class="location">北京</td>
+            <td class="ethnicity">蒙古族</td>
+            <td class="emperor">元世祖忽必烈</td>
+          </tr>
+          
+          <!-- 明朝 -->
+          <tr class="dynasty-group-6">
+            <td colspan="3" class="dynasty-name">明朝</td>
+            <td class="period">1368-1644年</td>
+            <td class="capital">北京</td>
+            <td class="location">北京</td>
+            <td class="ethnicity">汉族</td>
+            <td class="emperor">明太祖朱元璋</td>
+          </tr>
+          
+          <!-- 清朝 -->
+          <tr class="dynasty-group-7">
+            <td colspan="3" class="dynasty-name">清朝</td>
+            <td class="period">1616-1911年</td>
+            <td class="capital">北京</td>
+            <td class="location">北京</td>
+            <td class="ethnicity">满族</td>
+            <td class="emperor">清太宗皇太极</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
+    <div class="summary">
+      三皇五帝始，尧舜禹相传。夏商与西周，东周分两段。春秋和战国，一统秦两汉。<br>
+      三分魏蜀吴，二晋前后延。南北朝并立，隋唐五代传。宋元明清后，皇朝至此完。
+    </div>
+  </div>
+</body>
+</html>
