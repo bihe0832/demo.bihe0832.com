@@ -78,334 +78,285 @@
     * {
       margin: 0;
       padding: 0;
-      text-underline: none;
-      text-decoration: none;
+      box-sizing: border-box;
       font-family: "Microsoft YaHei", sans-serif;
-      -webkit-tap-highlight-color: transparent;
-      -webkit-font-smoothing: antialiased;
     }
-    html, body, #app {
-      position: relative;
-      padding: 0;
-      margin: 0;
-      width: 100%;
-      height: 100%;
-      color: #333333;
+    
+    body {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      min-height: 100vh;
+      padding: 30px 20px;
     }
-    [v-cloak] {
+    
+    [v-cloak] { display: none; }
+    
+    .p-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+    
+    .p-title {
+      font-size: 28px;
+      font-weight: bold;
+      color: #fff;
+      margin-bottom: 15px;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+    }
+    
+    .p-userinfo a {
+      margin: 0 5px;
+    }
+    
+    .g-box {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    
+    /* 分类卡片 */
+    .category {
+      background: rgba(255,255,255,0.95);
+      border-radius: 12px;
+      margin-bottom: 15px;
+      overflow: hidden;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+    }
+    
+    .category-header {
+      display: flex;
+      align-items: center;
+      padding: 12px 20px;
+      cursor: pointer;
+      background: linear-gradient(90deg, #f8f9fa, #fff);
+      border-bottom: 1px solid #eee;
+      transition: background 0.2s;
+    }
+    
+    .category-header:hover {
+      background: linear-gradient(90deg, #e9ecef, #f8f9fa);
+    }
+    
+    .category-icon {
+      font-size: 24px;
+      margin-right: 12px;
+    }
+    
+    .category-title {
+      flex: 1;
+      font-size: 16px;
+      font-weight: 600;
+      color: #333;
+    }
+    
+    .category-count {
+      font-size: 12px;
+      color: #999;
+      margin-right: 10px;
+    }
+    
+    .category-arrow {
+      font-size: 12px;
+      color: #999;
+      transition: transform 0.3s;
+    }
+    
+    .category.collapsed .category-arrow {
+      transform: rotate(-90deg);
+    }
+    
+    .category.collapsed .category-content {
       display: none;
     }
-    #app {
-      padding: 60px;
-      overflow: auto;
-      box-sizing: border-box;
-    background-color: #eeeeee;
-    }
-    #app::-webkit-scrollbar { width: 0 !important;}
-    .title {
-      padding: 0 0 30px;
-      width: 100%;
-      color: white;
-      font-size: 40px;
-      font-weight: 800;
-      text-align: center;
-      text-shadow: 5px 2px 10px #0000009c;
-    }
-
-    .userinfo {
-      padding: 0 0 30px;
-      width: 100%;
-      color: white;
-      text-align: center;
-      text-shadow: 5px 2px 10px #0000009c;
-    }
-
-    .sum {
-      position: fixed;
-      bottom: 0;
-      right: 0;
-      padding: 6px 20px;
-      color: white;
-      font-weight: bold;
-      border-radius: 4px;
-      border-bottom-right-radius: 0;
-      border: 1px solid transparent;
-      background: rgba(0, 0, 0, 0.6);
-      z-index: 4;
-    }
-    .content {
-      position: relative;
-      display: inline-block;
-      top: 0;
-      padding-bottom: 10px;
-      width: 320px;
-      height: 260px;
-      color: white;
-      overflow: hidden;
-      border: 1px solid #051e70;
-      border-radius: 4px;
-      text-decoration: none;
-      background-color: #051e70;
-      transition: 0.3s all;
-    }
-    .img {
-      width: 100%;
-      height: 160px;
-      background-size: cover;
-      background-position-x: center;
-      -webkit-background-size: cover;
-    }
-    .name, .intro, .tips {
-      position: absolute;
-      left: 20px;
-      width: calc(320px - 33px);
-      transition: 0.5s all;
-    }
-    .name {
-      top: 190px;
-      font-size: 20px;
-      font-weight: bolder;
-    }
-    .name i {
-      position: relative;
-      top: -3px;
-      display: inline-block;
-      margin-left: 10px;
-      font-size: 12px;
-      padding: 2px 6px;
-      border-radius: 4px;
-      color: white;
-      background-color: #56B962;
-    }
-    .intro {
-      top: 226px;
-      font-size: 14px;
-    }
-    .tips {
-      bottom: 0;
-      left: 100%;
-      width: 320px;
-      height: 140px;
-      color: white;
-      font-size: 30px;
-      font-weight: bold;
-      text-align: center;
-      line-height: 140px;
-    }
-    .tips img {
-      display: inline-block;
-      margin-right: 6px;
-      height: 36px;
-      vertical-align: sub;
-    }
-    section {
+    
+    /* 链接网格 */
+    .category-content {
       display: grid;
-      justify-content: space-evenly;
-      justify-items: center;
-      grid-row-gap: 50px;
-      grid-template-columns: repeat(auto-fill, 320px);
+      grid-template-columns: repeat(5, 1fr);
+      gap: 10px;
+      padding: 15px;
     }
-    section a:hover {
-      top: -10px;
-      color: #00333333;
-      border: 1px solid transparent;
-      background: rgba(0, 0, 0, 0.2);
-      box-shadow: 2px 11px 20px 0 rgba(0, 0, 0, 0.6);
+    
+    .link-card {
+      display: flex;
+      align-items: center;
+      padding: 10px 14px;
+      background: #f8f9fa;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+      color: #333;
     }
-    section a:hover .name, section a:hover .intro {
-      left: -100%;
+    
+    .link-card:hover {
+      background: #1a1a2e;
+      color: #fff;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(26, 26, 46, 0.4);
     }
-    section a:hover .tips {
-      left: 0;
+    
+    .link-emoji {
+      font-size: 18px;
+      margin-right: 8px;
+      flex-shrink: 0;
     }
-
-    </style>
+    
+    .link-text {
+      flex: 1;
+      min-width: 0;
+    }
+    
+    .link-name {
+      font-size: 14px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    
+    .link-tag {
+      display: inline-block;
+      font-size: 10px;
+      padding: 1px 4px;
+      margin-left: 6px;
+      border-radius: 3px;
+      background: #56B962;
+      color: #fff;
+      vertical-align: middle;
+    }
+    
+    /* 响应式 */
+    @media (max-width: 1200px) {
+      .category-content { grid-template-columns: repeat(4, 1fr); }
+    }
+    @media (max-width: 900px) {
+      .category-content { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 600px) {
+      .p-title { font-size: 22px; }
+      .category-content { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 400px) {
+      .category-content { grid-template-columns: 1fr; }
+    }
+  </style>
   </head>
   
-  <body>
-  <div id="app" v-cloak>
-    <div class="title">子勰常用开发工具</div>
-    <div class="userinfo">
+<body>
+<section id="app" v-cloak>
+  <div class="p-header">
+    <div class="p-title">🛠️ 子勰常用开发工具</div>
+    <div class="p-userinfo">
       <a href="https://blog.bihe0832.com/" target="_blank"><img src="https://img.shields.io/badge/Blog-子勰的博客-brightgreen"></a>
       <a href="https://github.com/bihe0832" target="_blank"><img src="https://img.shields.io/badge/Github-bihe0832-brightgreen"></a>
     </div>
-    <section>
-      <a class="content" v-for="tool in toolList" :href="tool.url" target="_blank" >
-        <div class="img" :style="`background-image: url(${tool.img})`"></div>
-            <p class="name">{{ tool.name }}<i v-if="tool.isOwner">原创</i></p>
-            <p class="intro">{{ tool.intro }}</p>
-            <p class="tips"><img src="./../images/go.png">{{ tool.isArticle ? '点击查看' : '点击前往' }}</p>
-      </a>
-    </section>
   </div>
-  </body>
-  <script src="./../js/vue/2.6.10/vue.min.js"></script>
-  <script>
   
-  new Vue({
-    el: '#app',
-    data() {
-      return {
-        sumStr: '',
-        toolList: [
-          {
-            isOwner: true,
-            name: 'AAF',
-            intro: 'Android 终端开发方案 AAF 相关链接，例如源码、Demo、文档等',
-            img: 'https://blog.bihe0832.com/public/img/androidappfactory.png',
-            url: 'https://android.bihe0832.com/doc/summary/links.html'
-          },
-          {
-            isOwner: false,
-            name: '开发常用资源',
-            intro: '开发中常用的资源，静态资源例如空页面、CSS；方便开发测试的各种素材等',
-            img: 'https://cdn.bihe0832.com/images/cv_512.jpg',
-            url: 'https://cdn.bihe0832.com/tools/test.html'
-          },
-          {
-            isOwner: true,
-            name: 'Gliffy Diagrams',
-            intro: 'Gliffy Diagrams适合于：基本绘图、流程图、 UML图表、网络图表、线框图和图样、网站地图、业务流程模型、组织机构图、平面图、文氏图、四点分析、技术图等。',
-            img: 'https://help.gliffy.com/online/Skins/Fluid/Stylesheets/Images/gliffy-logo-text.png',
-            url: 'https://go.gliffy.com/go/html5/launch'
-          },
-          {
-            isOwner: false,
-            name: 'JSON Editor Online',
-            intro: '在一个简洁的界面，它使您能够快速创建，查看、编辑和格式化你的JSON文件。',
-            img: 'https://jsoneditoronline.org/docs/images/panels.png',
-            url: 'https://jsoneditoronline.org/'
-          },
-          {
-            isOwner: false,
-            name: '查询、编码、转义类工具',
-            intro: 'MD5、Timestamp、Unicode编码、加解密如AES、DES；emoji 、RGB转HEX、代码格式化如 HTML、XML、CSS、JSON、Java、SQL',
-            img: 'http://csstools.chinaz.com/tools/images/public/logos/logo-index.png',
-            url: 'https://blog.bihe0832.com/tools_for_developer.html'
-          },
-          {
-            isOwner: true,
-            name: '常用颜色',
-            intro: '常用颜色、透明度查询等参考工具，独立开发时，可临时顶替使用',
-            img: './images/color.jpeg',
-            url: './color.html'
-          },
-          {
-            isOwner: true,
-            name: 'Schema拉起Android应用',
-            intro: 'H5页面通过指定Schema拉起Android应用',
-            img: 'https://android.bihe0832.com/doc/tools/router_page.png',
-            url: 'https://cdn.bihe0832.com/tools/router/index.html'
-          },
-          {
-            isOwner: true,
-            name: 'Android开发常用工具资源',
-            intro: '图标制作、 Android 权限列表及设置权限的跳转方式、Material Design 指南及调色板',
-            img: './images/android_res.png',
-            url: 'https://blog.bihe0832.com/my_android.html'
-          },
-          {
-            isOwner: true,
-            name: '书籍推荐配置生成工具',
-            intro: '通过WebUI 添加信息，自动生成书籍推荐的配置文件',
-            img: 'https://imgservice.suning.cn/uimg1/b2c/image/b1w1h8SRYQeryB5hPwRzuw.jpg',
-            url: 'https://cdn.bihe0832.com/pikachu/book/book.html'
-          },
-          {
-            isOwner: true,
-            name: '皮卡丘系列',
-            intro: '皮卡丘常用工具系列',
-            img: 'https://imgservice.suning.cn/uimg1/b2c/image/b1w1h8SRYQeryB5hPwRzuw.jpg',
-            url: 'https://cdn.bihe0832.com/pikachu/index.html'
-          },
-          {
-            isOwner: true,
-            name: 'AAF 更新配置生成工具',
-            intro: '通过WebUI 添加版本信息，自动生成版本更新的配置文件',
-            img: './images/aaf_update.png',
-            url: 'https://cdn.bihe0832.com/tools/config/update.html'
-          },
-          {
-              isOwner: true,
-              name: 'Git 常用命令',
-              intro: 'Git 常用命令整理（包括branch、tag、多账号配置、日志等~）',
-              img: 'https://cdn.bihe0832.com/images/cv_512.jpg',
-              url: 'https://blog.bihe0832.com/git-client-cmd.html'
-          },
-          {
-              isOwner: true,
-              name: 'Linux & MacOS 常用命令',
-              intro: 'Linux & MacOS 常用命令，例如xargs、find、kil、chmo、chown、crontab、pbcopy、pbpaste、open、screencapture、lsof',
-              img: 'https://cdn.bihe0832.com/images/cv_512.jpg',
-              url: 'https://blog.bihe0832.com/mac_linux_command_during_developping.html'
-          },
-          {
-            isOwner: true,
-            name: '图片图标处理',
-            intro: '开发中图片、图标处理相关的资源链接',
-            img: './images/android_res.png',
-            url: 'https://blog.bihe0832.com/my_image.html'
-          },
-          {
-            isOwner: true,
-            name: 'Android JSBridge 调试',
-            intro: '子勰的Jsbridge测试Demo，使用方式链接有介绍',
-            img: 'https://android.bihe0832.com/doc/tools/jsbridge_result.png',
-            url: 'https://cdn.bihe0832.com/tools/jsbridge/index.html'
-          },
-          // {
-          //   isOwner: true,
-          //   name: 'Smart Resize',
-          //   intro: '也许是世界上最快且最智能的在线批量裁剪图片工具',
-          //   img: 'https://www.smartresize.com/css/logo.png',
-          //   url: 'https://www.smartresize.com/zh-cn'
-          // },
-          {
-              isOwner: true,
-              name: 'Markdown',
-              intro: 'Markdown 转表格及表格格式优化',
-              img: 'https://blog.bihe0832.com/public/images/markdown_table_new.gif',
-              url: 'https://blog.bihe0832.com/markdow_advanced.html'
-          },
-          {
-            isOwner: false,
-            name: 'web 开发类工具',
-            intro: 'HTTP状态码详解、常见端口、911查IP、Ping、DNS、Traceroute、淘宝IP库',
-            img: 'http://csstools.chinaz.com/tools/images/public/logos/logo-index.png',
-            url: 'https://blog.bihe0832.com/tools_for_developer.html'
-          },
-          {
-            isOwner: true,
-            name: '多码合一',
-            intro: '通过这几个JS接口，可以轻松获取到当前打开页面的浏览器类型',
-            img: './images/multi_code.png',
-            url: 'https://microdemo.bihe0832.com/MultiQrcode/index.html'
-          },
-          {
-            isOwner: false,
-            name: 'Logo制作',
-            intro: '制作类似pubhorn 的Icon',
-            img: './images/logo_diy.jpg',
-            url: 'https://cdn.bihe0832.com/tools/logo/index.html'
-          },
-          {
-            isOwner: false,
-            name: 'shields.io',
-            intro: '专为开源项目设计的在Github、文档等场景展示项目各种信息的工具库',
-            img: './images/shields_io.png',
-            url: 'https://img.shields.io/'
-          },
-          {
-            isOwner: true,
-            name: 'font-awesome',
-            intro: '专为Bootstrap设计的，一个字体文件， 249 个图标，用CSS控制样式',
-            img: 'https://cdn.bihe0832.com/images/cv_512.jpg',
-            url: 'http://blog.bihe0832.com/pages/font-awesome.html'
-          },
-        ]
-      }
+  <div class="g-box">
+    <div class="category" v-for="(item, index) in dataList" :class="{ collapsed: item.collapsed }">
+      <div class="category-header" @click="toggleCategory(index)">
+        <span class="category-icon">{{ item.icon }}</span>
+        <span class="category-title">{{ item.title }}</span>
+        <span class="category-count">{{ item.data.length }}项</span>
+        <span class="category-arrow">▼</span>
+      </div>
+      <div class="category-content">
+        <a class="link-card" v-for="link in item.data" :href="link.url" target="_blank">
+          <span class="link-emoji">{{ link.emoji }}</span>
+          <span class="link-text">
+            <span class="link-name">{{ link.name }}</span>
+            <span class="link-tag" v-if="link.isOwner">原创</span>
+          </span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+</body>
+<script src="./../js/vue/2.6.10/vue.min.js"></script>
+<script>
+new Vue({
+  el: '#app',
+  data() {
+    return {
+      dataList: [
+        {
+          title: "Android 开发",
+          icon: "📱",
+          collapsed: false,
+          data: [
+            { name: 'AAF 框架', emoji: '🤖', isOwner: true, url: 'https://android.bihe0832.com/doc/summary/links.html' },
+            { name: 'AAF 更新配置生成', emoji: '⚙️', isOwner: true, url: 'https://cdn.bihe0832.com/tools/config/update.html' },
+            { name: 'Schema 拉起应用', emoji: '🔗', isOwner: true, url: 'https://cdn.bihe0832.com/tools/router/index.html' },
+            { name: 'JSBridge 调试', emoji: '🌉', isOwner: true, url: 'https://cdn.bihe0832.com/tools/jsbridge/index.html' },
+            { name: 'Android 开发资源', emoji: '📦', isOwner: true, url: 'https://blog.bihe0832.com/my_android.html' }
+          ]
+        },
+        {
+          title: "编码转换",
+          icon: "🔄",
+          collapsed: false,
+          data: [
+            { name: 'JSON Editor', emoji: '📋', isOwner: false, url: 'https://jsoneditoronline.org/' },
+            { name: '编码转义工具', emoji: '🔐', isOwner: false, url: 'https://blog.bihe0832.com/tools_for_developer.html' },
+            { name: '常用颜色', emoji: '🎨', isOwner: true, url: './color.html' }
+          ]
+        },
+        {
+          title: "图表绘制",
+          icon: "📊",
+          collapsed: false,
+          data: [
+            { name: 'Gliffy Diagrams', emoji: '📐', isOwner: false, url: 'https://go.gliffy.com/go/html5/launch' },
+            { name: 'Markdown 表格', emoji: '📝', isOwner: true, url: 'https://blog.bihe0832.com/markdow_advanced.html' }
+          ]
+        },
+        {
+          title: "图片处理",
+          icon: "🖼️",
+          collapsed: false,
+          data: [
+            { name: '图片图标处理', emoji: '✂️', isOwner: true, url: 'https://blog.bihe0832.com/my_image.html' },
+            { name: 'Logo 制作', emoji: '🎯', isOwner: false, url: 'https://cdn.bihe0832.com/tools/logo/index.html' }
+          ]
+        },
+        {
+          title: "Web 开发",
+          icon: "🌐",
+          collapsed: false,
+          data: [
+            { name: 'Web 开发工具', emoji: '🔧', isOwner: false, url: 'https://blog.bihe0832.com/tools_for_developer.html' },
+            { name: '多码合一', emoji: '📱', isOwner: true, url: 'https://microdemo.bihe0832.com/MultiQrcode/index.html' },
+            { name: 'shields.io', emoji: '🛡️', isOwner: false, url: 'https://img.shields.io/' },
+            { name: 'font-awesome', emoji: '🔤', isOwner: true, url: 'http://blog.bihe0832.com/pages/font-awesome.html' }
+          ]
+        },
+        {
+          title: "命令参考",
+          icon: "💻",
+          collapsed: false,
+          data: [
+            { name: 'Git 常用命令', emoji: '📚', isOwner: true, url: 'https://blog.bihe0832.com/git-client-cmd.html' },
+            { name: 'Linux & MacOS 命令', emoji: '🖥️', isOwner: true, url: 'https://blog.bihe0832.com/mac_linux_command_during_developping.html' }
+          ]
+        },
+        {
+          title: "其他工具",
+          icon: "📦",
+          collapsed: false,
+          data: [
+            { name: '开发常用资源', emoji: '🗂️', isOwner: false, url: 'https://cdn.bihe0832.com/tools/test.html' },
+            { name: '皮卡丘系列', emoji: '⚡', isOwner: true, url: 'https://cdn.bihe0832.com/pikachu/index.html' },
+            { name: '书籍配置生成', emoji: '📖', isOwner: true, url: 'https://cdn.bihe0832.com/pikachu/book/book.html' }
+          ]
+        }
+      ]
     }
-  })
-  </script>
+  },
+  methods: {
+    toggleCategory(index) {
+      this.$set(this.dataList[index], 'collapsed', !this.dataList[index].collapsed);
+    }
+  }
+})
+</script>
   
   </html>
