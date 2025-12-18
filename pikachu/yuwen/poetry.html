@@ -1,0 +1,1984 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no" />    
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="Expires" content="0">
+    <link rel="Shortcut Icon" href="https://cdn.bihe0832.com/images/zixie_32.ico" />
+    <meta name="author" CONTENT="子勰(bihe0832), code@bihe0832.com" />
+    <meta name="keywords" content="子勰,bihe0832,工具咩,唐代诗人,诗人关系" />
+    <meta name="description" content="皮卡丘学语文之唐代诗人关系网络" />
+    <meta property="og:title" content="皮卡丘学语文之唐代诗人关系网络" />
+    <meta property="og:locale" content="zh_CN" />
+    <meta name="google-site-verification" content="3wzNgbjvFNHkH-8QpougMZ0s9Y4GEjG49kEb49QQqpw" />
+    <meta property="og:description" content="唐代诗人关系网络可视化，展示诗人之间的交往故事与相关诗词" />
+    <link rel="canonical" href="https://blog.bihe0832.com/" />
+    <meta property="og:url" content="https://blog.bihe0832.com/" />
+    <meta property="og:site_name" content="工具咩" />
+    <meta property="og:type" content="article" />
+    <title>皮卡丘学语文之唐代诗人关系网络</title>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
+    <style>
+        @font-face {
+            font-family: 'SourceHanSerifSC-Regular';
+            src: url('https://cdn.jsdelivr.net/npm/source-han-serif-sc@1.000/OTF/SourceHanSerifSC-Regular.otf') format('opentype');
+            font-weight: normal;
+            font-style: normal;
+        }
+        @font-face {
+            font-family: 'ZCOOLKuaiLe-Regular';
+            src: url('https://cdn.jsdelivr.net/gh/googlefonts/zcool-kuaile@v1.000/ZCOOLKuaiLe-Regular.ttf') format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'SourceHanSerifSC-Regular', 'SimSun', serif;
+            overflow: hidden;
+            background: linear-gradient(135deg, #0a1628 0%, #1a2a4a 100%); /* 深蓝渐变背景 */
+            color: #e0e0e0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        #background-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB2aWV3Qm94PSIwIDAgMTAwIDEwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KICA8ZGVmcz4KICAgIDxwYXR0ZXJuIGlkPSJzd2lybCIgd2lkdGg9IjEwIiBoZWlnaHQ9IjEwIiBwYXR0ZXJuVW5pdHM9InVzZXJTcGFjZU9uVXNlIj4KICAgICAgPHBhdGggZD0iTTAgNSBDIDIgMiA1IDAgOCAyIEwxMCA1IEw4IDggNSA5IDIgOCBaIiBmaWxsPSIjMjY0NjU3IiBmaWxsLW9wYWNpdHk9IjAuMSIvPgogICAgPC9wYXR0ZXJuPgogIDwvZGVmcz4KICA8cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJ1cmwoI3N3aXJsKSIvPgo8L3N2Zz4='); /* 淡淡的水墨山水纹理 */
+            opacity: 0.2;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        #main-container {
+            position: relative;
+            flex-grow: 1;
+            display: flex;
+        }
+
+        #chart-container {
+            flex-grow: 1;
+            height: 100%;
+            position: relative;
+            z-index: 1;
+        }
+
+        #title-area {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 10;
+            text-align: left;
+        }
+
+        #main-title {
+            font-family: 'ZCOOLKuaiLe-Regular', cursive;
+            font-size: 3.5em;
+            color: #f0f0f0;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+            margin: 0;
+            line-height: 1.2;
+        }
+
+        #sub-title {
+            font-size: 1.2em;
+            color: #c0c0c0;
+            margin-top: 5px;
+        }
+
+        #legend-panel {
+            position: absolute;
+            top: 150px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            z-index: 10;
+            max-height: calc(100% - 200px);
+            overflow-y: auto;
+            transition: all 0.3s ease;
+            width: 180px;
+        }
+
+        #legend-panel.collapsed {
+            width: 40px;
+            padding: 10px;
+        }
+
+        #legend-toggle {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: none;
+            border: none;
+            color: #e0e0e0;
+            font-size: 1.2em;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+        }
+
+        #legend-toggle:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        #legend-panel h3 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: #f0f0f0;
+            font-size: 1.3em;
+            text-align: center;
+            transition: opacity 0.3s ease;
+        }
+
+        #legend-panel.collapsed h3,
+        #legend-panel.collapsed .legend-item-text {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .legend-item:hover {
+            transform: translateX(5px);
+        }
+
+        .legend-color-box {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+            margin-right: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .legend-item-text {
+            font-size: 0.95em;
+            color: #c0c0c0;
+            transition: opacity 0.3s ease;
+        }
+
+        #detail-panel {
+            position: absolute;
+            top: 0;
+            right: -350px; /* 默认隐藏 */
+            width: 330px;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(15px);
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: -5px 0 20px rgba(0, 0, 0, 0.3);
+            z-index: 10;
+            transition: right 0.4s ease-out;
+            padding: 20px;
+            box-sizing: border-box;
+            overflow-y: auto;
+        }
+
+        #detail-panel.show {
+            right: 0;
+        }
+
+        #detail-panel h3 {
+            color: #f0f0f0;
+            font-size: 1.8em;
+            margin-top: 0;
+            margin-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            padding-bottom: 10px;
+        }
+
+        #detail-panel p {
+            font-size: 1em;
+            line-height: 1.6;
+            margin-bottom: 10px;
+            color: #c0c0c0;
+        }
+
+        #detail-panel .close-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: none;
+            border: none;
+            color: #e0e0e0;
+            font-size: 1.5em;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 5px;
+            transition: background 0.3s ease;
+        }
+
+        #detail-panel .close-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .detail-section {
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed rgba(255, 255, 255, 0.1);
+        }
+
+        .detail-section:last-child {
+            border-bottom: none;
+        }
+
+        .detail-section h4 {
+            color: #f0f0f0;
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+
+        .poem-item {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 8px;
+            border-left: 3px solid #1bd1a5;
+        }
+
+        .poem-item strong {
+            color: #f0f0f0;
+        }
+
+        #search-box {
+            position: absolute;
+            top: 30px;
+            right: 30px;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+        }
+
+        #search-input {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 20px;
+            padding: 8px 15px;
+            color: #e0e0e0;
+            font-size: 1em;
+            width: 200px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+
+        #search-input::placeholder {
+            color: #a0a0a0;
+        }
+
+        #search-input:focus {
+            width: 250px;
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+        }
+
+        #search-button {
+            background: #1bd1a5;
+            border: none;
+            border-radius: 20px;
+            padding: 8px 15px;
+            margin-left: 10px;
+            color: #0a1628;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        #search-button:hover {
+            background: #0aa344;
+            transform: translateY(-2px);
+        }
+
+        #tooltip {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            padding: 8px 12px;
+            border-radius: 5px;
+            font-size: 0.9em;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+            z-index: 100;
+        }
+
+        #footer-tips {
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(0, 0, 0, 0.5);
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            color: #a0a0a0;
+            z-index: 5;
+        }
+
+        /* 诗词详情弹窗 - 增强版 */
+        #poem-modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.7);
+            backdrop-filter: blur(8px);
+            justify-content: center;
+            align-items: center;
+        }
+
+        #poem-modal-content {
+            background: linear-gradient(135deg, rgba(26, 42, 74, 0.95) 0%, rgba(10, 22, 40, 0.98) 100%);
+            backdrop-filter: blur(20px);
+            margin: 30px auto;
+            padding: 0;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 20px;
+            width: 90%;
+            max-width: 900px;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 10px 50px rgba(0,0,0,0.6), 0 0 30px rgba(255, 215, 0, 0.1);
+            position: relative;
+            animation: modalFadeIn 0.4s ease-out;
+        }
+
+        @keyframes modalFadeIn {
+            from { opacity: 0; transform: translateY(-30px) scale(0.95); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .modal-header {
+            background: linear-gradient(90deg, rgba(237, 87, 54, 0.2) 0%, rgba(255, 164, 0, 0.2) 100%);
+            padding: 25px 30px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        .modal-header h3 {
+            color: #ffd700;
+            font-size: 1.8em;
+            text-align: center;
+            margin: 0;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.3);
+        }
+
+        .modal-header .relation-tag {
+            display: inline-block;
+            background: rgba(255, 215, 0, 0.2);
+            color: #ffd700;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            margin-top: 10px;
+        }
+
+        .modal-body {
+            padding: 30px;
+        }
+
+        .story-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            border-left: 4px solid #ffa400;
+        }
+
+        .story-section h4 {
+            color: #ffa400;
+            font-size: 1.3em;
+            margin: 0 0 15px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .story-section h4::before {
+            content: '📜';
+        }
+
+        .story-section p {
+            color: #d0d0d0;
+            font-size: 1.05em;
+            line-height: 2;
+            text-align: justify;
+            margin: 0;
+        }
+
+        .poems-section {
+            margin-top: 25px;
+        }
+
+        .poems-section h4 {
+            color: #1bd1a5;
+            font-size: 1.3em;
+            margin: 0 0 20px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .poems-section h4::before {
+            content: '📖';
+        }
+
+        .poem-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .poem-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: rgba(27, 209, 165, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .poem-card .poem-title {
+            color: #f0f0f0;
+            font-size: 1.2em;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .poem-card .poem-author-line {
+            color: #888;
+            font-size: 0.95em;
+            margin-bottom: 15px;
+        }
+
+        .poem-card .poem-text {
+            color: #c0c0c0;
+            font-size: 1.1em;
+            line-height: 2.2;
+            text-align: center;
+            white-space: pre-line;
+            font-family: 'SourceHanSerifSC-Regular', serif;
+        }
+
+        .poem-card .poem-note {
+            color: #888;
+            font-size: 0.9em;
+            margin-top: 15px;
+            padding-top: 15px;
+            border-top: 1px dashed rgba(255,255,255,0.1);
+            font-style: italic;
+        }
+
+        #poem-modal-close {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            color: #888;
+            font-size: 32px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 20;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.05);
+        }
+
+        #poem-modal-close:hover {
+            color: #fff;
+            background: rgba(237, 87, 54, 0.3);
+            transform: rotate(90deg);
+        }
+    </style>
+</head>
+<body>
+    <div id="background-pattern"></div>
+    <div id="title-area">
+        <h1 id="main-title">唐代诗人关系网络</h1>
+        <p id="sub-title">—— 群星璀璨的盛唐诗坛交游录</p>
+    </div>
+
+    <div id="legend-panel">
+        <button id="legend-toggle">◀</button>
+        <h3>关系图例</h3>
+        <div class="legend-item" data-type="挚友">
+            <div class="legend-color-box" style="background-color: #ed5736;"></div>
+            <span class="legend-item-text">挚友</span>
+        </div>
+        <div class="legend-item" data-type="忘年交">
+            <div class="legend-color-box" style="background-color: #ffa400;"></div>
+            <span class="legend-item-text">忘年交</span>
+        </div>
+        <div class="legend-item" data-type="诗友">
+            <div class="legend-color-box" style="background-color: #0aa344;"></div>
+            <span class="legend-item-text">诗友</span>
+        </div>
+        <div class="legend-item" data-type="道友">
+            <div class="legend-color-box" style="background-color: #9d2933;"></div>
+            <span class="legend-item-text">道友</span>
+        </div>
+        <div class="legend-item" data-type="师友">
+            <div class="legend-color-box" style="background-color: #126bae;"></div>
+            <span class="legend-item-text">师友</span>
+        </div>
+        <div class="legend-item" data-type="唱和">
+            <div class="legend-color-box" style="background-color: #1bd1a5;"></div>
+            <span class="legend-item-text">唱和</span>
+        </div>
+        <div class="legend-item" data-type="无交集">
+            <div class="legend-color-box" style="background-color: #888;"></div>
+            <span class="legend-item-text">无交集</span>
+        </div>
+        <div class="legend-item" data-type="其他友情">
+            <div class="legend-color-box" style="background-color: #c0c0c0;"></div>
+            <span class="legend-item-text">其他友情</span>
+        </div>
+    </div>
+
+    <div id="search-box">
+        <input type="text" id="search-input" placeholder="搜索诗人姓名...">
+        <button id="search-button">搜索</button>
+    </div>
+
+    <div id="main-container">
+        <div id="chart-container"></div>
+    </div>
+
+    <div id="detail-panel">
+        <button class="close-btn" onclick="hideDetailPanel()">✕</button>
+        <h3 id="detail-name"></h3>
+        <div class="detail-section">
+            <h4>基本信息</h4>
+            <p><strong>生卒年:</strong> <span id="detail-lifespan"></span></p>
+            <p><strong>字号:</strong> <span id="detail-alias"></span></p>
+            <p><strong>称号:</strong> <span id="detail-title"></span></p>
+            <p><strong>流派:</strong> <span id="detail-school"></span></p>
+            <p id="detail-primary-relation"></p>
+        </div>
+        <div class="detail-section">
+            <h4>代表作</h4>
+            <div id="detail-masterpieces"></div>
+        </div>
+        <div class="detail-section">
+            <h4>相关诗词</h4>
+            <div id="detail-related-poems"></div>
+        </div>
+    </div>
+
+    <div id="poem-modal">
+        <div id="poem-modal-content">
+            <span id="poem-modal-close">&times;</span>
+            <div class="modal-header">
+                <h3 id="modal-poem-title"></h3>
+                <div style="text-align:center;"><span class="relation-tag" id="modal-relation-tag"></span></div>
+            </div>
+            <div class="modal-body">
+                <div class="story-section">
+                    <h4 id="modal-story-title">交往故事</h4>
+                    <p id="modal-story-content"></p>
+                </div>
+                <div class="poems-section">
+                    <h4 id="modal-poems-title">相关诗词</h4>
+                    <div id="modal-poems-list"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="footer-tips">
+        滚轮缩放 | 拖拽平移 | 点击节点查看详情 | 点击连线查看互赠诗词
+    </div>
+
+    <script>
+        var myChart = echarts.init(document.getElementById('chart-container'));
+
+        // 诗人数据
+        const poetsData = [
+            {
+                id: '李白',
+                name: '李白',
+                category: '浪漫派',
+                symbolSize: 70,
+                lifespan: '701年—762年',
+                alias: '字太白，号青莲居士',
+                title: '诗仙',
+                primaryRelation: '浪漫主义诗派，与杜甫并称「李杜」',
+                intro: '字太白，号青莲居士，被誉为"诗仙"。唐代最伟大的浪漫主义诗人，与杜甫并称"李杜"。',
+                masterpieces: ['将进酒', '蜀道难', '行路难', '梦游天姥吟留别', '侠客行'],
+                poems: [
+                    {
+                        title: '静夜思',
+                        content: `床前明月光，疑是地上霜。
+举头望明月，低头思故乡。`,
+                        background: `唐开元十四年（726年）九月十五日，26岁的李白在扬州旅舍，明月高悬之夜望月思乡而作。语言清新朴素，意蕴深远，是中国最广为流传的思乡诗。`
+                    },
+                    {
+                        title: '望庐山瀑布',
+                        content: `日照香炉生紫烟，遥看瀑布挂前川。
+飞流直下三千尺，疑是银河落九天。`,
+                        background: `李白游历庐山时所作，描绘香炉峰瀑布的壮观景象。运用夸张手法，将瀑布比作银河从天而降，气势磅礴，想象奇绝。`
+                    },
+                    {
+                        title: '赠汪伦',
+                        content: `李白乘舟将欲行，忽闻岸上踏歌声。
+桃花潭水深千尺，不及汪伦送我情。`,
+                        background: `李白游泾县桃花潭时，受到村民汪伦热情款待，临别时汪伦踏歌相送。诗人以桃花潭水深千尺反衬汪伦的深情厚谊。`
+                    },
+                    {
+                        title: '黄鹤楼送孟浩然之广陵',
+                        content: `故人西辞黄鹤楼，烟花三月下扬州。
+孤帆远影碧空尽，唯见长江天际流。`,
+                        background: `开元年间，孟浩然从武昌东下扬州，李白在黄鹤楼设宴送别，饱含依依惜别之情与无尽思念。`
+                    },
+                    {
+                        title: '早发白帝城',
+                        content: `朝辞白帝彩云间，千里江陵一日还。
+两岸猿声啼不住，轻舟已过万重山。`,
+                        background: `唐肃宗乾元二年（759年），李白因永王李璘案流放夜郎，途中遇赦。诗人从白帝城乘船顺江东下，心情愉悦。`
+                    },
+                    {
+                        title: '望天门山',
+                        content: `天门中断楚江开，碧水东流至此回。
+两岸青山相对出，孤帆一片日边来。`,
+                        background: `李白乘船经过天门山时所作。天门山位于安徽和县与当涂之间，长江水将其一分为二，形势险要。`
+                    },
+                    {
+                        title: '独坐敬亭山',
+                        content: `众鸟高飞尽，孤云独去闲。
+相看两不厌，只有敬亭山。`,
+                        background: `李白晚年被排挤出朝廷，漫游宣城时所作。流露出诗人孤独寂寞的心境。`
+                    }
+                ]
+            },
+            {
+                id: '杜甫',
+                name: '杜甫',
+                category: '现实派',
+                symbolSize: 60,
+                lifespan: '712年—770年',
+                alias: '字子美，号少陵野老',
+                title: '诗圣',
+                primaryRelation: '现实主义诗派，与李白并称「李杜」',
+                intro: '字子美，号少陵野老，被誉为"诗圣"。唐代伟大的现实主义诗人，其诗被称为"诗史"。',
+                masterpieces: ['三吏三别', '登高', '春望', '茅屋为秋风所破歌', '兵车行'],
+                poems: [
+                    {
+                        title: '绝句',
+                        content: `两个黄鹂鸣翠柳，一行白鹭上青天。
+窗含西岭千秋雪，门泊东吴万里船。`,
+                        background: `杜甫寓居成都草堂时所作。全诗色彩鲜明、意境开阔，体现了诗人安居草堂时的愉悦心情。`
+                    },
+                    {
+                        title: '春夜喜雨',
+                        content: `好雨知时节，当春乃发生。
+随风潜入夜，润物细无声。
+野径云俱黑，江船火独明。
+晓看红湿处，花重锦官城。`,
+                        background: `杜甫在成都草堂时，一场春雨适时而至，诗人欣喜之余写下此诗。将春雨人格化，赞美它善解人意、滋润万物而不张扬的品格。`
+                    },
+                    {
+                        title: '江畔独步寻花',
+                        content: `黄四娘家花满蹊，千朵万朵压枝低。
+留连戏蝶时时舞，自在娇莺恰恰啼。`,
+                        background: `杜甫寓居成都草堂期间，春日漫步江畔赏花所作，流露出诗人对生活的热爱。`
+                    },
+                    {
+                        title: '江南逢李龟年',
+                        content: `岐王宅里寻常见，崔九堂前几度闻。
+正是江南好风景，落花时节又逢君。`,
+                        background: `安史之乱后，杜甫流落江南，与同样漂泊的李龟年重逢。昔日盛唐繁华已成追忆，感慨万千。`
+                    },
+                    {
+                        title: '闻官军收河南河北',
+                        content: `剑外忽传收蓟北，初闻涕泪满衣裳。
+却看妻子愁何在，漫卷诗书喜欲狂。
+白日放歌须纵酒，青春作伴好还乡。
+即从巴峡穿巫峡，便下襄阳向洛阳。`,
+                        background: `唐代宗广德元年（763年），杜甫听闻官军收复蓟北的消息，诗人喜极而泣。此诗被称为杜甫"生平第一快诗"。`
+                    }
+                ]
+            },
+            {
+                id: '王维',
+                name: '王维',
+                category: '山水田园',
+                symbolSize: 55,
+                lifespan: '701年—761年',
+                alias: '字摩诘，号摩诘居士',
+                title: '诗佛',
+                primaryRelation: '山水田园诗派，与孟浩然并称「王孟」',
+                intro: '字摩诘，号摩诘居士，盛唐著名诗人、画家，与孟浩然并称"王孟"。苏轼赞其"诗中有画，画中有诗"。',
+                masterpieces: ['使至塞上', '山居秋暝', '相思', '终南别业', '渭城曲'],
+                poems: [
+                    {
+                        title: '鹿柴',
+                        content: `空山不见人，但闻人语响。
+返景入深林，复照青苔上。`,
+                        background: `王维隐居辋川时所作。诗人描绘深山幽林的空寂境界，以声衬静、以光写幽，营造出空灵澄澈的禅意境界。`
+                    },
+                    {
+                        title: '九月九日忆山东兄弟',
+                        content: `独在异乡为异客，每逢佳节倍思亲。
+遥知兄弟登高处，遍插茱萸少一人。`,
+                        background: `王维十七岁时独自漂泊于洛阳与长安之间，重阳节思念家乡亲人而作。"每逢佳节倍思亲"成为千古名句。`
+                    },
+                    {
+                        title: '送元二使安西',
+                        content: `渭城朝雨浥轻尘，客舍青青柳色新。
+劝君更尽一杯酒，西出阳关无故人。`,
+                        background: `元二奉命出使安西，王维在渭城为其送行。此诗后被谱成琴曲《阳关三叠》，广为传唱。`
+                    },
+                    {
+                        title: '竹里馆',
+                        content: `独坐幽篁里，弹琴复长啸。
+深林人不知，明月来相照。`,
+                        background: `王维隐居辋川时所作。诗人独坐竹林深处弹琴长啸，虽无人知晓，却有明月相伴。`
+                    }
+                ]
+            },
+            {
+                id: '孟浩然',
+                name: '孟浩然',
+                category: '山水田园',
+                symbolSize: 45,
+                lifespan: '689年—740年',
+                alias: '字浩然',
+                title: '山水田园派代表',
+                primaryRelation: '山水田园诗派，与王维并称「王孟」',
+                intro: '字浩然，襄州襄阳人。唐代著名山水田园诗人，与王维并称"王孟"，一生未仕。',
+                masterpieces: ['春晓', '宿建德江'],
+                poems: [
+                    {
+                        title: '春晓',
+                        content: `春眠不觉晓，处处闻啼鸟。
+夜来风雨声，花落知多少。`,
+                        background: `诗人隐居鹿门山时所作。捕捉春日早晨醒来的瞬间，由闻鸟声而联想到夜来风雨，由此惜春伤花。`
+                    },
+                    {
+                        title: '宿建德江',
+                        content: `移舟泊烟渚，日暮客愁新。
+野旷天低树，江清月近人。`,
+                        background: `诗人漫游吴越时所作，羁旅途中夜宿建德江畔，日暮黄昏引发游子新愁。`
+                    }
+                ]
+            },
+            {
+                id: '王昌龄',
+                name: '王昌龄',
+                category: '边塞诗派',
+                symbolSize: 45,
+                lifespan: '698年—757年',
+                alias: '字少伯',
+                title: '七绝圣手',
+                primaryRelation: '边塞诗派，「七绝圣手」',
+                intro: '字少伯，盛唐著名边塞诗人，有"七绝圣手"之称。',
+                masterpieces: ['出塞二首', '从军行七首', '芙蓉楼送辛渐', '闺怨'],
+                poems: [
+                    {
+                        title: '出塞',
+                        content: `秦时明月汉时关，万里长征人未还。
+但使龙城飞将在，不教胡马度阴山。`,
+                        background: `诗人有感于边塞战事而作，感叹从秦汉至今，明月依旧、边关依旧，而征人却世代不能归还。`
+                    },
+                    {
+                        title: '芙蓉楼送辛渐',
+                        content: `寒雨连江夜入吴，平明送客楚山孤。
+洛阳亲友如相问，一片冰心在玉壶。`,
+                        background: `王昌龄被贬江宁时，好友辛渐北上洛阳，诗人在芙蓉楼设宴送别。以冰心玉壶比喻自己纯洁高尚的品格。`
+                    },
+                    {
+                        title: '从军行',
+                        content: `青海长云暗雪山，孤城遥望玉门关。
+黄沙百战穿金甲，不破楼兰终不还。`,
+                        background: `此诗描写边塞将士的豪情壮志。将士们身经百战、铠甲磨穿，却立下誓言——不击败敌人，决不回乡。`
+                    }
+                ]
+            },
+            {
+                id: '贺知章',
+                name: '贺知章',
+                category: '其他',
+                symbolSize: 40,
+                lifespan: '659年—744年',
+                alias: '字季真，号四明狂客',
+                title: '诗狂',
+                primaryRelation: '盛唐诗人，「四明狂客」',
+                intro: '字季真，越州永兴人。唐代著名诗人、书法家，性格旷达，自号"四明狂客"。',
+                masterpieces: ['回乡偶书二首', '咏柳', '题袁氏别业'],
+                poems: [
+                    {
+                        title: '咏柳',
+                        content: `碧玉妆成一树高，万条垂下绿丝绦。
+不知细叶谁裁出，二月春风似剪刀。`,
+                        background: `诗人在春天观赏柳树时有感而作，将春风比作剪刀，把柳叶比作碧玉裁出的丝带，想象奇特。`
+                    },
+                    {
+                        title: '回乡偶书',
+                        content: `少小离家老大回，乡音无改鬓毛衰。
+儿童相见不相识，笑问客从何处来。`,
+                        background: `贺知章86岁辞官返乡，距离家乡五十余年。诗中蕴含着对岁月流逝、人事变迁的深沉感慨。`
+                    }
+                ]
+            },
+            {
+                id: '高适',
+                name: '高适',
+                category: '边塞诗派',
+                symbolSize: 45,
+                lifespan: '704年—765年',
+                alias: '字达夫',
+                title: '边塞诗派',
+                primaryRelation: '边塞诗派，与岑参并称「高岑」',
+                intro: '字达夫，盛唐边塞诗派代表人物，与岑参并称"高岑"。',
+                masterpieces: ['燕歌行', '别董大二首', '蓟门行五首'],
+                poems: [
+                    {
+                        title: '别董大',
+                        content: `千里黄云白日曛，北风吹雁雪纷纷。
+莫愁前路无知己，天下谁人不识君。`,
+                        background: `董大即著名琴师董庭兰，因主人去世而离开长安。高适在送别时作此诗，展现了盛唐诗人的开阔胸襟。`
+                    }
+                ]
+            },
+            {
+                id: '白居易',
+                name: '白居易',
+                category: '中唐诗人',
+                symbolSize: 50,
+                lifespan: '772年—846年',
+                alias: '字乐天，号香山居士',
+                title: '诗魔',
+                primaryRelation: '新乐府运动，与刘禹锡并称「刘白」',
+                intro: '字乐天，号香山居士，中唐著名诗人，倡导"新乐府运动"。',
+                masterpieces: ['长恨歌', '琵琶行', '卖炭翁', '钱塘湖春行'],
+                poems: [
+                    {
+                        title: '池上',
+                        content: `小娃撑小艇，偷采白莲回。
+不解藏踪迹，浮萍一道开。`,
+                        background: `诗人描绘一个天真可爱的农村儿童偷采白莲的场景，童趣盎然。`
+                    },
+                    {
+                        title: '忆江南',
+                        content: `江南好，风景旧曾谙。
+日出江花红胜火，春来江水绿如蓝。
+能不忆江南？`,
+                        background: `白居易曾任杭州、苏州刺史，晚年在洛阳回忆江南美景而作。`
+                    },
+                    {
+                        title: '赋得古原草送别',
+                        content: `离离原上草，一岁一枯荣。
+野火烧不尽，春风吹又生。
+远芳侵古道，晴翠接荒城。
+又送王孙去，萋萋满别情。`,
+                        background: `白居易十六岁时的应考习作。"野火烧不尽，春风吹又生"成为千古名句。`
+                    }
+                ]
+            },
+            {
+                id: '刘禹锡',
+                name: '刘禹锡',
+                category: '中唐诗人',
+                symbolSize: 45,
+                lifespan: '772年—842年',
+                alias: '字梦得',
+                title: '诗豪',
+                primaryRelation: '中唐诗豪，与白居易并称「刘白」',
+                intro: '字梦得，中唐著名诗人、哲学家，被誉为"诗豪"，与白居易并称"刘白"。',
+                masterpieces: ['陈異论', '竹枝词', '浪淘沙', '西塞山怀古'],
+                poems: [
+                    {
+                        title: '望洞庭',
+                        content: `湖光秋月两相和，潭面无风镜未磨。
+遥望洞庭山水翠，白银盘里一青螺。`,
+                        background: `刘禹锡被贬途中经过洞庭湖，秋夜月光下远眺洞庭湖水与君山，将湖面比作未磨的铜镜、白银盘，君山比作青螺。`
+                    },
+                    {
+                        title: '乌衣巷',
+                        content: `朱雀桥边野草花，乌衣巷口夕阳斜。
+旧时王谢堂前燕，飞入寻常百姓家。`,
+                        background: `乌衣巷是东晋王导、谢安两大家族的府邸所在地。诗人经过金陵，感慨沧桑巨变，兴衰无常。`
+                    }
+                ]
+            },
+            {
+                id: '柳宗元',
+                name: '柳宗元',
+                category: '古文运动',
+                symbolSize: 45,
+                lifespan: '773年—819年',
+                alias: '字子厚',
+                title: '唐宋八大家',
+                primaryRelation: '唐宋八大家，与韩愈并称「韩柳」',
+                intro: '字子厚，唐代著名文学家，"唐宋八大家"之一，与韩愈并称"韩柳"。',
+                masterpieces: ['永州八记', '捕蛇者说', '小石潭记'],
+                poems: [
+                    {
+                        title: '江雪',
+                        content: `千山鸟飞绝，万径人踪灭。
+孤舟蓑笠翁，独钓寒江雪。`,
+                        background: `柳宗元被贬永州时所作。诗人以孤独的渔翁自喻，表达诗人遭贬后孤高傲世的精神品格。`
+                    }
+                ]
+            },
+            {
+                id: '韩愈',
+                name: '韩愈',
+                category: '古文运动',
+                symbolSize: 50,
+                lifespan: '768年—824年',
+                alias: '字退之',
+                title: '唐宋八大家之首',
+                primaryRelation: '唐宋八大家之首，古文运动倡导者',
+                intro: '字退之，唐代文学家、思想家，古文运动倡导者，"唐宋八大家"之首。',
+                masterpieces: ['师说', '进学解', '马说', '原道'],
+                poems: [
+                    {
+                        title: '早春呈水部张十八员外',
+                        content: `天街小雨润如酥，草色遥看近却无。
+最是一年春好处，绝胜烟柳满皇都。`,
+                        background: `韩愈写给好友张籍的诗，描绘早春时节长安街头的景象。小雨润泽如酥油，草色远看若有，近观却无。`
+                    }
+                ]
+            },
+            {
+                id: '贾岛',
+                name: '贾岛',
+                category: '中唐诗人',
+                symbolSize: 40,
+                lifespan: '779年—843年',
+                alias: '字浪仙',
+                title: '苦吟诗人',
+                primaryRelation: '苦吟诗人，与孟郊并称「郊寒岛瘦」',
+                intro: '字阆仙，中唐诗人，以"推敲"典故著称，与孟郊并称"郊寒岛瘦"。',
+                masterpieces: ['寻隐者不遇', '剑客', '题李凝幽居'],
+                poems: [
+                    {
+                        title: '寻隐者不遇',
+                        content: `松下问童子，言师采药去。
+只在此山中，云深不知处。`,
+                        background: `诗人前往深山寻访隐士，只遇到童子。全诗以问答形式写成，言简意深，余味悠长。`
+                    }
+                ]
+            },
+            {
+                id: '杜牧',
+                name: '杜牧',
+                category: '晚唐诗人',
+                symbolSize: 45,
+                lifespan: '803年—约852年',
+                alias: '字牧之',
+                title: '小杜',
+                primaryRelation: '晚唐诗人，与李商隐并称「小李杜」',
+                intro: '字牧之，号樊川居士，晚唐杰出诗人，与李商隐并称"小李杜"。',
+                masterpieces: ['阿房宫赋', '泛秦淮', '赤壁', '遣怀'],
+                poems: [
+                    {
+                        title: '山行',
+                        content: `远上寒山石径斜，白云生处有人家。
+停车坐爱枫林晚，霜叶红于二月花。`,
+                        background: `诗人秋日在山中行走，被深秋枫林的美景所吸引。"霜叶红于二月花"以秋景胜过春景的独特视角。`
+                    },
+                    {
+                        title: '江南春',
+                        content: `千里莺啼绿映红，水村山郭酒旗风。
+南朝四百八十寺，多少楼台烟雨中。`,
+                        background: `诗人描绘江南春天的景象，黄莺啼鸣、绿树红花、酒旗飘扬，同时又以南朝古寺引发对历史兴亡的感慨。`
+                    },
+                    {
+                        title: '清明',
+                        content: `清明时节雨纷纷，路上行人欲断魂。
+借问酒家何处有？牧童遥指杏花村。`,
+                        background: `清明时节，诗人在雨中行路，愁绪满怀，便向牧童询问酒家。`
+                    },
+                    {
+                        title: '秋夕',
+                        content: `银烛秋光冷画屏，轻罗小扇扑流萤。
+天阶夜色凉如水，坐看牵牛织女星。`,
+                        background: `诗人以深宫女子的视角，描写秋夜景象，暗含对宫女寂寞生活的同情。`
+                    }
+                ]
+            },
+            {
+                id: '李商隐',
+                name: '李商隐',
+                category: '晚唐诗人',
+                symbolSize: 45,
+                lifespan: '813年—858年',
+                alias: '字义山',
+                title: '小李',
+                primaryRelation: '晚唐诗人，与杜牧并称「小李杜」',
+                intro: '字义山，号玉谿生，晚唐著名诗人，与杜牧并称"小李杜"。',
+                masterpieces: ['锦瑟', '无题', '夜雨寄北', '嫁车诗'],
+                poems: [
+                    {
+                        title: '乐游原',
+                        content: `向晚意不适，驱车登古原。
+夕阳无限好，只是近黄昏。`,
+                        background: `诗人傍晚心情郁闷，驱车登上乐游原远眺。面对无限美好的夕阳，却感叹它即将落山。`
+                    }
+                ]
+            },
+            {
+                id: '岑参',
+                name: '岑参',
+                category: '边塞诗派',
+                symbolSize: 45,
+                lifespan: '715年—770年',
+                alias: '字不详',
+                title: '边塞诗派',
+                primaryRelation: '边塞诗派，与高适并称「高岑」',
+                intro: '盛唐边塞诗人，与高适并称"高岑"。',
+                masterpieces: [],
+                poems: []
+            },
+            {
+                id: '王之涣',
+                name: '王之涣',
+                category: '边塞诗派',
+                symbolSize: 40,
+                lifespan: '688年—742年',
+                alias: '字季凌',
+                title: '边塞诗人',
+                primaryRelation: '盛唐诗人，与高适、王昌龄齐名',
+                intro: '盛唐著名边塞诗人，与高适、王昌龄齐名。',
+                masterpieces: ['登鹳雀楼', '凉州词'],
+                poems: [
+                    {
+                        title: '登鹳雀楼',
+                        content: `白日依山尽，黄河入海流。
+欲穷千里目，更上一层楼。`,
+                        background: `王之涣登临鹳雀楼时所作。鹳雀楼位于山西永济，是黄河岸边的名楼。诗人登高望远，抒发积极进取的人生态度。"欲穷千里目，更上一层楼"成为千古名句。`
+                    },
+                    {
+                        title: '凉州词',
+                        content: `黄河远上白云间，一片孤城万仞山。
+羌笛何须怨杨柳，春风不度玉门关。`,
+                        background: `王之涣描写边塞风光的名篇。诗人以黄河、孤城、羌笛等意象，勾勒出苍凉壮阔的边塞景象，表达戍边将士的思乡之情。`
+                    }
+                ]
+            },
+            {
+                id: '张九龄',
+                name: '张九龄',
+                category: '其他',
+                symbolSize: 40,
+                lifespan: '678年—740年',
+                alias: '字子寿',
+                title: '一代贤相',
+                primaryRelation: '唐代名相、诗人，开元盛世宰相',
+                intro: '唐代名相、诗人，开元年间宰相。',
+                masterpieces: [],
+                poems: [
+                    {
+                        title: '望月怀远',
+                        content: `海上生明月，天涯共此时。
+情人怨遥夜，竟夕起相思。
+灭烛怜光满，披衣觉露滋。
+不堪盈手赠，还寝梦佳期。`,
+                        background: `张九龄被贬荆州时望月思人之作，"海上生明月，天涯共此时"成为千古名句，表达对远方亲友的深切思念。`
+                    },
+                    {
+                        title: '感遇·其一',
+                        content: `兰叶春葳蕤，桂华秋皎洁。
+欣欣此生意，自尔为佳节。
+谁知林栖者，闻风坐相悦。
+草木有本心，何求美人折。`,
+                        background: `以兰桂自比，表达诗人高洁不屈的品格，不求外界赏识，保持内心高洁的人生态度。`
+                    }
+                ]
+            },
+            {
+                id: '元稹',
+                name: '元稹',
+                category: '中唐诗人',
+                symbolSize: 45,
+                lifespan: '779年—831年',
+                alias: '字微之',
+                title: '元白',
+                primaryRelation: '中唐诗人，与白居易并称「元白」',
+                intro: '字微之，与白居易并称"元白"。',
+                masterpieces: [],
+                poems: [
+                    {
+                        title: '离思五首·其四',
+                        content: `曾经沧海难为水，除却巫山不是云。
+取次花丛懒回顾，半缘修道半缘君。`,
+                        background: `元稹悼念亡妻韦丛之作，表达对妻子深挚的爱情和怀念，"曾经沧海难为水"成为爱情诗的千古绝唱。`
+                    },
+                    {
+                        title: '遣悲怀三首·其二',
+                        content: `昔日戏言身后事，今朝都到眼前来。
+衣裳已施行看尽，针线犹存未忍开。
+尚想旧情怜婢仆，也曾因梦送钱财。
+诚知此恨人人有，贫贱夫妻百事哀。`,
+                        background: `悼亡诗名篇，回忆与妻子生前的点滴，情真意切，感人至深，"贫贱夫妻百事哀"道尽人间真情。`
+                    }
+                ]
+            },
+            {
+                id: '张籍',
+                name: '张籍',
+                category: '中唐诗人',
+                symbolSize: 35,
+                lifespan: '766年—830年',
+                alias: '字文昌',
+                title: '乐府诗人',
+                primaryRelation: '韩愈弟子，新乐府运动诗人',
+                intro: '韩愈弟子，中唐诗人。',
+                masterpieces: ['秋思', '节妇吟'],
+                poems: [
+                    {
+                        title: '秋思',
+                        content: `洛阳城里见秋风，欲作家书意万重。
+复恐匆匆说不尽，行人临发又开封。`,
+                        background: `张籍客居洛阳，秋风起时思念家乡，写信给家人。信写好后又担心匆忙间没有写完想说的话，在送信人临行前又拆开信封查看。`
+                    }
+                ]
+            },
+            {
+                id: '裴迪',
+                name: '裴迪',
+                category: '山水田园',
+                symbolSize: 30,
+                lifespan: '生卒年不详',
+                alias: '字不详',
+                title: '田园诗人',
+                primaryRelation: '王维挚友，与王维合著《辋川集》',
+                intro: '王维好友，与王维隐居辋川。',
+                masterpieces: [],
+                poems: [
+                    {
+                        title: '送崔九',
+                        content: `归山深浅去，须尽丘壑美。
+莫学武陵人，暂游桃源里。`,
+                        background: `与王维为至交，常同游辋川，此诗送友人归隐山林，劝其真正隐居，不要像武陵人那样只是暂游桃源。`
+                    },
+                    {
+                        title: '辋川集·华子冈',
+                        content: `落日松风起，还家草露晞。
+云光侵履迹，山翠拂人衣。`,
+                        background: `与王维同作《辋川集》，描绘辋川华子冈的美景，展现山水田园的清幽意境。`
+                    }
+                ]
+            },
+            {
+                id: '汪伦',
+                name: '汪伦',
+                category: '其他',
+                symbolSize: 30,
+                lifespan: '生卒年不详',
+                alias: '泾县村民',
+                title: '李白挚友',
+                primaryRelation: '唐代民间诗友',
+                intro: '泾县桃花潭村民，与李白有深厚友谊。',
+                masterpieces: [],
+                poems: []
+            },
+            {
+                id: '元丹丘',
+                name: '元丹丘',
+                category: '其他',
+                symbolSize: 30,
+                lifespan: '生卒年不详',
+                alias: '道士',
+                title: '李白道友',
+                primaryRelation: '道家隐士',
+                intro: '道士，李白好友。',
+                masterpieces: [],
+                poems: []
+            },
+            {
+                id: '岑勋',
+                name: '岑勋',
+                category: '其他',
+                symbolSize: 25,
+                lifespan: '生卒年不详',
+                alias: '李白好友',
+                title: '诗友',
+                primaryRelation: '盛唐诗人',
+                intro: '李白好友。',
+                masterpieces: [],
+                poems: []
+            },
+            {
+                id: '董大',
+                name: '董大',
+                category: '其他',
+                symbolSize: 30,
+                lifespan: '生卒年不详',
+                alias: '即董庭兰',
+                title: '琴师',
+                primaryRelation: '唐代诗人',
+                intro: '董庭兰，著名琴师。',
+                masterpieces: [],
+                poems: []
+            },
+            {
+                id: '辛渐',
+                name: '辛渐',
+                category: '其他',
+                symbolSize: 25,
+                lifespan: '生卒年不详',
+                alias: '王昌龄好友',
+                title: '友人',
+                primaryRelation: '唐代诗人',
+                intro: '王昌龄好友。',
+                masterpieces: [],
+                poems: []
+            },
+            {
+                id: '严武',
+                name: '严武',
+                category: '其他',
+                symbolSize: 35,
+                lifespan: '726年—765年',
+                alias: '字季鹰',
+                title: '成都尹',
+                primaryRelation: '杜甫好友，八仙之一',
+                intro: '唐代将领，杜甫在成都时的保护者。',
+                masterpieces: [],
+                poems: [
+                    {
+                        title: '军城早秋',
+                        content: `昨夜秋风入汉关，朔云边月满西山。
+更催飞将追骄虏，莫遣沙场匹马还。`,
+                        background: `严武镇守剑南时所作，气势豪迈，展现边塞将领的英武气概，是其代表作。`
+                    }
+                ]
+            },
+            {
+                id: '温庭筠',
+                name: '温庭筠',
+                category: '晚唐诗人',
+                symbolSize: 40,
+                lifespan: '约812年—约866年',
+                alias: '字飞卿',
+                title: '花间词祖',
+                primaryRelation: '晚唐诗人、词人，花间派鼻祖',
+                intro: '字飞卿，晚唐诗人、词人，花间派鼻祖。',
+                masterpieces: [],
+                poems: [
+                    {
+                        title: '商山早行',
+                        content: `晨起动征铎，客行悲故乡。
+鸡声茅店月，人迹板桥霜。
+槲叶落山路，枳花明驿墙。
+因思杜陵梦，凫雁满回塘。`,
+                        background: `早行旅途名篇，"鸡声茅店月，人迹板桥霜"为千古名句，以精炼的对仗描绘早行景象。`
+                    },
+                    {
+                        title: '望江南·梳洗罢',
+                        content: `梳洗罢，独倚望江楼。
+过尽千帆皆不是，斜晖脉脉水悠悠。
+肠断白蘋洲。`,
+                        background: `描写女子盼望归人的深切情思，"过尽千帆皆不是"写尽等待的失望与执着，是温词代表作。`
+                    }
+                ]
+            },
+        ];
+
+        // 关系数据
+        const linksData = [
+            // 李白核心关系
+            { source: '李白', target: '杜甫', relation: '挚友' },
+            { source: '李白', target: '孟浩然', relation: '忘年交' },
+            { source: '李白', target: '王昌龄', relation: '诗友' },
+            { source: '李白', target: '贺知章', relation: '忘年交' },
+            { source: '李白', target: '高适', relation: '诗友' },
+            { source: '李白', target: '王维', relation: '无交集' },
+            { source: '李白', target: '汪伦', relation: '挚友' },
+            { source: '李白', target: '元丹丘', relation: '道友' },
+            { source: '李白', target: '岑勋', relation: '道友' },
+
+            // 杜甫朋友圈
+            { source: '杜甫', target: '高适', relation: '其他友情' },
+            { source: '杜甫', target: '岑参', relation: '诗友' },
+            { source: '杜甫', target: '严武', relation: '其他友情' },
+
+            // 王昌龄朋友圈
+            { source: '王昌龄', target: '辛渐', relation: '其他友情' },
+            { source: '王昌龄', target: '孟浩然', relation: '其他友情' },
+            { source: '王昌龄', target: '岑参', relation: '诗友' },
+
+            // 孟浩然朋友圈
+            { source: '孟浩然', target: '张九龄', relation: '其他友情' },
+            { source: '孟浩然', target: '王维', relation: '其他友情' },
+
+            // 王维朋友圈
+            { source: '王维', target: '裴迪', relation: '唱和' },
+
+            // 高适朋友圈
+            { source: '高适', target: '董大', relation: '其他友情' },
+            { source: '高适', target: '岑参', relation: '诗友' },
+
+            // 中唐诗人
+            { source: '元稹', target: '白居易', relation: '挚友' },
+            { source: '白居易', target: '刘禹锡', relation: '唱和' },
+
+            // 古文运动
+            { source: '韩愈', target: '柳宗元', relation: '师友' },
+            { source: '韩愈', target: '贾岛', relation: '师友' },
+            { source: '韩愈', target: '张籍', relation: '挚友' },
+
+            // 晚唐诗人"小李杜"
+            { source: '杜牧', target: '李商隐', relation: '无交集' },
+            { source: '李商隐', target: '白居易', relation: '忘年交' }
+        ];
+
+        // 诗词数据 (用于点击连线和详情面板)
+        // 诗词数据 (用于点击连线和详情面板) - 含具体交往故事
+        const poemDetails = {
+            '李白-杜甫': {
+                relation: '挚友',
+                story: '天宝三年（744年），44岁的李白在洛阳与33岁的杜甫初次相遇。当时李白刚被唐玄宗"赐金放还"，正值人生低谷；杜甫科举落第，同样郁郁不得志。两位落魄诗人一见如故，随后与高适一同游历梁宋，登吹台、游睢阳，把酒论诗。次年秋天，两人在兖州再次相聚，同游齐鲁，寻仙访道。此后天各一方，再未相见。杜甫一生为李白写下十五首诗，而李白回赠仅三首——这或许正是"诗仙"与"诗圣"不同性情的写照。',
+                poems: [
+                    { title: '沙丘城下寄杜甫', author: '李白', content: '我来竟何事，高卧沙丘城。\n城边有古树，日夕连秋声。\n鲁酒不可醉，齐歌空复情。\n思君若汶水，浩荡寄南征。', note: '李白在兖州思念杜甫所作' },
+                    { title: '春日忆李白', author: '杜甫', content: '白也诗无敌，飘然思不群。\n清新庾开府，俊逸鲍参军。\n渭北春天树，江东日暮云。\n何时一樽酒，重与细论文。', note: '杜甫怀念李白，"渭北春天树，江东日暮云"成千古名句' }
+                ]
+            },
+            '李白-孟浩然': {
+                relation: '忘年交',
+                story: '开元十五年（727年），27岁的李白在襄阳鹿门山拜访了年长12岁的孟浩然。孟浩然隐居鹿门，诗名远播，李白对其仰慕已久。两人一见投缘，纵论诗文，流连山水。李白后来写下"吾爱孟夫子，风流天下闻"的名句。开元十八年（730年）三月，孟浩然要从武昌东下扬州，李白亲自送到黄鹤楼，望着那一叶孤帆消失在碧空尽头，写下了千古绝唱《黄鹤楼送孟浩然之广陵》。',
+                poems: [
+                    { title: '黄鹤楼送孟浩然之广陵', author: '李白', content: '故人西辞黄鹤楼，烟花三月下扬州。\n孤帆远影碧空尽，唯见长江天际流。', note: '开元十八年春，李白在黄鹤楼送别孟浩然' },
+                    { title: '赠孟浩然', author: '李白', content: '吾爱孟夫子，风流天下闻。\n红颜弃轩冕，白首卧松云。\n醉月频中圣，迷花不事君。\n高山安可仰，徒此揖清芬。', note: '李白表达对孟浩然的崇敬之情' }
+                ]
+            },
+            '李白-王昌龄': {
+                relation: '诗友',
+                story: '天宝七年（748年），王昌龄因"不护细行"被贬为龙标尉，从江宁出发，踏上了前往湘西龙标（今湖南黔阳）的漫漫贬途。消息传到扬州，李白悲愤交加。当时正值暮春，杨花飘落，杜鹃啼血，李白想象着好友跋涉在五溪蛮荒之地的凄凉景象，挥笔写下"我寄愁心与明月，随风直到夜郎西"。这首诗后来成为送别诗中的绝唱，"愁心"与"明月"的意象影响了无数后来的诗人。',
+                poems: [
+                    { title: '闻王昌龄左迁龙标遥有此寄', author: '李白', content: '杨花落尽子规啼，闻道龙标过五溪。\n我寄愁心与明月，随风直到夜郎西。', note: '李白闻知好友王昌龄被贬龙标后所作' }
+                ]
+            },
+            '李白-贺知章': {
+                relation: '忘年交',
+                story: '天宝元年（742年），42岁的李白终于来到长安，经人引荐拜见了已经84岁高龄的秘书监贺知章。贺知章读罢李白的《蜀道难》，惊叹不已，解下腰间御赐的金龟换酒，与李白痛饮。席间贺知章说："你莫不是天上被贬谪下来的仙人？"从此"谪仙人"成为李白最著名的称号。两年后贺知章辞官归乡，不久病逝。李白闻讯悲痛万分，写下"金龟换酒处，却忆泪沾巾"的追忆之句。',
+                poems: [
+                    { title: '对酒忆贺监二首（其一）', author: '李白', content: '四明有狂客，风流贺季真。\n长安一相见，呼我谪仙人。\n昔好杯中物，翻为松下尘。\n金龟换酒处，却忆泪沾巾。', note: '贺知章去世后，李白写诗追忆"金龟换酒"的往事' }
+                ]
+            },
+            '李白-汪伦': {
+                relation: '挚友',
+                story: '泾县豪士汪伦听闻李白游历至此，写信邀请道："先生好游乎？此地有十里桃花。先生好饮乎？此地有万家酒店。"李白欣然前往，到了才知道"桃花"是潭水名，"万家"是酒店主人姓万。李白非但不恼，反而被汪伦的真诚与幽默打动，在泾县盘桓数日。临别之际，汪伦踏歌相送，李白感动不已，在船上挥笔写下"桃花潭水深千尺，不及汪伦送我情"，成为千古送别名篇。',
+                poems: [
+                    { title: '赠汪伦', author: '李白', content: '李白乘舟将欲行，忽闻岸上踏歌声。\n桃花潭水深千尺，不及汪伦送我情。', note: '李白在泾县桃花潭告别汪伦时所作' }
+                ]
+            },
+            '李白-元丹丘': {
+                relation: '道友',
+                story: '元丹丘是李白一生最重要的道友之一，两人相识于开元年间，共同修道求仙长达三十余年。元丹丘隐居嵩山，李白多次前往拜访，两人一起炼丹、论道、饮酒。天宝三年（744年），李白被"赐金放还"后，与元丹丘、岑勋在嵩山聚会，席间李白醉意阑珊，挥笔写下气势磅礴的《将进酒》，"岑夫子，丹丘生，将进酒，杯莫停"成为千古名句。',
+                poems: [
+                    { title: '将进酒', author: '李白', content: '君不见黄河之水天上来，奔流到海不复回。\n君不见高堂明镜悲白发，朝如青丝暮成雪。\n人生得意须尽欢，莫使金樽空对月。\n天生我材必有用，千金散尽还复来。\n烹羊宰牛且为乐，会须一饮三百杯。\n岑夫子，丹丘生，将进酒，杯莫停。\n与君歌一曲，请君为我倾耳听。', note: '李白与岑勋、元丹丘在嵩山饮酒时所作' }
+                ]
+            },
+            '李白-岑勋': {
+                relation: '道友',
+                story: '岑勋（字"夫子"）是李白的好友，与元丹丘一同出现在《将进酒》中。天宝三年，李白离开长安后，与岑勋、元丹丘在嵩山相聚。当时李白44岁，刚从朝廷被"赐金放还"，心中愤懑却又豪气干云。酒酣耳热之际，李白吟出"天生我材必有用，千金散尽还复来"的豪言，将人生的失意化作了不羁的狂歌。',
+                poems: [
+                    { title: '将进酒', author: '李白', content: '君不见黄河之水天上来，奔流到海不复回。\n君不见高堂明镜悲白发，朝如青丝暮成雪。\n人生得意须尽欢，莫使金樽空对月。\n天生我材必有用，千金散尽还复来。\n烹羊宰牛且为乐，会须一饮三百杯。\n岑夫子，丹丘生，将进酒，杯莫停。', note: '"岑夫子"即岑勋，与元丹丘同为李白道友' }
+                ]
+            },
+            '王昌龄-辛渐': {
+                relation: '其他友情',
+                story: '开元二十九年（741年），王昌龄在江宁（今南京）任职，好友辛渐要北上洛阳。王昌龄一路相送至润州（今镇江）芙蓉楼。那是一个秋雨绵绵的夜晚，寒雨洒落在江面上，楚山在晨曦中显得格外孤寂。临别时，王昌龄托辛渐带话给洛阳的亲友："一片冰心在玉壶"——纵然远离故土，仍保持着冰清玉洁的品格。这句话成为千古名言，也是王昌龄一生高洁品性的写照。',
+                poems: [
+                    { title: '芙蓉楼送辛渐', author: '王昌龄', content: '寒雨连江夜入吴，平明送客楚山孤。\n洛阳亲友如相问，一片冰心在玉壶。', note: '王昌龄在芙蓉楼送别辛渐赴洛阳' }
+                ]
+            },
+            '高适-董大': {
+                relation: '其他友情',
+                story: '董大即董庭兰，是盛唐著名的琴师，以善弹七弦琴闻名天下。天宝六年（747年），高适在睢阳（今河南商丘）与董庭兰相遇，当时两人都处于人生低谷——高适科举不第，四处漂泊；董庭兰失去了庇护他的宰相房琯，前途茫茫。然而高适没有伤感，反而豪迈地宽慰老友："莫愁前路无知己，天下谁人不识君！"这是朋友间最真挚的鼓励。',
+                poems: [
+                    { title: '别董大二首（其一）', author: '高适', content: '千里黄云白日曛，北风吹雁雪纷纷。\n莫愁前路无知己，天下谁人不识君。', note: '高适在睢阳送别琴师董庭兰' }
+                ]
+            },
+            '白居易-刘禹锡': {
+                relation: '唱和',
+                story: '宝历二年（826年），被贬谪23年的刘禹锡终于奉召回京，途经扬州时与白居易相遇。两位饱经沧桑的诗人在酒席上感慨万千，白居易写诗相赠，刘禹锡当场酬答，写下"沉舟侧畔千帆过，病树前头万木春"的名句。此后二人结为至交，书信唱和不断，并称"刘白"。白居易曾说："彭城刘梦得，诗豪者也。"刘禹锡去世后，白居易悲痛地写道："四海齐名白与刘，百年交分两绸缪。"',
+                poems: [
+                    { title: '酬乐天扬州初逢席上见赠', author: '刘禹锡', content: '巴山楚水凄凉地，二十三年弃置身。\n怀旧空吟闻笛赋，到乡翻似烂柯人。\n沉舟侧畔千帆过，病树前头万木春。\n今日听君歌一曲，暂凭杯酒长精神。', note: '刘禹锡在扬州酬答白居易赠诗' }
+                ]
+            },
+            '韩愈-贾岛': {
+                relation: '师友',
+                story: '贾岛原是和尚，法号无本，后还俗应科举。一天，贾岛骑驴在长安街头，正琢磨着诗句"鸟宿池边树，僧敲月下门"中究竟用"推"还是"敲"，不觉冲撞了京兆尹韩愈的仪仗队。韩愈非但不怒，反而停下来与贾岛讨论，最后建议用"敲"字——因为"敲"有声音，更能衬托夜的幽静。从此"推敲"成为反复斟酌文字的代名词，韩愈也成了贾岛的恩师。',
+                poems: [
+                    { title: '题李凝幽居', author: '贾岛', content: '闲居少邻并，草径入荒园。\n鸟宿池边树，僧敲月下门。\n过桥分野色，移石动云根。\n暂去还来此，幽期不负言。', note: '"推敲"典故即出自此诗' }
+                ]
+            },
+            '韩愈-柳宗元': {
+                relation: '师友',
+                story: '韩愈与柳宗元同为"唐宋八大家"之首，共同发起古文运动，反对浮华空洞的骈文，主张恢复先秦两汉质朴有力的散文传统。然而两人政治立场不同——韩愈反对王叔文革新，柳宗元则是革新派骨干。永贞革新失败后，柳宗元被贬永州、柳州，在南方蛮荒之地度过了人生最后十四年。元和十四年（819年），柳宗元病逝柳州，年仅47岁。韩愈悲痛不已，为其撰写墓志铭，盛赞其文学成就。',
+                poems: [
+                    { title: '江雪', author: '柳宗元', content: '千山鸟飞绝，万径人踪灭。\n孤舟蓑笠翁，独钓寒江雪。', note: '柳宗元被贬永州时所作，寄托孤独高洁之志' },
+                    { title: '左迁至蓝关示侄孙湘', author: '韩愈', content: '一封朝奏九重天，夕贬潮州路八千。\n欲为圣明除弊事，肯将衰朽惜残年。\n云横秦岭家何在？雪拥蓝关马不前。\n知汝远来应有意，好收吾骨瘴江边。', note: '韩愈因谏迎佛骨被贬潮州途中所作' }
+                ]
+            },
+            '杜甫-岑参': {
+                relation: '诗友',
+                story: '天宝十年（751年）前后，杜甫与岑参同在长安，都任左拾遗之职，同朝为官，常有诗歌往来。两人一个是现实派巨擘，一个是边塞诗大家，风格迥异却惺惺相惜。杜甫赞岑参诗"篇终接混茫"，岑参则在诗中写"杜拾遗"。安史之乱后，两人各自飘零，杜甫入蜀，岑参出塞，再难相见。',
+                poems: [
+                    { title: '九日寄岑参', author: '杜甫', content: '出门复入门，两脚但如旧。\n所向泥活活，思君令人瘦。', note: '杜甫在秋雨连绵中思念岑参' },
+                    { title: '寄左省杜拾遗', author: '岑参', content: '联步趋丹陛，分曹限紫微。\n晓随天仗入，暮卷霓旌归。', note: '岑参怀念与杜甫同朝为官的日子' }
+                ]
+            },
+            '杜甫-高适': {
+                relation: '其他友情',
+                story: '天宝三年（744年），杜甫、高适、李白三人同游梁宋，登吹台、访古迹，纵论天下，意气风发。这段"诗坛三杰"的友谊成为文学史上的佳话。然而命运弄人——安史之乱后，高适平步青云官至节度使，李白却因从永王李璘获罪入狱，杜甫贫病交加流落蜀中。杜甫曾写信向高适求援，高适却未能施以援手，昔日好友渐行渐远。',
+                poems: [
+                    { title: '人日寄杜二拾遗', author: '高适', content: '人日题诗寄草堂，遥怜故人思故乡。\n柳条弄色不忍见，梅花满枝空断肠。', note: '高适在人日（正月初七）思念成都草堂中的杜甫' }
+                ]
+            },
+            '杜甫-严武': {
+                relation: '其他友情',
+                story: '严武是杜甫在成都最重要的庇护者。广德元年（763年），严武任成都尹兼剑南节度使，对流落蜀中的杜甫多有照顾，不仅在经济上接济，还举荐杜甫为节度参谋、检校工部员外郎。杜甫的"草堂"岁月，有赖严武的庇护才得以安稳。永泰元年（765年）严武病逝，年仅40岁，杜甫失去了最后的依靠，不得不离开草堂，开始了生命最后五年的飘零。',
+                poems: [
+                    { title: '奉济驿重送严公四韵', author: '杜甫', content: '远送从此别，青山空复情。\n几时杯重把，昨夜月同行。\n列郡讴歌惜，三朝出入荣。\n江村独归处，寂寞养残生。', note: '杜甫在奉济驿送别严武' }
+                ]
+            },
+            '王昌龄-孟浩然': {
+                relation: '其他友情',
+                story: '开元二十八年（740年），王昌龄途经襄阳，探望隐居鹿门山的孟浩然。此时孟浩然背上正生着毒疮，本应忌口，却因与王昌龄相见太过高兴，饮酒食鲜，导致毒疮复发，不久便溘然长逝。王昌龄悲痛万分，自责不已。孟浩然用生命诠释了什么叫"为朋友两肋插刀"——虽然这一刀插在了自己身上。',
+                poems: [
+                    { title: '送王昌龄之岭南', author: '孟浩然', content: '土毛无缟纻，乡味有查头。\n已抱沉痼疾，更贻魑魅忧。', note: '孟浩然送王昌龄赴岭南任职' }
+                ]
+            },
+            '王昌龄-岑参': {
+                relation: '诗友',
+                story: '王昌龄与岑参同为盛唐边塞诗派的代表人物。王昌龄的"秦时明月汉时关"雄浑苍凉，岑参的"忽如一夜春风来"奇丽壮美，风格各异却同样豪迈。两人在长安时多有交往，常以诗歌唱和，共同构建了盛唐边塞诗的巍峨殿堂。',
+                poems: [
+                    { title: '出塞二首（其一）', author: '王昌龄', content: '秦时明月汉时关，万里长征人未还。\n但使龙城飞将在，不教胡马度阴山。', note: '王昌龄边塞诗代表作' }
+                ]
+            },
+            '孟浩然-张九龄': {
+                relation: '其他友情',
+                story: '张九龄是盛唐名相，以"海上生明月，天涯共此时"闻名。开元二十三年（735年），孟浩然入长安应试落第，心灰意冷之际，曾向时任宰相的张九龄投诗自荐，其中"欲济无舟楫，端居耻圣明"表达了渴望出仕的心情。张九龄欣赏孟浩然才华，但未能予以举荐。次年张九龄被贬，孟浩然的仕途之梦也随之破灭。',
+                poems: [
+                    { title: '望洞庭湖赠张丞相', author: '孟浩然', content: '八月湖水平，涵虚混太清。\n气蒸云梦泽，波撼岳阳城。\n欲济无舟楫，端居耻圣明。\n坐观垂钓者，徒有羡鱼情。', note: '孟浩然向张九龄自荐的干谒诗' }
+                ]
+            },
+            '孟浩然-王维': {
+                relation: '其他友情',
+                story: '王维与孟浩然并称"王孟"，同为山水田园诗派的宗师。两人年龄相仿，诗风相近，却性情迥异——王维半官半隐，孟浩然终生布衣。开元年间，孟浩然游长安时曾在王维官邸做客，恰逢唐玄宗驾临，孟浩然吓得躲到床下，被发现后吟诵"不才明主弃"，惹怒了玄宗。王维后来写"故人不可见，汉水日东流"悼念孟浩然，情真意切。',
+                poems: [
+                    { title: '哭孟浩然', author: '王维', content: '故人不可见，汉水日东流。\n借问襄阳老，江山空蔡洲。', note: '王维悼念孟浩然' }
+                ]
+            },
+            '王维-裴迪': {
+                relation: '唱和',
+                story: '裴迪是王维在辋川别业最亲密的诗友。王维晚年隐居蓝田辋川，裴迪常来同住，两人一起游览辋川二十景，各赋五言绝句，编成《辋川集》。王维的"独坐幽篁里，弹琴复长啸"、"空山不见人，但闻人语响"等名篇都作于此时。这段"诗画禅"的隐居生活，成为中国文人理想生活方式的典范。',
+                poems: [
+                    { title: '辋川闲居赠裴秀才迪', author: '王维', content: '寒山转苍翠，秋水日潺湲。\n倚杖柴门外，临风听暮蝉。\n渡头馀落日，墟里上孤烟。\n复值接舆醉，狂歌五柳前。', note: '王维赠裴迪，描写辋川隐居生活' }
+                ]
+            },
+            '高适-岑参': {
+                relation: '诗友',
+                story: '高适与岑参并称"高岑"，是盛唐边塞诗派的双璧。高适的诗雄浑悲壮，多写边塞军旅生活的艰辛；岑参的诗奇丽壮美，善写西域风光的神奇。两人都曾出塞从军，以亲身经历写出了唐代边塞诗的最强音。然而两人命运迥异——高适官至节度使，封渤海县侯；岑参终老于嘉州刺史任上，晚景凄凉。',
+                poems: [
+                    { title: '别董大', author: '高适', content: '千里黄云白日曛，北风吹雁雪纷纷。\n莫愁前路无知己，天下谁人不识君。', note: '高适送别琴师董庭兰' },
+                    { title: '白雪歌送武判官归京', author: '岑参', content: '北风卷地白草折，胡天八月即飞雪。\n忽如一夜春风来，千树万树梨花开。', note: '岑参在西域送别武判官的名篇' }
+                ]
+            },
+            '元稹-白居易': {
+                relation: '挚友',
+                story: '元稹与白居易是中唐最著名的诗友，并称"元白"。两人同年登科，同任校书郎，从此结下了长达三十年的深厚友谊。两人常以诗歌唱和，书信往来不断，共同倡导新乐府运动。元和五年（810年），元稹被贬江陵，白居易在长安思念成疾，写下"垂死病中惊坐起，暗风吹雨入寒窗"的名句。元稹去世后，白居易悲痛地写道："君埋泉下泥销骨，我寄人间雪满头。"',
+                poems: [
+                    { title: '闻乐天授江州司马', author: '元稹', content: '残灯无焰影幢幢，此夕闻君谪九江。\n垂死病中惊坐起，暗风吹雨入寒窗。', note: '元稹闻知白居易被贬江州时所作' }
+                ]
+            },
+            '韩愈-张籍': {
+                relation: '挚友',
+                story: '张籍是韩愈的学生和挚友，两人相识于贞元年间，交往长达三十余年。张籍曾任水部员外郎，故称"张水部"或"张十八员外"。韩愈写《早春呈水部张十八员外》赠张籍，描绘早春景色，成为千古名篇。张籍也多次写诗赠韩愈，两人诗歌唱和频繁，情谊深厚。',
+                poems: [
+                    { title: '早春呈水部张十八员外', author: '韩愈', content: '天街小雨润如酥，草色遥看近却无。\n最是一年春好处，绝胜烟柳满皇都。', note: '韩愈赠张籍，描写早春景色' }
+                ]
+            },
+            '杜牧-李商隐': {
+                relation: '无交集',
+                story: '杜牧与李商隐并称"小李杜"，是晚唐诗坛的双璧。杜牧年长李商隐10岁，诗风清丽俊爽，多写历史兴亡之感；李商隐诗风朦胧深婉，善写爱情相思之情。然而两人虽齐名却几乎无交往——杜牧官宦世家出身，仕途顺遂；李商隐卷入牛李党争，一生坎坷。两人性情、经历、诗风都大相径庭，终生未曾谋面。',
+                poems: [
+                    { title: '清明', author: '杜牧', content: '清明时节雨纷纷，路上行人欲断魂。\n借问酒家何处有？牧童遥指杏花村。', note: '杜牧描写清明时节的名篇' },
+                    { title: '夜雨寄北', author: '李商隐', content: '君问归期未有期，巴山夜雨涨秋池。\n何当共剪西窗烛，却话巴山夜雨时。', note: '李商隐在巴蜀思念妻子所作' }
+                ]
+            },
+            '李商隐-白居易': {
+                relation: '忘年交',
+                story: '李商隐年少时曾拜见白居易，白居易读罢李商隐的诗作，大为赞赏，说："我死后，文坛当有李商隐。"还曾开玩笑说："愿转世为你的儿子。"这段忘年交的佳话流传千古。然而白居易去世时，李商隐才23岁，两人交往时间不长。李商隐后来写诗悼念白居易，表达了对这位前辈的敬仰之情。',
+                poems: [
+                    { title: '锦瑟', author: '李商隐', content: '锦瑟无端五十弦，一弦一柱思华年。\n庄生晓梦迷蝴蝶，望帝春心托杜鹃。\n沧海月明珠有泪，蓝田日暖玉生烟。\n此情可待成追忆，只是当时已惘然。', note: '李商隐最著名的诗作，意境朦胧深远' }
+                ]
+            },
+            '李白-王维': {
+                relation: '无交集',
+                story: '李白与王维是盛唐诗坛的双峰，一个是浪漫主义的"诗仙"，一个是山水田园的"诗佛"。两人同年出生（701年），同在长安生活过，却终生未曾谋面，也没有互赠诗作。这或许是因为两人性情迥异——李白狂放不羁，王维恬淡冲和；李白仕途坎坷，王维官运亨通。两座高峰各自矗立，遥遥相望，却从未交汇。',
+                poems: [
+                    { title: '鹿柴', author: '王维', content: '空山不见人，但闻人语响。\n返景入深林，复照青苔上。', note: '王维山水诗代表作' }
+                ]
+            },
+            '李白-高适': {
+                relation: '诗友',
+                story: '天宝三年（744年），李白、杜甫、高适三人同游梁宋，登吹台、访古迹，纵论天下，意气风发。这段"诗坛三杰"的友谊成为文学史上的佳话。然而安史之乱后，三人命运迥异——高适平步青云官至节度使，李白因从永王李璘获罪入狱，杜甫贫病交加流落蜀中。高适未能援救李白，昔日好友渐行渐远，令人唏嘘。',
+                poems: [
+                    { title: '送李少府贬峡中王少府贬长沙', author: '高适', content: '嗟君此别意何如，驻马衔杯问谪居。\n巫峡啼猿数行泪，衡阳归雁几封书。\n青枫江上秋帆远，白帝城边古木疏。\n圣代即今多雨露，暂时分手莫踌躇。', note: '高适送别被贬的友人' }
+                ]
+            }
+        };
+
+        // 关系类型颜色映射
+        const relationColors = {
+            '挚友': '#ed5736',      // 妃色
+            '忘年交': '#ffa400',    // 杏黄
+            '诗友': '#0aa344',      // 青葱
+            '道友': '#9d2933',      // 胭脂
+            '师友': '#126bae',      // 柏林蓝
+            '唱和': '#1bd1a5',      // 碧色
+            '无交集': '#888',       // 灰色
+            '其他友情': '#c0c0c0'   // 浅灰
+        };
+
+        // 诗人流派颜色映射
+        const categoryColors = {
+            '浪漫派': '#ffa400',    // 杏黄
+            '现实派': '#ed5736',    // 妃色
+            '山水田园': '#0aa344',  // 青葱
+            '边塞诗派': '#126bae',  // 柏林蓝
+            '中唐诗人': '#1bd1a5',  // 碧色
+            '古文运动': '#9d2933',  // 胭脂
+            '晚唐诗人': '#8b5cf6',  // 紫色
+            '其他': '#c0c0c0'       // 浅灰
+        };
+
+        // 构建ECharts节点数据
+        const nodes = poetsData.map(poet => {
+            const isPrimary = poet.id === '李白';
+            const isPoemAuthor = ['李白', '杜甫', '王维', '孟浩然', '王昌龄', '贺知章', '高适', '白居易', '刘禹锡', '韩愈', '柳宗元', '贾岛', '岑参', '杜牧', '李商隐', '张籍'].includes(poet.id);
+            return {
+                id: poet.id,
+                name: poet.name,
+                value: poet.symbolSize, // 用于控制节点大小
+                category: poet.category,
+                itemStyle: {
+                    color: categoryColors[poet.category] || categoryColors['其他'],
+                    borderColor: isPrimary ? '#fff' : 'rgba(255,255,255,0.5)',
+                    borderWidth: isPrimary ? 3 : 1,
+                    shadowBlur: isPrimary ? 20 : 5,
+                    shadowColor: isPrimary ? 'rgba(255,255,255,0.8)' : 'rgba(0,0,0,0.3)'
+                },
+                label: {
+                    formatter: isPoemAuthor ? '{b} 📖' : '{b}', // 小学生必背标记
+                    color: '#fff',
+                    fontSize: isPrimary ? 18 : 12,
+                    fontWeight: isPrimary ? 'bold' : 'normal',
+                    textShadowColor: 'rgba(0,0,0,0.5)',
+                    textShadowBlur: 5
+                },
+                symbolSize: poet.symbolSize,
+                data: poet // 存储原始诗人数据
+            };
+        });
+
+        // 构建ECharts连线数据
+        const links = linksData.map(link => {
+            const isDashed = link.relation === '无交集';
+            return {
+                source: link.source,
+                target: link.target,
+                value: link.relation,
+                lineStyle: {
+                    color: relationColors[link.relation] || relationColors['其他友情'],
+                    width: isDashed ? 1 : 2,
+                    type: isDashed ? 'dashed' : 'solid',
+                    opacity: 0.8,
+                    curveness: 0.3,
+                    shadowBlur: 5,
+                    shadowColor: 'rgba(0,0,0,0.5)'
+                },
+                emphasis: {
+                    lineStyle: {
+                        width: isDashed ? 2 : 4,
+                        opacity: 1,
+                        shadowBlur: 10,
+                        shadowColor: 'rgba(255,255,255,0.8)'
+                    }
+                }
+            };
+        });
+
+        // ECharts配置项
+        const option = {
+            backgroundColor: 'transparent', // 背景已由body样式控制
+            animationDuration: 2000,
+            animationEasingUpdate: 'quinticInOut',
+            tooltip: {
+                formatter: function (params) {
+                    if (params.dataType === 'node') {
+                        const poet = params.data.data;
+                        let tooltipContent = `<strong>${poet.name}</strong><br>`;
+                        tooltipContent += `生卒年: ${poet.lifespan}<br>`;
+                        tooltipContent += `字号: ${poet.alias}<br>`;
+                        tooltipContent += `称号: ${poet.title}<br>`;
+                        tooltipContent += `流派: ${poet.category}<br>`;
+                        tooltipContent += `诗坛地位: ${poet.primaryRelation}<br>`;
+                        if (poet.masterpieces && poet.masterpieces.length > 0) {
+                            tooltipContent += `代表作: ${poet.masterpieces.join('、')}`;
+                        }
+                        return tooltipContent;
+                    } else if (params.dataType === 'edge') {
+                        return `${params.data.source} --(${params.data.relation || params.value})-- ${params.data.target}`;
+                    }
+                    return '';
+                },
+                backgroundColor: 'rgba(0, 0, 0, 0.7)',
+                borderColor: 'rgba(255, 255, 255, 0.3)',
+                borderWidth: 1,
+                textStyle: {
+                    color: '#fff',
+                    fontSize: 12
+                },
+                padding: [10, 15]
+            },
+            series: [
+                {
+                    name: '唐代诗人关系网络',
+                    type: 'graph',
+                    layout: 'force',
+                    force: {
+                        repulsion: 350, // 节点之间的斥力
+                        gravity: 0.08, // 节点受到的向中心的引力
+                        edgeLength: [80, 200], // 边的理想长度范围
+                        layoutAnimation: true // 布局动画
+                    },
+                    data: nodes,
+                    links: links,
+                    roam: true, // 开启鼠标缩放和平移漫游
+                    draggable: true, // 节点可拖拽
+                    focusNodeAdjacency: true, // 聚焦邻接节点
+                    label: {
+                        show: true,
+                        position: 'bottom',
+                        fontSize: 12,
+                        color: '#fff',
+                        textBorderColor: 'rgba(0,0,0,0.5)',
+                        textBorderWidth: 2
+                    },
+                    labelLayout: {
+                        hideOverlap: true // 隐藏重叠标签
+                    },
+                    lineStyle: {
+                        curveness: 0.3, // 连线曲度
+                        opacity: 0.8
+                    },
+                    emphasis: {
+                        focus: 'adjacency', // 鼠标悬停时聚焦邻接节点
+                        itemStyle: {
+                            borderColor: '#fff',
+                            borderWidth: 3,
+                            shadowBlur: 20,
+                            shadowColor: 'rgba(255,255,255,0.8)'
+                        },
+                        lineStyle: {
+                            width: 4,
+                            opacity: 1,
+                            shadowBlur: 10,
+                            shadowColor: 'rgba(255,255,255,0.8)'
+                        }
+                    },
+                    categories: Object.keys(categoryColors).map(name => ({ name: name, itemStyle: { color: categoryColors[name] } }))
+                }
+            ]
+        };
+
+        myChart.setOption(option);
+
+        // 辅助函数：显示诗人详情面板
+        function showDetailPanel(poetId) {
+            const poet = poetsData.find(p => p.id === poetId);
+            if (!poet) return;
+
+            document.getElementById('detail-name').innerText = poet.name;
+            document.getElementById('detail-lifespan').innerText = poet.lifespan;
+            document.getElementById('detail-alias').innerText = poet.alias;
+            document.getElementById('detail-title').innerText = poet.title;
+            document.getElementById('detail-school').innerText = poet.category;
+            document.getElementById('detail-primary-relation').innerHTML = `<strong>诗坛地位:</strong> ${poet.primaryRelation}`;
+
+            const masterpiecesDiv = document.getElementById('detail-masterpieces');
+            masterpiecesDiv.innerHTML = '';
+            if (poet.masterpieces && poet.masterpieces.length > 0) {
+                poet.masterpieces.forEach(poem => {
+                    const p = document.createElement('p');
+                    p.innerText = `《${poem}》`;
+                    masterpiecesDiv.appendChild(p);
+                });
+            } else {
+                masterpiecesDiv.innerHTML = '<p>暂无代表作信息。</p>';
+            }
+
+            const relatedPoemsDiv = document.getElementById('detail-related-poems');
+            relatedPoemsDiv.innerHTML = '';
+            if (poet.poems && poet.poems.length > 0) {
+                poet.poems.forEach(poem => {
+                    const poemItem = document.createElement('div');
+                    poemItem.style.cssText = 'padding: 8px 0; border-bottom: 1px dashed #eee; cursor: pointer;';
+                    poemItem.innerHTML = `<strong>《${poem.title}》</strong><br><span style="color:#666;font-size:0.9em;">${poem.content.split('\\n')[0]}</span>`;
+                    poemItem.onclick = () => showSinglePoemModal(poem, poet.name);
+                    relatedPoemsDiv.appendChild(poemItem);
+                });
+            } else {
+                relatedPoemsDiv.innerHTML = '<p>暂无小学生必背古诗。</p>';
+            }
+
+            document.getElementById('detail-panel').classList.add('show');
+        }
+
+        // 辅助函数：隐藏详情面板
+        function hideDetailPanel() {
+            document.getElementById('detail-panel').classList.remove('show');
+        }
+
+        // 辅助函数：显示诗词弹窗
+        function showPoemModal(source, target) {
+            const poemKey1 = `${source}-${target}`;
+            const poemKey2 = `${target}-${source}`;
+            const relation = poemDetails[poemKey1] || poemDetails[poemKey2];
+
+            if (relation) {
+                document.getElementById('modal-poem-title').innerText = `${source} 与 ${target}`;
+                document.getElementById('modal-relation-tag').innerText = relation.relationType || '诗友';
+                document.getElementById('modal-story-title').innerText = '交往故事';
+                document.getElementById('modal-story-content').innerText = relation.story || '两位诗人在唐代诗坛留下了千古佳话。';
+                
+                // 显示"相关诗词"标题
+                document.getElementById('modal-poems-title').style.display = 'block';
+                
+                // 生成诗词列表HTML
+                let poemsHtml = '';
+                if (relation.poems && relation.poems.length > 0) {
+                    relation.poems.forEach(poem => {
+                        poemsHtml += `
+                            <div class="poem-card">
+                                <div class="poem-title">${poem.title}</div>
+                                <div class="poem-author-line">—— ${poem.author}</div>
+                                <div class="poem-text">${poem.content}</div>
+                                ${poem.note ? `<div class="poem-note">${poem.note}</div>` : ''}
+                            </div>
+                        `;
+                    });
+                } else {
+                    poemsHtml = '<p style="color:#888;">暂无相关诗词记录</p>';
+                }
+                document.getElementById('modal-poems-list').innerHTML = poemsHtml;
+                document.getElementById('poem-modal').style.display = 'flex';
+            } else {
+                alert('暂无该诗人关系详情。');
+            }
+        }
+
+        // 辅助函数：关闭诗词弹窗
+        function closePoemModal() {
+            document.getElementById('poem-modal').style.display = 'none';
+        }
+
+        // 辅助函数：显示单首诗词弹窗
+        function showSinglePoemModal(poem, poetName) {
+            document.getElementById('modal-poem-title').innerText = poem.title;
+            document.getElementById('modal-relation-tag').innerText = poetName || '佚名';
+            document.getElementById('modal-story-title').innerText = '创作背景';
+            document.getElementById('modal-story-content').innerText = poem.background || '暂无背景介绍。';
+            
+            // 隐藏"相关诗词"标题，直接显示正文
+            document.getElementById('modal-poems-title').style.display = 'none';
+            const poemsHtml = `
+                <div class="poem-card">
+                    <div class="poem-text">${poem.content.replace(/\n/g, '<br>')}</div>
+                </div>
+            `;
+            document.getElementById('modal-poems-list').innerHTML = poemsHtml;
+            document.getElementById('poem-modal').style.display = 'flex';
+        }
+
+        // 事件监听：节点点击
+        myChart.on('click', function (params) {
+            if (params.dataType === 'node') {
+                showDetailPanel(params.data.id);
+            } else if (params.dataType === 'edge') {
+                showPoemModal(params.data.source, params.data.target);
+            }
+        });
+
+        // 事件监听：搜索功能
+        document.getElementById('search-button').addEventListener('click', searchPoet);
+        document.getElementById('search-input').addEventListener('keypress', function (e) {
+            if (e.key === 'Enter') {
+                searchPoet();
+            }
+        });
+
+        function searchPoet() {
+            const keyword = document.getElementById('search-input').value.trim();
+            if (!keyword) {
+                myChart.dispatchAction({
+                    type: 'unselect',
+                    seriesIndex: 0
+                });
+                myChart.setOption(option); // 恢复默认样式
+                return;
+            }
+
+            const foundNode = nodes.find(node => node.name.includes(keyword));
+            if (foundNode) {
+                myChart.dispatchAction({
+                    type: 'highlight',
+                    seriesIndex: 0,
+                    name: foundNode.name
+                });
+                myChart.dispatchAction({
+                    type: 'showTip',
+                    seriesIndex: 0,
+                    name: foundNode.name
+                });
+                showDetailPanel(foundNode.id);
+            } else {
+                alert('未找到该诗人。');
+            }
+        }
+
+        // 事件监听：图例筛选功能
+        document.querySelectorAll('.legend-item').forEach(item => {
+            item.addEventListener('click', function () {
+                const relationType = this.dataset.type;
+                filterByRelation(relationType);
+            });
+        });
+
+        let currentFilteredRelation = null;
+
+        function filterByRelation(relationType) {
+            if (currentFilteredRelation === relationType) {
+                // 如果点击的是当前已筛选的类型，则取消筛选
+                currentFilteredRelation = null;
+                myChart.setOption({
+                    series: [{
+                        links: links.map(link => ({
+                            ...link,
+                            lineStyle: {
+                                ...link.lineStyle,
+                                opacity: 0.8,
+                                width: link.value === '无交集' ? 1 : 2
+                            }
+                        })),
+                        data: nodes.map(node => ({
+                            ...node,
+                            itemStyle: {
+                                ...node.itemStyle,
+                                opacity: 1
+                            },
+                            label: {
+                                ...node.label,
+                                opacity: 1
+                            }
+                        }))
+                    }]
+                });
+                document.querySelectorAll('.legend-item').forEach(item => item.style.opacity = 1);
+            } else {
+                currentFilteredRelation = relationType;
+                const newLinks = links.map(link => {
+                    const isMatch = link.value === relationType;
+                    return {
+                        ...link,
+                        lineStyle: {
+                            ...link.lineStyle,
+                            opacity: isMatch ? 1 : 0.1,
+                            width: isMatch ? (link.value === '无交集' ? 2 : 3) : 0.5
+                        }
+                    };
+                });
+
+                const relatedNodeIds = new Set();
+                newLinks.forEach(link => {
+                    if (link.lineStyle.opacity === 1) {
+                        relatedNodeIds.add(link.source);
+                        relatedNodeIds.add(link.target);
+                    }
+                });
+
+                const newNodes = nodes.map(node => ({
+                    ...node,
+                    itemStyle: {
+                        ...node.itemStyle,
+                        opacity: relatedNodeIds.has(node.id) ? 1 : 0.2
+                    },
+                    label: {
+                        ...node.label,
+                        opacity: relatedNodeIds.has(node.id) ? 1 : 0.2
+                    }
+                }));
+
+                myChart.setOption({
+                    series: [{
+                        links: newLinks,
+                        data: newNodes
+                    }]
+                });
+
+                document.querySelectorAll('.legend-item').forEach(item => {
+                    item.style.opacity = item.dataset.type === relationType ? 1 : 0.5;
+                });
+            }
+        }
+
+        // 事件监听：诗词弹窗关闭按钮
+        document.getElementById('poem-modal-close').addEventListener('click', closePoemModal);
+        window.addEventListener('click', function(event) {
+            if (event.target === document.getElementById('poem-modal')) {
+                closePoemModal();
+            }
+        });
+
+        // 图例折叠按钮功能
+        const legendPanel = document.getElementById('legend-panel');
+        const legendToggle = document.getElementById('legend-toggle');
+        legendToggle.addEventListener('click', () => {
+            legendPanel.classList.toggle('collapsed');
+            legendToggle.innerText = legendPanel.classList.contains('collapsed') ? '▶' : '◀';
+        });
+
+        // 窗口resize事件监听
+        window.addEventListener('resize', function () {
+            myChart.resize();
+        });
+    </script>
+</body>
+</html>
