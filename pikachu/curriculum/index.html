@@ -238,6 +238,23 @@
             margin: 2px;
         }
         
+        .time-column-slot span {
+            white-space: nowrap;
+            font-size: 0.875rem;
+        }
+        
+        @media (max-width: 480px) {
+            .time-column-slot span {
+                font-size: 0.7rem;
+            }
+        }
+        
+        @media (max-width: 380px) {
+            .time-column-slot span {
+                font-size: 0.6rem;
+            }
+        }
+        
         .time-column-slot:hover {
             transform: translateY(-2px);
             box-shadow: 0 8px 25px rgba(0,0,0,0.15);

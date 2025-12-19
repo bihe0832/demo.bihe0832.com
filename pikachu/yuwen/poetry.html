@@ -576,6 +576,21 @@
             line-height: 2.2;
             text-align: center;
             white-space: pre-line;
+            word-break: keep-all;
+        }
+
+        @media (max-width: 600px) {
+            .poem-card .poem-text {
+                font-size: 0.95em;
+                line-height: 2;
+            }
+        }
+
+        @media (max-width: 400px) {
+            .poem-card .poem-text {
+                font-size: 0.85em;
+                line-height: 1.8;
+            }
         }
 
         .poem-card .poem-note {
