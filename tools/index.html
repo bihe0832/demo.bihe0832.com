@@ -108,7 +108,7 @@
     }
     
     .g-box {
-      max-width: 1400px;
+      max-width: 2000px;
       margin: 0 auto;
     }
     
@@ -170,21 +170,22 @@
     /* 链接网格 */
     .category-content {
       display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 10px;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 15px;
       padding: 15px;
     }
     
     .link-card {
       display: flex;
       align-items: center;
-      padding: 10px 14px;
+      padding: 10px 16px;
       background: #f8f9fa;
       border-radius: 8px;
       cursor: pointer;
       transition: all 0.2s;
       text-decoration: none;
       color: #333;
+      min-width: 0;
     }
     
     .link-card:hover {
@@ -224,6 +225,12 @@
     }
     
     /* 响应式 */
+    @media (max-width: 1600px) {
+      .category-content { grid-template-columns: repeat(6, 1fr); }
+    }
+    @media (max-width: 1400px) {
+      .category-content { grid-template-columns: repeat(5, 1fr); }
+    }
     @media (max-width: 1200px) {
       .category-content { grid-template-columns: repeat(4, 1fr); }
     }
@@ -251,6 +258,25 @@
   </div>
   
   <div class="g-box">
+    <!-- 最近常用 -->
+    <div class="category" v-if="recentList.length > 0" :class="{ collapsed: recentCollapsed }">
+      <div class="category-header" @click="recentCollapsed = !recentCollapsed">
+        <span class="category-icon">⭐</span>
+        <span class="category-title">最近常用</span>
+        <span class="category-count">{{ recentList.length }}项</span>
+        <span class="category-arrow">▼</span>
+      </div>
+      <div class="category-content">
+        <a class="link-card" v-for="link in recentList" :href="link.url" target="_blank" @click="recordClick(link.url)">
+          <span class="link-emoji">{{ link.emoji }}</span>
+          <span class="link-text">
+            <span class="link-name">{{ link.name }}</span>
+            <span class="link-tag" v-if="link.isOwner">原创</span>
+          </span>
+        </a>
+      </div>
+    </div>
+    
     <div class="category" v-for="(item, index) in dataList" :class="{ collapsed: item.collapsed }">
       <div class="category-header" @click="toggleCategory(index)">
         <span class="category-icon">{{ item.icon }}</span>
@@ -259,7 +285,7 @@
         <span class="category-arrow">▼</span>
       </div>
       <div class="category-content">
-        <a class="link-card" v-for="link in item.data" :href="link.url" target="_blank">
+        <a class="link-card" v-for="link in item.data" :href="link.url" target="_blank" @click="recordClick(link.url)">
           <span class="link-emoji">{{ link.emoji }}</span>
           <span class="link-text">
             <span class="link-name">{{ link.name }}</span>
@@ -273,10 +299,13 @@
 </body>
 <script src="./../js/vue/2.6.10/vue.min.js"></script>
 <script>
+const STORAGE_KEY = 'tools_click_count';
+
 new Vue({
   el: '#app',
   data() {
     return {
+      recentCollapsed: false,
       dataList: [
         {
           title: "Android 开发",
@@ -284,49 +313,41 @@ new Vue({
           collapsed: false,
           data: [
             { name: 'AAF 框架', emoji: '🤖', isOwner: true, url: 'https://android.bihe0832.com/doc/summary/links.html' },
-            { name: 'AAF 更新配置生成', emoji: '⚙️', isOwner: true, url: 'https://cdn.bihe0832.com/tools/config/update.html' },
             { name: 'Schema 拉起应用', emoji: '🔗', isOwner: true, url: 'https://cdn.bihe0832.com/tools/router/index.html' },
             { name: 'JSBridge 调试', emoji: '🌉', isOwner: true, url: 'https://cdn.bihe0832.com/tools/jsbridge/index.html' },
+            { name: 'Material Palette', emoji: '🎨', isOwner: false, url: 'https://www.materialpalette.com/indigo/indigo' },
+            { name: 'Material Design 指南', emoji: '📘', isOwner: false, url: 'https://www.mdui.org/design/' },
+            { name: 'Android 权限列表', emoji: '🔐', isOwner: true, url: 'https://blog.bihe0832.com/android-permission.html' },
+            { name: 'AAF 更新配置生成', emoji: '⚙️', isOwner: true, url: 'https://cdn.bihe0832.com/tools/config/update.html' },
+            { name: '隐私政策生成器', emoji: '📜', isOwner: false, url: 'https://privacy.1ts.fun/' },
+            { name: 'Android开发调试常用工具', emoji: '🛠️', isOwner: true, url: 'https://blog.bihe0832.com/android_tools_develop_debug.html' },
             { name: 'Android 开发资源', emoji: '📦', isOwner: true, url: 'https://blog.bihe0832.com/my_android.html' }
           ]
         },
         {
-          title: "编码转换",
-          icon: "🔄",
+          title: "开发工具",
+          icon: "🔨",
           collapsed: false,
           data: [
-            { name: 'JSON Editor', emoji: '📋', isOwner: false, url: 'https://jsoneditoronline.org/' },
-            { name: '编码转义工具', emoji: '🔐', isOwner: false, url: 'https://blog.bihe0832.com/tools_for_developer.html' },
-            { name: '常用颜色', emoji: '🎨', isOwner: true, url: './color.html' }
-          ]
-        },
-        {
-          title: "图表绘制",
-          icon: "📊",
-          collapsed: false,
-          data: [
+            { name: '开发常用资源', emoji: '🗂️', isOwner: true, url: 'https://cdn.bihe0832.com/tools/test.html' },
+            { name: '常用颜色', emoji: '🎨', isOwner: true, url: './color.html' },
+            { name: 'iconfont', emoji: '🖼️', isOwner: false, url: 'https://www.iconfont.cn' },
+            { name: 'Markdown 表格', emoji: '📝', isOwner: true, url: 'https://blog.bihe0832.com/markdow_advanced.html' },
             { name: 'Gliffy Diagrams', emoji: '📐', isOwner: false, url: 'https://go.gliffy.com/go/html5/launch' },
-            { name: 'Markdown 表格', emoji: '📝', isOwner: true, url: 'https://blog.bihe0832.com/markdow_advanced.html' }
-          ]
-        },
-        {
-          title: "图片处理",
-          icon: "🖼️",
-          collapsed: false,
-          data: [
-            { name: '图片图标处理', emoji: '✂️', isOwner: true, url: 'https://blog.bihe0832.com/my_image.html' },
-            { name: 'Logo 制作', emoji: '🎯', isOwner: false, url: 'https://cdn.bihe0832.com/tools/logo/index.html' }
-          ]
-        },
-        {
-          title: "Web 开发",
-          icon: "🌐",
-          collapsed: false,
-          data: [
-            { name: 'Web 开发工具', emoji: '🔧', isOwner: false, url: 'https://blog.bihe0832.com/tools_for_developer.html' },
-            { name: '多码合一', emoji: '📱', isOwner: true, url: 'https://microdemo.bihe0832.com/MultiQrcode/index.html' },
+            { name: '蒲公英 App Icon', emoji: '🌼', isOwner: false, url: 'https://www.pgyer.com/tools/appIcon' },
+            { name: 'Android Asset Studio', emoji: '🤖', isOwner: false, url: 'http://romannurik.github.io/AndroidAssetStudio/index.html' },
             { name: 'shields.io', emoji: '🛡️', isOwner: false, url: 'https://img.shields.io/' },
-            { name: 'font-awesome', emoji: '🔤', isOwner: true, url: 'http://blog.bihe0832.com/pages/font-awesome.html' }
+            { name: 'Logo 制作', emoji: '🎯', isOwner: false, url: 'https://cdn.bihe0832.com/tools/logo/index.html' },
+            { name: '图片图标处理汇总', emoji: '✂️', isOwner: true, url: 'https://blog.bihe0832.com/my_image.html' }
+          ]
+        },
+        {
+          title: "其他工具",
+          icon: "📦",
+          collapsed: false,
+          data: [
+            { name: '皮卡丘系列', emoji: '⚡', isOwner: true, url: 'https://cdn.bihe0832.com/pikachu/index.html' },
+            { name: '书籍配置生成', emoji: '📖', isOwner: true, url: 'https://cdn.bihe0832.com/pikachu/book/book.html' }
           ]
         },
         {
@@ -339,21 +360,77 @@ new Vue({
           ]
         },
         {
-          title: "其他工具",
-          icon: "📦",
+          title: "编码转换",
+          icon: "🔄",
           collapsed: false,
           data: [
-            { name: '开发常用资源', emoji: '🗂️', isOwner: false, url: 'https://cdn.bihe0832.com/tools/test.html' },
-            { name: '皮卡丘系列', emoji: '⚡', isOwner: true, url: 'https://cdn.bihe0832.com/pikachu/index.html' },
-            { name: '书籍配置生成', emoji: '📖', isOwner: true, url: 'https://cdn.bihe0832.com/pikachu/book/book.html' }
+            { name: 'JSON Editor', emoji: '📋', isOwner: false, url: 'https://jsoneditoronline.org/' },
+            { name: 'URL编码解码', emoji: '🔗', isOwner: false, url: 'http://tool.chinaz.com/Tools/URLEncode.aspx' },
+            { name: '加解密（AES/DES等）', emoji: '🔒', isOwner: false, url: 'http://tool.chinaz.com/Tools/TextEncrypt.aspx' },
+            { name: 'MD5', emoji: '🔑', isOwner: false, url: 'http://tool.chinaz.com/Tools/MD5.aspx' },
+            { name: 'TimeStamp', emoji: '⏰', isOwner: false, url: 'http://tool.chinaz.com/Tools/unixtime.aspx' },
+            { name: 'emoji 代码表', emoji: '😀', isOwner: false, url: 'https://www.webfx.com/tools/emoji-cheat-sheet/' },
+            { name: '编码转义工具汇总', emoji: '🔐', isOwner: true, url: 'https://blog.bihe0832.com/tools_for_developer.html' }
+          ]
+        },
+        {
+          title: "Web 开发",
+          icon: "🌐",
+          collapsed: false,
+          data: [
+            { name: '多码合一', emoji: '📱', isOwner: true, url: 'https://microdemo.bihe0832.com/MultiQrcode/index.html' },
+            { name: 'font-awesome', emoji: '🔤', isOwner: true, url: 'http://blog.bihe0832.com/pages/font-awesome.html' },
+            { name: 'HTTP状态码', emoji: '📡', isOwner: false, url: 'http://tool.oschina.net/commons?type=5' },
+            { name: '常见端口', emoji: '🚪', isOwner: false, url: 'http://tool.oschina.net/commons?type=7' }
+          ]
+        },
+        {
+          title: "网络工具",
+          icon: "🌍",
+          collapsed: false,
+          data: [
+            { name: '端口扫描', emoji: '🔍', isOwner: false, url: 'http://tool.chinaz.com/port/' },
+            { name: '911查IP', emoji: '📍', isOwner: false, url: 'http://ip.911cha.com/' },
+            { name: 'Ping/DNS/Traceroute', emoji: '📶', isOwner: false, url: 'http://just-ping.com' },
+            { name: '淘宝IP库', emoji: '🗺️', isOwner: false, url: 'http://ip.taobao.com/ipSearch.php' }
           ]
         }
       ]
     }
   },
+  computed: {
+    allTools() {
+      const tools = [];
+      this.dataList.forEach(cat => {
+        cat.data.forEach(item => tools.push(item));
+      });
+      return tools;
+    },
+    recentList() {
+      const counts = this.getClickCounts();
+      const sorted = Object.entries(counts)
+        .filter(([url, count]) => count > 0)
+        .sort((a, b) => b[1] - a[1])
+        .slice(0, 5)
+        .map(([url]) => url);
+      return sorted.map(url => this.allTools.find(t => t.url === url)).filter(Boolean);
+    }
+  },
   methods: {
     toggleCategory(index) {
       this.$set(this.dataList[index], 'collapsed', !this.dataList[index].collapsed);
+    },
+    getClickCounts() {
+      try {
+        return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+      } catch {
+        return {};
+      }
+    },
+    recordClick(url) {
+      const counts = this.getClickCounts();
+      counts[url] = (counts[url] || 0) + 1;
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(counts));
     }
   }
 })
