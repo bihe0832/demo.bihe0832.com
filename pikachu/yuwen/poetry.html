@@ -565,12 +565,14 @@
             font-size: 1.2em;
             font-weight: bold;
             margin-bottom: 5px;
+            text-align: center;
         }
 
         .poem-card .poem-author-line {
             color: #888;
             font-size: 0.95em;
             margin-bottom: 15px;
+            text-align: center;
         }
 
         .poem-card .poem-text {
@@ -1004,6 +1006,8 @@
                     relation.poems.forEach(poem => {
                         poemsHtml += `
                             <div class="poem-card">
+                                <div class="poem-title">${poem.title}</div>
+                                <div class="poem-author-line">—— ${poem.author}</div>
                                 <div class="poem-text">${poem.content}</div>
                             </div>
                         `;
