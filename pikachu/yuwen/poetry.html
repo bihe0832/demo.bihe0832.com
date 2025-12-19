@@ -211,7 +211,10 @@
         #detail-panel .panel-header {
             padding: 20px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-            position: relative;
+            position: sticky;
+            top: 0;
+            background: rgba(15, 25, 45, 1);
+            z-index: 10;
         }
 
         #detail-panel h3 {
@@ -466,7 +469,7 @@
         }
 
         .modal-header {
-            background: linear-gradient(90deg, rgba(237, 87, 54, 0.2) 0%, rgba(255, 164, 0, 0.2) 100%);
+            background: linear-gradient(90deg, rgba(26, 42, 74, 1) 0%, rgba(10, 22, 40, 1) 100%);
             padding: 25px 30px;
             border-bottom: 1px solid rgba(255, 255, 255, 0.1);
             position: sticky;
@@ -603,22 +606,22 @@
         }
 
         #poem-modal-close {
-            position: absolute;
-            top: 20px;
-            right: 25px;
+            position: fixed;
+            top: calc(7.5vh + 20px);
+            right: calc(5% + 25px);
             color: #888;
             font-size: 32px;
             font-weight: bold;
             cursor: pointer;
             transition: all 0.3s ease;
-            z-index: 20;
+            z-index: 1001;
             width: 40px;
             height: 40px;
             display: flex;
             align-items: center;
             justify-content: center;
             border-radius: 50%;
-            background: rgba(255,255,255,0.05);
+            background: rgba(26, 42, 74, 0.95);
         }
 
         #poem-modal-close:hover {
@@ -1001,10 +1004,7 @@
                     relation.poems.forEach(poem => {
                         poemsHtml += `
                             <div class="poem-card">
-                                <div class="poem-title">${poem.title}</div>
-                                <div class="poem-author-line">—— ${poem.author}</div>
                                 <div class="poem-text">${poem.content}</div>
-                                ${poem.note ? `<div class="poem-note">${poem.note}</div>` : ''}
                             </div>
                         `;
                     });
