@@ -1,0 +1,939 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no" />    
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="Expires" content="0">
+    <link rel="Shortcut Icon" href="https://cdn.bihe0832.com/images/zixie_32.ico" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="author" CONTENT="子勰(bihe0832), code@bihe0832.com" />
+    <meta name="keywords" content="子勰,bihe0832,工具咩" />
+    <meta name="description" content="皮卡丘学数学之牛吃草问题演示" />
+    <meta property="og:title" content="皮卡丘学数学之牛吃草问题演示" />
+    <meta property="og:locale" content="en_US" />
+    <meta name="google-site-verification" content="3wzNgbjvFNHkH-8QpougMZ0s9Y4GEjG49kEb49QQqpw" />
+    <meta property="og:description" content="" />
+    <link rel="canonical" href="https://blog.bihe0832.com/" />
+    <meta property="og:url" content="https://blog.bihe0832.com/" />
+    <meta property="og:site_name" content="工具咩" />
+    <meta property="og:type" content="article" />
+    <title>皮卡丘学数学之牛吃草问题演示</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Microsoft YaHei', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #2e7d32, #81c784);
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+            margin: 20px 0;
+            padding: 20px;
+        }
+        header {
+            background: linear-gradient(90deg, #1b5e20, #388e3c);
+            color: white;
+            padding: 20px 30px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        header h2 {
+            font-size: 2.2rem;
+            margin: 10px 0;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+        }
+        
+        /* 三栏布局 */
+        .main-content {
+            display: flex;
+            gap: 20px;
+            min-height: 500px;
+        }
+        
+        /* 左侧：设置和控制 */
+        .left-panel {
+            flex: 0 0 250px;
+            background: #f5f5f5;
+            border-radius: 15px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* 中间：动画区域 */
+        .center-panel {
+            flex: 1;
+            min-width: 500px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        /* 右侧：步骤列表 */
+        .right-panel {
+            flex: 0 0 320px;
+            background: #e8f5e9;
+            border-radius: 15px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            max-height: 600px;
+        }
+        
+        .panel-title {
+            font-size: 1.1rem;
+            color: #1b5e20;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 3px solid #4caf50;
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+        .panel-title i {
+            margin-right: 10px;
+            font-size: 1.2rem;
+            color: #4caf50;
+        }
+        
+        .time-selector {
+            margin: 10px 0 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .time-btn {
+            padding: 10px 15px;
+            background: linear-gradient(45deg, #e0e0e0, #bdbdbd);
+            color: #333;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-size: 14px;
+        }
+        .time-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+        .time-btn.active {
+            background: linear-gradient(45deg, #4caf50, #1b5e20);
+            color: white;
+            box-shadow: 0 4px 8px rgba(76, 175, 80, 0.4);
+        }
+        
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .input-item {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+        }
+        .input-label {
+            font-weight: bold;
+            color: #1b5e20;
+            font-size: 0.95rem;
+        }
+        input {
+            padding: 10px 12px;
+            border: 2px solid #4caf50;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        input:focus {
+            border-color: #ff9800;
+            outline: none;
+            box-shadow: 0 0 8px rgba(255, 152, 0, 0.3);
+        }
+        
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        button {
+            padding: 12px 20px;
+            font-size: 1rem;
+            background: linear-gradient(90deg, #4caf50, #1b5e20);
+            color: white;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: transform 0.3s, background 0.3s;
+            box-shadow: 0 4px 10px rgba(76, 175, 80, 0.4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            background: linear-gradient(90deg, #1b5e20, #4caf50);
+        }
+        
+        button:active {
+            transform: translateY(1px);
+        }
+        
+        button:disabled {
+            background: linear-gradient(90deg, #bdc3c7, #95a5a6);
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .start-btn {
+            background: linear-gradient(90deg, #ff9800, #f57c00);
+            box-shadow: 0 4px 10px rgba(255, 152, 0, 0.4);
+        }
+        .start-btn:hover {
+            background: linear-gradient(90deg, #f57c00, #ff9800);
+        }
+        
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        .nav-buttons button {
+            flex: 1;
+            padding: 10px;
+            font-size: 0.9rem;
+        }
+        
+        /* 草地区域 */
+        .meadow-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .meadow {
+            flex: 1;
+            min-height: 350px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            padding: 20px;
+            justify-content: flex-start;
+            align-content: flex-start;
+            border: 4px solid #558b2f;
+            border-radius: 15px;
+            background: linear-gradient(to bottom, #c8e6c9, #a5d6a7);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+        .meadow::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: linear-gradient(45deg, rgba(255,255,255,0.1) 25%, transparent 25%, transparent 50%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.1) 75%, transparent 75%, transparent);
+            background-size: 10px 10px;
+            border-radius: 11px;
+        }
+        
+        .grass-item {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .grass-item.eaten {
+            opacity: 0.3;
+            filter: grayscale(100%);
+        }
+        
+        .cow-item {
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            transform: scaleX(-1);
+            z-index: 2;
+            flex-shrink: 0;
+        }
+        
+        .cow-item.eating {
+            animation: eat 0.5s ease-in-out infinite;
+        }
+        
+        .cow-item.hidden {
+            display: none;
+        }
+        
+        @keyframes eat {
+            0%, 100% { transform: scaleX(-1) rotate(0deg) scale(1); }
+            50% { transform: scaleX(-1) rotate(10deg) scale(1.1); }
+        }
+        
+        .sun-moon {
+            font-size: 24px;
+        }
+        
+        .meadow-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 15px;
+            background: linear-gradient(90deg, #e8f5e9, #c8e6c9);
+            border-radius: 10px;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+        }
+        
+        .day-indicator {
+            font-weight: bold;
+            color: #1b5e20;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .grass-count {
+            font-weight: bold;
+            color: #1b5e20;
+            font-size: 1.1rem;
+            background: rgba(255,255,255,0.8);
+            padding: 5px 12px;
+            border-radius: 15px;
+        }
+        
+        /* 步骤列表 */
+        .steps-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .step-counter {
+            background: #4caf50;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+        
+        .steps-list {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 5px;
+        }
+        
+        .steps-list::-webkit-scrollbar {
+            width: 6px;
+        }
+        .steps-list::-webkit-scrollbar-track {
+            background: #c8e6c9;
+            border-radius: 3px;
+        }
+        .steps-list::-webkit-scrollbar-thumb {
+            background: #4caf50;
+            border-radius: 3px;
+        }
+        
+        .step {
+            padding: 12px 15px;
+            margin: 8px 0;
+            border-radius: 8px;
+            transition: all 0.3s;
+            background: linear-gradient(to right, #c8e6c9, #a5d6a7);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+            font-size: 0.95rem;
+            display: none;
+        }
+        
+        .step.visible {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+        
+        .step.active {
+            background: linear-gradient(to right, #a5d6a7, #81c784);
+            box-shadow: 0 4px 10px rgba(76, 175, 80, 0.25);
+            border-left: 4px solid #4caf50;
+            transform: scale(1.02);
+        }
+        
+        .step.empty {
+            background: linear-gradient(to right, #ffcdd2, #ef9a9a);
+            border-left: 4px solid #f44336;
+        }
+        
+        .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 24px;
+            height: 24px;
+            background: #4caf50;
+            color: white;
+            border-radius: 50%;
+            font-weight: bold;
+            font-size: 0.8rem;
+            margin-right: 10px;
+        }
+        
+        .step.empty .step-number {
+            background: #f44336;
+        }
+        
+        .highlight {
+            color: #d32f2f;
+            font-weight: bold;
+            background-color: #fff9c4;
+            padding: 1px 4px;
+            border-radius: 3px;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .answer-box {
+            margin-top: 15px;
+            background: linear-gradient(135deg, #fff9c4, #ffeb3b);
+            border-radius: 12px;
+            padding: 15px;
+            text-align: center;
+            display: none;
+            box-shadow: 0 4px 12px rgba(255, 235, 59, 0.4);
+        }
+        
+        .answer-box.show {
+            display: block;
+            animation: pop 0.5s ease;
+        }
+        
+        @keyframes pop {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        
+        .answer-box h3 {
+            color: #f57f17;
+            font-size: 1.3rem;
+            margin: 0;
+        }
+        
+        /* 响应式布局 */
+        @media (max-width: 1200px) {
+            .main-content {
+                flex-direction: column;
+            }
+            .left-panel, .right-panel {
+                flex: none;
+                width: 100%;
+            }
+            .left-panel {
+                flex-direction: row;
+                flex-wrap: wrap;
+                gap: 20px;
+            }
+            .left-panel .panel-title {
+                width: 100%;
+            }
+            .time-selector {
+                flex-direction: row;
+                flex: 1;
+            }
+            .input-group {
+                flex-direction: row;
+                flex-wrap: wrap;
+                flex: 2;
+            }
+            .input-item {
+                flex: 1;
+                min-width: 120px;
+            }
+            .controls {
+                flex-direction: row;
+                flex-wrap: wrap;
+                width: 100%;
+                margin-top: 10px;
+            }
+            .controls button {
+                flex: 1;
+                min-width: 120px;
+            }
+            .nav-buttons {
+                flex: 2;
+            }
+            .right-panel {
+                max-height: 400px;
+            }
+        }
+        
+        @media (max-width: 700px) {
+            .left-panel {
+                flex-direction: column;
+            }
+            .time-selector {
+                flex-direction: column;
+            }
+            .input-group {
+                flex-direction: column;
+            }
+            .controls {
+                flex-direction: column;
+            }
+            .nav-buttons {
+                flex-direction: row;
+            }
+            .grass-item {
+                width: 32px;
+                height: 32px;
+                font-size: 22px;
+            }
+            .cow-item {
+                width: 32px;
+                height: 32px;
+                font-size: 28px;
+            }
+            header h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h2><i class="fas fa-seedling"></i> 皮卡丘学数学之牛吃草问题演示</h2>
+            <p>分步解答一目了然</p>
+        </header>
+        
+        <div class="main-content">
+            <!-- 左侧：设置和控制 -->
+            <div class="left-panel">
+                <div class="panel-title">
+                    <i class="fas fa-cog"></i>
+                    <span>问题设置</span>
+                </div>
+                
+                <div class="time-selector">
+                    <span class="time-btn active" onclick="toggleGrowTime('morning')">
+                        <i class="fas fa-sun"></i> 早上长草
+                    </span>
+                    <span class="time-btn" onclick="toggleGrowTime('evening')">
+                        <i class="fas fa-moon"></i> 晚上长草
+                    </span>
+                </div>
+
+                <div class="input-group">
+                    <div class="input-item">
+                        <span class="input-label">原有草（斤）</span>
+                        <input type="number" id="initialGrass" min="1" max="99999" value="10">
+                    </div>
+                    
+                    <div class="input-item">
+                        <span class="input-label">每天长草（斤）</span>
+                        <input type="number" id="growAmount" min="1" value="2">
+                    </div>
+                    
+                    <div class="input-item">
+                        <span class="input-label">每天吃草（斤）</span>
+                        <input type="number" id="eatAmount" min="1" value="5">
+                    </div>
+                </div>
+                
+                <div class="controls">
+                    <button class="start-btn" onclick="startCalculation()">
+                        <i class="fas fa-play-circle"></i> 开始计算
+                    </button>
+                    <div class="nav-buttons">
+                        <button id="prevBtn" onclick="prevStep()" disabled>
+                            <i class="fas fa-arrow-left"></i> 上一步
+                        </button>
+                        <button id="nextBtn" onclick="nextStep()" disabled>
+                            下一步 <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                    <button id="autoBtn" onclick="autoPlay()">
+                        <i class="fas fa-forward"></i> 自动播放
+                    </button>
+                    <button id="showAllBtn" onclick="showAllSteps()" disabled>
+                        <i class="fas fa-eye"></i> 一键查看
+                    </button>
+                </div>
+            </div>
+            
+            <!-- 中间：动画区域 -->
+            <div class="center-panel">
+                <div class="panel-title">
+                    <i class="fas fa-leaf"></i>
+                    <span>草地动画</span>
+                </div>
+                <div class="meadow-container">
+                    <div class="meadow-info">
+                        <div class="day-indicator">
+                            <span id="sunMoon">☀️</span>
+                            <span id="dayIndicator">开始前</span>
+                        </div>
+                        <div class="grass-count" id="grassCount">草：10 斤</div>
+                    </div>
+                    <div class="meadow" id="meadow">
+                        <div class="cow-item hidden" id="cow">🐄</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 右侧：步骤列表 -->
+            <div class="right-panel">
+                <div class="steps-header">
+                    <div class="panel-title" style="margin-bottom: 0; border-bottom: none;">
+                        <i class="fas fa-list-ol"></i>
+                        <span>解题步骤</span>
+                    </div>
+                    <div class="step-counter">
+                        <span id="step-counter">0</span>/<span id="total-steps">0</span>
+                    </div>
+                </div>
+                <div class="steps-list" id="steps">
+                    <div style="text-align: center; color: #666; padding: 40px 20px;">
+                        点击"开始计算"查看步骤
+                    </div>
+                </div>
+                <div class="answer-box" id="answerBox">
+                    <h3>🎉 答案：第 <span id="answerDay">0</span> 天草被吃完！</h3>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let stepsData = [];
+        let currentStep = 0;
+        let growTime = 'morning'; // morning 或 evening
+        let isAutoPlaying = false;
+        let autoPlayTimer = null;
+
+        function toggleGrowTime(time) {
+            growTime = time;
+            document.querySelectorAll('.time-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.textContent.includes(time === 'morning' ? '早上' : '晚上'));
+            });
+        }
+
+        function updateMeadow(grassAmount, showCow, isNight, dayText) {
+            const meadow = document.getElementById('meadow');
+            const sunMoon = document.getElementById('sunMoon');
+            const grassCountEl = document.getElementById('grassCount');
+            const cowEl = document.getElementById('cow');
+            const dayIndicator = document.getElementById('dayIndicator');
+            
+            // 更新日期指示
+            dayIndicator.textContent = dayText || '开始前';
+            
+            // 更新太阳/月亮
+            sunMoon.textContent = isNight ? '🌙' : '☀️';
+            
+            // 更新草的数量显示
+            grassCountEl.textContent = `草：${Math.max(0, grassAmount)} 斤`;
+            
+            // 清除旧的草
+            const oldGrass = meadow.querySelectorAll('.grass-item');
+            oldGrass.forEach(g => g.remove());
+            
+            // 牛始终显示，只是吃草时有动画
+            cowEl.classList.remove('hidden');
+            if (showCow) {
+                cowEl.classList.add('eating');
+            } else {
+                cowEl.classList.remove('eating');
+            }
+            
+            // 把牛放到最前面
+            meadow.insertBefore(cowEl, meadow.firstChild);
+            
+            // 添加新的草（每斤草用一个emoji表示），草跟在牛后面
+            const displayAmount = Math.max(0, grassAmount);
+            for (let i = 0; i < displayAmount; i++) {
+                const grass = document.createElement('div');
+                grass.className = 'grass-item';
+                grass.textContent = '🌿';
+                meadow.appendChild(grass);
+            }
+        }
+
+        function createStep(text, grassAmount, showCow, isNight, stepNum, isEmpty, dayText) {
+            const step = document.createElement('div');
+            step.className = 'step' + (isEmpty ? ' empty' : '');
+            if (stepNum === 0) step.classList.add('active');
+            
+            // 高亮数字
+            const highlightedText = text.replace(/(\d+)/g, '<span class="highlight">$1</span>');
+            
+            step.innerHTML = `
+                <span class="step-number">${stepNum + 1}</span>
+                <span>${highlightedText}</span>
+            `;
+            
+            step.dataset.grass = grassAmount;
+            step.dataset.showCow = showCow;
+            step.dataset.isNight = isNight;
+            step.dataset.dayText = dayText;
+            return step;
+        }
+
+        function generateSteps(initialGrass, growAmount, eatAmount) {
+            const steps = [];
+            let currentGrass = initialGrass;
+            let day = 0;
+            
+            // 初始状态
+            steps.push([`开始时，草地上有 ${initialGrass} 斤草`, initialGrass, false, false, steps.length, false, '开始前']);
+            
+            // 模拟每一天
+            while (currentGrass > 0) {
+                day++;
+                
+                if (growTime === 'morning') {
+                    // 早上长草
+                    const beforeGrow = currentGrass;
+                    currentGrass += growAmount;
+                    steps.push([`第 ${day} 天早上：草长了 ${growAmount} 斤（${beforeGrow} + ${growAmount} = ${currentGrass} 斤）`, currentGrass, false, false, steps.length, false, `第 ${day} 天 早上`]);
+                    
+                    // 晚上吃草
+                    const beforeEat = currentGrass;
+                    currentGrass -= eatAmount;
+                    if (currentGrass <= 0) {
+                        steps.push([`第 ${day} 天晚上：牛吃 ${eatAmount} 斤（${beforeEat} - ${eatAmount} = ${currentGrass} 斤）→ 草被吃完！`, Math.max(0, currentGrass), true, true, steps.length, true, `第 ${day} 天 晚上`]);
+                        break;
+                    } else {
+                        steps.push([`第 ${day} 天晚上：牛吃 ${eatAmount} 斤（${beforeEat} - ${eatAmount} = ${currentGrass} 斤）`, currentGrass, true, true, steps.length, false, `第 ${day} 天 晚上`]);
+                    }
+                } else {
+                    // 早上吃草
+                    const beforeEat = currentGrass;
+                    currentGrass -= eatAmount;
+                    if (currentGrass <= 0) {
+                        steps.push([`第 ${day} 天早上：牛吃 ${eatAmount} 斤（${beforeEat} - ${eatAmount} = ${currentGrass} 斤）→ 草被吃完！`, Math.max(0, currentGrass), true, false, steps.length, true, `第 ${day} 天 早上`]);
+                        break;
+                    } else {
+                        steps.push([`第 ${day} 天早上：牛吃 ${eatAmount} 斤（${beforeEat} - ${eatAmount} = ${currentGrass} 斤）`, currentGrass, true, false, steps.length, false, `第 ${day} 天 早上`]);
+                    }
+                    
+                    // 晚上长草
+                    const beforeGrow = currentGrass;
+                    currentGrass += growAmount;
+                    steps.push([`第 ${day} 天晚上：草长了 ${growAmount} 斤（${beforeGrow} + ${growAmount} = ${currentGrass} 斤）`, currentGrass, false, true, steps.length, false, `第 ${day} 天 晚上`]);
+                }
+                
+                // 防止无限循环
+                if (day > 1000) {
+                    alert('计算步骤过多，请调整参数。');
+                    return { steps: [], finalDay: 0 };
+                }
+            }
+            
+            return { steps, finalDay: day };
+        }
+
+        function showStep(stepIndex) {
+            document.getElementById('step-counter').textContent = stepIndex + 1;
+            document.getElementById('prevBtn').disabled = stepIndex <= 0;
+            document.getElementById('nextBtn').disabled = stepIndex >= stepsData.length - 1;
+            
+            // 显示当前及之前的步骤，隐藏之后的步骤
+            stepsData.forEach((step, index) => {
+                step.classList.toggle('active', index === stepIndex);
+                step.classList.toggle('visible', index <= stepIndex);
+            });
+            
+            // 滚动到当前步骤
+            const activeStep = stepsData[stepIndex];
+            if (activeStep) {
+                activeStep.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+            
+            const currentData = stepsData[stepIndex].dataset;
+            updateMeadow(
+                parseInt(currentData.grass),
+                currentData.showCow === 'true',
+                currentData.isNight === 'true',
+                currentData.dayText
+            );
+            
+            // 如果是最后一步，显示答案
+            if (stepIndex === stepsData.length - 1) {
+                document.getElementById('answerBox').classList.add('show');
+            } else {
+                document.getElementById('answerBox').classList.remove('show');
+            }
+        }
+
+        function nextStep() {
+            if (currentStep < stepsData.length - 1) {
+                showStep(++currentStep);
+            }
+        }
+        
+        function prevStep() {
+            if (currentStep > 0) {
+                showStep(--currentStep);
+            }
+        }
+
+        function autoPlay() {
+            if (isAutoPlaying) {
+                stopAutoPlay();
+                return;
+            }
+            
+            isAutoPlaying = true;
+            document.getElementById('autoBtn').innerHTML = '<i class="fas fa-pause"></i> 暂停';
+            document.getElementById('prevBtn').disabled = true;
+            document.getElementById('nextBtn').disabled = true;
+            
+            autoPlayTimer = setInterval(() => {
+                if (currentStep < stepsData.length - 1) {
+                    nextStep();
+                } else {
+                    stopAutoPlay();
+                }
+            }, 1200);
+        }
+
+        function stopAutoPlay() {
+            isAutoPlaying = false;
+            document.getElementById('autoBtn').innerHTML = '<i class="fas fa-forward"></i> 自动播放';
+            document.getElementById('prevBtn').disabled = currentStep <= 0;
+            document.getElementById('nextBtn').disabled = currentStep >= stepsData.length - 1;
+            document.getElementById('showAllBtn').disabled = stepsData.length === 0;
+            
+            if (autoPlayTimer) {
+                clearInterval(autoPlayTimer);
+                autoPlayTimer = null;
+            }
+        }
+
+        function showAllSteps() {
+            stopAutoPlay();
+            
+            // 显示所有步骤
+            stepsData.forEach((step, index) => {
+                step.classList.add('visible');
+                step.classList.toggle('active', index === stepsData.length - 1);
+            });
+            
+            // 跳转到最后一步
+            currentStep = stepsData.length - 1;
+            document.getElementById('step-counter').textContent = currentStep + 1;
+            document.getElementById('prevBtn').disabled = false;
+            document.getElementById('nextBtn').disabled = true;
+            
+            // 更新草地显示为最终状态
+            const lastData = stepsData[currentStep].dataset;
+            updateMeadow(
+                parseInt(lastData.grass),
+                lastData.showCow === 'true',
+                lastData.isNight === 'true',
+                lastData.dayText
+            );
+            
+            // 显示答案
+            document.getElementById('answerBox').classList.add('show');
+            
+            // 滚动到最后一步
+            stepsData[currentStep].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
+
+        function startCalculation() {
+            stopAutoPlay();
+            
+            const initialGrass = parseInt(document.getElementById('initialGrass').value);
+            const growAmount = parseInt(document.getElementById('growAmount').value);
+            const eatAmount = parseInt(document.getElementById('eatAmount').value);
+            
+            if (!initialGrass || !growAmount || !eatAmount || initialGrass < 1 || growAmount < 1 || eatAmount < 1) {
+                alert('请输入正确的数值（都必须大于0）');
+                return;
+            }
+            
+            if (growAmount > eatAmount) {
+                alert('每天长草的量必须小于或等于吃草的量，否则草永远吃不完！');
+                return;
+            }
+            
+            if (growAmount === eatAmount && initialGrass > 0) {
+                alert('每天长草量等于吃草量，草永远吃不完！');
+                return;
+            }
+            
+            const stepContainer = document.getElementById('steps');
+            stepContainer.innerHTML = '';
+            stepsData = [];
+            
+            const result = generateSteps(initialGrass, growAmount, eatAmount);
+            if (result.steps.length === 0) return;
+            
+            result.steps.forEach(([text, grass, showCow, isNight, stepNum, isEmpty, dayText]) => {
+                const stepEl = createStep(text, grass, showCow, isNight, stepNum, isEmpty, dayText);
+                stepsData.push(stepEl);
+                stepContainer.appendChild(stepEl);
+            });
+            
+            document.getElementById('total-steps').textContent = stepsData.length;
+            document.getElementById('answerDay').textContent = result.finalDay;
+            document.getElementById('answerBox').classList.remove('show');
+            document.getElementById('showAllBtn').disabled = false;
+            
+            currentStep = 0;
+            showStep(currentStep);
+        }
+        
+        // 初始化显示
+        window.onload = function() {
+            updateMeadow(10, false, false, '开始前');
+        };
+    </script>
+</body>
+</html>
