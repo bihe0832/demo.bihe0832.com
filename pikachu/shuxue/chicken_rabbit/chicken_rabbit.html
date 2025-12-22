@@ -22,12 +22,6 @@
     <meta property="og:url" content="https://blog.bihe0832.com/" />
     <meta property="og:site_name" content="工具咩" />
     <meta property="og:type" content="article" />
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <meta name="format-detection" content="telephone=no">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
-    <meta http-equiv="Expires" content="0">
     <title>皮卡丘学数学之鸡兔同笼双假设演示</title>
     
     <style>
@@ -48,7 +42,7 @@
         }
         .container {
             width: 100%;
-            max-width: 1000px;
+            max-width: 1400px;
             background: rgba(255, 255, 255, 0.95);
             border-radius: 20px;
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
@@ -68,43 +62,61 @@
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
         }
         header h2 {
-            font-size: 2.2rem;
+            font-size: 2rem;
             margin: 10px 0;
             letter-spacing: 1px;
             text-shadow: 0 2px 8px rgba(0,0,0,0.4);
         }
         
+        /* 三栏布局 */
+        .main-content {
+            display: flex;
+            gap: 20px;
+            min-height: 500px;
+        }
+        
+        /* 左侧控制面板 */
+        .left-panel {
+            width: 250px;
+            flex-shrink: 0;
+            background: #f8f9fa;
+            border-radius: 15px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+        
         .panel-title {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             color: #2c3e50;
-            margin: 20px 0 15px;
+            margin-bottom: 15px;
             padding-bottom: 8px;
             border-bottom: 3px solid #3498db;
             display: flex;
             align-items: center;
-            position: relative;
         }
         .panel-title i {
             margin-right: 10px;
-            font-size: 1.4rem;
+            font-size: 1.2rem;
             color: #3498db;
         }
         
         .method-selector {
-            margin: 15px 0 25px;
-            text-align: center;
+            margin-bottom: 20px;
         }
         .method-btn {
-            padding: 10px 20px;
-            margin: 0 8px;
+            display: block;
+            width: 100%;
+            padding: 12px 15px;
+            margin-bottom: 10px;
             background: linear-gradient(45deg, #3498db, #2c3e50);
             color: white;
-            border-radius: 25px;
+            border-radius: 10px;
             cursor: pointer;
             transition: all 0.3s;
-            display: inline-block;
+            text-align: center;
             box-shadow: 0 4px 8px rgba(52, 152, 219, 0.3);
-            font-size: 16px;
+            font-size: 14px;
         }
         .method-btn:hover {
             transform: translateY(-2px);
@@ -112,32 +124,28 @@
         }
         .method-btn.active {
             background: linear-gradient(45deg, #e74c3c, #c0392b);
-            transform: scale(1.05);
             box-shadow: 0 6px 12px rgba(231, 76, 60, 0.4);
         }
         
         .input-group {
-            margin: 25px 0;
-            text-align: center;
+            margin-bottom: 20px;
         }
         .input-item {
-            display: inline-block;
-            margin: 0 15px 15px;
-            text-align: center;
+            margin-bottom: 15px;
         }
         .input-label {
             display: block;
             font-weight: bold;
             margin-bottom: 8px;
             color: #2c3e50;
-            font-size: 1.1rem;
+            font-size: 0.95rem;
         }
         input {
             padding: 12px 15px;
-            width: 100px;
+            width: 100%;
             border: 2px solid #3498db;
             border-radius: 10px;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             text-align: center;
             box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
             transition: all 0.3s;
@@ -148,99 +156,31 @@
             box-shadow: 0 0 8px rgba(231, 76, 60, 0.3);
         }
         
-        .barn {
-            width: 100%;
-            min-height: 150px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            padding: 20px;
-            justify-content: flex-start;
-            align-content: flex-start;
-            border: 4px solid #8d6e63;
-            border-radius: 15px;
-            background: #efebe9;
-            margin: 20px auto;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
-            position: relative;
-        }
-        .barn::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-image: linear-gradient(45deg, rgba(255,255,255,0.05) 25%, transparent 25%, transparent 50%, rgba(255,255,255,0.05) 50%, rgba(255,255,255,0.05) 75%, transparent 75%, transparent);
-            background-size: 10px 10px;
-            border-radius: 11px;
-        }
-        
-        .animal {
-            width: 90px;
-            height: 90px;
-            object-fit: cover;
-            border-radius: 8px;
-            flex-shrink: 0;
-            box-shadow: 3px 3px 8px rgba(0,0,0,0.2);
-            animation: fadeIn 0.5s, float 3s infinite;
-            margin: 0 6px 8px 0;
-            transition: all 0.3s;
-            position: relative;
-            z-index: 1;
-        }
-        .animal:hover {
-            transform: scale(1.05);
-            box-shadow: 4px 4px 12px rgba(0,0,0,0.3);
-        }
-        
-        .steps {
-            padding: 20px;
-            background: #edf7fe;
-            border-radius: 10px;
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.08);
-            margin: 30px auto;
-            position: relative;
-        }
-        
-        .step {
-            padding: 15px 20px;
-            margin: 10px 0;
-            border-radius: 8px;
-            transition: all 0.3s;
-            background: linear-gradient(to right, #e3f2fd, #bbdefb);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
-        }
-        
-        .step.active {
-            background: linear-gradient(to right, #c5e1fa, #a5d5f8);
-            box-shadow: 0 6px 12px rgba(33, 150, 243, 0.25);
-            border-left: 4px solid #2196F3;
-        }
-        
         .controls {
-            text-align: center;
-            margin: 20px 0 10px;
             display: flex;
-            justify-content: center;
-            gap: 20px;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 10px;
         }
         
         button {
-            padding: 12px 30px;
-            margin: 0 5px;
-            font-size: 1.2rem;
+            padding: 12px 20px;
+            font-size: 1rem;
             background: linear-gradient(90deg, #3498db, #2c3e50);
             color: white;
             border: none;
-            border-radius: 30px;
+            border-radius: 10px;
             cursor: pointer;
             transition: transform 0.3s, background 0.3s;
-            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+            box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
         
         button:hover {
-            transform: translateY(-3px);
+            transform: translateY(-2px);
             background: linear-gradient(90deg, #2c3e50, #3498db);
         }
         
@@ -254,6 +194,160 @@
             transform: none;
         }
         
+        .start-btn {
+            background: linear-gradient(90deg, #27ae60, #2ecc71);
+            box-shadow: 0 4px 10px rgba(39, 174, 96, 0.3);
+        }
+        .start-btn:hover {
+            background: linear-gradient(90deg, #2ecc71, #27ae60);
+        }
+        
+        .show-all-btn {
+            background: linear-gradient(90deg, #9b59b6, #8e44ad);
+            box-shadow: 0 4px 10px rgba(155, 89, 182, 0.3);
+        }
+        .show-all-btn:hover {
+            background: linear-gradient(90deg, #8e44ad, #9b59b6);
+        }
+        
+        .nav-buttons {
+            display: flex;
+            gap: 8px;
+        }
+        .nav-buttons button {
+            flex: 1;
+            padding: 10px 8px;
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+        
+        /* 中间动画区域 */
+        .center-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-width: 500px;
+        }
+        
+        .barn-header {
+            background: linear-gradient(90deg, #8d6e63, #6d4c41);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 10px 10px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.1rem;
+        }
+        
+        .barn {
+            flex: 1;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            padding: 12px 18px;
+            justify-content: flex-start;
+            align-content: flex-start;
+            border: 4px solid #8d6e63;
+            border-top: none;
+            border-radius: 0 0 15px 15px;
+            background: #efebe9;
+            position: relative;
+            min-height: 400px;
+        }
+        .barn::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: linear-gradient(45deg, rgba(255,255,255,0.05) 25%, transparent 25%, transparent 50%, rgba(255,255,255,0.05) 50%, rgba(255,255,255,0.05) 75%, transparent 75%, transparent);
+            background-size: 10px 10px;
+            border-radius: 0 0 11px 11px;
+            pointer-events: none;
+        }
+        
+        .animal {
+            width: 66px;
+            height: 66px;
+            object-fit: cover;
+            border-radius: 8px;
+            flex-shrink: 0;
+            box-shadow: 3px 3px 8px rgba(0,0,0,0.2);
+            transition: all 0.3s;
+            position: relative;
+            z-index: 1;
+        }
+        .animal:hover {
+            transform: scale(1.05);
+            box-shadow: 4px 4px 12px rgba(0,0,0,0.3);
+        }
+        
+        /* 右侧步骤面板 */
+        .right-panel {
+            width: 320px;
+            flex-shrink: 0;
+            background: #edf7fe;
+            border-radius: 15px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .steps-container {
+            flex: 1;
+            overflow-y: auto;
+        }
+        
+        .step {
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 10px;
+            transition: all 0.3s;
+            background: linear-gradient(to right, #e3f2fd, #bbdefb);
+            box-shadow: 0 3px 6px rgba(0, 0, 0, 0.08);
+            display: none;
+        }
+        
+        .step.visible {
+            display: block;
+        }
+        
+        .step.active {
+            background: linear-gradient(to right, #c5e1fa, #a5d5f8);
+            box-shadow: 0 5px 10px rgba(33, 150, 243, 0.25);
+            border-left: 4px solid #2196F3;
+        }
+        
+        .step-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .step-number {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            background: #2196F3;
+            color: white;
+            border-radius: 50%;
+            font-weight: bold;
+            margin-right: 12px;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+        
+        .step-title {
+            font-weight: bold;
+            color: #2c3e50;
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+        
         .highlight {
             color: #e74c3c;
             font-weight: bold;
@@ -262,37 +356,70 @@
             border-radius: 4px;
         }
         
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
+        .empty-steps {
+            text-align: center;
+            color: #7f8c8d;
+            padding: 40px 20px;
+            font-size: 1rem;
+        }
+        .empty-steps i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: #bdc3c7;
         }
         
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-8px); }
-        }
-        
-        .counter {
-            position: absolute;
-            right: 0px;
-            background: rgba(255,255,255,0.2);
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-weight: bold;
-        }
-        
-        @media (max-width: 700px) {
-            .input-item {
-                display: block;
-                margin: 10px 0;
+        /* 响应式布局 */
+        @media (max-width: 1200px) {
+            .main-content {
+                flex-direction: column;
             }
+            .left-panel, .right-panel {
+                width: 100%;
+            }
+            .left-panel {
+                order: 1;
+            }
+            .center-panel {
+                order: 2;
+                min-height: 350px;
+            }
+            .right-panel {
+                order: 3;
+            }
+            .controls {
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
+            .controls button {
+                flex: 1;
+                min-width: 120px;
+            }
+            .nav-buttons {
+                flex: 2;
+            }
+            .method-selector {
+                display: flex;
+                gap: 10px;
+            }
+            .method-btn {
+                flex: 1;
+                margin-bottom: 0;
+            }
+        }
+        
+        @media (max-width: 600px) {
             .animal {
-                width: 80px;
-                height: 80px;
+                width: 60px;
+                height: 60px;
             }
-            button {
-                padding: 12px 20px;
-                font-size: 1rem;
+            header h2 {
+                font-size: 1.5rem;
+            }
+            .controls {
+                flex-direction: column;
+            }
+            .nav-buttons {
+                width: 100%;
             }
         }
     </style>
@@ -304,51 +431,83 @@
             <p>分步解答一目了然</p>
         </header>
         
-        <div class="panel-title">
-            <i class="fas fa-cog"></i>
-            <span>问题设置</span>
-        </div>
-        
-        <div class="method-selector">
-            <span class="method-btn active" onclick="toggleMethod('chicken')">
-                <i class="fas fa-kiwi-bird"></i> 先全是鸡
-            </span>
-            <span class="method-btn" onclick="toggleMethod('rabbit')">
-                <i class="fas fa-paw"></i> 先全是兔
-            </span>
-        </div>
-
-        <div class="input-group">
-            <div class="input-item">
-                头数：<input type="number" id="heads" placeholder="头数" min="1" value="5">
+        <div class="main-content">
+            <!-- 左侧控制面板 -->
+            <div class="left-panel">
+                <div class="panel-title">
+                    <i class="fas fa-sliders-h"></i>
+                    <span>假设方法</span>
+                </div>
+                
+                <div class="method-selector">
+                    <span class="method-btn active" onclick="toggleMethod('chicken')">
+                        <i class="fas fa-kiwi-bird"></i> 先全是鸡
+                    </span>
+                    <span class="method-btn" onclick="toggleMethod('rabbit')">
+                        <i class="fas fa-paw"></i> 先全是兔
+                    </span>
+                </div>
+                
+                <div class="panel-title">
+                    <i class="fas fa-cog"></i>
+                    <span>问题设置</span>
+                </div>
+                
+                <div class="input-group">
+                    <div class="input-item">
+                        <label class="input-label">🐔🐰 头数</label>
+                        <input type="number" id="heads" placeholder="头数" min="1" value="5">
+                    </div>
+                    
+                    <div class="input-item">
+                        <label class="input-label">🦶 脚数</label>
+                        <input type="number" id="legs" step="2" placeholder="脚数" min="2" value="16">
+                    </div>
+                </div>
+                
+                <div class="controls">
+                    <button class="start-btn" onclick="startCalculation()">
+                        <i class="fas fa-play-circle"></i> 开始计算
+                    </button>
+                    <button class="show-all-btn" onclick="showAllSteps()">
+                        <i class="fas fa-eye"></i> 一键查看
+                    </button>
+                    <div class="nav-buttons">
+                        <button id="prevBtn" onclick="prevStep()" disabled>
+                            <i class="fas fa-arrow-left"></i> 上一步
+                        </button>
+                        <button id="nextBtn" onclick="nextStep()" disabled>
+                            下一步 <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
             </div>
             
-            <div class="input-item">
-                脚数：<input type="number" id="legs" step="2" placeholder="脚数" min="2" value="16">
+            <!-- 中间动画区域 -->
+            <div class="center-panel">
+                <div class="barn-header">
+                    <span><i class="fas fa-home"></i> 笼子里的动物</span>
+                    <span>🐔 <span id="chickenCount">0</span> 只 | 🐰 <span id="rabbitCount">0</span> 只</span>
+                </div>
+                <div class="barn" id="barn"></div>
             </div>
             
-            <button class="start-btn" onclick="startCalculation()">
-                <i class="fas fa-play-circle"></i> 开始计算
-            </button>
-        </div>
-        
-        
-        <div class="steps" id="steps"></div>
-        
-        <div class="panel-title">
-            <i class="fas fa-home"></i>
-            <span>笼子里的动物</span>
-            <div class="counter">步骤: <span id="step-counter">0</span>/4</div>
-        </div>
-        <div class="barn" id="barn"></div>
-        
-        <div class="controls">
-            <button id="prevBtn" onclick="prevStep()" disabled>
-                <i class="fas fa-arrow-left"></i> 上一步
-            </button>
-            <button id="nextBtn" onclick="nextStep()" disabled>
-                下一步 <i class="fas fa-arrow-right"></i>
-            </button>
+            <!-- 右侧步骤面板 -->
+            <div class="right-panel">
+                <div class="panel-title">
+                    <i class="fas fa-list-ol"></i>
+                    <span>解题步骤</span>
+                    <span style="margin-left: auto; font-size: 0.9rem; color: #7f8c8d;">
+                        步骤: <span id="step-counter">0</span>/4
+                    </span>
+                </div>
+                <div class="steps-container" id="steps">
+                    <div class="empty-steps">
+                        <i class="fas fa-info-circle"></i>
+                        <p>请设置头数和脚数<br>然后点击"开始计算"</p>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     
@@ -357,6 +516,7 @@
         const RABBIT_IMG = './rabbit.jpg';
         let stepsData = [];
         let currentStep = 0;
+        let maxReachedStep = 0;
         let currentMethod = 'chicken';
 
         function toggleMethod(method) {
@@ -364,51 +524,43 @@
             document.querySelectorAll('.method-btn').forEach(btn => {
                 btn.classList.toggle('active', btn.textContent.includes(method === 'chicken' ? '鸡' : '兔'));
             });
-            if(document.getElementById('heads').value) startCalculation();
         }
 
-        function createAnimal(imgSrc, count, type) {
-            const animal = document.createElement('div');
-            animal.className = 'animal-container';
-            
+        function createAnimal(imgSrc) {
             const animalImg = document.createElement('img');
             animalImg.src = imgSrc;
             animalImg.className = 'animal';
-            animal.appendChild(animalImg);
-            
-            return animal;
+            return animalImg;
         }
 
         function updateBarn(chickens, rabbits) {
             const barn = document.getElementById('barn');
             barn.innerHTML = '';
             
-            const barnWidth = barn.offsetWidth - 30;
-            const itemWidth = 100;
-            const animalsPerRow = Math.max(1, Math.floor(barnWidth / itemWidth));
+            // 更新计数显示
+            document.getElementById('chickenCount').textContent = chickens;
+            document.getElementById('rabbitCount').textContent = rabbits;
             
             // 创建鸡
             for(let i = 0; i < chickens; i++) {
-                barn.appendChild(createAnimal(CHICKEN_IMG, i+1, 'chicken'));
+                barn.appendChild(createAnimal(CHICKEN_IMG));
             }
             
             // 创建兔子
             for(let i = 0; i < rabbits; i++) {
-                barn.appendChild(createAnimal(RABBIT_IMG, i+1, 'rabbit'));
+                barn.appendChild(createAnimal(RABBIT_IMG));
             }
         }
 
         function createStep(text, chickens, rabbits, stepNum) {
             const step = document.createElement('div');
             step.className = 'step';
-            if(stepNum === 0) step.classList.add('active');
             
             step.innerHTML = `
-                <div style="display: flex; align-items: center; margin-bottom: 8px;">
-                    <div style="display: flex; align-items: center; justify-content: center; width: 30px; height: 30px; background: #2196F3; color: white; border-radius: 50%; font-weight: bold; margin-right: 15px;">${stepNum+1}</div>
-                    <div style="font-weight: bold; color: #2c3e50;">步骤 ${stepNum+1} ${text.replace(/(\d+)/g, '<span class="highlight">$1</span>')}</div>
+                <div class="step-header">
+                    <div class="step-number">${stepNum+1}</div>
+                    <div class="step-title">${text.replace(/(\d+)/g, '<span class="highlight">$1</span>')}</div>
                 </div>
-    
             `;
             
             step.dataset.chickens = chickens;
@@ -428,7 +580,7 @@
                     [`假设全是鸡 → 总脚数为：${heads} × 2 = ${assumedLegs}`, heads, 0, 0],
                     [`实际上多出了：${legs} - ${assumedLegs} = ${extraLegs} 只脚`, heads, 0, 1],
                     [`每把一只鸡替换为兔可增加 2 只脚 → 需要换 ${extraLegs} ÷ 2 = ${rabbits} 只兔`, chickens, rabbits, 2],
-                    [`结果验证：${chickens} 鸡 × 2 + ${rabbits} 兔 × 4 = ${chickens*2 + rabbits*4} 脚`, chickens, rabbits, 3]
+                    [`结果验证：${chickens} 鸡 × 2 + ${rabbits} 兔 × 4 = ${chickens*2 + rabbits*4} 脚 ✓`, chickens, rabbits, 3]
                 );
             } else {
                 const assumedLegs = heads * 4;
@@ -440,45 +592,73 @@
                     [`假设全是兔 → 总脚数为：${heads} × 4 = ${assumedLegs}`, 0, heads, 0],
                     [`实际上缺少了：${assumedLegs} - ${legs} = ${diff} 只脚`, 0, heads, 1],
                     [`每把一只兔替换为鸡可减少 2 只脚 → 需要换 ${diff} ÷ 2 = ${chickens} 只鸡`, chickens, rabbits, 2],
-                    [`结果验证：${chickens} 鸡 × 2 + ${rabbits} 兔 × 4 = ${chickens*2 + rabbits*4} 脚`, chickens, rabbits, 3]
+                    [`结果验证：${chickens} 鸡 × 2 + ${rabbits} 兔 × 4 = ${chickens*2 + rabbits*4} 脚 ✓`, chickens, rabbits, 3]
                 );
             }
             return steps;
         }
 
+        function updateStepVisibility() {
+            stepsData.forEach((step, index) => {
+                step.classList.toggle('visible', index <= maxReachedStep);
+                step.classList.toggle('active', index === currentStep);
+            });
+        }
+
         function showStep(stepIndex) {
-            document.getElementById('step-counter').textContent = stepIndex+1;
+            currentStep = stepIndex;
+            if (stepIndex > maxReachedStep) {
+                maxReachedStep = stepIndex;
+            }
+            
+            document.getElementById('step-counter').textContent = stepIndex + 1;
             document.getElementById('prevBtn').disabled = stepIndex <= 0;
             document.getElementById('nextBtn').disabled = stepIndex >= stepsData.length - 1;
             
-            stepsData.forEach((step, index) => {
-                step.classList.toggle('active', index === stepIndex);
-            });
+            updateStepVisibility();
             
             const currentData = stepsData[stepIndex].dataset;
             updateBarn(parseInt(currentData.chickens), parseInt(currentData.rabbits));
         }
 
-        function nextStep() { if(currentStep < stepsData.length - 1) showStep(++currentStep); }
-        function prevStep() { if(currentStep > 0) showStep(--currentStep); }
+        function nextStep() { 
+            if(currentStep < stepsData.length - 1) showStep(currentStep + 1); 
+        }
+        
+        function prevStep() { 
+            if(currentStep > 0) showStep(currentStep - 1); 
+        }
+        
+        function showAllSteps() {
+            if (stepsData.length === 0) {
+                startCalculation();
+            }
+            if (stepsData.length > 0) {
+                maxReachedStep = stepsData.length - 1;
+                showStep(stepsData.length - 1);
+            }
+        }
 
         function startCalculation() {
             const heads = parseInt(document.getElementById('heads').value);
             const legs = parseInt(document.getElementById('legs').value);
-            const legsMin = heads*2;
-            const legsMax = heads*4;
+            const legsMin = heads * 2;
+            const legsMax = heads * 4;
             
-            if(!heads || !legs || legs < legsMin || legs > legsMax || legs%2 !== 0) {
-                alert("请输入正确的头和脚的数量：\n1. 脚数应该是在 " + legsMin + " 与 " + legsMax + "之间\n2. 脚数必须是偶数");
+            if(!heads || !legs || legs < legsMin || legs > legsMax || legs % 2 !== 0) {
+                alert("请输入正确的头和脚的数量：\n1. 脚数应该在 " + legsMin + " 与 " + legsMax + " 之间\n2. 脚数必须是偶数");
                 return;
             }
 
             const stepContainer = document.getElementById('steps');
             stepContainer.innerHTML = '';
             stepsData = [];
+            maxReachedStep = 0;
 
             generateSteps(heads, legs).forEach(([text, c, r, stepNum]) => {
-                stepsData.push(stepContainer.appendChild(createStep(text, c, r, stepNum)));
+                const step = createStep(text, c, r, stepNum);
+                stepsData.push(step);
+                stepContainer.appendChild(step);
             });
 
             currentStep = 0;
@@ -487,7 +667,6 @@
         
         // 初始化显示
         window.onload = function() {
-            // 默认显示示例动物
             updateBarn(0, 0);
         };
     </script>
