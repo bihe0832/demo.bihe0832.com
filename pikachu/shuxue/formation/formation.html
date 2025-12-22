@@ -1,0 +1,1013 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no" />    
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="Expires" content="0">
+    <link rel="Shortcut Icon" href="https://cdn.bihe0832.com/images/zixie_32.ico" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="author" CONTENT="子勰(bihe0832), code@bihe0832.com" />
+    <meta name="keywords" content="子勰,bihe0832,方阵问题" />
+    <meta name="description" content="皮卡丘学数学之方阵问题分步解答" />
+    <meta property="og:title" content="皮卡丘学数学之方阵问题分步解答" />
+    <meta property="og:locale" content="en_US" />
+    <title>皮卡丘学数学 - 方阵问题</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Microsoft YaHei', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+            margin: 20px 0;
+            padding: 20px;
+        }
+        header {
+            background: linear-gradient(90deg, #9b59b6, #8e44ad);
+            color: white;
+            padding: 20px 30px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        header h2 {
+            font-size: 2rem;
+            margin: 10px 0;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+        }
+        header p {
+            font-size: 1rem;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+        
+        .main-content {
+            display: flex;
+            gap: 20px;
+            min-height: 500px;
+        }
+        
+        .left-panel {
+            width: 320px;
+            flex-shrink: 0;
+            background: #f5f0ff;
+            border-radius: 15px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .panel-title {
+            font-size: 1.1rem;
+            color: #8e44ad;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 3px solid #9b59b6;
+            display: flex;
+            align-items: center;
+        }
+        .panel-title i {
+            margin-right: 10px;
+            font-size: 1.2rem;
+            color: #9b59b6;
+        }
+        
+        .input-group {
+            margin-bottom: 15px;
+        }
+        .input-item {
+            margin-bottom: 15px;
+        }
+        .input-label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #8e44ad;
+            font-size: 0.95rem;
+        }
+        input, select {
+            padding: 12px 15px;
+            width: 100%;
+            border: 2px solid #9b59b6;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        input:focus, select:focus {
+            outline: none;
+            border-color: #8e44ad;
+            box-shadow: 0 0 10px rgba(155, 89, 182, 0.3);
+        }
+        
+        .problem-types {
+            margin-bottom: 15px;
+        }
+        .problem-type-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 8px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: left;
+        }
+        .problem-type-btn:hover {
+            border-color: #9b59b6;
+            background: #f5f0ff;
+        }
+        .problem-type-btn.active {
+            border-color: #9b59b6;
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+            color: white;
+        }
+        .problem-type-btn .type-title {
+            font-weight: bold;
+            font-size: 0.95rem;
+        }
+        .problem-type-btn .type-desc {
+            font-size: 0.8rem;
+            opacity: 0.8;
+            margin-top: 3px;
+        }
+        
+        .start-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(45deg, #27ae60, #2ecc71);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: bold;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
+            margin-top: auto;
+        }
+        .start-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(39, 174, 96, 0.4);
+        }
+        
+        .formula-card {
+            background: linear-gradient(135deg, #fff3cd, #ffeeba);
+            border: 2px solid #f39c12;
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 15px;
+        }
+        .formula-card .formula-title {
+            font-size: 0.9rem;
+            color: #856404;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        .formula-card .formula {
+            font-size: 0.9rem;
+            color: #856404;
+            margin: 5px 0;
+        }
+        
+        /* 中间可视化区域 */
+        .center-panel {
+            flex: 1;
+            min-width: 400px;
+            background: #faf5ff;
+            border-radius: 15px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .problem-display {
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+            color: white;
+            padding: 15px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+        .problem-display .highlight {
+            background: rgba(255,255,255,0.2);
+            padding: 2px 8px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        
+        /* 方阵可视化 */
+        .formation-visualization {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .formation-grid {
+            display: grid;
+            gap: 3px;
+            margin: 20px 0;
+        }
+        
+        .formation-cell {
+            width: 30px;
+            height: 30px;
+            background: #9b59b6;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        
+        .formation-cell.outer {
+            background: #e74c3c;
+        }
+        
+        .formation-cell.inner {
+            background: #3498db;
+        }
+        
+        .formation-cell.hollow {
+            background: transparent;
+            border: 2px dashed #ccc;
+        }
+        
+        .answer-cards {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+        
+        .answer-card {
+            background: white;
+            border-radius: 15px;
+            padding: 15px 20px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            border: 3px solid #9b59b6;
+            min-width: 100px;
+        }
+        
+        .answer-card .answer-icon {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+        
+        .answer-card .answer-label {
+            color: #666;
+            font-size: 0.8rem;
+            margin-bottom: 5px;
+        }
+        
+        .answer-card .answer-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #9b59b6;
+        }
+        
+        /* 右侧步骤面板 */
+        .right-panel {
+            width: 380px;
+            flex-shrink: 0;
+            background: #f5f0ff;
+            border-radius: 15px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            max-height: 600px;
+        }
+        
+        .steps-container {
+            flex: 1;
+            overflow-y: auto;
+            max-height: 480px;
+            padding-right: 5px;
+        }
+        
+        .steps-container::-webkit-scrollbar {
+            width: 6px;
+        }
+        .steps-container::-webkit-scrollbar-track {
+            background: #e8e0f0;
+            border-radius: 3px;
+        }
+        .steps-container::-webkit-scrollbar-thumb {
+            background: #9b59b6;
+            border-radius: 3px;
+        }
+        
+        .step-item {
+            background: white;
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 10px;
+            border-left: 4px solid #ddd;
+            display: none;
+            transition: all 0.3s;
+        }
+        
+        .step-item.visible {
+            display: flex;
+            align-items: center;
+            border-left-color: #9b59b6;
+            animation: fadeInStep 0.4s ease;
+        }
+        
+        .step-item.active {
+            background: linear-gradient(135deg, #f5f0ff, #ebe0ff);
+            border-left-color: #27ae60;
+            box-shadow: 0 4px 15px rgba(155, 89, 182, 0.2);
+            animation: breathePurple 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes fadeInStep {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes breathePurple {
+            0%, 100% { background-color: rgba(155, 89, 182, 0.1); }
+            50% { background-color: rgba(155, 89, 182, 0.25); }
+        }
+        
+        .solution-step {
+            background: white;
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 10px;
+            border-left: 4px solid #ddd;
+            display: none;
+            transition: all 0.3s;
+        }
+        
+        .solution-step.visible {
+            display: flex;
+            align-items: center;
+            border-left-color: #9b59b6;
+            animation: fadeInStep 0.4s ease;
+        }
+        
+        .solution-step.active {
+            background: linear-gradient(135deg, #f5f0ff, #ebe0ff);
+            border-left-color: #27ae60;
+            box-shadow: 0 4px 15px rgba(155, 89, 182, 0.2);
+            animation: breathePurple 1.5s ease-in-out infinite;
+        }
+        
+        .step-title {
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        
+        .result-box {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            color: white;
+            padding: 15px 20px;
+            display: none;
+            border-radius: 10px;
+            margin-top: 15px;
+            font-size: 1.1rem;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(39, 174, 96, 0.3);
+        }
+        
+        .result-box.visible {
+            display: block;
+            animation: fadeInStep 0.4s ease;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .nav-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: all 0.3s;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+        
+        .nav-btn.prev {
+            background: linear-gradient(45deg, #95a5a6, #7f8c8d);
+        }
+        
+        .nav-btn.next {
+            background: linear-gradient(45deg, #9b59b6, #8e44ad);
+        }
+        
+        .nav-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .step-number {
+            display: inline-block;
+            width: 26px;
+            height: 26px;
+            background: #9b59b6;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 26px;
+            font-weight: bold;
+            margin-right: 10px;
+            font-size: 0.85rem;
+        }
+        
+        .step-content {
+            display: inline;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        
+        /* 响应式 */
+        @media (max-width: 1200px) {
+            .main-content {
+                flex-direction: column;
+            }
+            .left-panel, .right-panel {
+                width: 100%;
+            }
+            .center-panel {
+                min-width: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h2>🎖️ 皮卡丘学数学 - 方阵问题</h2>
+            <p>方阵是把人或物排成正方形队列<br>
+            掌握方阵的基本公式，轻松解决各类方阵问题！</p>
+        </header>
+        
+        <div class="main-content">
+            <!-- 左侧控制面板 -->
+            <div class="left-panel">
+                <div class="panel-title">
+                    <i class="fas fa-cog"></i> 题目设置
+                </div>
+                
+                <div class="problem-types">
+                    <button class="problem-type-btn active" data-type="total" onclick="selectProblemType('total')">
+                        <div class="type-title">📊 求总人数</div>
+                        <div class="type-desc">已知每行人数，求方阵总人数</div>
+                    </button>
+                    <button class="problem-type-btn" data-type="outer" onclick="selectProblemType('outer')">
+                        <div class="type-title">🔲 求外层人数</div>
+                        <div class="type-desc">已知每行人数，求最外层人数</div>
+                    </button>
+                    <button class="problem-type-btn" data-type="hollow" onclick="selectProblemType('hollow')">
+                        <div class="type-title">⭕ 空心方阵</div>
+                        <div class="type-desc">已知外层和层数，求空心方阵人数</div>
+                    </button>
+                    <button class="problem-type-btn" data-type="side" onclick="selectProblemType('side')">
+                        <div class="type-title">📏 求每行人数</div>
+                        <div class="type-desc">已知总人数，求每行人数</div>
+                    </button>
+                </div>
+                
+                <div class="input-group" id="inputGroup">
+                    <div class="input-item" id="sideInput">
+                        <label class="input-label">👥 每行人数</label>
+                        <input type="number" id="sideCount" value="5" min="1" max="20" placeholder="每行人数">
+                    </div>
+                    <div class="input-item" id="layerInput" style="display:none;">
+                        <label class="input-label">📦 层数</label>
+                        <input type="number" id="layerCount" value="2" min="1" max="10" placeholder="层数">
+                    </div>
+                    <div class="input-item" id="totalInput" style="display:none;">
+                        <label class="input-label">👥 总人数</label>
+                        <input type="number" id="totalCount" value="25" min="1" max="400" placeholder="总人数">
+                    </div>
+                </div>
+                
+                <button class="start-btn" onclick="startCalculation()">
+                    <i class="fas fa-play"></i> 开始计算
+                </button>
+                
+                <div class="nav-buttons" style="margin-top: 15px;">
+                    <button class="nav-btn prev" onclick="prevStep()" id="prevBtn" disabled>
+                        <i class="fas fa-arrow-left"></i> 上一步
+                    </button>
+                    <button class="nav-btn next" onclick="nextStep()" id="nextBtn" disabled>
+                        下一步 <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- 中间可视化区域 -->
+            <div class="center-panel">
+                <div class="panel-title">
+                    <i class="fas fa-question-circle"></i> 题目
+                </div>
+                <div class="problem-display" id="problemDisplay">
+                    一个方阵每行有 <span class="highlight">5</span> 人，这个方阵共有多少人？
+                </div>
+                
+                <div class="panel-title">
+                    <i class="fas fa-eye"></i> 可视化演示
+                </div>
+                
+                <div class="formation-visualization">
+                    <div class="formation-grid" id="formationGrid">
+                        <!-- 方阵网格 -->
+                    </div>
+                </div>
+                
+                <div class="answer-cards" id="answerCards">
+                    <div class="answer-card">
+                        <div class="answer-icon">📏</div>
+                        <div class="answer-label">每行人数</div>
+                        <div class="answer-value" id="answerSide">5</div>
+                    </div>
+                    <div class="answer-card">
+                        <div class="answer-icon">👥</div>
+                        <div class="answer-label">总人数</div>
+                        <div class="answer-value" id="answerTotal">?</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 右侧步骤面板 -->
+            <div class="right-panel">
+                <div class="formula-card">
+                    <div class="formula-title">📐 核心公式</div>
+                    <div class="formula">• 总人数 = 每行人数 × 每行人数</div>
+                    <div class="formula">• 外层人数 = (每行人数-1) × 4</div>
+                    <div class="formula">• 空心方阵 = 外层总人数 - 内层总人数</div>
+                </div>
+                
+                <div class="panel-title">
+                    <i class="fas fa-shoe-prints"></i> 解题步骤
+                </div>
+                
+                <div class="steps-container" id="stepsContainer">
+                    <p style="color: #999; text-align: center; padding: 30px;">
+                        👆 点击"开始计算"按钮查看详细解答
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let currentType = 'total';
+        let stepsData = [];
+        let currentStep = 0;
+        let maxReachedStep = 0;
+        
+        // 重置步骤和动画
+        function resetSteps() {
+            stepsData = [];
+            currentStep = 0;
+            maxReachedStep = 0;
+            finalResult = null;
+            const container = document.getElementById('stepsContainer');
+            container.innerHTML = '<p style="color: #999; text-align: center; padding: 30px;">👆 点击"开始计算"按钮查看详细解答</p>';
+            document.getElementById('prevBtn').disabled = true;
+            document.getElementById('nextBtn').disabled = true;
+        }
+        
+        // 选择题目类型
+        function selectProblemType(type) {
+            currentType = type;
+            document.querySelectorAll('.problem-type-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`[data-type="${type}"]`).classList.add('active');
+            
+            // 显示/隐藏相应的输入框
+            document.getElementById('sideInput').style.display = 'none';
+            document.getElementById('layerInput').style.display = 'none';
+            document.getElementById('totalInput').style.display = 'none';
+            
+            if (type === 'total' || type === 'outer') {
+                document.getElementById('sideInput').style.display = 'block';
+            } else if (type === 'hollow') {
+                document.getElementById('sideInput').style.display = 'block';
+                document.getElementById('layerInput').style.display = 'block';
+            } else if (type === 'side') {
+                document.getElementById('totalInput').style.display = 'block';
+            }
+            
+            updateProblemDisplay();
+            resetSteps();
+        }
+        
+        // 更新题目显示
+        function updateProblemDisplay() {
+            const side = parseInt(document.getElementById('sideCount').value) || 5;
+            const layer = parseInt(document.getElementById('layerCount').value) || 2;
+            const total = parseInt(document.getElementById('totalCount').value) || 25;
+            
+            let problemText = '';
+            let answerCardsHtml = '';
+            
+            if (currentType === 'total') {
+                problemText = `一个方阵每行有 <span class="highlight">${side}</span> 人，这个方阵共有多少人？`;
+                answerCardsHtml = `
+                    <div class="answer-card">
+                        <div class="answer-icon">📏</div>
+                        <div class="answer-label">每行人数</div>
+                        <div class="answer-value">${side}</div>
+                    </div>
+                    <div class="answer-card">
+                        <div class="answer-icon">👥</div>
+                        <div class="answer-label">总人数</div>
+                        <div class="answer-value" id="answerResult">?</div>
+                    </div>
+                `;
+            } else if (currentType === 'outer') {
+                problemText = `一个方阵每行有 <span class="highlight">${side}</span> 人，最外层有多少人？`;
+                answerCardsHtml = `
+                    <div class="answer-card">
+                        <div class="answer-icon">📏</div>
+                        <div class="answer-label">每行人数</div>
+                        <div class="answer-value">${side}</div>
+                    </div>
+                    <div class="answer-card">
+                        <div class="answer-icon">🔲</div>
+                        <div class="answer-label">外层人数</div>
+                        <div class="answer-value" id="answerResult">?</div>
+                    </div>
+                `;
+            } else if (currentType === 'hollow') {
+                problemText = `一个空心方阵，外层每行 <span class="highlight">${side}</span> 人，共 <span class="highlight">${layer}</span> 层，共有多少人？`;
+                answerCardsHtml = `
+                    <div class="answer-card">
+                        <div class="answer-icon">📏</div>
+                        <div class="answer-label">外层每行</div>
+                        <div class="answer-value">${side}</div>
+                    </div>
+                    <div class="answer-card">
+                        <div class="answer-icon">📦</div>
+                        <div class="answer-label">层数</div>
+                        <div class="answer-value">${layer}</div>
+                    </div>
+                    <div class="answer-card">
+                        <div class="answer-icon">👥</div>
+                        <div class="answer-label">总人数</div>
+                        <div class="answer-value" id="answerResult">?</div>
+                    </div>
+                `;
+            } else if (currentType === 'side') {
+                problemText = `一个实心方阵共有 <span class="highlight">${total}</span> 人，每行有多少人？`;
+                answerCardsHtml = `
+                    <div class="answer-card">
+                        <div class="answer-icon">👥</div>
+                        <div class="answer-label">总人数</div>
+                        <div class="answer-value">${total}</div>
+                    </div>
+                    <div class="answer-card">
+                        <div class="answer-icon">📏</div>
+                        <div class="answer-label">每行人数</div>
+                        <div class="answer-value" id="answerResult">?</div>
+                    </div>
+                `;
+            }
+            
+            document.getElementById('problemDisplay').innerHTML = problemText;
+            document.getElementById('answerCards').innerHTML = answerCardsHtml;
+            
+            // 初始化方阵显示
+            initFormation();
+        }
+        
+        // 初始化方阵显示
+        function initFormation() {
+            const grid = document.getElementById('formationGrid');
+            const side = parseInt(document.getElementById('sideCount').value) || 5;
+            const layer = parseInt(document.getElementById('layerCount').value) || 2;
+            const total = parseInt(document.getElementById('totalCount').value) || 25;
+            
+            let displaySide = side;
+            if (currentType === 'side') {
+                displaySide = Math.round(Math.sqrt(total));
+            }
+            
+            displaySide = Math.min(displaySide, 15); // 限制最大显示
+            
+            grid.style.gridTemplateColumns = `repeat(${displaySide}, 30px)`;
+            grid.innerHTML = '';
+            
+            for (let i = 0; i < displaySide * displaySide; i++) {
+                const cell = document.createElement('div');
+                cell.className = 'formation-cell';
+                cell.textContent = '👤';
+                cell.style.fontSize = '16px';
+                grid.appendChild(cell);
+            }
+        }
+        
+        // 开始计算
+        function startCalculation() {
+            if (currentType === 'total') {
+                calculateTotal();
+            } else if (currentType === 'outer') {
+                calculateOuter();
+            } else if (currentType === 'hollow') {
+                calculateHollow();
+            } else if (currentType === 'side') {
+                calculateSide();
+            }
+        }
+        
+        // 计算总人数
+        function calculateTotal() {
+            const side = parseInt(document.getElementById('sideCount').value) || 5;
+            const total = side * side;
+            
+            const steps = [
+                { text: `<strong>题目分析</strong>：求实心方阵的总人数` },
+                { text: `已知：每行人数 = <strong>${side}</strong> 人` },
+                { text: `<strong>代入计算</strong>：总人数 = ${side} × ${side} = <strong>${total}</strong>` }
+            ];
+            
+            displaySteps(steps, total, `方阵共有 ${total} 人`);
+            visualizeTotal(side);
+        }
+        
+        // 计算外层人数
+        function calculateOuter() {
+            const side = parseInt(document.getElementById('sideCount').value) || 5;
+            const outer = (side - 1) * 4;
+            
+            const steps = [
+                { text: `<strong>题目分析</strong>：求方阵最外层的人数` },
+                { text: `已知：每行人数 = <strong>${side}</strong> 人` },
+                { text: `<strong>思路</strong>：外层是一个"空心正方形"，四条边各有 ${side} 人` },
+                { text: `但四个角各被数了2次，需要减去重复的4个角` },
+                { text: `<strong>代入计算</strong>：外层人数 = (${side} - 1) × 4 = ${side - 1} × 4 = <strong>${outer}</strong>` }
+            ];
+            
+            displaySteps(steps, outer, `最外层有 ${outer} 人`);
+            visualizeOuter(side);
+        }
+        
+        // 计算空心方阵
+        function calculateHollow() {
+            const side = parseInt(document.getElementById('sideCount').value) || 5;
+            const layer = parseInt(document.getElementById('layerCount').value) || 2;
+            const innerSide = side - 2 * layer;
+            const outerTotal = side * side;
+            const innerTotal = innerSide > 0 ? innerSide * innerSide : 0;
+            const total = outerTotal - innerTotal;
+            
+            const steps = [
+                { text: `<strong>题目分析</strong>：求空心方阵的总人数` },
+                { text: `已知：外层每行 = <strong>${side}</strong> 人，共 <strong>${layer}</strong> 层` },
+                { text: `<strong>思路</strong>：空心方阵 = 外层实心方阵 - 内部空心部分` },
+                { text: `内层每行人数 = 外层每行 - 2 × 层数 = ${side} - 2 × ${layer} = <strong>${innerSide}</strong>` }
+            ];
+            
+            if (innerSide > 0) {
+                steps.push({ text: `外层总人数 = ${side} × ${side} = <strong>${outerTotal}</strong>` });
+                steps.push({ text: `内部空心人数 = ${innerSide} × ${innerSide} = <strong>${innerTotal}</strong>` });
+                steps.push({ text: `<strong>代入计算</strong>：总人数 = ${outerTotal} - ${innerTotal} = <strong>${total}</strong>` });
+            } else {
+                steps.push({ text: `内层每行 ≤ 0，说明方阵是实心的` });
+                steps.push({ text: `<strong>代入计算</strong>：总人数 = ${side} × ${side} = <strong>${side * side}</strong>` });
+            }
+            
+            displaySteps(steps, total, `空心方阵共有 ${total} 人`);
+            visualizeHollow(side, layer);
+        }
+        
+        // 计算每行人数
+        function calculateSide() {
+            const total = parseInt(document.getElementById('totalCount').value) || 25;
+            const side = Math.sqrt(total);
+            const isSquare = Number.isInteger(side);
+            
+            const steps = [
+                { text: `<strong>题目分析</strong>：已知总人数，求每行人数` },
+                { text: `已知：总人数 = <strong>${total}</strong> 人` },
+                { text: `<strong>思路</strong>：总人数 = 每行人数 × 每行人数` },
+                { text: `<strong>逆运算</strong>：每行人数 = √总人数 = √${total}` }
+            ];
+            
+            if (isSquare) {
+                steps.push({ text: `<strong>计算</strong>：√${total} = <strong>${side}</strong>（因为 ${side} × ${side} = ${total}）` });
+                displaySteps(steps, side, `每行有 ${side} 人`);
+                visualizeTotal(side);
+            } else {
+                steps.push({ text: `<strong>计算</strong>：√${total} ≈ ${side.toFixed(2)}（不是整数）` });
+                displaySteps(steps, '无解', `${total} 不是完全平方数，无法组成实心方阵`, true);
+            }
+        }
+        
+        // 可视化总人数
+        function visualizeTotal(side) {
+            const grid = document.getElementById('formationGrid');
+            const displaySide = Math.min(side, 15);
+            
+            grid.style.gridTemplateColumns = `repeat(${displaySide}, 30px)`;
+            grid.innerHTML = '';
+            
+            for (let i = 0; i < displaySide * displaySide; i++) {
+                const cell = document.createElement('div');
+                cell.className = 'formation-cell';
+                cell.textContent = '👤';
+                cell.style.fontSize = '16px';
+                grid.appendChild(cell);
+            }
+        }
+        
+        // 可视化外层
+        function visualizeOuter(side) {
+            const grid = document.getElementById('formationGrid');
+            const displaySide = Math.min(side, 15);
+            
+            grid.style.gridTemplateColumns = `repeat(${displaySide}, 30px)`;
+            grid.innerHTML = '';
+            
+            for (let row = 0; row < displaySide; row++) {
+                for (let col = 0; col < displaySide; col++) {
+                    const cell = document.createElement('div');
+                    const isOuter = row === 0 || row === displaySide - 1 || col === 0 || col === displaySide - 1;
+                    cell.className = 'formation-cell' + (isOuter ? ' outer' : ' inner');
+                    cell.textContent = '👤';
+                    cell.style.fontSize = '16px';
+                    grid.appendChild(cell);
+                }
+            }
+        }
+        
+        // 可视化空心方阵
+        function visualizeHollow(side, layer) {
+            const grid = document.getElementById('formationGrid');
+            const displaySide = Math.min(side, 15);
+            const innerStart = layer;
+            const innerEnd = displaySide - layer;
+            
+            grid.style.gridTemplateColumns = `repeat(${displaySide}, 30px)`;
+            grid.innerHTML = '';
+            
+            for (let row = 0; row < displaySide; row++) {
+                for (let col = 0; col < displaySide; col++) {
+                    const cell = document.createElement('div');
+                    const isHollow = row >= innerStart && row < innerEnd && col >= innerStart && col < innerEnd;
+                    cell.className = 'formation-cell' + (isHollow ? ' hollow' : '');
+                    cell.textContent = isHollow ? '' : '👤';
+                    cell.style.fontSize = '16px';
+                    grid.appendChild(cell);
+                }
+            }
+        }
+        
+        // 显示步骤
+        function displaySteps(steps, result, resultText, isError = false) {
+            const container = document.getElementById('stepsContainer');
+            container.innerHTML = '';
+            stepsData = [];
+            
+            steps.forEach((step, index) => {
+                const stepEl = document.createElement('div');
+                stepEl.className = 'solution-step';
+                stepEl.innerHTML = `
+                    <span class="step-number">${index + 1}</span>
+                    <span class="step-title">${step.text}</span>
+                `;
+                container.appendChild(stepEl);
+                stepsData.push(stepEl);
+            });
+            
+            // 添加结果框
+            const resultBox = document.createElement('div');
+            resultBox.className = 'result-box';
+            if (isError) {
+                resultBox.style.background = 'linear-gradient(135deg, #e74c3c, #c0392b)';
+                resultBox.innerHTML = `⚠️ ${resultText}`;
+            } else {
+                resultBox.innerHTML = `🎯 答案：${resultText}`;
+            }
+            container.appendChild(resultBox);
+            
+            currentStep = 0;
+            maxReachedStep = 0;
+            finalResult = result;
+            updateStepVisibility();
+            updateButtons();
+        }
+        
+        let finalResult = null;
+        
+        // 更新步骤可见性
+        function updateStepVisibility() {
+            stepsData.forEach((step, index) => {
+                step.classList.toggle('visible', index <= maxReachedStep);
+                step.classList.toggle('active', index === currentStep);
+            });
+            
+            // 控制结果框显示
+            const resultBox = document.querySelector('.result-box');
+            if (resultBox) {
+                if (stepsData.length > 0 && maxReachedStep >= stepsData.length - 1) {
+                    resultBox.classList.add('visible');
+                    // 更新答案卡片
+                    const resultEl = document.getElementById('answerResult');
+                    if (resultEl && finalResult !== null) {
+                        resultEl.textContent = finalResult;
+                    }
+                } else {
+                    resultBox.classList.remove('visible');
+                }
+            }
+            
+            if (stepsData[currentStep]) {
+                stepsData[currentStep].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        }
+        
+        // 更新按钮状态
+        function updateButtons() {
+            document.getElementById('prevBtn').disabled = currentStep === 0;
+            document.getElementById('nextBtn').disabled = currentStep >= stepsData.length - 1;
+        }
+        
+        // 上一步
+        function prevStep() {
+            if (currentStep > 0) {
+                currentStep--;
+                updateStepVisibility();
+                updateButtons();
+            }
+        }
+        
+        // 下一步
+        function nextStep() {
+            if (currentStep < stepsData.length - 1) {
+                currentStep++;
+                if (currentStep > maxReachedStep) {
+                    maxReachedStep = currentStep;
+                }
+                updateStepVisibility();
+                updateButtons();
+            }
+        }
+        
+        // 监听输入变化 - 重置步骤
+        function onInputChange() {
+            updateProblemDisplay();
+            resetSteps();
+        }
+        
+        document.getElementById('sideCount').addEventListener('input', onInputChange);
+        document.getElementById('layerCount').addEventListener('input', onInputChange);
+        document.getElementById('totalCount').addEventListener('input', onInputChange);
+        
+        // 初始化
+        updateProblemDisplay();
+    </script>
+</body>
+</html>

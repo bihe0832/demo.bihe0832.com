@@ -1,0 +1,924 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no" />    
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="Expires" content="0">
+    <link rel="Shortcut Icon" href="https://cdn.bihe0832.com/images/zixie_32.ico" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="author" CONTENT="子勰(bihe0832), code@bihe0832.com" />
+    <meta name="keywords" content="子勰,bihe0832,容斥原理" />
+    <meta name="description" content="皮卡丘学数学之容斥原理分步解答" />
+    <meta property="og:title" content="皮卡丘学数学之容斥原理分步解答" />
+    <meta property="og:locale" content="en_US" />
+    <title>皮卡丘学数学 - 容斥原理</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Microsoft YaHei', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #e67e22, #d35400);
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+            margin: 20px 0;
+            padding: 20px;
+        }
+        header {
+            background: linear-gradient(90deg, #e67e22, #d35400);
+            color: white;
+            padding: 20px 30px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        header h2 {
+            font-size: 2rem;
+            margin: 10px 0;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+        }
+        header p {
+            font-size: 1rem;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+        
+        .main-content {
+            display: flex;
+            gap: 20px;
+            min-height: 500px;
+        }
+        
+        .left-panel {
+            width: 320px;
+            flex-shrink: 0;
+            background: #fff8f0;
+            border-radius: 15px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .panel-title {
+            font-size: 1.1rem;
+            color: #d35400;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 3px solid #e67e22;
+            display: flex;
+            align-items: center;
+        }
+        .panel-title i {
+            margin-right: 10px;
+            font-size: 1.2rem;
+            color: #e67e22;
+        }
+        
+        .input-group {
+            margin-bottom: 15px;
+        }
+        .input-item {
+            margin-bottom: 15px;
+        }
+        .input-label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #d35400;
+            font-size: 0.95rem;
+        }
+        input, select {
+            padding: 12px 15px;
+            width: 100%;
+            border: 2px solid #e67e22;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        input:focus, select:focus {
+            outline: none;
+            border-color: #d35400;
+            box-shadow: 0 0 10px rgba(230, 126, 34, 0.3);
+        }
+        
+        .problem-types {
+            margin-bottom: 15px;
+        }
+        .problem-type-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 8px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: left;
+        }
+        .problem-type-btn:hover {
+            border-color: #e67e22;
+            background: #fff8f0;
+        }
+        .problem-type-btn.active {
+            border-color: #e67e22;
+            background: linear-gradient(135deg, #e67e22, #d35400);
+            color: white;
+        }
+        .problem-type-btn .type-title {
+            font-weight: bold;
+            font-size: 0.95rem;
+        }
+        .problem-type-btn .type-desc {
+            font-size: 0.8rem;
+            opacity: 0.8;
+            margin-top: 3px;
+        }
+        
+        .start-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(45deg, #27ae60, #2ecc71);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: bold;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
+            margin-top: auto;
+        }
+        .start-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(39, 174, 96, 0.4);
+        }
+        
+        .formula-card {
+            background: linear-gradient(135deg, #fff3cd, #ffeeba);
+            border: 2px solid #f39c12;
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 15px;
+        }
+        .formula-card .formula-title {
+            font-size: 0.9rem;
+            color: #856404;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        .formula-card .formula {
+            font-size: 0.85rem;
+            color: #856404;
+            margin: 5px 0;
+        }
+        
+        /* 中间可视化区域 */
+        .center-panel {
+            flex: 1;
+            min-width: 400px;
+            background: #fffaf5;
+            border-radius: 15px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .problem-display {
+            background: linear-gradient(135deg, #e67e22, #d35400);
+            color: white;
+            padding: 15px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+        .problem-display .highlight {
+            background: rgba(255,255,255,0.2);
+            padding: 2px 8px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        
+        /* 韦恩图可视化 */
+        .venn-visualization {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .venn-diagram {
+            position: relative;
+            width: 350px;
+            height: 280px;
+            margin: 20px 0;
+        }
+        
+        .venn-circle {
+            position: absolute;
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            opacity: 0.6;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+        
+        .venn-circle.set-a {
+            background: rgba(231, 76, 60, 0.5);
+            border: 3px solid #e74c3c;
+            left: 30px;
+            top: 50px;
+        }
+        
+        .venn-circle.set-b {
+            background: rgba(52, 152, 219, 0.5);
+            border: 3px solid #3498db;
+            right: 30px;
+            top: 50px;
+        }
+        
+        .venn-circle.set-c {
+            background: rgba(46, 204, 113, 0.5);
+            border: 3px solid #2ecc71;
+            left: 50%;
+            transform: translateX(-50%);
+            top: 0;
+        }
+        
+        .venn-label {
+            position: absolute;
+            font-size: 12px;
+            font-weight: bold;
+            padding: 4px 8px;
+            background: white;
+            border-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+        }
+        
+        .venn-label.label-a {
+            left: 20px;
+            top: 30px;
+            color: #e74c3c;
+        }
+        
+        .venn-label.label-b {
+            right: 20px;
+            top: 30px;
+            color: #3498db;
+        }
+        
+        .venn-label.label-ab {
+            left: 50%;
+            transform: translateX(-50%);
+            top: 130px;
+            color: #9b59b6;
+        }
+        
+        .answer-cards {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+        
+        .answer-card {
+            background: white;
+            border-radius: 12px;
+            padding: 12px 15px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            border: 3px solid #e67e22;
+            min-width: 80px;
+        }
+        
+        .answer-card .answer-icon {
+            font-size: 1.3rem;
+            margin-bottom: 3px;
+        }
+        
+        .answer-card .answer-label {
+            color: #666;
+            font-size: 0.75rem;
+            margin-bottom: 3px;
+        }
+        
+        .answer-card .answer-value {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #e67e22;
+        }
+        
+        /* 右侧步骤面板 */
+        .right-panel {
+            width: 380px;
+            flex-shrink: 0;
+            background: #fff8f0;
+            border-radius: 15px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            max-height: 600px;
+        }
+        
+        .steps-container {
+            flex: 1;
+            overflow-y: auto;
+            max-height: 480px;
+            padding-right: 5px;
+        }
+        
+        .steps-container::-webkit-scrollbar {
+            width: 6px;
+        }
+        .steps-container::-webkit-scrollbar-track {
+            background: #ffe8d0;
+            border-radius: 3px;
+        }
+        .steps-container::-webkit-scrollbar-thumb {
+            background: #e67e22;
+            border-radius: 3px;
+        }
+        
+        .step-item {
+            background: white;
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 10px;
+            border-left: 4px solid #ddd;
+            display: none;
+            transition: all 0.3s;
+        }
+        
+        .step-item.visible {
+            display: flex;
+            align-items: center;
+            border-left-color: #e67e22;
+            animation: fadeInStep 0.4s ease;
+        }
+        
+        .step-item.active {
+            background: linear-gradient(135deg, #fff8f0, #ffe8d0);
+            border-left-color: #27ae60;
+            box-shadow: 0 4px 15px rgba(230, 126, 34, 0.2);
+            animation: breatheOrange 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes fadeInStep {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes breatheOrange {
+            0%, 100% { background-color: rgba(230, 126, 34, 0.1); }
+            50% { background-color: rgba(230, 126, 34, 0.25); }
+        }
+        
+        .result-box {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            color: white;
+            padding: 15px 20px;
+            display: none;
+            border-radius: 10px;
+            margin-top: 15px;
+            font-size: 1.1rem;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(39, 174, 96, 0.3);
+        }
+        
+        .result-box.visible {
+            display: block;
+            animation: fadeInStep 0.4s ease;
+        }
+        
+        .step-number {
+            display: inline-block;
+            width: 26px;
+            height: 26px;
+            background: #e67e22;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 26px;
+            font-weight: bold;
+            margin-right: 10px;
+            font-size: 0.85rem;
+            flex-shrink: 0;
+        }
+        
+        .step-content {
+            display: inline;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .nav-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: all 0.3s;
+            color: white;
+        }
+        
+        .nav-btn.prev {
+            background: linear-gradient(45deg, #95a5a6, #7f8c8d);
+        }
+        
+        .nav-btn.next {
+            background: linear-gradient(45deg, #e67e22, #d35400);
+        }
+        
+        .nav-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        /* 响应式 */
+        @media (max-width: 1200px) {
+            .main-content {
+                flex-direction: column;
+            }
+            .left-panel, .right-panel {
+                width: 100%;
+            }
+            .center-panel {
+                min-width: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h2>🔗 皮卡丘学数学 - 容斥原理</h2>
+            <p>两个集合：|A∪B| = |A| + |B| - |A∩B|<br>
+            先加后减，避免重复计算！</p>
+        </header>
+        
+        <div class="main-content">
+            <!-- 左侧控制面板 -->
+            <div class="left-panel">
+                <div class="panel-title">
+                    <i class="fas fa-cog"></i> 题目设置
+                </div>
+                
+                <div class="problem-types">
+                    <button class="problem-type-btn active" data-type="union" onclick="selectProblemType('union')">
+                        <div class="type-title">🔗 求至少喜欢一科</div>
+                        <div class="type-desc">已知各科人数和都喜欢，求至少喜欢一科</div>
+                    </button>
+                    <button class="problem-type-btn" data-type="intersection" onclick="selectProblemType('intersection')">
+                        <div class="type-title">⭕ 求都喜欢</div>
+                        <div class="type-desc">已知各科人数和至少喜欢一科，求都喜欢</div>
+                    </button>
+                    <button class="problem-type-btn" data-type="only" onclick="selectProblemType('only')">
+                        <div class="type-title">🎯 求只喜欢语文</div>
+                        <div class="type-desc">已知喜欢语文和都喜欢，求只喜欢语文</div>
+                    </button>
+                </div>
+                
+                <div class="input-group">
+                    <div class="input-item">
+                        <label class="input-label">📖 喜欢语文的人数</label>
+                        <input type="number" id="setA" value="30" min="0" max="200" placeholder="喜欢语文">
+                    </div>
+                    <div class="input-item">
+                        <label class="input-label">📐 喜欢数学的人数</label>
+                        <input type="number" id="setB" value="25" min="0" max="200" placeholder="喜欢数学">
+                    </div>
+                    <div class="input-item" id="intersectionInput">
+                        <label class="input-label">💜 都喜欢的人数</label>
+                        <input type="number" id="intersection" value="10" min="0" max="100" placeholder="都喜欢">
+                    </div>
+                    <div class="input-item" id="unionInput" style="display:none;">
+                        <label class="input-label">💛 至少喜欢一科的人数</label>
+                        <input type="number" id="union" value="45" min="0" max="300" placeholder="至少喜欢一科">
+                    </div>
+                </div>
+                
+                <button class="start-btn" onclick="startCalculation()">
+                    <i class="fas fa-play"></i> 开始计算
+                </button>
+                
+                <div class="nav-buttons" style="margin-top: 15px;">
+                    <button class="nav-btn prev" onclick="prevStep()" id="prevBtn" disabled>
+                        <i class="fas fa-arrow-left"></i> 上一步
+                    </button>
+                    <button class="nav-btn next" onclick="nextStep()" id="nextBtn" disabled>
+                        下一步 <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- 中间可视化区域 -->
+            <div class="center-panel">
+                <div class="panel-title">
+                    <i class="fas fa-question-circle"></i> 题目
+                </div>
+                <div class="problem-display" id="problemDisplay">
+                    班级有 <span class="highlight">30</span> 人喜欢语文，<span class="highlight">25</span> 人喜欢数学，<span class="highlight">10</span> 人两科都喜欢。<br>
+                    问：至少喜欢一科的有多少人？
+                </div>
+                
+                <div class="panel-title">
+                    <i class="fas fa-eye"></i> 韦恩图
+                </div>
+                
+                <div class="venn-visualization">
+                    <div class="venn-diagram" id="vennDiagram">
+                        <div class="venn-circle set-a"></div>
+                        <div class="venn-circle set-b"></div>
+                        <div class="venn-label label-a" id="labelA">语文: 30</div>
+                        <div class="venn-label label-b" id="labelB">数学: 25</div>
+                        <div class="venn-label label-ab" id="labelAB">都喜欢: 10</div>
+                    </div>
+                </div>
+                
+                <div class="answer-cards" id="answerCards">
+                    <div class="answer-card">
+                        <div class="answer-icon">📖</div>
+                        <div class="answer-label">喜欢语文</div>
+                        <div class="answer-value" id="answerA">30</div>
+                    </div>
+                    <div class="answer-card">
+                        <div class="answer-icon">📐</div>
+                        <div class="answer-label">喜欢数学</div>
+                        <div class="answer-value" id="answerB">25</div>
+                    </div>
+                    <div class="answer-card">
+                        <div class="answer-icon">💜</div>
+                        <div class="answer-label">都喜欢</div>
+                        <div class="answer-value" id="answerIntersection">10</div>
+                    </div>
+                    <div class="answer-card">
+                        <div class="answer-icon">💛</div>
+                        <div class="answer-label">至少一科</div>
+                        <div class="answer-value" id="answerResult">?</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 右侧步骤面板 -->
+            <div class="right-panel">
+                <div class="formula-card">
+                    <div class="formula-title">📐 核心公式</div>
+                    <div class="formula">• 至少喜欢一科 = 喜欢语文 + 喜欢数学 - 都喜欢</div>
+                    <div class="formula">• 都喜欢 = 喜欢语文 + 喜欢数学 - 至少喜欢一科</div>
+                    <div class="formula">• 只喜欢语文 = 喜欢语文 - 都喜欢</div>
+                </div>
+                
+                <div class="panel-title">
+                    <i class="fas fa-shoe-prints"></i> 解题步骤
+                </div>
+                
+                <div class="steps-container" id="stepsContainer">
+                    <p style="color: #999; text-align: center; padding: 30px;">
+                        👆 点击"开始计算"按钮查看详细解答
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let currentType = 'union';
+        let stepsData = [];
+        let currentStep = 0;
+        let maxReachedStep = 0;
+        let finalResult = null;
+        
+        // 重置步骤和动画
+        function resetSteps() {
+            stepsData = [];
+            currentStep = 0;
+            maxReachedStep = 0;
+            finalResult = null;
+            const container = document.getElementById('stepsContainer');
+            container.innerHTML = '<p style="color: #999; text-align: center; padding: 30px;">👆 点击"开始计算"按钮查看详细解答</p>';
+            document.getElementById('prevBtn').disabled = true;
+            document.getElementById('nextBtn').disabled = true;
+        }
+        
+        // 选择题目类型
+        function selectProblemType(type) {
+            currentType = type;
+            document.querySelectorAll('.problem-type-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`[data-type="${type}"]`).classList.add('active');
+            
+            // 显示/隐藏相应的输入框
+            document.getElementById('intersectionInput').style.display = (type === 'intersection') ? 'none' : 'block';
+            document.getElementById('unionInput').style.display = (type === 'intersection') ? 'block' : 'none';
+            
+            updateProblemDisplay();
+            resetSteps();
+        }
+        
+        // 更新题目显示
+        function updateProblemDisplay() {
+            const a = parseInt(document.getElementById('setA').value) || 30;
+            const b = parseInt(document.getElementById('setB').value) || 25;
+            const inter = parseInt(document.getElementById('intersection').value) || 10;
+            const union = parseInt(document.getElementById('union').value) || 45;
+            
+            let problemText = '';
+            let answerCardsHtml = '';
+            
+            if (currentType === 'union') {
+                problemText = `班级有 <span class="highlight">${a}</span> 人喜欢语文，<span class="highlight">${b}</span> 人喜欢数学，<span class="highlight">${inter}</span> 人两科都喜欢。<br>问：至少喜欢一科的有多少人？`;
+                answerCardsHtml = `
+                    <div class="answer-card">
+                        <div class="answer-icon">📖</div>
+                        <div class="answer-label">喜欢语文</div>
+                        <div class="answer-value">${a}</div>
+                    </div>
+                    <div class="answer-card">
+                        <div class="answer-icon">📐</div>
+                        <div class="answer-label">喜欢数学</div>
+                        <div class="answer-value">${b}</div>
+                    </div>
+                    <div class="answer-card">
+                        <div class="answer-icon">💜</div>
+                        <div class="answer-label">都喜欢</div>
+                        <div class="answer-value">${inter}</div>
+                    </div>
+                    <div class="answer-card">
+                        <div class="answer-icon">💛</div>
+                        <div class="answer-label">至少一科</div>
+                        <div class="answer-value" id="answerResult">?</div>
+                    </div>
+                `;
+            } else if (currentType === 'intersection') {
+                problemText = `班级有 <span class="highlight">${a}</span> 人喜欢语文，<span class="highlight">${b}</span> 人喜欢数学，至少喜欢一科的有 <span class="highlight">${union}</span> 人。<br>问：两科都喜欢的有多少人？`;
+                answerCardsHtml = `
+                    <div class="answer-card">
+                        <div class="answer-icon">📖</div>
+                        <div class="answer-label">喜欢语文</div>
+                        <div class="answer-value">${a}</div>
+                    </div>
+                    <div class="answer-card">
+                        <div class="answer-icon">📐</div>
+                        <div class="answer-label">喜欢数学</div>
+                        <div class="answer-value">${b}</div>
+                    </div>
+                    <div class="answer-card">
+                        <div class="answer-icon">💛</div>
+                        <div class="answer-label">至少一科</div>
+                        <div class="answer-value">${union}</div>
+                    </div>
+                    <div class="answer-card">
+                        <div class="answer-icon">💜</div>
+                        <div class="answer-label">都喜欢</div>
+                        <div class="answer-value" id="answerResult">?</div>
+                    </div>
+                `;
+            } else if (currentType === 'only') {
+                problemText = `班级有 <span class="highlight">${a}</span> 人喜欢语文，其中 <span class="highlight">${inter}</span> 人也喜欢数学。<br>问：只喜欢语文的有多少人？`;
+                answerCardsHtml = `
+                    <div class="answer-card">
+                        <div class="answer-icon">📖</div>
+                        <div class="answer-label">喜欢语文</div>
+                        <div class="answer-value">${a}</div>
+                    </div>
+                    <div class="answer-card">
+                        <div class="answer-icon">💜</div>
+                        <div class="answer-label">都喜欢</div>
+                        <div class="answer-value">${inter}</div>
+                    </div>
+                    <div class="answer-card">
+                        <div class="answer-icon">🎯</div>
+                        <div class="answer-label">只喜欢语文</div>
+                        <div class="answer-value" id="answerResult">?</div>
+                    </div>
+                `;
+            }
+            
+            document.getElementById('problemDisplay').innerHTML = problemText;
+            document.getElementById('answerCards').innerHTML = answerCardsHtml;
+            
+            updateVennDiagram();
+        }
+        
+        // 更新韦恩图
+        function updateVennDiagram() {
+            const a = parseInt(document.getElementById('setA').value) || 30;
+            const b = parseInt(document.getElementById('setB').value) || 25;
+            const inter = parseInt(document.getElementById('intersection').value) || 10;
+            
+            document.getElementById('labelA').textContent = `语文: ${a}`;
+            document.getElementById('labelB').textContent = `数学: ${b}`;
+            document.getElementById('labelAB').textContent = `都喜欢: ${inter}`;
+        }
+        
+        // 开始计算
+        function startCalculation() {
+            if (currentType === 'union') {
+                calculateUnion();
+            } else if (currentType === 'intersection') {
+                calculateIntersection();
+            } else if (currentType === 'only') {
+                calculateOnly();
+            }
+        }
+        
+        // 计算至少喜欢一科（并集）
+        function calculateUnion() {
+            const a = parseInt(document.getElementById('setA').value) || 30;
+            const b = parseInt(document.getElementById('setB').value) || 25;
+            const inter = parseInt(document.getElementById('intersection').value) || 10;
+            const result = a + b - inter;
+            
+            const steps = [
+                { text: `<strong>题目分析</strong>：已知喜欢语文、喜欢数学和都喜欢的人数，求至少喜欢一科` },
+                { text: `已知：喜欢语文 = <strong>${a}</strong>人，喜欢数学 = <strong>${b}</strong>人，都喜欢 = <strong>${inter}</strong>人` },
+                { text: `<strong>问题</strong>：如果直接相加 ${a} + ${b} = ${a + b}，会怎样？` },
+                { text: `<strong>发现问题</strong>：都喜欢的（${inter}人）被重复计算了！` },
+                { text: `<strong>正确方法</strong>：至少喜欢一科 = 喜欢语文 + 喜欢数学 - 都喜欢` },
+                { text: `<strong>代入计算</strong>：至少喜欢一科 = ${a} + ${b} - ${inter}` },
+                { text: `<strong>计算</strong>：至少喜欢一科 = ${a + b} - ${inter} = <strong>${result}</strong>` }
+            ];
+            
+            displaySteps(steps, result, `至少喜欢一科的有 ${result} 人`);
+        }
+        
+        // 计算都喜欢（交集）
+        function calculateIntersection() {
+            const a = parseInt(document.getElementById('setA').value) || 30;
+            const b = parseInt(document.getElementById('setB').value) || 25;
+            const union = parseInt(document.getElementById('union').value) || 45;
+            const result = a + b - union;
+            
+            const steps = [
+                { text: `<strong>题目分析</strong>：已知喜欢语文、喜欢数学和至少喜欢一科的人数，求都喜欢` },
+                { text: `已知：喜欢语文 = <strong>${a}</strong>人，喜欢数学 = <strong>${b}</strong>人，至少喜欢一科 = <strong>${union}</strong>人` },
+                { text: `<strong>公式变形</strong>：都喜欢 = 喜欢语文 + 喜欢数学 - 至少喜欢一科` },
+                { text: `<strong>代入计算</strong>：都喜欢 = ${a} + ${b} - ${union}` },
+                { text: `<strong>计算</strong>：都喜欢 = ${a + b} - ${union} = <strong>${result}</strong>` }
+            ];
+            
+            displaySteps(steps, result, `两科都喜欢的有 ${result} 人`);
+        }
+        
+        // 计算只喜欢语文
+        function calculateOnly() {
+            const a = parseInt(document.getElementById('setA').value) || 30;
+            const inter = parseInt(document.getElementById('intersection').value) || 10;
+            const result = a - inter;
+            
+            const steps = [
+                { text: `<strong>题目分析</strong>：已知喜欢语文和都喜欢的人数，求只喜欢语文` },
+                { text: `已知：喜欢语文 = <strong>${a}</strong>人，都喜欢 = <strong>${inter}</strong>人` },
+                { text: `<strong>理解</strong>：喜欢语文的人包含两部分：只喜欢语文的 + 两科都喜欢的` },
+                { text: `<strong>公式</strong>：只喜欢语文 = 喜欢语文 - 都喜欢` },
+                { text: `<strong>代入计算</strong>：只喜欢语文 = ${a} - ${inter}` },
+                { text: `<strong>计算</strong>：只喜欢语文 = <strong>${result}</strong>` }
+            ];
+            
+            displaySteps(steps, result, `只喜欢语文的有 ${result} 人`);
+        }
+        
+        // 显示步骤
+        function displaySteps(steps, result, resultText) {
+            const container = document.getElementById('stepsContainer');
+            container.innerHTML = '';
+            stepsData = [];
+            finalResult = result;
+            
+            steps.forEach((step, index) => {
+                const stepEl = document.createElement('div');
+                stepEl.className = 'step-item';
+                stepEl.innerHTML = `
+                    <span class="step-number">${index + 1}</span>
+                    <span class="step-content">${step.text}</span>
+                `;
+                container.appendChild(stepEl);
+                stepsData.push(stepEl);
+            });
+            
+            // 添加结果框
+            const resultBox = document.createElement('div');
+            resultBox.className = 'result-box';
+            resultBox.innerHTML = `🎯 答案：${resultText}`;
+            container.appendChild(resultBox);
+            
+            currentStep = 0;
+            maxReachedStep = 0;
+            updateStepVisibility();
+            updateButtons();
+        }
+        
+        // 更新步骤可见性
+        function updateStepVisibility() {
+            stepsData.forEach((step, index) => {
+                step.classList.toggle('visible', index <= maxReachedStep);
+                step.classList.toggle('active', index === currentStep);
+            });
+            
+            // 控制结果框显示
+            const resultBox = document.querySelector('.result-box');
+            if (resultBox) {
+                if (stepsData.length > 0 && maxReachedStep >= stepsData.length - 1) {
+                    resultBox.classList.add('visible');
+                    // 更新答案卡片
+                    const resultEl = document.getElementById('answerResult');
+                    if (resultEl && finalResult !== null) {
+                        resultEl.textContent = finalResult;
+                    }
+                } else {
+                    resultBox.classList.remove('visible');
+                }
+            }
+            
+            if (stepsData[currentStep]) {
+                stepsData[currentStep].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        }
+        
+        // 更新按钮状态
+        function updateButtons() {
+            document.getElementById('prevBtn').disabled = currentStep === 0;
+            document.getElementById('nextBtn').disabled = currentStep >= stepsData.length - 1;
+        }
+        
+        // 上一步
+        function prevStep() {
+            if (currentStep > 0) {
+                currentStep--;
+                updateStepVisibility();
+                updateButtons();
+            }
+        }
+        
+        // 下一步
+        function nextStep() {
+            if (currentStep < stepsData.length - 1) {
+                currentStep++;
+                if (currentStep > maxReachedStep) {
+                    maxReachedStep = currentStep;
+                }
+                updateStepVisibility();
+                updateButtons();
+            }
+        }
+        
+        // 监听输入变化 - 重置步骤
+        function onInputChange() {
+            updateProblemDisplay();
+            resetSteps();
+        }
+        
+        document.getElementById('setA').addEventListener('input', onInputChange);
+        document.getElementById('setB').addEventListener('input', onInputChange);
+        document.getElementById('intersection').addEventListener('input', onInputChange);
+        document.getElementById('union').addEventListener('input', onInputChange);
+        
+        // 初始化
+        updateProblemDisplay();
+    </script>
+</body>
+</html>

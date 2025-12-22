@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no" />    
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="Expires" content="0">
+    <link rel="Shortcut Icon" href="https://cdn.bihe0832.com/images/zixie_32.ico" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="author" CONTENT="子勰(bihe0832), code@bihe0832.com" />
+    <meta name="keywords" content="子勰,bihe0832,平均数问题" />
+    <meta name="description" content="皮卡丘学数学之平均数问题分步解答" />
+    <meta property="og:title" content="皮卡丘学数学之平均数问题分步解答" />
+    <meta property="og:locale" content="en_US" />
+    <title>皮卡丘学数学 - 平均数问题</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Microsoft YaHei', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #1abc9c, #16a085);
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+            margin: 20px 0;
+            padding: 20px;
+        }
+        header {
+            background: linear-gradient(90deg, #1abc9c, #16a085);
+            color: white;
+            padding: 20px 30px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        header h2 {
+            font-size: 2rem;
+            margin: 10px 0;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+        }
+        header p {
+            font-size: 1rem;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+        
+        .main-content {
+            display: flex;
+            gap: 20px;
+            min-height: 500px;
+        }
+        
+        .left-panel {
+            width: 320px;
+            flex-shrink: 0;
+            background: #f0fff8;
+            border-radius: 15px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .panel-title {
+            font-size: 1.1rem;
+            color: #16a085;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 3px solid #1abc9c;
+            display: flex;
+            align-items: center;
+        }
+        .panel-title i {
+            margin-right: 10px;
+            font-size: 1.2rem;
+            color: #1abc9c;
+        }
+        
+        .input-group {
+            margin-bottom: 15px;
+        }
+        .input-item {
+            margin-bottom: 15px;
+        }
+        .input-label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #16a085;
+            font-size: 0.95rem;
+        }
+        input, select {
+            padding: 12px 15px;
+            width: 100%;
+            border: 2px solid #1abc9c;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        input:focus, select:focus {
+            outline: none;
+            border-color: #16a085;
+            box-shadow: 0 0 10px rgba(26, 188, 156, 0.3);
+        }
+        
+        .problem-types {
+            margin-bottom: 15px;
+        }
+        .problem-type-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 8px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: left;
+        }
+        .problem-type-btn:hover {
+            border-color: #1abc9c;
+            background: #f0fff8;
+        }
+        .problem-type-btn.active {
+            border-color: #1abc9c;
+            background: linear-gradient(135deg, #1abc9c, #16a085);
+            color: white;
+        }
+        .problem-type-btn .type-title {
+            font-weight: bold;
+            font-size: 0.95rem;
+        }
+        .problem-type-btn .type-desc {
+            font-size: 0.8rem;
+            opacity: 0.8;
+            margin-top: 3px;
+        }
+        
+        .start-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(45deg, #27ae60, #2ecc71);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: bold;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
+            margin-top: auto;
+        }
+        .start-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(39, 174, 96, 0.4);
+        }
+        
+        .formula-card {
+            background: linear-gradient(135deg, #fff3cd, #ffeeba);
+            border: 2px solid #f39c12;
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 15px;
+        }
+        .formula-card .formula-title {
+            font-size: 0.9rem;
+            color: #856404;
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+        .formula-card .formula {
+            font-size: 0.85rem;
+            color: #856404;
+            margin: 5px 0;
+        }
+        
+        /* 中间可视化区域 */
+        .center-panel {
+            flex: 1;
+            min-width: 400px;
+            background: #f5fffa;
+            border-radius: 15px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .problem-display {
+            background: linear-gradient(135deg, #1abc9c, #16a085);
+            color: white;
+            padding: 15px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+        .problem-display .highlight {
+            background: rgba(255,255,255,0.2);
+            padding: 2px 8px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        
+        /* 柱状图可视化 */
+        .bar-visualization {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .bar-chart {
+            display: flex;
+            align-items: flex-end;
+            gap: 20px;
+            height: 200px;
+            padding: 20px;
+            background: rgba(26, 188, 156, 0.1);
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .bar-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .bar {
+            width: 50px;
+            background: linear-gradient(180deg, #1abc9c, #16a085);
+            border-radius: 5px 5px 0 0;
+            transition: height 0.5s ease;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding-top: 5px;
+            color: white;
+            font-weight: bold;
+            font-size: 12px;
+        }
+        
+        .bar-label {
+            font-size: 12px;
+            color: #666;
+            font-weight: bold;
+        }
+        
+        .average-line {
+            position: relative;
+            width: 100%;
+            height: 2px;
+            background: #e74c3c;
+            margin: 10px 0;
+        }
+        
+        .average-line::after {
+            content: attr(data-value);
+            position: absolute;
+            right: 0;
+            top: -20px;
+            color: #e74c3c;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        
+        .answer-cards {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+        
+        .answer-card {
+            background: white;
+            border-radius: 12px;
+            padding: 12px 15px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            border: 3px solid #1abc9c;
+            min-width: 80px;
+        }
+        
+        .answer-card .answer-icon {
+            font-size: 1.3rem;
+            margin-bottom: 3px;
+        }
+        
+        .answer-card .answer-label {
+            color: #666;
+            font-size: 0.75rem;
+            margin-bottom: 3px;
+        }
+        
+        .answer-card .answer-value {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #1abc9c;
+        }
+        
+        /* 右侧步骤面板 */
+        .right-panel {
+            width: 380px;
+            flex-shrink: 0;
+            background: #f0fff8;
+            border-radius: 15px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            max-height: 600px;
+        }
+        
+        .steps-container {
+            flex: 1;
+            overflow-y: auto;
+            max-height: 480px;
+            padding-right: 5px;
+        }
+        
+        .steps-container::-webkit-scrollbar {
+            width: 6px;
+        }
+        .steps-container::-webkit-scrollbar-track {
+            background: #d0fff0;
+            border-radius: 3px;
+        }
+        .steps-container::-webkit-scrollbar-thumb {
+            background: #1abc9c;
+            border-radius: 3px;
+        }
+        
+        .step-item {
+            background: white;
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 10px;
+            border-left: 4px solid #ddd;
+            display: none;
+            transition: all 0.3s;
+        }
+        
+        .step-item.visible {
+            display: flex;
+            align-items: center;
+            border-left-color: #1abc9c;
+            animation: fadeInStep 0.4s ease;
+        }
+        
+        .step-item.active {
+            background: linear-gradient(135deg, #f0fff8, #d0fff0);
+            border-left-color: #27ae60;
+            box-shadow: 0 4px 15px rgba(26, 188, 156, 0.2);
+            animation: breatheTeal 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes fadeInStep {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes breatheTeal {
+            0%, 100% { background-color: rgba(26, 188, 156, 0.1); }
+            50% { background-color: rgba(26, 188, 156, 0.25); }
+        }
+        
+        .result-box {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            color: white;
+            padding: 15px 20px;
+            display: none;
+            border-radius: 10px;
+            margin-top: 15px;
+            font-size: 1.1rem;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(39, 174, 96, 0.3);
+        }
+        
+        .result-box.visible {
+            display: block;
+            animation: fadeInStep 0.4s ease;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .nav-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: all 0.3s;
+            color: white;
+        }
+        
+        .nav-btn.prev {
+            background: linear-gradient(45deg, #95a5a6, #7f8c8d);
+        }
+        
+        .nav-btn.next {
+            background: linear-gradient(45deg, #1abc9c, #16a085);
+        }
+        
+        .nav-btn:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .step-number {
+            display: inline-block;
+            width: 26px;
+            height: 26px;
+            background: #1abc9c;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 26px;
+            font-weight: bold;
+            margin-right: 10px;
+            font-size: 0.85rem;
+            flex-shrink: 0;
+        }
+        
+        .step-content {
+            display: inline;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        
+        /* 响应式 */
+        @media (max-width: 1200px) {
+            .main-content {
+                flex-direction: column;
+            }
+            .left-panel, .right-panel {
+                width: 100%;
+            }
+            .center-panel {
+                min-width: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h2>📊 皮卡丘学数学 - 平均数问题</h2>
+            <p>平均数 = 总数 ÷ 个数<br>
+            掌握移多补少的思想，轻松解决平均数问题！</p>
+        </header>
+        
+        <div class="main-content">
+            <!-- 左侧控制面板 -->
+            <div class="left-panel">
+                <div class="panel-title">
+                    <i class="fas fa-cog"></i> 题目设置
+                </div>
+                
+                <div class="problem-types">
+                    <button class="problem-type-btn active" data-type="basic" onclick="selectProblemType('basic')">
+                        <div class="type-title">📊 基础平均数</div>
+                        <div class="type-desc">已知各数，求平均数</div>
+                    </button>
+                    <button class="problem-type-btn" data-type="total" onclick="selectProblemType('total')">
+                        <div class="type-title">📦 求总数</div>
+                        <div class="type-desc">已知平均数和个数，求总数</div>
+                    </button>
+                    <button class="problem-type-btn" data-type="combined" onclick="selectProblemType('combined')">
+                        <div class="type-title">🔗 合并平均数</div>
+                        <div class="type-desc">两组数据合并后的平均数</div>
+                    </button>
+                    <button class="problem-type-btn" data-type="change" onclick="selectProblemType('change')">
+                        <div class="type-title">📈 变化平均数</div>
+                        <div class="type-desc">增加/减少数据后的平均数</div>
+                    </button>
+                </div>
+                
+                <div class="input-group" id="basicInputs">
+                    <div class="input-item">
+                        <label class="input-label">📝 输入数据（用逗号分隔）</label>
+                        <input type="text" id="dataInput" value="5,8,6,9,7" placeholder="如：5,8,6,9,7">
+                    </div>
+                </div>
+                
+                <div class="input-group" id="totalInputs" style="display:none;">
+                    <div class="input-item">
+                        <label class="input-label">📊 平均数</label>
+                        <input type="number" id="avgInput" value="6" min="0" max="10" placeholder="平均数">
+                    </div>
+                    <div class="input-item">
+                        <label class="input-label">🔢 个数</label>
+                        <input type="number" id="countInput" value="5" min="1" max="10" placeholder="个数">
+                    </div>
+                </div>
+                
+                <div class="input-group" id="combinedInputs" style="display:none;">
+                    <div class="input-item">
+                        <label class="input-label">📊 第一组平均数</label>
+                        <input type="number" id="avg1Input" value="6" min="0" max="10">
+                    </div>
+                    <div class="input-item">
+                        <label class="input-label">🔢 第一组人数</label>
+                        <input type="number" id="count1Input" value="3" min="1" max="10">
+                    </div>
+                    <div class="input-item">
+                        <label class="input-label">📊 第二组平均数</label>
+                        <input type="number" id="avg2Input" value="8" min="0" max="10">
+                    </div>
+                    <div class="input-item">
+                        <label class="input-label">🔢 第二组人数</label>
+                        <input type="number" id="count2Input" value="2" min="1" max="10">
+                    </div>
+                </div>
+                
+                <div class="input-group" id="changeInputs" style="display:none;">
+                    <div class="input-item">
+                        <label class="input-label">📊 原平均数</label>
+                        <input type="number" id="origAvgInput" value="6" min="0" max="10">
+                    </div>
+                    <div class="input-item">
+                        <label class="input-label">🔢 原个数</label>
+                        <input type="number" id="origCountInput" value="4" min="1" max="10">
+                    </div>
+                    <div class="input-item">
+                        <label class="input-label">➕ 新增数据</label>
+                        <input type="number" id="newDataInput" value="9" min="0" max="10">
+                    </div>
+                </div>
+                
+                <button class="start-btn" onclick="startCalculation()">
+                    <i class="fas fa-play"></i> 开始计算
+                </button>
+                
+                <div class="nav-buttons" style="margin-top: 15px;">
+                    <button class="nav-btn prev" onclick="prevStep()" id="prevBtn" disabled>
+                        <i class="fas fa-arrow-left"></i> 上一步
+                    </button>
+                    <button class="nav-btn next" onclick="nextStep()" id="nextBtn" disabled>
+                        下一步 <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <!-- 中间可视化区域 -->
+            <div class="center-panel">
+                <div class="panel-title">
+                    <i class="fas fa-question-circle"></i> 题目
+                </div>
+                <div class="problem-display" id="problemDisplay">
+                    小明5次考试成绩分别是 <span class="highlight">5, 8, 6, 9, 7</span> 分，<br>
+                    求这5次考试的平均分是多少？
+                </div>
+                
+                <div class="panel-title">
+                    <i class="fas fa-eye"></i> 可视化演示
+                </div>
+                
+                <div class="bar-visualization">
+                    <div class="bar-chart" id="barChart">
+                        <!-- 柱状图 -->
+                    </div>
+                    <div class="average-line" id="averageLine" data-value="平均: ?"></div>
+                </div>
+                
+                <div class="answer-cards" id="answerCards">
+                    <div class="answer-card">
+                        <div class="answer-icon">📝</div>
+                        <div class="answer-label">数据个数</div>
+                        <div class="answer-value" id="answerCount">5</div>
+                    </div>
+                    <div class="answer-card">
+                        <div class="answer-icon">📦</div>
+                        <div class="answer-label">总和</div>
+                        <div class="answer-value" id="answerSum">?</div>
+                    </div>
+                    <div class="answer-card">
+                        <div class="answer-icon">📊</div>
+                        <div class="answer-label">平均数</div>
+                        <div class="answer-value" id="answerResult">?</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 右侧步骤面板 -->
+            <div class="right-panel">
+                <div class="formula-card">
+                    <div class="formula-title">📐 核心公式</div>
+                    <div class="formula">• 平均数 = 总数 ÷ 个数</div>
+                    <div class="formula">• 总数 = 平均数 × 个数</div>
+                    <div class="formula">• 合并平均 = 总和 ÷ 总人数</div>
+                </div>
+                
+                <div class="panel-title">
+                    <i class="fas fa-shoe-prints"></i> 解题步骤
+                </div>
+                
+                <div class="steps-container" id="stepsContainer">
+                    <p style="color: #999; text-align: center; padding: 30px;">
+                        👆 点击"开始计算"按钮查看详细解答
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let currentType = 'basic';
+        let stepsData = [];
+        let currentStep = 0;
+        let maxReachedStep = 0;
+        let finalResult = null;
+        let finalSum = null;
+        
+        // 重置步骤和动画
+        function resetSteps() {
+            stepsData = [];
+            currentStep = 0;
+            maxReachedStep = 0;
+            finalResult = null;
+            finalSum = null;
+            const container = document.getElementById('stepsContainer');
+            container.innerHTML = '<p style="color: #999; text-align: center; padding: 30px;">👆 点击"开始计算"按钮查看详细解答</p>';
+            document.getElementById('prevBtn').disabled = true;
+            document.getElementById('nextBtn').disabled = true;
+        }
+        
+        // 选择题目类型
+        function selectProblemType(type) {
+            currentType = type;
+            document.querySelectorAll('.problem-type-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`[data-type="${type}"]`).classList.add('active');
+            
+            // 显示/隐藏相应的输入框
+            document.getElementById('basicInputs').style.display = type === 'basic' ? 'block' : 'none';
+            document.getElementById('totalInputs').style.display = type === 'total' ? 'block' : 'none';
+            document.getElementById('combinedInputs').style.display = type === 'combined' ? 'block' : 'none';
+            document.getElementById('changeInputs').style.display = type === 'change' ? 'block' : 'none';
+            
+            updateProblemDisplay();
+            resetSteps();
+        }
+        
+        // 更新题目显示
+        function updateProblemDisplay() {
+            let problemText = '';
+            let answerCardsHtml = '';
+            
+            if (currentType === 'basic') {
+                const dataStr = document.getElementById('dataInput').value;
+                const data = dataStr.split(',').map(x => parseFloat(x.trim())).filter(x => !isNaN(x));
+                problemText = `小明${data.length}次考试成绩分别是 <span class="highlight">${data.join(', ')}</span> 分，<br>求这${data.length}次考试的平均分是多少？`;
+                answerCardsHtml = `
+                    <div class="answer-card">
+                        <div class="answer-icon">📝</div>
+                        <div class="answer-label">数据个数</div>
+                        <div class="answer-value">${data.length}</div>
+                    </div>
+                    <div class="answer-card">
+                        <div class="answer-icon">📦</div>
+                        <div class="answer-label">总和</div>
+                        <div class="answer-value" id="answerSum">?</div>
+                    </div>
+                    <div class="answer-card">
+                        <div class="answer-icon">📊</div>
+                        <div class="answer-label">平均数</div>
+                        <div class="answer-value" id="answerResult">?</div>
+                    </div>
+                `;
+                updateBarChart(data);
+            } else if (currentType === 'total') {
+                const avg = parseFloat(document.getElementById('avgInput').value) || 6;
+                const count = parseInt(document.getElementById('countInput').value) || 5;
+                problemText = `一组数据共 <span class="highlight">${count}</span> 个，平均数是 <span class="highlight">${avg}</span>，<br>求这组数据的总和是多少？`;
+                answerCardsHtml = `
+                    <div class="answer-card">
+                        <div class="answer-icon">📊</div>
+                        <div class="answer-label">平均数</div>
+                        <div class="answer-value">${avg}</div>
+                    </div>
+                    <div class="answer-card">
+                        <div class="answer-icon">🔢</div>
+                        <div class="answer-label">个数</div>
+                        <div class="answer-value">${count}</div>
+                    </div>
+                    <div class="answer-card">
+                        <div class="answer-icon">📦</div>
+                        <div class="answer-label">总和</div>
+                        <div class="answer-value" id="answerResult">?</div>
+                    </div>
+                `;
+                // 生成示意数据
+                const demoData = Array(count).fill(avg);
+                updateBarChart(demoData);
+            } else if (currentType === 'combined') {
+                const avg1 = parseFloat(document.getElementById('avg1Input').value) || 6;
+                const count1 = parseInt(document.getElementById('count1Input').value) || 3;
+                const avg2 = parseFloat(document.getElementById('avg2Input').value) || 8;
+                const count2 = parseInt(document.getElementById('count2Input').value) || 2;
+                problemText = `第一组 <span class="highlight">${count1}</span> 人平均分 <span class="highlight">${avg1}</span>，第二组 <span class="highlight">${count2}</span> 人平均分 <span class="highlight">${avg2}</span>，<br>两组合并后的平均分是多少？`;
+                answerCardsHtml = `
+                    <div class="answer-card">
+                        <div class="answer-icon">1️⃣</div>
+                        <div class="answer-label">第一组</div>
+                        <div class="answer-value">${count1}人×${avg1}</div>
+                    </div>
+                    <div class="answer-card">
+                        <div class="answer-icon">2️⃣</div>
+                        <div class="answer-label">第二组</div>
+                        <div class="answer-value">${count2}人×${avg2}</div>
+                    </div>
+                    <div class="answer-card">
+                        <div class="answer-icon">📊</div>
+                        <div class="answer-label">合并平均</div>
+                        <div class="answer-value" id="answerResult">?</div>
+                    </div>
+                `;
+                updateBarChart([avg1, avg2], ['第一组', '第二组']);
+            } else if (currentType === 'change') {
+                const origAvg = parseFloat(document.getElementById('origAvgInput').value) || 6;
+                const origCount = parseInt(document.getElementById('origCountInput').value) || 4;
+                const newData = parseFloat(document.getElementById('newDataInput').value) || 9;
+                problemText = `原来 <span class="highlight">${origCount}</span> 个数的平均数是 <span class="highlight">${origAvg}</span>，<br>增加一个数 <span class="highlight">${newData}</span> 后，新的平均数是多少？`;
+                answerCardsHtml = `
+                    <div class="answer-card">
+                        <div class="answer-icon">📊</div>
+                        <div class="answer-label">原平均</div>
+                        <div class="answer-value">${origAvg}</div>
+                    </div>
+                    <div class="answer-card">
+                        <div class="answer-icon">➕</div>
+                        <div class="answer-label">新增</div>
+                        <div class="answer-value">${newData}</div>
+                    </div>
+                    <div class="answer-card">
+                        <div class="answer-icon">📊</div>
+                        <div class="answer-label">新平均</div>
+                        <div class="answer-value" id="answerResult">?</div>
+                    </div>
+                `;
+                const demoData = Array(origCount).fill(origAvg);
+                demoData.push(newData);
+                updateBarChart(demoData);
+            }
+            
+            document.getElementById('problemDisplay').innerHTML = problemText;
+            document.getElementById('answerCards').innerHTML = answerCardsHtml;
+        }
+        
+        // 更新柱状图
+        function updateBarChart(data, labels = null) {
+            const chart = document.getElementById('barChart');
+            const maxVal = Math.max(...data) * 1.2;
+            
+            chart.innerHTML = '';
+            data.forEach((val, i) => {
+                const item = document.createElement('div');
+                item.className = 'bar-item';
+                const height = (val / maxVal) * 150;
+                item.innerHTML = `
+                    <div class="bar" style="height: ${height}px">${val}</div>
+                    <div class="bar-label">${labels ? labels[i] : '第' + (i + 1) + '个'}</div>
+                `;
+                chart.appendChild(item);
+            });
+            
+            document.getElementById('averageLine').setAttribute('data-value', '平均: ?');
+        }
+        
+        // 开始计算
+        function startCalculation() {
+            if (currentType === 'basic') {
+                calculateBasic();
+            } else if (currentType === 'total') {
+                calculateTotal();
+            } else if (currentType === 'combined') {
+                calculateCombined();
+            } else if (currentType === 'change') {
+                calculateChange();
+            }
+        }
+        
+        // 计算基础平均数
+        function calculateBasic() {
+            const dataStr = document.getElementById('dataInput').value;
+            const data = dataStr.split(',').map(x => parseFloat(x.trim())).filter(x => !isNaN(x));
+            const sum = data.reduce((a, b) => a + b, 0);
+            const avg = sum / data.length;
+            
+            const steps = [
+                { text: `<strong>题目分析</strong>：求${data.length}个数的平均数` },
+                { text: `已知数据：<strong>${data.join(', ')}</strong>` },
+                { text: `<strong>公式</strong>：平均数 = 总和 ÷ 个数` },
+                { text: `<strong>第一步</strong>：求总和` },
+                { text: `总和 = ${data.join(' + ')} = <strong>${sum}</strong>` },
+                { text: `<strong>第二步</strong>：求平均数` },
+                { text: `平均数 = ${sum} ÷ ${data.length} = <strong>${avg.toFixed(2)}</strong>` }
+            ];
+            
+            displaySteps(steps, avg % 1 === 0 ? avg : avg.toFixed(2), `平均数是 ${avg % 1 === 0 ? avg : avg.toFixed(2)}`, sum);
+            document.getElementById('averageLine').setAttribute('data-value', `平均: ${avg.toFixed(1)}`);
+        }
+        
+        // 计算总数
+        function calculateTotal() {
+            const avg = parseFloat(document.getElementById('avgInput').value) || 6;
+            const count = parseInt(document.getElementById('countInput').value) || 5;
+            const total = avg * count;
+            
+            const steps = [
+                { text: `<strong>题目分析</strong>：已知平均数和个数，求总和` },
+                { text: `已知：平均数 = <strong>${avg}</strong>，个数 = <strong>${count}</strong>` },
+                { text: `<strong>公式变形</strong>：总和 = 平均数 × 个数` },
+                { text: `<strong>代入计算</strong>：总和 = ${avg} × ${count}` },
+                { text: `<strong>计算</strong>：总和 = <strong>${total}</strong>` }
+            ];
+            
+            displaySteps(steps, total, `总和是 ${total}`);
+        }
+        
+        // 计算合并平均数
+        function calculateCombined() {
+            const avg1 = parseFloat(document.getElementById('avg1Input').value) || 6;
+            const count1 = parseInt(document.getElementById('count1Input').value) || 3;
+            const avg2 = parseFloat(document.getElementById('avg2Input').value) || 8;
+            const count2 = parseInt(document.getElementById('count2Input').value) || 2;
+            
+            const total1 = avg1 * count1;
+            const total2 = avg2 * count2;
+            const totalSum = total1 + total2;
+            const totalCount = count1 + count2;
+            const result = totalSum / totalCount;
+            
+            const steps = [
+                { text: `<strong>题目分析</strong>：两组数据合并后求平均数` },
+                { text: `已知：第一组 ${count1} 人平均 ${avg1}，第二组 ${count2} 人平均 ${avg2}` },
+                { text: `<strong>⚠️ 注意</strong>：不能直接 (${avg1} + ${avg2}) ÷ 2 = ${(avg1 + avg2) / 2}，因为人数不同！` },
+                { text: `<strong>正确方法</strong>：先求各组总分，再求整体平均` },
+                { text: `第一组总分 = ${avg1} × ${count1} = <strong>${total1}</strong>` },
+                { text: `第二组总分 = ${avg2} × ${count2} = <strong>${total2}</strong>` },
+                { text: `总分 = ${total1} + ${total2} = <strong>${totalSum}</strong>` },
+                { text: `总人数 = ${count1} + ${count2} = <strong>${totalCount}</strong>` },
+                { text: `合并平均 = ${totalSum} ÷ ${totalCount} = <strong>${result.toFixed(2)}</strong>` }
+            ];
+            
+            displaySteps(steps, result % 1 === 0 ? result : result.toFixed(2), `合并后平均数是 ${result % 1 === 0 ? result : result.toFixed(2)}`);
+        }
+        
+        // 计算变化后平均数
+        function calculateChange() {
+            const origAvg = parseFloat(document.getElementById('origAvgInput').value) || 6;
+            const origCount = parseInt(document.getElementById('origCountInput').value) || 4;
+            const newData = parseFloat(document.getElementById('newDataInput').value) || 9;
+            
+            const origTotal = origAvg * origCount;
+            const newTotal = origTotal + newData;
+            const newCount = origCount + 1;
+            const result = newTotal / newCount;
+            
+            const steps = [
+                { text: `<strong>题目分析</strong>：增加一个数后，求新的平均数` },
+                { text: `已知：原来 ${origCount} 个数平均 ${origAvg}，新增 ${newData}` },
+                { text: `<strong>第一步</strong>：求原来的总和` },
+                { text: `原总和 = ${origAvg} × ${origCount} = <strong>${origTotal}</strong>` },
+                { text: `<strong>第二步</strong>：求新的总和` },
+                { text: `新总和 = ${origTotal} + ${newData} = <strong>${newTotal}</strong>` },
+                { text: `<strong>第三步</strong>：求新的平均数` },
+                { text: `新个数 = ${origCount} + 1 = <strong>${newCount}</strong>` },
+                { text: `新平均 = ${newTotal} ÷ ${newCount} = <strong>${result.toFixed(2)}</strong>` }
+            ];
+            
+            displaySteps(steps, result % 1 === 0 ? result : result.toFixed(2), `新平均数是 ${result % 1 === 0 ? result : result.toFixed(2)}`);
+            document.getElementById('averageLine').setAttribute('data-value', `新平均: ${result.toFixed(1)}`);
+        }
+        
+        // 显示步骤
+        function displaySteps(steps, result, resultText, sum = null) {
+            const container = document.getElementById('stepsContainer');
+            container.innerHTML = '';
+            stepsData = [];
+            finalResult = result;
+            finalSum = sum;
+            
+            steps.forEach((step, index) => {
+                const stepEl = document.createElement('div');
+                stepEl.className = 'step-item';
+                stepEl.innerHTML = `
+                    <span class="step-number">${index + 1}</span>
+                    <span class="step-content">${step.text}</span>
+                `;
+                container.appendChild(stepEl);
+                stepsData.push(stepEl);
+            });
+            
+            // 添加结果框
+            const resultBox = document.createElement('div');
+            resultBox.className = 'result-box';
+            resultBox.innerHTML = `🎯 答案：${resultText}`;
+            container.appendChild(resultBox);
+            
+            currentStep = 0;
+            maxReachedStep = 0;
+            updateStepVisibility();
+            updateButtons();
+        }
+        
+        // 更新步骤可见性
+        function updateStepVisibility() {
+            stepsData.forEach((step, index) => {
+                step.classList.toggle('visible', index <= maxReachedStep);
+                step.classList.toggle('active', index === currentStep);
+            });
+            
+            // 控制结果框显示
+            const resultBox = document.querySelector('.result-box');
+            if (resultBox) {
+                if (stepsData.length > 0 && maxReachedStep >= stepsData.length - 1) {
+                    resultBox.classList.add('visible');
+                    // 更新答案卡片
+                    const resultEl = document.getElementById('answerResult');
+                    const sumEl = document.getElementById('answerSum');
+                    if (resultEl && finalResult !== null) {
+                        resultEl.textContent = finalResult;
+                    }
+                    if (sumEl && finalSum !== null) {
+                        sumEl.textContent = finalSum;
+                    }
+                } else {
+                    resultBox.classList.remove('visible');
+                }
+            }
+            
+            if (stepsData[currentStep]) {
+                stepsData[currentStep].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        }
+        
+        // 更新按钮状态
+        function updateButtons() {
+            document.getElementById('prevBtn').disabled = currentStep === 0;
+            document.getElementById('nextBtn').disabled = currentStep >= stepsData.length - 1;
+        }
+        
+        // 上一步
+        function prevStep() {
+            if (currentStep > 0) {
+                currentStep--;
+                updateStepVisibility();
+                updateButtons();
+            }
+        }
+        
+        // 下一步
+        function nextStep() {
+            if (currentStep < stepsData.length - 1) {
+                currentStep++;
+                if (currentStep > maxReachedStep) {
+                    maxReachedStep = currentStep;
+                }
+                updateStepVisibility();
+                updateButtons();
+            }
+        }
+        
+        // 监听输入变化 - 重置步骤
+        function onInputChange() {
+            updateProblemDisplay();
+            resetSteps();
+        }
+        
+        document.getElementById('dataInput').addEventListener('input', onInputChange);
+        document.getElementById('avgInput').addEventListener('input', onInputChange);
+        document.getElementById('countInput').addEventListener('input', onInputChange);
+        document.getElementById('avg1Input').addEventListener('input', onInputChange);
+        document.getElementById('count1Input').addEventListener('input', onInputChange);
+        document.getElementById('avg2Input').addEventListener('input', onInputChange);
+        document.getElementById('count2Input').addEventListener('input', onInputChange);
+        document.getElementById('origAvgInput').addEventListener('input', onInputChange);
+        document.getElementById('origCountInput').addEventListener('input', onInputChange);
+        document.getElementById('newDataInput').addEventListener('input', onInputChange);
+        
+        // 初始化
+        updateProblemDisplay();
+    </script>
+</body>
+</html>

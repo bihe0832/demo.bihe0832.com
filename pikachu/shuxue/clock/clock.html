@@ -1,0 +1,1487 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no" />    
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="Expires" content="0">
+    <link rel="Shortcut Icon" href="https://cdn.bihe0832.com/images/zixie_32.ico" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="author" CONTENT="子勰(bihe0832), code@bihe0832.com" />
+    <meta name="keywords" content="子勰,bihe0832,时钟问题" />
+    <meta name="description" content="皮卡丘学数学之时钟问题分步解答" />
+    <meta property="og:title" content="皮卡丘学数学之时钟问题分步解答" />
+    <meta property="og:locale" content="en_US" />
+    <title>皮卡丘学数学 - 时钟问题</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Microsoft YaHei', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #2c3e50, #3498db);
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+            margin: 20px 0;
+            padding: 20px;
+        }
+        header {
+            background: linear-gradient(90deg, #2c3e50, #34495e);
+            color: white;
+            padding: 20px 30px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        header h2 {
+            font-size: 2rem;
+            margin: 10px 0;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+        }
+        header p {
+            font-size: 1rem;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+        
+        .main-content {
+            display: flex;
+            gap: 20px;
+            min-height: 500px;
+        }
+        
+        .left-panel {
+            width: 320px;
+            flex-shrink: 0;
+            background: #f0f4f8;
+            border-radius: 15px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .panel-title {
+            font-size: 1.1rem;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 3px solid #3498db;
+            display: flex;
+            align-items: center;
+        }
+        .panel-title i {
+            margin-right: 10px;
+            font-size: 1.2rem;
+            color: #3498db;
+        }
+        
+        .input-group {
+            margin-bottom: 15px;
+        }
+        .input-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #2c3e50;
+            font-size: 0.9rem;
+        }
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        .input-group input:focus, .input-group select:focus {
+            outline: none;
+            border-color: #3498db;
+            box-shadow: 0 0 8px rgba(52, 152, 219, 0.3);
+        }
+        
+        .time-inputs {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .time-inputs input {
+            width: 70px;
+            text-align: center;
+        }
+        .time-inputs span {
+            font-weight: bold;
+            color: #666;
+        }
+        
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+        }
+        .btn-secondary {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+        }
+        .btn-secondary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+        }
+        .btn:disabled {
+            background: linear-gradient(135deg, #bdc3c7, #95a5a6);
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+        .btn:disabled:hover {
+            transform: none;
+            box-shadow: none;
+        }
+        
+        .problem-types {
+            margin-bottom: 15px;
+        }
+        .problem-type-btn {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 8px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: left;
+        }
+        .problem-type-btn:hover {
+            border-color: #3498db;
+            background: #f0f8ff;
+        }
+        .problem-type-btn.active {
+            border-color: #3498db;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+        }
+        .problem-type-btn .type-title {
+            font-weight: bold;
+            font-size: 0.95rem;
+        }
+        .problem-type-btn .type-desc {
+            font-size: 0.8rem;
+            opacity: 0.8;
+            margin-top: 3px;
+        }
+        
+        .right-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        
+        .clock-area {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            border-radius: 15px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .clock-container {
+            position: relative;
+            width: 300px;
+            height: 300px;
+        }
+        
+        .clock-face {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: linear-gradient(145deg, #ffffff, #e6e6e6);
+            box-shadow: 
+                0 0 0 8px #2c3e50,
+                0 0 0 12px #34495e,
+                inset 0 5px 15px rgba(0,0,0,0.1),
+                0 10px 30px rgba(0,0,0,0.3);
+            position: relative;
+        }
+        
+        .clock-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 16px;
+            height: 16px;
+            background: linear-gradient(145deg, #2c3e50, #1a252f);
+            border-radius: 50%;
+            z-index: 10;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+        
+        .clock-number {
+            position: absolute;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #2c3e50;
+            text-align: center;
+            width: 30px;
+            height: 30px;
+            line-height: 30px;
+        }
+        
+        .clock-tick {
+            position: absolute;
+            background: #666;
+            transform-origin: center bottom;
+        }
+        .clock-tick.major {
+            width: 3px;
+            height: 12px;
+            background: #2c3e50;
+        }
+        .clock-tick.minor {
+            width: 1px;
+            height: 8px;
+            background: #999;
+        }
+        
+        .clock-hand {
+            position: absolute;
+            bottom: 50%;
+            left: 50%;
+            transform-origin: bottom center;
+            border-radius: 4px;
+            cursor: grab;
+        }
+        .clock-hand:active {
+            cursor: grabbing;
+        }
+        .clock-hand.dragging {
+            cursor: grabbing;
+            filter: brightness(1.2);
+        }
+        .hour-hand {
+            width: 6px;
+            height: 70px;
+            background: linear-gradient(to top, #2c3e50, #34495e);
+            margin-left: -3px;
+            z-index: 3;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+        }
+        .minute-hand {
+            width: 4px;
+            height: 100px;
+            background: linear-gradient(to top, #3498db, #2980b9);
+            margin-left: -2px;
+            z-index: 4;
+            box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+        }
+        
+        .angle-arc {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            pointer-events: none;
+        }
+        
+        .angle-display {
+            margin-top: 20px;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #2c3e50;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .angle-value {
+            color: #e74c3c;
+            font-size: 2rem;
+        }
+        
+        .solution-area {
+            background: #f0f4f8;
+            border-radius: 15px;
+            padding: 20px;
+            flex: 1;
+            overflow-y: auto;
+        }
+        
+        .solution-title {
+            font-size: 1.2rem;
+            color: #2c3e50;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #3498db;
+            display: flex;
+            align-items: center;
+        }
+        .solution-title i {
+            margin-right: 10px;
+            color: #3498db;
+        }
+        
+        .steps-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 10px;
+        }
+        
+        .solution-step {
+            background: white;
+            border-radius: 10px;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            border-left: 4px solid #3498db;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            display: none;
+            transition: all 0.3s;
+        }
+        .solution-step.visible {
+            display: flex;
+            align-items: center;
+            animation: fadeInStep 0.4s ease;
+        }
+        .solution-step.active {
+            animation: breatheBlue 1.5s ease-in-out infinite;
+        }
+        @keyframes fadeInStep {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes breatheBlue {
+            0%, 100% { background-color: rgba(52, 152, 219, 0.1); }
+            50% { background-color: rgba(52, 152, 219, 0.25); }
+        }
+        .step-number {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            border-radius: 50%;
+            font-weight: bold;
+            margin-right: 12px;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+        .step-title {
+            font-weight: bold;
+            color: #2c3e50;
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+        .step-content {
+            margin-top: 10px;
+            padding-left: 38px;
+            color: #555;
+            line-height: 1.8;
+        }
+        .formula {
+            background: #fff3cd;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            margin: 8px 0;
+            display: inline-block;
+            border: 1px solid #ffc107;
+        }
+        .highlight {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+        .result-box {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            color: white;
+            padding: 15px 20px;
+            display: none;
+        }
+        .result-box.visible {
+            display: block;
+            animation: fadeInStep 0.4s ease;
+            border-radius: 10px;
+            margin-top: 15px;
+            font-size: 1.1rem;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(39, 174, 96, 0.3);
+        }
+        
+        .knowledge-card {
+            background: linear-gradient(135deg, #fff9e6, #fff3cd);
+            border: 2px solid #ffc107;
+            border-radius: 12px;
+            padding: 15px;
+            margin-top: 15px;
+        }
+        .knowledge-card h4 {
+            color: #856404;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        .knowledge-card h4 i {
+            margin-right: 8px;
+        }
+        .knowledge-card ul {
+            margin-left: 20px;
+            color: #856404;
+        }
+        .knowledge-card li {
+            margin: 5px 0;
+            line-height: 1.6;
+        }
+        
+        .animation-controls {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            justify-content: center;
+        }
+        .anim-btn {
+            padding: 8px 20px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .anim-btn.play {
+            background: linear-gradient(135deg, #27ae60, #2ecc71);
+            color: white;
+        }
+        .anim-btn.pause {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            color: white;
+        }
+        .anim-btn.reset {
+            background: linear-gradient(135deg, #95a5a6, #7f8c8d);
+            color: white;
+        }
+        .anim-btn:hover {
+            transform: scale(1.05);
+        }
+        
+        .problem-display {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+        }
+        .problem-text {
+            color: white;
+            font-size: 1.2rem;
+            line-height: 1.8;
+            text-align: center;
+        }
+        .problem-text .highlight {
+            background: rgba(255, 255, 255, 0.2);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-weight: bold;
+        }
+        
+        @media (max-width: 900px) {
+            .main-content {
+                flex-direction: column;
+            }
+            .left-panel {
+                width: 100%;
+            }
+            .clock-container {
+                width: 250px;
+                height: 250px;
+            }
+            .hour-hand { height: 55px; }
+            .minute-hand { height: 80px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h2>🕐 皮卡丘学数学 - 时钟问题</h2>
+            <p>时针每小时走 30°（每分钟 0.5°），分针每分钟走 6°<br>掌握时针分针的运动规律，轻松解决各类时钟问题！</p>
+        </header>
+        
+        <div class="main-content">
+            <div class="left-panel">
+                <div class="panel-title">
+                    <i class="fas fa-cog"></i>
+                    <span>题目设置</span>
+                </div>
+                
+                <div class="problem-types">
+                    <button class="problem-type-btn active" data-type="overlap" onclick="selectProblemType('overlap')">
+                        <div class="type-title">🔄 重合问题</div>
+                        <div class="type-desc">求时针分针重合的时间</div>
+                    </button>
+                    <button class="problem-type-btn" data-type="right_angle" onclick="selectProblemType('right_angle')">
+                        <div class="type-title">📏 直角问题</div>
+                        <div class="type-desc">求时针分针成直角的时间</div>
+                    </button>
+                    <button class="problem-type-btn" data-type="opposite" onclick="selectProblemType('opposite')">
+                        <div class="type-title">↔️ 成一直线</div>
+                        <div class="type-desc">求时针分针在一条直线上的时间</div>
+                    </button>
+                    <button class="problem-type-btn" data-type="angle" onclick="selectProblemType('angle')">
+                        <div class="type-title">📐 求角度</div>
+                        <div class="type-desc">给定时间，求时针分针夹角</div>
+                    </button>
+                </div>
+                
+                <div id="chase-inputs">
+                    <div class="input-group">
+                        <label>⏰ 起始时间</label>
+                        <div class="time-inputs">
+                            <input type="number" id="start-hour" min="0" max="23" value="12" placeholder="时">
+                            <span>:</span>
+                            <input type="number" id="start-minute" min="0" max="59" value="0" placeholder="分">
+                        </div>
+                    </div>
+                    <div class="input-group" id="which-time-group" style="display: none;">
+                        <label>🔢 第几次</label>
+                        <select id="which-time">
+                            <option value="1" selected>第1次</option>
+                            <option value="2">第2次</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div id="angle-inputs" style="display: none;">
+                    <div class="input-group">
+                        <label>⏰ 输入时间</label>
+                        <div class="time-inputs">
+                            <input type="number" id="hour" min="0" max="23" value="12" placeholder="时">
+                            <span>:</span>
+                            <input type="number" id="minute" min="0" max="59" value="0" placeholder="分">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="btn-group">
+                    <button class="btn btn-primary" onclick="startCalculation()">
+                        <i class="fas fa-calculator"></i> 开始计算
+                    </button>
+                    <button class="btn btn-secondary" onclick="showAllSteps()">
+                        <i class="fas fa-eye"></i> 一键查看
+                    </button>
+                </div>
+                
+                <div class="btn-group">
+                    <button class="btn btn-secondary" id="prevBtn" onclick="prevStep()" disabled>
+                        <i class="fas fa-arrow-left"></i> 上一步
+                    </button>
+                    <button class="btn btn-secondary" id="nextBtn" onclick="nextStep()" disabled>
+                        下一步 <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+                
+                <div class="knowledge-card">
+                    <h4><i class="fas fa-lightbulb"></i> 核心公式</h4>
+                    <ul>
+                        <li><b>时针速度</b>：0.5°/分钟</li>
+                        <li><b>分针速度</b>：6°/分钟</li>
+                        <li><b>速度差</b>：5.5°/分钟</li>
+                        <li><b>追及时间</b>：角度差 ÷ 5.5</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="right-panel">
+                <div class="problem-display" id="problem-display">
+                    <div class="problem-text" id="problem-text">
+                        📝 请在左侧设置题目参数，点击"开始计算"生成题目
+                    </div>
+                </div>
+                
+                <div class="clock-area">
+                    <div class="clock-container">
+                        <div class="clock-face" id="clock-face">
+                            <div class="clock-center"></div>
+                            <div class="hour-hand clock-hand" id="hour-hand"></div>
+                            <div class="minute-hand clock-hand" id="minute-hand"></div>
+                            <svg class="angle-arc" id="angle-arc" width="300" height="300"></svg>
+                        </div>
+                    </div>
+                    <div class="angle-display">
+                        <span>夹角：</span>
+                        <span class="angle-value" id="angle-value">0°</span>
+                    </div>
+                    <div class="animation-controls">
+                        <button class="anim-btn play" id="play-btn" onclick="toggleAnimation()">
+                            <i class="fas fa-play"></i> 自动运行
+                        </button>
+                        <button class="anim-btn reset" onclick="resetClock()">
+                            <i class="fas fa-undo"></i> 复位
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="solution-area" id="solution-area">
+                    <div class="solution-title">
+                        <i class="fas fa-list-ol"></i>
+                        <span>解题步骤</span>
+                        <span style="margin-left: auto; font-size: 0.9rem; color: #7f8c8d;">
+                            步骤: <span id="step-counter">0</span>/<span id="step-total">0</span>
+                        </span>
+                    </div>
+                    <div id="solution-steps" class="steps-container">
+                        <p style="color: #999; text-align: center; padding: 30px;">
+                            👆 设置题目参数后点击"开始计算"按钮查看详细解答
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentType = 'overlap';
+        let isAnimating = false;
+        let animationId = null;
+        let isDragging = false;
+        let draggingHand = null;
+        let stepsData = [];
+        let currentStep = 0;
+        let maxReachedStep = 0;
+        
+        // 保存起始和结果时间，用于步骤动画
+        let startTime = { hour: 12, minute: 0 };
+        let resultTime = { hour: 12, minute: 0 };
+        
+        // 初始化时钟
+        function initClock() {
+            const clockFace = document.getElementById('clock-face');
+            
+            // 添加刻度
+            for (let i = 0; i < 60; i++) {
+                const tick = document.createElement('div');
+                tick.className = 'clock-tick ' + (i % 5 === 0 ? 'major' : 'minor');
+                const angle = i * 6;
+                const radius = 140;
+                const tickHeight = i % 5 === 0 ? 12 : 8;
+                tick.style.left = `calc(50% - ${i % 5 === 0 ? 1.5 : 0.5}px)`;
+                tick.style.top = `${10}px`;
+                tick.style.transform = `rotate(${angle}deg) translateY(0)`;
+                tick.style.transformOrigin = `center ${radius}px`;
+                clockFace.appendChild(tick);
+            }
+            
+            // 添加数字
+            const numbers = [12, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11];
+            numbers.forEach((num, index) => {
+                const numEl = document.createElement('div');
+                numEl.className = 'clock-number';
+                numEl.textContent = num;
+                const angle = (index * 30 - 90) * Math.PI / 180;
+                const radius = 115;
+                const x = 150 + radius * Math.cos(angle) - 15;
+                const y = 150 + radius * Math.sin(angle) - 15;
+                numEl.style.left = x + 'px';
+                numEl.style.top = y + 'px';
+                clockFace.appendChild(numEl);
+            });
+            
+            updateClock(12, 0);
+            
+            // 初始化拖动功能
+            initDragHandlers();
+        }
+        
+        // 初始化拖动处理
+        function initDragHandlers() {
+            const hourHand = document.getElementById('hour-hand');
+            const minuteHand = document.getElementById('minute-hand');
+            const clockFace = document.getElementById('clock-face');
+            
+            // 获取时钟中心坐标
+            function getClockCenter() {
+                const rect = clockFace.getBoundingClientRect();
+                return {
+                    x: rect.left + rect.width / 2,
+                    y: rect.top + rect.height / 2
+                };
+            }
+            
+            // 计算角度（从12点方向顺时针）
+            function calculateAngle(clientX, clientY) {
+                const center = getClockCenter();
+                const dx = clientX - center.x;
+                const dy = clientY - center.y;
+                let angle = Math.atan2(dx, -dy) * 180 / Math.PI;
+                if (angle < 0) angle += 360;
+                return angle;
+            }
+            
+            // 从角度计算时间
+            function angleToTime(hourAngle, minuteAngle) {
+                // 分针角度转分钟：每6度1分钟
+                let minute = Math.round(minuteAngle / 6) % 60;
+                if (minute < 0) minute += 60;
+                
+                // 时针角度转小时：每30度1小时
+                let hour = Math.floor(hourAngle / 30) % 12;
+                if (hour === 0) hour = 12;
+                
+                return { hour, minute };
+            }
+            
+            // 鼠标/触摸按下
+            function startDrag(e, hand) {
+                if (isAnimating) return;
+                e.preventDefault();
+                isDragging = true;
+                draggingHand = hand;
+                hand.classList.add('dragging');
+            }
+            
+            // 鼠标/触摸移动
+            function onDrag(e) {
+                if (!isDragging || !draggingHand) return;
+                
+                const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+                const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+                const angle = calculateAngle(clientX, clientY);
+                
+                // 获取当前时针和分针角度
+                const hourHand = document.getElementById('hour-hand');
+                const minuteHand = document.getElementById('minute-hand');
+                
+                let currentHourAngle = parseFloat(hourHand.style.transform.replace('rotate(', '').replace('deg)', '')) || 0;
+                let currentMinuteAngle = parseFloat(minuteHand.style.transform.replace('rotate(', '').replace('deg)', '')) || 0;
+                
+                if (draggingHand === minuteHand) {
+                    // 拖动分针：分针角度直接设置
+                    const newMinute = Math.round((angle / 6) % 60);
+                    const oldMinute = parseInt(document.getElementById('minute').value) || 0;
+                    let hour = parseInt(document.getElementById('hour').value) || 0;
+                    
+                    // 检测是否跨越了0分（即从59分到0分，或从0分到59分）
+                    if (oldMinute > 45 && newMinute < 15) {
+                        // 从59分转到0分，小时+1
+                        hour = (hour + 1) % 24;
+                    } else if (oldMinute < 15 && newMinute > 45) {
+                        // 从0分转到59分，小时-1
+                        hour = (hour - 1 + 24) % 24;
+                    }
+                    
+                    document.getElementById('hour').value = hour;
+                    document.getElementById('minute').value = newMinute;
+                    // 同步更新追及问题的起始时间
+                    document.getElementById('start-hour').value = hour;
+                    document.getElementById('start-minute').value = newMinute;
+                    updateClock(hour, newMinute);
+                } else if (draggingHand === hourHand) {
+                    // 拖动时针：根据角度变化计算时间
+                    const totalMinutes = (angle / 0.5);
+                    const newHourIn12 = Math.floor(totalMinutes / 60) % 12;
+                    const newMinute = Math.round(totalMinutes % 60);
+                    
+                    // 获取当前小时，判断是上午还是下午
+                    let currentHour = parseInt(document.getElementById('hour').value) || 0;
+                    const isPM = currentHour >= 12;
+                    
+                    // 检测是否跨越了12点
+                    const oldHourIn12 = currentHour % 12;
+                    if (oldHourIn12 > 9 && newHourIn12 < 3) {
+                        // 从11点转到0点，切换上午/下午
+                        currentHour = isPM ? newHourIn12 : newHourIn12 + 12;
+                    } else if (oldHourIn12 < 3 && newHourIn12 > 9) {
+                        // 从0点转到11点，切换上午/下午
+                        currentHour = isPM ? newHourIn12 + 12 : newHourIn12;
+                    } else {
+                        // 正常情况，保持上午/下午不变
+                        currentHour = isPM ? newHourIn12 + 12 : newHourIn12;
+                    }
+                    
+                    // 处理24点变为0点
+                    currentHour = currentHour % 24;
+                    
+                    document.getElementById('hour').value = currentHour;
+                    document.getElementById('minute').value = newMinute;
+                    // 同步更新追及问题的起始时间
+                    document.getElementById('start-hour').value = currentHour;
+                    document.getElementById('start-minute').value = newMinute;
+                    updateClock(currentHour, newMinute);
+                }
+                
+                // 拖动时更新题目显示
+                updateProblemDisplay();
+            }
+            
+            // 鼠标/触摸释放
+            function endDrag() {
+                if (draggingHand) {
+                    draggingHand.classList.remove('dragging');
+                }
+                isDragging = false;
+                draggingHand = null;
+            }
+            
+            // 绑定时针事件
+            hourHand.addEventListener('mousedown', (e) => startDrag(e, hourHand));
+            hourHand.addEventListener('touchstart', (e) => startDrag(e, hourHand), { passive: false });
+            
+            // 绑定分针事件
+            minuteHand.addEventListener('mousedown', (e) => startDrag(e, minuteHand));
+            minuteHand.addEventListener('touchstart', (e) => startDrag(e, minuteHand), { passive: false });
+            
+            // 全局移动和释放事件
+            document.addEventListener('mousemove', onDrag);
+            document.addEventListener('touchmove', onDrag, { passive: false });
+            document.addEventListener('mouseup', endDrag);
+            document.addEventListener('touchend', endDrag);
+        }
+        
+        // 更新时钟指针
+        function updateClock(hour, minute) {
+            const hourHand = document.getElementById('hour-hand');
+            const minuteHand = document.getElementById('minute-hand');
+            
+            // 时针角度：每小时30度，每分钟0.5度
+            const hourAngle = (hour % 12) * 30 + minute * 0.5;
+            // 分针角度：每分钟6度
+            const minuteAngle = minute * 6;
+            
+            hourHand.style.transform = `rotate(${hourAngle}deg)`;
+            minuteHand.style.transform = `rotate(${minuteAngle}deg)`;
+            
+            // 计算夹角
+            let angle = Math.abs(hourAngle - minuteAngle);
+            if (angle > 180) angle = 360 - angle;
+            
+            document.getElementById('angle-value').textContent = angle.toFixed(1) + '°';
+            
+            // 绘制角度弧线
+            drawAngleArc(hourAngle, minuteAngle);
+            
+            return angle;
+        }
+        
+        // 绘制角度弧线
+        function drawAngleArc(hourAngle, minuteAngle) {
+            const svg = document.getElementById('angle-arc');
+            svg.innerHTML = '';
+            
+            let startAngle = Math.min(hourAngle, minuteAngle);
+            let endAngle = Math.max(hourAngle, minuteAngle);
+            let diff = endAngle - startAngle;
+            
+            if (diff > 180) {
+                [startAngle, endAngle] = [endAngle, startAngle + 360];
+                diff = 360 - diff;
+            }
+            
+            if (diff < 1) return;
+            
+            const cx = 150, cy = 150, r = 50;
+            const startRad = (startAngle - 90) * Math.PI / 180;
+            const endRad = (endAngle - 90) * Math.PI / 180;
+            
+            const x1 = cx + r * Math.cos(startRad);
+            const y1 = cy + r * Math.sin(startRad);
+            const x2 = cx + r * Math.cos(endRad);
+            const y2 = cy + r * Math.sin(endRad);
+            
+            const largeArc = diff > 180 ? 1 : 0;
+            
+            const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+            path.setAttribute('d', `M ${cx} ${cy} L ${x1} ${y1} A ${r} ${r} 0 ${largeArc} 1 ${x2} ${y2} Z`);
+            path.setAttribute('fill', 'rgba(231, 76, 60, 0.3)');
+            path.setAttribute('stroke', '#e74c3c');
+            path.setAttribute('stroke-width', '2');
+            svg.appendChild(path);
+        }
+        
+        // 选择题目类型
+        function selectProblemType(type) {
+            currentType = type;
+            document.querySelectorAll('.problem-type-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`[data-type="${type}"]`).classList.add('active');
+            
+            const angleInputs = document.getElementById('angle-inputs');
+            const chaseInputs = document.getElementById('chase-inputs');
+            const whichTimeGroup = document.getElementById('which-time-group');
+            
+            if (type === 'angle') {
+                angleInputs.style.display = 'block';
+                chaseInputs.style.display = 'none';
+            } else {
+                angleInputs.style.display = 'none';
+                chaseInputs.style.display = 'block';
+                whichTimeGroup.style.display = (type === 'right_angle' || type === 'opposite') ? 'block' : 'none';
+            }
+            
+            // 选择题型后只更新题目，不显示答案
+            updateProblemDisplay();
+        }
+        
+        // 只更新题目显示（不显示解答）
+        function updateProblemDisplay() {
+            let problemText = '';
+            
+            if (currentType === 'angle') {
+                const hour = parseInt(document.getElementById('hour').value) || 0;
+                const minute = parseInt(document.getElementById('minute').value) || 0;
+                updateClock(hour, minute);
+                problemText = `📝 <b>题目：</b>${hour}:${minute.toString().padStart(2, '0')} 时，时针和分针的夹角是多少度？`;
+            } else if (currentType === 'overlap') {
+                const startHour = parseInt(document.getElementById('start-hour').value) || 0;
+                const startMinute = parseInt(document.getElementById('start-minute').value) || 0;
+                updateClock(startHour, startMinute);
+                problemText = `📝 <b>题目：</b>${startHour}:${startMinute.toString().padStart(2, '0')} 之后，时针和分针第一次重合是什么时间？`;
+            } else if (currentType === 'right_angle') {
+                const startHour = parseInt(document.getElementById('start-hour').value) || 0;
+                const startMinute = parseInt(document.getElementById('start-minute').value) || 0;
+                const whichTime = parseInt(document.getElementById('which-time').value);
+                updateClock(startHour, startMinute);
+                problemText = `📝 <b>题目：</b>${startHour}:${startMinute.toString().padStart(2, '0')} 之后，时针和分针第${whichTime}次成直角（90°）是什么时间？`;
+            } else if (currentType === 'opposite') {
+                const startHour = parseInt(document.getElementById('start-hour').value) || 0;
+                const startMinute = parseInt(document.getElementById('start-minute').value) || 0;
+                const whichTime = parseInt(document.getElementById('which-time').value);
+                updateClock(startHour, startMinute);
+                problemText = `📝 <b>题目：</b>${startHour}:${startMinute.toString().padStart(2, '0')} 之后，时针和分针第${whichTime}次在一条直线上是什么时间？`;
+            }
+            
+            document.getElementById('problem-text').innerHTML = problemText;
+            
+            // 清空解答区域，提示用户点击计算
+            document.getElementById('solution-steps').innerHTML = `
+                <p style="color: #999; text-align: center; padding: 30px;">
+                    👆 点击"开始计算"按钮查看详细解答
+                </p>
+            `;
+            document.getElementById('step-counter').textContent = '0';
+            document.getElementById('step-total').textContent = '0';
+        }
+        
+        // 步骤控制函数
+        function updateStepVisibility() {
+            stepsData.forEach((step, index) => {
+                step.classList.toggle('visible', index <= maxReachedStep);
+                step.classList.toggle('active', index === currentStep);
+            });
+            const resultBox = document.querySelector('.result-box');
+            if (resultBox) {
+                // 只有当步骤数大于0，且已到达最后一步时才显示结果
+                // stepsData.length = 3 (步骤0,1,2)，所以 maxReachedStep 必须 >= 2 才显示
+                if (stepsData.length > 0 && maxReachedStep >= stepsData.length - 1) {
+                    resultBox.style.display = 'block';
+                    resultBox.classList.add('visible');
+                } else {
+                    resultBox.style.display = 'none';
+                    resultBox.classList.remove('visible');
+                }
+            }
+        }
+        
+        function showStep(stepIndex) {
+            currentStep = stepIndex;
+            if (stepIndex > maxReachedStep) {
+                maxReachedStep = stepIndex;
+            }
+            
+            document.getElementById('step-counter').textContent = stepIndex + 1;
+            
+            // 更新按钮状态
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            prevBtn.disabled = stepIndex <= 0;
+            nextBtn.disabled = stepIndex >= stepsData.length - 1;
+            
+            // 根据步骤更新时钟位置
+            // 最后一步显示结果时间，其他步骤显示起始时间
+            if (stepIndex >= stepsData.length - 1) {
+                updateClock(resultTime.hour, resultTime.minute);
+            } else {
+                updateClock(startTime.hour, startTime.minute);
+            }
+            
+            updateStepVisibility();
+        }
+        
+        function updateButtonStates() {
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            
+            if (stepsData.length === 0) {
+                prevBtn.disabled = true;
+                nextBtn.disabled = true;
+            } else {
+                prevBtn.disabled = currentStep <= 0;
+                nextBtn.disabled = currentStep >= stepsData.length - 1;
+            }
+        }
+        
+        function nextStep() {
+            if (currentStep < stepsData.length - 1) showStep(currentStep + 1);
+        }
+        
+        function prevStep() {
+            if (currentStep > 0) showStep(currentStep - 1);
+        }
+        
+        function showAllSteps() {
+            if (stepsData.length === 0) {
+                startCalculation();
+            }
+            if (stepsData.length > 0) {
+                maxReachedStep = stepsData.length - 1;
+                showStep(stepsData.length - 1);
+            }
+        }
+        
+        // 开始计算
+        function startCalculation() {
+            if (currentType === 'angle') {
+                calculateAngle();
+            } else if (currentType === 'overlap') {
+                calculateOverlap();
+            } else if (currentType === 'right_angle') {
+                calculateRightAngle();
+            } else if (currentType === 'opposite') {
+                calculateOpposite();
+            }
+        }
+        
+        // 计算
+        function calculate() {
+            if (currentType === 'angle') {
+                calculateAngle();
+            } else if (currentType === 'overlap') {
+                calculateOverlap();
+            } else if (currentType === 'right_angle') {
+                calculateRightAngle();
+            } else if (currentType === 'opposite') {
+                calculateOpposite();
+            }
+        }
+        
+        // 计算角度
+        function calculateAngle() {
+            const hour = parseInt(document.getElementById('hour').value) || 0;
+            const minute = parseInt(document.getElementById('minute').value) || 0;
+            
+            const hourAngle = (hour % 12) * 30 + minute * 0.5;
+            const minuteAngle = minute * 6;
+            let angle = Math.abs(hourAngle - minuteAngle);
+            if (angle > 180) angle = 360 - angle;
+            
+            // 求角度类型，起始和结果时间相同
+            startTime = { hour: hour, minute: minute };
+            resultTime = { hour: hour, minute: minute };
+            
+            updateClock(hour, minute);
+            
+            // 更新题目显示
+            document.getElementById('problem-text').innerHTML = `
+                📝 <b>题目：</b>${hour}:${minute.toString().padStart(2, '0')} 时，时针和分针的夹角是多少度？
+            `;
+            
+            const stepsHtml = `
+                <div class="solution-step" data-step="0">
+                    <span class="step-number">1</span>
+                    <span class="step-title">时针位置：${hour % 12} × 30° + ${minute} × 0.5° = ${hourAngle}°</span>
+                </div>
+                <div class="solution-step" data-step="1">
+                    <span class="step-number">2</span>
+                    <span class="step-title">分针位置：${minute} × 6° = ${minuteAngle}°</span>
+                </div>
+                <div class="solution-step" data-step="2">
+                    <span class="step-number">3</span>
+                    <span class="step-title">夹角计算：|${hourAngle}° - ${minuteAngle}°| = ${Math.abs(hourAngle - minuteAngle)}°${Math.abs(hourAngle - minuteAngle) > 180 ? `，取补角 360° - ${Math.abs(hourAngle - minuteAngle)}° = ${angle}°` : ''}</span>
+                </div>
+                <div class="result-box" style="display:none;">
+                    🎯 答案：${hour}:${minute.toString().padStart(2, '0')} 时，夹角是 <b>${angle}°</b>
+                </div>
+            `;
+            
+            document.getElementById('solution-steps').innerHTML = stepsHtml;
+            initSteps();
+        }
+        
+        // 计算重合时间
+        function calculateOverlap() {
+            const startHour = parseInt(document.getElementById('start-hour').value) || 0;
+            const startMinute = parseInt(document.getElementById('start-minute').value) || 0;
+            
+            // 计算起始时刻的时针和分针角度
+            const initialHourAngle = ((startHour % 12) * 30 + startMinute * 0.5) % 360;
+            const initialMinuteAngle = (startMinute * 6) % 360;
+            
+            // 计算当前夹角（分针需要追的角度）
+            let angleDiff = initialHourAngle - initialMinuteAngle;
+            if (angleDiff < 0) angleDiff += 360;
+            if (angleDiff === 0) angleDiff = 360; // 如果已经重合，求下一次重合
+            
+            // 分针追上时针需要的时间
+            const minutesToOverlap = angleDiff / 5.5;
+            
+            // 计算结果时间
+            const totalMinutes = startHour * 60 + startMinute + minutesToOverlap;
+            const resultHourVal = Math.floor(totalMinutes / 60) % 12 || 12;
+            const resultMinuteVal = totalMinutes % 60;
+            const wholeMinutes = Math.floor(resultMinuteVal);
+            
+            // 保存起始和结果时间
+            startTime = { hour: startHour, minute: startMinute };
+            resultTime = { hour: resultHourVal, minute: resultMinuteVal };
+            
+            // 格式化起始时间显示
+            const startTimeStr = `${startHour}:${startMinute.toString().padStart(2, '0')}`;
+            
+            // 初始显示起始时间
+            updateClock(startHour, startMinute);
+            
+            // 更新题目显示
+            document.getElementById('problem-text').innerHTML = `
+                📝 <b>题目：</b>${startTimeStr} 之后，时针和分针第一次重合是什么时间？
+            `;
+            
+            const stepsHtml = `
+                <div class="solution-step" data-step="0">
+                    <span class="step-number">1</span>
+                    <span class="step-title">初始位置：时针 ${initialHourAngle.toFixed(1)}°，分针 ${initialMinuteAngle.toFixed(1)}°，分针需追 ${angleDiff.toFixed(1)}°</span>
+                </div>
+                <div class="solution-step" data-step="1">
+                    <span class="step-number">2</span>
+                    <span class="step-title">速度差：6°/分 - 0.5°/分 = 5.5°/分</span>
+                </div>
+                <div class="solution-step" data-step="2">
+                    <span class="step-number">3</span>
+                    <span class="step-title">追及时间：${angleDiff.toFixed(1)}° ÷ 5.5°/分 = ${minutesToOverlap.toFixed(2)} 分 ≈ ${Math.floor(minutesToOverlap)}分${Math.round((minutesToOverlap - Math.floor(minutesToOverlap)) * 60)}秒</span>
+                </div>
+                <div class="result-box" style="display:none;">
+                    🎯 答案：<b>${resultHourVal}:${wholeMinutes.toString().padStart(2, '0')}</b>（约 ${Math.floor(minutesToOverlap)}分${Math.round((minutesToOverlap - Math.floor(minutesToOverlap)) * 60)}秒后）重合
+                </div>
+            `;
+            
+            document.getElementById('solution-steps').innerHTML = stepsHtml;
+            initSteps();
+        }
+        
+        // 计算直角时间
+        function calculateRightAngle() {
+            const startHour = parseInt(document.getElementById('start-hour').value) || 0;
+            const startMinute = parseInt(document.getElementById('start-minute').value) || 0;
+            const whichTime = parseInt(document.getElementById('which-time').value);
+            
+            // 计算起始时刻的时针和分针角度
+            const initialHourAngle = ((startHour % 12) * 30 + startMinute * 0.5) % 360;
+            const initialMinuteAngle = (startMinute * 6) % 360;
+            
+            // 计算当前夹角
+            let currentDiff = initialMinuteAngle - initialHourAngle;
+            if (currentDiff < 0) currentDiff += 360;
+            
+            // 计算需要追的角度（成90度或270度时都是直角）
+            let targetDiff1, targetDiff2;
+            
+            // 分针比时针多走的角度达到90度或270度时成直角
+            if (currentDiff <= 90) {
+                targetDiff1 = 90 - currentDiff;      // 第一次：追到90度
+                targetDiff2 = 270 - currentDiff;     // 第二次：追到270度
+            } else if (currentDiff <= 270) {
+                targetDiff1 = 270 - currentDiff;     // 第一次：追到270度
+                targetDiff2 = 360 + 90 - currentDiff; // 第二次：追到下一圈的90度
+            } else {
+                targetDiff1 = 360 + 90 - currentDiff;  // 第一次：追到下一圈的90度
+                targetDiff2 = 360 + 270 - currentDiff; // 第二次：追到下一圈的270度
+            }
+            
+            const targetDiff = whichTime === 1 ? targetDiff1 : targetDiff2;
+            const minutesToTarget = targetDiff / 5.5;
+            
+            // 计算结果时间
+            const totalMinutes = startHour * 60 + startMinute + minutesToTarget;
+            const resultHourVal = Math.floor(totalMinutes / 60) % 12 || 12;
+            const resultMinuteVal = totalMinutes % 60;
+            const wholeMinutes = Math.floor(resultMinuteVal);
+            const seconds = Math.round((resultMinuteVal - wholeMinutes) * 60);
+            
+            // 保存起始和结果时间
+            startTime = { hour: startHour, minute: startMinute };
+            resultTime = { hour: resultHourVal, minute: resultMinuteVal };
+            
+            const startTimeStr = `${startHour}:${startMinute.toString().padStart(2, '0')}`;
+            
+            // 初始显示起始时间
+            updateClock(startHour, startMinute);
+            
+            document.getElementById('problem-text').innerHTML = `
+                📝 <b>题目：</b>${startTimeStr} 之后，时针和分针第${whichTime}次成直角（90°）是什么时间？
+            `;
+            
+            const stepsHtml = `
+                <div class="solution-step" data-step="0">
+                    <span class="step-number">1</span>
+                    <span class="step-title">初始位置：时针 ${initialHourAngle.toFixed(1)}°，分针 ${initialMinuteAngle.toFixed(1)}°，当前夹角 ${Math.min(currentDiff, 360 - currentDiff).toFixed(1)}°</span>
+                </div>
+                <div class="solution-step" data-step="1">
+                    <span class="step-number">2</span>
+                    <span class="step-title">速度差：6°/分 - 0.5°/分 = 5.5°/分，分针需多走 ${targetDiff.toFixed(1)}° 成直角</span>
+                </div>
+                <div class="solution-step" data-step="2">
+                    <span class="step-number">3</span>
+                    <span class="step-title">追及时间：${targetDiff.toFixed(1)}° ÷ 5.5°/分 = ${minutesToTarget.toFixed(2)} 分 ≈ ${Math.floor(minutesToTarget)}分${Math.round((minutesToTarget - Math.floor(minutesToTarget)) * 60)}秒</span>
+                </div>
+                <div class="result-box" style="display:none;">
+                    🎯 答案：<b>${resultHourVal}:${wholeMinutes.toString().padStart(2, '0')}</b>（约 ${Math.floor(minutesToTarget)}分${Math.round((minutesToTarget - Math.floor(minutesToTarget)) * 60)}秒后）第${whichTime}次成直角
+                </div>
+            `;
+            
+            document.getElementById('solution-steps').innerHTML = stepsHtml;
+            initSteps();
+        }
+        
+        // 计算成一直线时间
+        function calculateOpposite() {
+            const startHour = parseInt(document.getElementById('start-hour').value) || 0;
+            const startMinute = parseInt(document.getElementById('start-minute').value) || 0;
+            const whichTime = parseInt(document.getElementById('which-time').value);
+            
+            // 计算起始时刻的时针和分针角度
+            const initialHourAngle = ((startHour % 12) * 30 + startMinute * 0.5) % 360;
+            const initialMinuteAngle = (startMinute * 6) % 360;
+            
+            // 计算当前夹角
+            let currentDiff = initialMinuteAngle - initialHourAngle;
+            if (currentDiff < 0) currentDiff += 360;
+            
+            // 一直线：夹角为0度（重合）或180度（相对）
+            let targetDiff;
+            if (whichTime === 1) {
+                // 第一次成一直线：先成180度
+                if (currentDiff < 180) {
+                    targetDiff = 180 - currentDiff;
+                } else if (currentDiff === 180) {
+                    targetDiff = 360; // 已经180度，求下一次（重合）
+                } else {
+                    targetDiff = 360 + 180 - currentDiff;
+                }
+            } else {
+                // 第二次成一直线：重合（360度）或下一个180度
+                if (currentDiff < 180) {
+                    targetDiff = 360 - currentDiff; // 重合
+                } else {
+                    targetDiff = 360 + 180 - currentDiff; // 下一次180度
+                }
+            }
+            
+            const minutesToTarget = targetDiff / 5.5;
+            
+            // 计算结果时间
+            const totalMinutes = startHour * 60 + startMinute + minutesToTarget;
+            const resultHourVal = Math.floor(totalMinutes / 60) % 12 || 12;
+            const resultMinuteVal = totalMinutes % 60;
+            const wholeMinutes = Math.floor(resultMinuteVal);
+            const seconds = Math.round((resultMinuteVal - wholeMinutes) * 60);
+            
+            // 保存起始和结果时间
+            startTime = { hour: startHour, minute: startMinute };
+            resultTime = { hour: resultHourVal, minute: resultMinuteVal };
+            
+            const startTimeStr = `${startHour}:${startMinute.toString().padStart(2, '0')}`;
+            const isOverlap = (targetDiff % 360 === 0) || (currentDiff === 0 && whichTime === 2);
+            
+            // 初始显示起始时间
+            updateClock(startHour, startMinute);
+            
+            document.getElementById('problem-text').innerHTML = `
+                📝 <b>题目：</b>${startTimeStr} 之后，时针和分针第${whichTime}次在一条直线上是什么时间？
+            `;
+            
+            const stepsHtml = `
+                <div class="solution-step" data-step="0">
+                    <span class="step-number">1</span>
+                    <span class="step-title">初始位置：时针 ${initialHourAngle.toFixed(1)}°，分针 ${initialMinuteAngle.toFixed(1)}°，当前夹角 ${Math.min(currentDiff, 360 - currentDiff).toFixed(1)}°</span>
+                </div>
+                <div class="solution-step" data-step="1">
+                    <span class="step-number">2</span>
+                    <span class="step-title">速度差：6°/分 - 0.5°/分 = 5.5°/分，分针需多走 ${targetDiff.toFixed(1)}° 成一直线</span>
+                </div>
+                <div class="solution-step" data-step="2">
+                    <span class="step-number">3</span>
+                    <span class="step-title">追及时间：${targetDiff.toFixed(1)}° ÷ 5.5°/分 = ${minutesToTarget.toFixed(2)} 分 ≈ ${Math.floor(minutesToTarget)}分${Math.round((minutesToTarget - Math.floor(minutesToTarget)) * 60)}秒</span>
+                </div>
+                <div class="result-box" style="display:none;">
+                    🎯 答案：<b>${resultHourVal}:${wholeMinutes.toString().padStart(2, '0')}</b>（约 ${Math.floor(minutesToTarget)}分${Math.round((minutesToTarget - Math.floor(minutesToTarget)) * 60)}秒后）第${whichTime}次成一直线${targetDiff % 360 === 0 || (360 - currentDiff) < 1 ? '（重合）' : '（相对180°）'}
+                </div>
+            `;
+            
+            document.getElementById('solution-steps').innerHTML = stepsHtml;
+            initSteps();
+        }
+        
+        // 初始化步骤
+        function initSteps() {
+            stepsData = Array.from(document.querySelectorAll('.solution-step'));
+            currentStep = 0;
+            maxReachedStep = 0;
+            
+            document.getElementById('step-total').textContent = stepsData.length;
+            document.getElementById('step-counter').textContent = '1';
+            
+            if (stepsData.length > 0) {
+                showStep(0);
+            }
+        }
+        
+        // 动画演示
+        function toggleAnimation() {
+            const btn = document.getElementById('play-btn');
+            if (isAnimating) {
+                isAnimating = false;
+                btn.innerHTML = '<i class="fas fa-play"></i> 自动运行';
+                btn.classList.remove('pause');
+                btn.classList.add('play');
+                if (animationId) cancelAnimationFrame(animationId);
+            } else {
+                isAnimating = true;
+                btn.innerHTML = '<i class="fas fa-pause"></i> 暂停';
+                btn.classList.remove('play');
+                btn.classList.add('pause');
+                animateClock();
+            }
+        }
+        
+        let animTime = 0;
+        function animateClock() {
+            if (!isAnimating) return;
+            
+            animTime += 0.5;
+            if (animTime >= 720) animTime = 0;
+            
+            const hour = Math.floor(animTime / 60);
+            const minute = animTime % 60;
+            updateClock(hour, minute);
+            
+            animationId = requestAnimationFrame(animateClock);
+        }
+        
+        function resetClock() {
+            isAnimating = false;
+            animTime = 0;
+            const btn = document.getElementById('play-btn');
+            btn.innerHTML = '<i class="fas fa-play"></i> 自动运行';
+            btn.classList.remove('pause');
+            btn.classList.add('play');
+            if (animationId) cancelAnimationFrame(animationId);
+            updateClock(12, 0);
+        }
+        
+        function resetAll() {
+            document.getElementById('hour').value = 12;
+            document.getElementById('minute').value = 0;
+            document.getElementById('start-hour').value = 12;
+            document.getElementById('start-minute').value = 0;
+            document.getElementById('which-time').value = 1;
+            selectProblemType('overlap');
+            resetClock();
+            updateClock(12, 0);
+            stepsData = [];
+            currentStep = 0;
+            maxReachedStep = 0;
+            document.getElementById('step-counter').textContent = '0';
+            document.getElementById('step-total').textContent = '0';
+            document.getElementById('prevBtn').disabled = true;
+            document.getElementById('nextBtn').disabled = true;
+            document.getElementById('solution-steps').innerHTML = `
+                <p style="color: #999; text-align: center; padding: 30px;">
+                    👆 设置题目参数后点击"开始计算"按钮查看详细解答
+                </p>
+            `;
+        }
+        
+        // 监听输入变化
+        document.getElementById('hour').addEventListener('input', function() {
+            const hour = parseInt(this.value) || 0;
+            const minute = parseInt(document.getElementById('minute').value) || 0;
+            updateClock(hour, minute);
+            // 只更新题目显示
+            if (currentType === 'angle') {
+                updateProblemDisplay();
+            }
+        });
+        
+        document.getElementById('minute').addEventListener('input', function() {
+            const hour = parseInt(document.getElementById('hour').value) || 0;
+            const minute = parseInt(this.value) || 0;
+            updateClock(hour, minute);
+            // 只更新题目显示
+            if (currentType === 'angle') {
+                updateProblemDisplay();
+            }
+        });
+        
+        // 监听起始时间变化
+        document.getElementById('start-hour').addEventListener('input', function() {
+            updateProblemDisplay();
+        });
+        
+        document.getElementById('start-minute').addEventListener('input', function() {
+            updateProblemDisplay();
+        });
+        
+        // 监听第几次变化
+        document.getElementById('which-time').addEventListener('change', function() {
+            updateProblemDisplay();
+        });
+        
+        // 初始化
+        initClock();
+        // 页面加载后显示默认题目
+        updateProblemDisplay();
+    </script>
+</body>
+</html>
