@@ -308,28 +308,38 @@
         }
         /* 精简分步解答样式 */
         .steps-container {
-            flex: 1;
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 15px;
-            padding: 10px 0;
-            max-height: 380px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            padding: 15px;
+            height: 320px;
             overflow-y: auto;
+            background: linear-gradient(to right, #e3f2fd, #bbdefb);
+            border-radius: 12px;
         }
         .step {
-            padding: 15px;
-            border-radius: 12px;
-            background: linear-gradient(to right, #e3f2fd, #bbdefb);
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            cursor: pointer;
+            padding: 8px 0;
+            transition: all 0.5s ease;
+            display: none;
+            opacity: 0;
+            transform: translateY(20px);
+            border-bottom: 1px dashed rgba(33, 150, 243, 0.3);
+        }
+        .step:last-child {
+            border-bottom: none;
+        }
+        .step.visible {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
         }
         .step.active {
-            background: linear-gradient(to right, #c5e1fa, #a5d5f8);
-            box-shadow: 0 6px 12px rgba(33, 150, 243, 0.25);
-            border-left: 4px solid #2196F3;
+            color: #0d47a1;
+            animation: breathe 1.5s ease-in-out infinite;
+        }
+        @keyframes breathe {
+            0%, 100% { background-color: rgba(33, 150, 243, 0.1); }
+            50% { background-color: rgba(33, 150, 243, 0.25); }
         }
         .step-header {
             display: flex;
@@ -350,9 +360,9 @@
             flex-shrink: 0;
         }
         .step-title {
-            font-weight: 700;
-            color: #0d47a1;
-            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1565c0;
+            font-size: 1rem;
         }
         .step-content {
             color: #212121;
@@ -381,9 +391,8 @@
         .navigation {
             display: flex;
             gap: 15px;
-            padding: 10px 0;
+            padding: 15px 0 5px 0;
             justify-content: center;
-            margin-top: 15px;
         }
         .nav-btn {
             padding: 12px 25px;
@@ -404,6 +413,13 @@
             background: #bbdefb;
             cursor: not-allowed;
             transform: none;
+        }
+        .nav-btn.show-all {
+            background: #ff9800;
+            box-shadow: 0 4px 8px rgba(255, 152, 0, 0.3);
+        }
+        .nav-btn.show-all:hover {
+            background: #f57c00;
         }
         .road-info {
             display: grid;
@@ -621,6 +637,9 @@
                         <button id="prev-step" class="nav-btn" disabled>
                             <i class="fas fa-arrow-left"></i> 上一步
                         </button>
+                        <button id="show-all" class="nav-btn show-all">
+                            <i class="fas fa-eye"></i> 一键查看
+                        </button>
                         <button id="next-step" class="nav-btn">
                             下一步 <i class="fas fa-arrow-right"></i>
                         </button>
@@ -649,6 +668,7 @@
         const calculateBtn = document.getElementById('calculate-btn');
         const prevStepBtn = document.getElementById('prev-step');
         const nextStepBtn = document.getElementById('next-step');
+        const showAllBtn = document.getElementById('show-all');
         const roadContainer = document.getElementById('road-container');
         const stepsContainer = document.getElementById('steps-container');
         const infoLength = document.getElementById('info-length');
@@ -718,13 +738,18 @@
                     updateStepVisibility();
                 }
             });
+            
+            showAllBtn.addEventListener('click', function() {
+                currentStep = totalSteps - 1;
+                updateStepVisibility();
+            });
         }
 
         function reset(){
                 resetRoad();
                 renderSteps();
                 currentStep = 0;
-                updateStepVisibility();
+                renderRoad();
         }
         // 更新滑块值显示
         function updateSliderValues() {
@@ -952,8 +977,22 @@
             
             const steps = document.querySelectorAll('.step');
             steps.forEach((step, index) => {
+                // 只显示当前步骤及之前的步骤
+                if (index <= currentStep) {
+                    step.classList.add('visible');
+                } else {
+                    step.classList.remove('visible');
+                }
                 step.classList.toggle('active', index === currentStep);
             });
+            
+            // 滚动到当前步骤
+            setTimeout(() => {
+                const activeStep = document.querySelector('.step.active');
+                if (activeStep) {
+                    activeStep.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
+            }, 100);
             
             renderRoad();
         }
@@ -971,7 +1010,7 @@
             const totalTrees = calculateTotalTrees();
             
             stepsContainer.innerHTML = `
-                <div class="step active">
+                <div class="step visible active">
                     <div class="step-title">
                         1、明确题目：道路类型为<span class="highlight">${roadType === 'divider' ? 
                             (dividerOption === 'none' ? `带隔离带但不植树` : 
@@ -1018,7 +1057,7 @@
             `;
             
             currentStep = 0;
-            updateStepVisibility();
+            // 不需要再调用 updateStepVisibility，因为初始状态已经设置好了
         }
         
         // 计算总树数

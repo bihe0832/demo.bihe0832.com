@@ -363,14 +363,16 @@
         .steps-list {
             flex: 1;
             overflow-y: auto;
-            padding-right: 5px;
+            padding: 15px;
+            background: linear-gradient(to right, #c8e6c9, #a5d6a7);
+            border-radius: 12px;
         }
         
         .steps-list::-webkit-scrollbar {
             width: 6px;
         }
         .steps-list::-webkit-scrollbar-track {
-            background: #c8e6c9;
+            background: rgba(255,255,255,0.3);
             border-radius: 3px;
         }
         .steps-list::-webkit-scrollbar-thumb {
@@ -379,14 +381,15 @@
         }
         
         .step {
-            padding: 12px 15px;
-            margin: 8px 0;
-            border-radius: 8px;
+            padding: 10px 0;
             transition: all 0.3s;
-            background: linear-gradient(to right, #c8e6c9, #a5d6a7);
-            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
             font-size: 0.95rem;
             display: none;
+            border-bottom: 1px dashed rgba(76, 175, 80, 0.4);
+        }
+        
+        .step:last-child {
+            border-bottom: none;
         }
         
         .step.visible {
@@ -395,15 +398,18 @@
         }
         
         .step.active {
-            background: linear-gradient(to right, #a5d6a7, #81c784);
-            box-shadow: 0 4px 10px rgba(76, 175, 80, 0.25);
-            border-left: 4px solid #4caf50;
-            transform: scale(1.02);
+            animation: breatheGreen 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes breatheGreen {
+            0%, 100% { background-color: rgba(76, 175, 80, 0.1); }
+            50% { background-color: rgba(76, 175, 80, 0.25); }
         }
         
         .step.empty {
-            background: linear-gradient(to right, #ffcdd2, #ef9a9a);
+            background-color: rgba(244, 67, 54, 0.15);
             border-left: 4px solid #f44336;
+            padding-left: 10px;
         }
         
         .step-number {
