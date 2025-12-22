@@ -103,6 +103,26 @@
             display: flex;
             flex-direction: column;
         }
+        .problem-text {
+            background: linear-gradient(135deg, #fff, #e3f2fd);
+            padding: 15px 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-left: 5px solid #2196F3;
+            font-size: 1.1rem;
+            color: #2c3e50;
+            line-height: 1.6;
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        .problem-text i {
+            color: #2196F3;
+            margin-right: 8px;
+        }
+        .problem-text .question {
+            font-weight: bold;
+            color: #e74c3c;
+        }
         .solution-steps {
             background: #f8f9ff;
             border-radius: 15px;
@@ -525,7 +545,7 @@
     <div class="container">
         <header>
             <h1><i class="fas fa-calculator"></i> 皮卡丘学数学之植树问题演示</h1>
-            <p>分步解答一目了然</p>
+            <p>两端都栽树比间隔多1，一端不栽相等，两端不栽少1</p>
         </header>
         
         <div class="content">
@@ -567,6 +587,24 @@
                         <label class="checkbox-option" id="divider-double">
                             <input type="radio" name="divider-option" value="double">
                             植两排树
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="control-group">
+                    <h3><i class="fas fa-tree"></i> 两端栽树</h3>
+                    <div class="checkbox-group">
+                        <label class="checkbox-option active" id="endpoint-both">
+                            <input type="radio" name="endpoint-option" value="both" checked>
+                            两端都栽
+                        </label>
+                        <label class="checkbox-option" id="endpoint-one">
+                            <input type="radio" name="endpoint-option" value="one">
+                            只栽一端
+                        </label>
+                        <label class="checkbox-option" id="endpoint-none">
+                            <input type="radio" name="endpoint-option" value="none">
+                            两端不栽
                         </label>
                     </div>
                 </div>
@@ -620,6 +658,10 @@
                         <span>道路示意图</span>
                         <div class="counter">步骤: <span id="step-counter">1</span>/5</div>
                     </div>
+                    <div class="problem-text" id="problemText">
+                        <i class="fas fa-question-circle"></i>
+                        <span>请设置题目条件，然后点击"开始解答"</span>
+                    </div>
                     <div class="road-container" id="road-container">
                         <!-- 道路可视化由JS生成 -->
                     </div>
@@ -653,6 +695,7 @@
         // 全局变量
         let roadType = 'small';
         let dividerOption = 'none';
+        let endpointOption = 'both'; // 两端栽树选项：both, one, none
         let roadLength = 4;
         let treeInterval = 2;
         let treesPerSide = 0;
@@ -684,7 +727,8 @@
             }
             
             updateSliderValues();
-            updateDividerOptionControls()
+            updateDividerOptionControls();
+            updateEndpointOptionControls();
             renderRoad();
             setupEventListeners();
         }
@@ -721,6 +765,14 @@
                 });
             });
             
+            document.querySelectorAll('input[name="endpoint-option"]').forEach(input => {
+                input.addEventListener('change', function() {
+                    endpointOption = this.value;
+                    updateEndpointOptionControls();
+                    reset();
+                });
+            });
+            
             calculateBtn.addEventListener('click', function() {
               reset()
             });
@@ -748,6 +800,7 @@
         function reset(){
                 resetRoad();
                 renderSteps();
+                updateProblemText();
                 currentStep = 0;
                 renderRoad();
         }
@@ -755,6 +808,43 @@
         function updateSliderValues() {
             lengthValue.textContent = roadLength;
             intervalValue.textContent = treeInterval;
+        }
+        
+        // 生成题目文本
+        function generateProblemText() {
+            // 道路类型描述
+            let roadTypeDesc = '';
+            if (roadType === 'small') {
+                roadTypeDesc = '单侧';
+            } else if (roadType === 'large') {
+                roadTypeDesc = '两侧';
+            } else {
+                if (dividerOption === 'none') {
+                    roadTypeDesc = '两侧（隔离带不植树）';
+                } else if (dividerOption === 'single') {
+                    roadTypeDesc = '两侧 + 隔离带一排';
+                } else {
+                    roadTypeDesc = '两侧 + 隔离带两排';
+                }
+            }
+            
+            // 两端栽树描述
+            let endpointDesc = '';
+            if (endpointOption === 'both') {
+                endpointDesc = '两端都栽';
+            } else if (endpointOption === 'one') {
+                endpointDesc = '只栽一端';
+            } else {
+                endpointDesc = '两端不栽';
+            }
+            
+            return `一条 <span class="question">${roadLength}</span> 米长的道路，每隔 <span class="question">${treeInterval}</span> 米栽一棵树，<span class="question">${endpointDesc}</span>，<span class="question">${roadTypeDesc}</span>植树。<br>问：一共需要栽多少棵树？`;
+        }
+        
+        // 更新题目文本显示
+        function updateProblemText() {
+            const text = generateProblemText();
+            document.getElementById('problemText').innerHTML = `<i class="fas fa-book"></i> ${text}`;
         }
         
         // 更新道路类型控制
@@ -780,15 +870,34 @@
             }
             
         }
+        
+        // 更新两端栽树选项控制
+        function updateEndpointOptionControls() {
+            const endpointOptions = ['both', 'one', 'none'];
+            endpointOptions.forEach(option => {
+                document.getElementById(`endpoint-${option}`).classList.remove('active');
+            });
+            document.getElementById(`endpoint-${endpointOption}`).classList.add('active');
+        }
 
         // 重置道路
         function resetRoad() {
-            treesPerSide = Math.floor(roadLength / treeInterval) + 1;
+            // 根据两端栽树选项计算单侧树数
+            const intervals = Math.floor(roadLength / treeInterval);
+            if (endpointOption === 'both') {
+                treesPerSide = intervals + 1; // 两端都栽：间隔数 + 1
+            } else if (endpointOption === 'one') {
+                treesPerSide = intervals; // 一端不栽：间隔数
+            } else {
+                treesPerSide = intervals - 1; // 两端不栽：间隔数 - 1
+            }
+            if (treesPerSide < 0) treesPerSide = 0;
+            
             updateInfoCards();
             renderRoad();
             currentStep = 0;
             updateStepVisibility();
-            updateDividerOptionControls()
+            updateDividerOptionControls();
         }
 
         // 更新信息卡片
@@ -818,7 +927,7 @@
             const section = document.createElement('div');
             section.className = `road-section road-${type}`;
             
-            const labelEl = document.createElement('极光div');
+            const labelEl = document.createElement('div');
             labelEl.className = 'road-label';
             labelEl.textContent = label;
             section.appendChild(labelEl);
@@ -826,9 +935,20 @@
             const treesContainer = document.createElement('div');
             treesContainer.className = 'trees-container';
             
-            // 计算树的位置
-            const adjustedLength = (treeCount - 1) * treeInterval;
-            const startOffset = (roadLength - adjustedLength) / 2;
+            // 根据两端栽树选项计算树的位置
+            const intervals = Math.floor(roadLength / treeInterval);
+            let startOffset = 0;
+            
+            if (endpointOption === 'both') {
+                // 两端都栽：第一棵在0米，最后一棵在末端
+                startOffset = 0;
+            } else if (endpointOption === 'one') {
+                // 只栽一端：第一棵在0米，最后一棵不在末端
+                startOffset = 0;
+            } else {
+                // 两端不栽：第一棵在间隔处
+                startOffset = treeInterval;
+            }
             
             // 添加树
             for (let i = 0; i < treeCount; i++) {
@@ -841,7 +961,7 @@
                 tree.style.bottom = '20px';
 
                 
-                // 设置是否植植
+                // 设置是否显示
                 const shouldShow = (
                     (roadType === 'small' && currentStep >= 1) ||
                     (label.includes('左侧') && currentStep >= 1) ||
@@ -903,9 +1023,15 @@
                 treeCount = dividerOption === 'single' ? treesPerSide : treesPerSide * 2;
             }
             
-            // 计算树的位置
-            const adjustedLength = (treesPerSide - 1) * treeInterval;
-            const startOffset = (roadLength - adjustedLength) / 2;
+            // 根据两端栽树选项计算树的位置
+            let startOffset = 0;
+            if (endpointOption === 'both') {
+                startOffset = 0;
+            } else if (endpointOption === 'one') {
+                startOffset = 0;
+            } else {
+                startOffset = treeInterval;
+            }
             
             // 添加树
             for (let i = 0; i < treeCount; i++) {
@@ -1006,8 +1132,30 @@
 
         // 精简后的渲染解题步骤（每步仅一句话）
         function renderSteps() {
-            treesPerSide = Math.floor(roadLength / treeInterval) + 1;
+            // 根据两端栽树选项计算单侧树数
+            const intervals = Math.floor(roadLength / treeInterval);
+            if (endpointOption === 'both') {
+                treesPerSide = intervals + 1;
+            } else if (endpointOption === 'one') {
+                treesPerSide = intervals;
+            } else {
+                treesPerSide = Math.max(0, intervals - 1);
+            }
             const totalTrees = calculateTotalTrees();
+            
+            // 两端栽树的描述和公式
+            let endpointDesc = '';
+            let endpointFormula = '';
+            if (endpointOption === 'both') {
+                endpointDesc = '两端都栽';
+                endpointFormula = `道路长度${highlightNumbers(roadLength.toString())} ÷ 植树间隔${highlightNumbers(treeInterval.toString())} + ${highlightNumbers("1")} = ${highlightNumbers(treesPerSide.toString())}`;
+            } else if (endpointOption === 'one') {
+                endpointDesc = '只栽一端';
+                endpointFormula = `道路长度${highlightNumbers(roadLength.toString())} ÷ 植树间隔${highlightNumbers(treeInterval.toString())} = ${highlightNumbers(treesPerSide.toString())}`;
+            } else {
+                endpointDesc = '两端不栽';
+                endpointFormula = `道路长度${highlightNumbers(roadLength.toString())} ÷ 植树间隔${highlightNumbers(treeInterval.toString())} - ${highlightNumbers("1")} = ${highlightNumbers(treesPerSide.toString())}`;
+            }
             
             stepsContainer.innerHTML = `
                 <div class="step visible active">
@@ -1016,13 +1164,13 @@
                             (dividerOption === 'none' ? `带隔离带但不植树` : 
                                 (dividerOption === 'single' ? `带隔离带且植一排树` : `带隔离带且植两排树`))
                             : (roadType === 'small' ? `单侧植树` : `两侧植树` )
-                        }</span>， 道路长度 ${highlightNumbers(roadLength.toString())} 米 ， 植树间隔 ${highlightNumbers(treeInterval.toString())}米
+                        }</span>，<span class="highlight">${endpointDesc}</span>，道路长度 ${highlightNumbers(roadLength.toString())} 米，植树间隔 ${highlightNumbers(treeInterval.toString())}米
                     </div>
           
                 </div>
                 <div class="step">
                     <div class="step-title">
-                        2、单侧植树数：道路长度${highlightNumbers(roadLength.toString())}÷ 植树间隔 ${highlightNumbers(treeInterval.toString())} + 端头${highlightNumbers("1")}= ${highlightNumbers(treesPerSide.toString())}
+                        2、单侧植树数（${endpointDesc}）：${endpointFormula}
                     </div>
           
                 </div>

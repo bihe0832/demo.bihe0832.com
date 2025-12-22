@@ -1,0 +1,883 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no" />    
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="Expires" content="0">
+    <link rel="Shortcut Icon" href="https://cdn.bihe0832.com/images/zixie_32.ico" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="author" CONTENT="子勰(bihe0832), code@bihe0832.com" />
+    <meta name="keywords" content="子勰,bihe0832,工具咩" />
+    <meta name="description" content="皮卡丘学数学之年龄问题分步解答" />
+    <meta property="og:title" content="皮卡丘学数学之年龄问题分步解答" />
+    <meta property="og:locale" content="en_US" />
+    <meta name="google-site-verification" content="3wzNgbjvFNHkH-8QpougMZ0s9Y4GEjG49kEb49QQqpw" />
+    <meta property="og:description" content="" />
+    <link rel="canonical" href="https://blog.bihe0832.com/" />
+    <meta property="og:url" content="https://blog.bihe0832.com/" />
+    <meta property="og:site_name" content="工具咩" />
+    <meta property="og:type" content="article" />
+    <title>皮卡丘学数学之年龄问题分步解答</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Microsoft YaHei', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #ff6b6b, #feca57);
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+            margin: 20px 0;
+            padding: 20px;
+        }
+        header {
+            background: linear-gradient(90deg, #e74c3c, #c0392b);
+            color: white;
+            padding: 20px 30px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        header h2 {
+            font-size: 2rem;
+            margin: 10px 0;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+        }
+        
+        /* 三栏布局 */
+        .main-content {
+            display: flex;
+            gap: 20px;
+            min-height: 500px;
+        }
+        
+        /* 左侧控制面板 */
+        .left-panel {
+            width: 280px;
+            flex-shrink: 0;
+            background: #fff5f5;
+            border-radius: 15px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .panel-title {
+            font-size: 1.1rem;
+            color: #c0392b;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 3px solid #e74c3c;
+            display: flex;
+            align-items: center;
+        }
+        .panel-title i {
+            margin-right: 10px;
+            font-size: 1.2rem;
+            color: #e74c3c;
+        }
+        
+        .problem-type {
+            margin-bottom: 20px;
+        }
+        .type-btn {
+            display: block;
+            width: 100%;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #e74c3c, #c0392b);
+            color: white;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(231, 76, 60, 0.3);
+            font-size: 14px;
+            border: none;
+        }
+        .type-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(231, 76, 60, 0.4);
+        }
+        .type-btn.active {
+            background: linear-gradient(45deg, #27ae60, #2ecc71);
+            box-shadow: 0 6px 12px rgba(39, 174, 96, 0.4);
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        .input-item {
+            margin-bottom: 15px;
+        }
+        .input-label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #c0392b;
+            font-size: 0.95rem;
+        }
+        input, select {
+            padding: 12px 15px;
+            width: 100%;
+            border: 2px solid #e74c3c;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            text-align: center;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+        input:focus, select:focus {
+            border-color: #27ae60;
+            outline: none;
+            box-shadow: 0 0 8px rgba(39, 174, 96, 0.3);
+        }
+        
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        button {
+            padding: 12px 20px;
+            font-size: 1rem;
+            background: linear-gradient(90deg, #e74c3c, #c0392b);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.3s, background 0.3s;
+            box-shadow: 0 4px 10px rgba(231, 76, 60, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            background: linear-gradient(90deg, #c0392b, #e74c3c);
+        }
+        
+        button:active {
+            transform: translateY(1px);
+        }
+        
+        button:disabled {
+            background: linear-gradient(90deg, #bdc3c7, #95a5a6);
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .start-btn {
+            background: linear-gradient(90deg, #27ae60, #2ecc71);
+            box-shadow: 0 4px 10px rgba(39, 174, 96, 0.3);
+        }
+        .start-btn:hover {
+            background: linear-gradient(90deg, #2ecc71, #27ae60);
+        }
+        
+        .show-all-btn {
+            background: linear-gradient(90deg, #f39c12, #e67e22);
+            box-shadow: 0 4px 10px rgba(243, 156, 18, 0.3);
+        }
+        .show-all-btn:hover {
+            background: linear-gradient(90deg, #e67e22, #f39c12);
+        }
+        
+        .nav-buttons {
+            display: flex;
+            gap: 8px;
+        }
+        .nav-buttons button {
+            flex: 1;
+            padding: 10px 8px;
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+        
+        /* 中间可视化区域 */
+        .center-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-width: 400px;
+        }
+        
+        .visual-header {
+            background: linear-gradient(90deg, #e74c3c, #c0392b);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 10px 10px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.1rem;
+        }
+        
+        .visual-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border: 4px solid #e74c3c;
+            border-top: none;
+            border-radius: 0 0 15px 15px;
+            background: linear-gradient(135deg, #fff5f5, #ffe6e6);
+            position: relative;
+            min-height: 400px;
+            padding: 20px;
+            gap: 30px;
+        }
+        
+        .problem-text {
+            background: linear-gradient(135deg, #fff, #ffeaa7);
+            padding: 15px 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-left: 5px solid #f39c12;
+            font-size: 1.1rem;
+            color: #2c3e50;
+            line-height: 1.6;
+            max-width: 90%;
+            text-align: center;
+        }
+        
+        .problem-text i {
+            color: #f39c12;
+            margin-right: 8px;
+        }
+        
+        .problem-text .question {
+            font-weight: bold;
+            color: #e74c3c;
+        }
+        
+        .person-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 30px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            min-width: 200px;
+        }
+        
+        .person-card:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+        
+        .person-icon {
+            font-size: 4rem;
+            margin-bottom: 10px;
+        }
+        
+        .person-name {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .person-age {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #e74c3c;
+        }
+        
+        .person-age-label {
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        .persons-row {
+            display: flex;
+            gap: 40px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        
+        /* 右侧步骤面板 */
+        .right-panel {
+            width: 350px;
+            flex-shrink: 0;
+            background: #fff5f5;
+            border-radius: 15px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .steps-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+            background: linear-gradient(to right, #ffebee, #ffcdd2);
+            border-radius: 12px;
+        }
+        
+        .step {
+            padding: 10px 0;
+            transition: all 0.3s;
+            display: none;
+            border-bottom: 1px dashed rgba(231, 76, 60, 0.3);
+        }
+        
+        .step:last-child {
+            border-bottom: none;
+        }
+        
+        .step.visible {
+            display: block;
+            animation: fadeInStep 0.4s ease;
+        }
+        
+        @keyframes fadeInStep {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .step.active {
+            animation: breatheRed 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes breatheRed {
+            0%, 100% { background-color: rgba(231, 76, 60, 0.1); }
+            50% { background-color: rgba(231, 76, 60, 0.25); }
+        }
+        
+        .step-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .step-number {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            background: #e74c3c;
+            color: white;
+            border-radius: 50%;
+            font-weight: bold;
+            margin-right: 12px;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+        
+        .step-title {
+            font-weight: bold;
+            color: #c0392b;
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+        
+        .highlight {
+            color: #27ae60;
+            font-weight: bold;
+            background-color: #e8f8f5;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+        
+        .empty-steps {
+            text-align: center;
+            color: #7f8c8d;
+            padding: 40px 20px;
+            font-size: 1rem;
+        }
+        .empty-steps i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: #bdc3c7;
+        }
+        
+        /* 响应式布局 */
+        @media (max-width: 1200px) {
+            .main-content {
+                flex-direction: column;
+            }
+            .left-panel, .right-panel {
+                width: 100%;
+            }
+            .left-panel {
+                order: 1;
+            }
+            .center-panel {
+                order: 2;
+                min-height: 350px;
+            }
+            .right-panel {
+                order: 3;
+            }
+            .controls {
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
+            .controls button {
+                flex: 1;
+                min-width: 120px;
+            }
+            .nav-buttons {
+                flex: 2;
+            }
+            .problem-type {
+                display: flex;
+                gap: 10px;
+            }
+            .type-btn {
+                flex: 1;
+                margin-bottom: 0;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            header h2 {
+                font-size: 1.5rem;
+            }
+            .controls {
+                flex-direction: column;
+            }
+            .nav-buttons {
+                width: 100%;
+            }
+            .persons-row {
+                flex-direction: column;
+                gap: 20px;
+            }
+            .person-card {
+                min-width: 150px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h2><i class="fas fa-birthday-cake"></i> 皮卡丘学数学之年龄问题分步解答</h2>
+            <p>掌握年龄差不变的核心思想</p>
+        </header>
+        
+        <div class="main-content">
+            <!-- 左侧控制面板 -->
+            <div class="left-panel">
+                <div class="panel-title">
+                    <i class="fas fa-question-circle"></i>
+                    <span>题目类型</span>
+                </div>
+                
+                <div class="problem-type">
+                    <button class="type-btn active" onclick="selectType('sum')">
+                        <i class="fas fa-plus"></i> 年龄和问题
+                    </button>
+                    <button class="type-btn" onclick="selectType('multiple')">
+                        <i class="fas fa-times"></i> 年龄倍数问题
+                    </button>
+                    <button class="type-btn" onclick="selectType('future')">
+                        <i class="fas fa-clock"></i> 几年后问题
+                    </button>
+                </div>
+                
+                <div class="panel-title">
+                    <i class="fas fa-cog"></i>
+                    <span>问题设置</span>
+                </div>
+                
+                <div class="input-group" id="inputGroup">
+                    <!-- 动态生成输入项 -->
+                </div>
+                
+                <div class="controls">
+                    <button class="start-btn" onclick="startCalculation()">
+                        <i class="fas fa-play-circle"></i> 开始计算
+                    </button>
+                    <button class="show-all-btn" onclick="showAllSteps()">
+                        <i class="fas fa-eye"></i> 一键查看
+                    </button>
+                    <div class="nav-buttons">
+                        <button id="prevBtn" onclick="prevStep()" disabled>
+                            <i class="fas fa-arrow-left"></i> 上一步
+                        </button>
+                        <button id="nextBtn" onclick="nextStep()" disabled>
+                            下一步 <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 中间可视化区域 -->
+            <div class="center-panel">
+                <div class="visual-header">
+                    <span><i class="fas fa-users"></i> 年龄可视化</span>
+                    <span id="problemDesc">请设置题目</span>
+                </div>
+                <div class="visual-area" id="visualArea">
+                    <div class="problem-text" id="problemText">
+                        <i class="fas fa-question-circle"></i>
+                        <span>请设置题目条件，然后点击"开始计算"</span>
+                    </div>
+                    <div class="persons-row" id="personsRow">
+                        <div class="person-card">
+                            <div class="person-icon">👨</div>
+                            <div class="person-name">爸爸</div>
+                            <div class="person-age" id="fatherAge">?</div>
+                            <div class="person-age-label">岁</div>
+                        </div>
+                        <div class="person-card">
+                            <div class="person-icon">👦</div>
+                            <div class="person-name">儿子</div>
+                            <div class="person-age" id="sonAge">?</div>
+                            <div class="person-age-label">岁</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 右侧步骤面板 -->
+            <div class="right-panel">
+                <div class="panel-title">
+                    <i class="fas fa-list-ol"></i>
+                    <span>解题步骤</span>
+                    <span style="margin-left: auto; font-size: 0.9rem; color: #7f8c8d;">
+                        步骤: <span id="step-counter">0</span>/<span id="total-steps">0</span>
+                    </span>
+                </div>
+                <div class="steps-container" id="steps">
+                    <div class="empty-steps">
+                        <i class="fas fa-info-circle"></i>
+                        <p>请设置题目条件<br>然后点击"开始计算"</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let stepsData = [];
+        let currentStep = 0;
+        let maxReachedStep = 0;
+        let currentType = 'sum';
+        let result = {};
+        
+        // 题目类型配置
+        const problemConfigs = {
+            sum: {
+                title: '年龄和问题',
+                desc: '已知两人年龄和与年龄差，求各自年龄',
+                inputs: [
+                    { id: 'ageSum', label: '👨+👦 年龄和', placeholder: '如：40', value: 40 },
+                    { id: 'ageDiff', label: '👨-👦 年龄差', placeholder: '如：20', value: 20 }
+                ]
+            },
+            multiple: {
+                title: '年龄倍数问题',
+                desc: '已知年龄倍数关系与年龄差，求各自年龄',
+                inputs: [
+                    { id: 'multiple', label: '👨 是 👦 的几倍', placeholder: '如：3', value: 3 },
+                    { id: 'ageDiff', label: '👨-👦 年龄差', placeholder: '如：24', value: 24 }
+                ]
+            },
+            future: {
+                title: '几年后问题',
+                desc: '已知现在年龄和与几年后的倍数关系',
+                inputs: [
+                    { id: 'ageSum', label: '👨+👦 现在年龄和', placeholder: '如：50', value: 50 },
+                    { id: 'years', label: '⏰ 几年后', placeholder: '如：5', value: 5 },
+                    { id: 'futureMultiple', label: '👨 是 👦 的几倍', placeholder: '如：2', value: 2 }
+                ]
+            }
+        };
+        
+        function selectType(type) {
+            currentType = type;
+            document.querySelectorAll('.type-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.closest('.type-btn').classList.add('active');
+            renderInputs();
+            resetVisualization();
+        }
+        
+        function renderInputs() {
+            const config = problemConfigs[currentType];
+            const inputGroup = document.getElementById('inputGroup');
+            inputGroup.innerHTML = config.inputs.map(input => `
+                <div class="input-item">
+                    <label class="input-label">${input.label}</label>
+                    <input type="number" id="${input.id}" placeholder="${input.placeholder}" value="${input.value}" min="1">
+                </div>
+            `).join('');
+        }
+        
+        function resetVisualization() {
+            document.getElementById('fatherAge').textContent = '?';
+            document.getElementById('sonAge').textContent = '?';
+            document.getElementById('problemDesc').textContent = problemConfigs[currentType].desc;
+            document.getElementById('problemText').innerHTML = `
+                <i class="fas fa-question-circle"></i>
+                <span>请设置题目条件，然后点击"开始计算"</span>
+            `;
+            document.getElementById('steps').innerHTML = `
+                <div class="empty-steps">
+                    <i class="fas fa-info-circle"></i>
+                    <p>请设置题目条件<br>然后点击"开始计算"</p>
+                </div>
+            `;
+            stepsData = [];
+            currentStep = 0;
+            maxReachedStep = 0;
+            document.getElementById('step-counter').textContent = '0';
+            document.getElementById('total-steps').textContent = '0';
+            document.getElementById('prevBtn').disabled = true;
+            document.getElementById('nextBtn').disabled = true;
+        }
+        
+        function generateProblemText() {
+            let text = '';
+            if (currentType === 'sum') {
+                const ageSum = document.getElementById('ageSum').value || '?';
+                const ageDiff = document.getElementById('ageDiff').value || '?';
+                text = `爸爸和儿子的年龄和是 <span class="question">${ageSum}</span> 岁，爸爸比儿子大 <span class="question">${ageDiff}</span> 岁。<br>问：爸爸和儿子各多少岁？`;
+            } else if (currentType === 'multiple') {
+                const multiple = document.getElementById('multiple').value || '?';
+                const ageDiff = document.getElementById('ageDiff').value || '?';
+                text = `爸爸的年龄是儿子的 <span class="question">${multiple}</span> 倍，爸爸比儿子大 <span class="question">${ageDiff}</span> 岁。<br>问：爸爸和儿子各多少岁？`;
+            } else if (currentType === 'future') {
+                const ageSum = document.getElementById('ageSum').value || '?';
+                const years = document.getElementById('years').value || '?';
+                const futureMultiple = document.getElementById('futureMultiple').value || '?';
+                text = `爸爸和儿子现在的年龄和是 <span class="question">${ageSum}</span> 岁，<span class="question">${years}</span> 年后爸爸的年龄是儿子的 <span class="question">${futureMultiple}</span> 倍。<br>问：爸爸和儿子现在各多少岁？`;
+            }
+            return text;
+        }
+        
+        function updateProblemText() {
+            const text = generateProblemText();
+            document.getElementById('problemText').innerHTML = `<i class="fas fa-book"></i> ${text}`;
+        }
+        
+        function updateVisualization(fatherAge, sonAge) {
+            document.getElementById('fatherAge').textContent = fatherAge !== null ? fatherAge : '?';
+            document.getElementById('sonAge').textContent = sonAge !== null ? sonAge : '?';
+        }
+        
+        function createStep(text, stepNum, fatherAge, sonAge) {
+            const step = document.createElement('div');
+            step.className = 'step';
+            step.innerHTML = `
+                <div class="step-header">
+                    <div class="step-number">${stepNum + 1}</div>
+                    <div class="step-title">${text.replace(/(\d+)/g, '<span class="highlight">$1</span>')}</div>
+                </div>
+            `;
+            step.dataset.fatherAge = fatherAge;
+            step.dataset.sonAge = sonAge;
+            return step;
+        }
+        
+        function generateSteps() {
+            const steps = [];
+            
+            if (currentType === 'sum') {
+                const ageSum = parseInt(document.getElementById('ageSum').value);
+                const ageDiff = parseInt(document.getElementById('ageDiff').value);
+                
+                if (!ageSum || !ageDiff || ageDiff >= ageSum) {
+                    alert('请输入正确的数值：年龄差应小于年龄和');
+                    return null;
+                }
+                
+                const fatherAge = (ageSum + ageDiff) / 2;
+                const sonAge = (ageSum - ageDiff) / 2;
+                
+                if (fatherAge % 1 !== 0 || sonAge % 1 !== 0 || sonAge <= 0) {
+                    alert('请确保年龄和与年龄差的奇偶性相同，且结果为正整数');
+                    return null;
+                }
+                
+                result = { fatherAge, sonAge, ageDiff };
+                
+                steps.push(
+                    [`题目分析：爸爸和儿子年龄和为 ${ageSum} 岁，年龄差为 ${ageDiff} 岁`, null, null],
+                    [`核心思想：年龄差永远不变！两人同时长大，差值始终是 ${ageDiff} 岁`, null, null],
+                    [`求爸爸年龄：（年龄和 + 年龄差）÷ 2 = (${ageSum} + ${ageDiff}) ÷ 2 = ${fatherAge} 岁`, fatherAge, null],
+                    [`求儿子年龄：（年龄和 - 年龄差）÷ 2 = (${ageSum} - ${ageDiff}) ÷ 2 = ${sonAge} 岁`, fatherAge, sonAge],
+                    [`验证年龄和：爸爸 ${fatherAge} 岁 + 儿子 ${sonAge} 岁 = ${fatherAge + sonAge} 岁 = 题目年龄和 ${ageSum} 岁 ✓`, fatherAge, sonAge],
+                    [`验证年龄差：爸爸 ${fatherAge} 岁 - 儿子 ${sonAge} 岁 = ${fatherAge - sonAge} 岁 = 题目年龄差 ${ageDiff} 岁 ✓`, fatherAge, sonAge]
+                );
+                
+            } else if (currentType === 'multiple') {
+                const multiple = parseInt(document.getElementById('multiple').value);
+                const ageDiff = parseInt(document.getElementById('ageDiff').value);
+                
+                if (!multiple || !ageDiff || multiple <= 1) {
+                    alert('请输入正确的数值：倍数应大于1');
+                    return null;
+                }
+                
+                const sonAge = ageDiff / (multiple - 1);
+                const fatherAge = sonAge * multiple;
+                
+                if (sonAge % 1 !== 0 || sonAge <= 0) {
+                    alert('请确保年龄差能被（倍数-1）整除');
+                    return null;
+                }
+                
+                result = { fatherAge, sonAge, ageDiff };
+                
+                steps.push(
+                    [`题目分析：爸爸年龄是儿子的 ${multiple} 倍，年龄差为 ${ageDiff} 岁`, null, null],
+                    [`核心思想：爸爸比儿子多的年龄 = 儿子年龄 × (${multiple} - 1) = 年龄差`, null, null],
+                    [`求儿子年龄：年龄差 ÷ (倍数 - 1) = ${ageDiff} ÷ ${multiple - 1} = ${sonAge} 岁`, null, sonAge],
+                    [`求爸爸年龄：儿子年龄 × 倍数 = ${sonAge} × ${multiple} = ${fatherAge} 岁`, fatherAge, sonAge],
+                    [`验证倍数：爸爸 ${fatherAge} 岁 ÷ 儿子 ${sonAge} 岁 = ${multiple} 倍 = 题目倍数 ${multiple} 倍 ✓`, fatherAge, sonAge],
+                    [`验证年龄差：爸爸 ${fatherAge} 岁 - 儿子 ${sonAge} 岁 = ${fatherAge - sonAge} 岁 = 题目年龄差 ${ageDiff} 岁 ✓`, fatherAge, sonAge]
+                );
+                
+            } else if (currentType === 'future') {
+                const ageSum = parseInt(document.getElementById('ageSum').value);
+                const years = parseInt(document.getElementById('years').value);
+                const futureMultiple = parseInt(document.getElementById('futureMultiple').value);
+                
+                if (!ageSum || !years || !futureMultiple || futureMultiple <= 1) {
+                    alert('请输入正确的数值：倍数应大于1');
+                    return null;
+                }
+                
+                // 算术解法：
+                // 几年后年龄和 = 现在年龄和 + 2 × 年数
+                // 几年后：爸爸是儿子的 n 倍，把年龄和分成 (n+1) 份
+                // 儿子占 1 份，爸爸占 n 份
+                const futureSum = ageSum + 2 * years;
+                const futureSonAge = futureSum / (1 + futureMultiple);
+                const futureFatherAge = futureSonAge * futureMultiple;
+                const sonAge = futureSonAge - years;
+                const fatherAge = futureFatherAge - years;
+                
+                if (futureSonAge % 1 !== 0 || sonAge <= 0 || fatherAge <= 0) {
+                    alert('请确保输入的数值能得出正整数年龄');
+                    return null;
+                }
+                
+                result = { fatherAge, sonAge, ageDiff: fatherAge - sonAge, years, futureSonAge, futureFatherAge };
+                
+                steps.push(
+                    [`题目分析：现在年龄和为 ${ageSum} 岁，${years} 年后爸爸是儿子的 ${futureMultiple} 倍`, null, null],
+                    [`核心思想：${years} 年后两人各长 ${years} 岁，年龄和变为 ${ageSum} + ${years} × 2 = ${futureSum} 岁`, null, null],
+                    [`${years} 年后爸爸是儿子的 ${futureMultiple} 倍，把 ${futureSum} 分成 ${1 + futureMultiple} 份（儿子 1 份，爸爸 ${futureMultiple} 份）`, null, null],
+                    [`${years} 年后儿子年龄：${futureSum} ÷ ${1 + futureMultiple} = ${futureSonAge} 岁`, null, null],
+                    [`现在儿子年龄：${years} 年后儿子 ${futureSonAge} 岁 - ${years} 年 = ${sonAge} 岁`, null, sonAge],
+                    [`现在爸爸年龄：年龄和 ${ageSum} 岁 - 儿子 ${sonAge} 岁 = ${fatherAge} 岁`, fatherAge, sonAge],
+                    [`验证年龄和：爸爸 ${fatherAge} 岁 + 儿子 ${sonAge} 岁 = ${fatherAge + sonAge} 岁 = 题目年龄和 ${ageSum} 岁 ✓`, fatherAge, sonAge],
+                    [`验证 ${years} 年后倍数：爸爸 ${futureFatherAge} 岁 ÷ 儿子 ${futureSonAge} 岁 = ${futureMultiple} 倍 = 题目倍数 ${futureMultiple} 倍 ✓`, fatherAge, sonAge]
+                );
+            }
+            
+            return steps;
+        }
+        
+        function updateStepVisibility() {
+            stepsData.forEach((step, index) => {
+                step.classList.toggle('visible', index <= maxReachedStep);
+                step.classList.toggle('active', index === currentStep);
+            });
+        }
+        
+        function showStep(stepIndex) {
+            currentStep = stepIndex;
+            if (stepIndex > maxReachedStep) {
+                maxReachedStep = stepIndex;
+            }
+            
+            document.getElementById('step-counter').textContent = stepIndex + 1;
+            document.getElementById('prevBtn').disabled = stepIndex <= 0;
+            document.getElementById('nextBtn').disabled = stepIndex >= stepsData.length - 1;
+            
+            updateStepVisibility();
+            
+            const currentData = stepsData[stepIndex].dataset;
+            updateVisualization(
+                currentData.fatherAge !== 'null' ? parseInt(currentData.fatherAge) : null,
+                currentData.sonAge !== 'null' ? parseInt(currentData.sonAge) : null
+            );
+        }
+        
+        function nextStep() { 
+            if(currentStep < stepsData.length - 1) showStep(currentStep + 1); 
+        }
+        
+        function prevStep() { 
+            if(currentStep > 0) showStep(currentStep - 1); 
+        }
+        
+        function showAllSteps() {
+            if (stepsData.length === 0) {
+                startCalculation();
+            }
+            if (stepsData.length > 0) {
+                maxReachedStep = stepsData.length - 1;
+                showStep(stepsData.length - 1);
+            }
+        }
+        
+        function startCalculation() {
+            const steps = generateSteps();
+            if (!steps) return;
+            
+            // 更新题目文本
+            updateProblemText();
+            
+            const stepContainer = document.getElementById('steps');
+            stepContainer.innerHTML = '';
+            stepsData = [];
+            maxReachedStep = 0;
+            
+            steps.forEach(([text, fatherAge, sonAge], index) => {
+                const step = createStep(text, index, fatherAge, sonAge);
+                stepsData.push(step);
+                stepContainer.appendChild(step);
+            });
+            
+            document.getElementById('total-steps').textContent = stepsData.length;
+            currentStep = 0;
+            showStep(currentStep);
+        }
+        
+        // 初始化
+        window.onload = function() {
+            renderInputs();
+            resetVisualization();
+        };
+    </script>
+</body>
+</html>
