@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no" />    
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="Expires" content="0">
+    <link rel="Shortcut Icon" href="https://cdn.bihe0832.com/images/zixie_32.ico" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="author" CONTENT="子勰(bihe0832), code@bihe0832.com" />
+    <meta name="keywords" content="子勰,bihe0832,工具咩" />
+    <meta name="description" content="皮卡丘学数学之盈亏问题分步解答" />
+    <meta property="og:title" content="皮卡丘学数学之盈亏问题分步解答" />
+    <meta property="og:locale" content="en_US" />
+    <title>皮卡丘学数学之盈亏问题分步解答</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Microsoft YaHei', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #9b59b6, #3498db);
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+            margin: 20px 0;
+            padding: 20px;
+        }
+        header {
+            background: linear-gradient(90deg, #9b59b6, #8e44ad);
+            color: white;
+            padding: 20px 30px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        header h2 {
+            font-size: 2rem;
+            margin: 10px 0;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+        }
+        
+        .main-content {
+            display: flex;
+            gap: 20px;
+            min-height: 500px;
+        }
+        
+        .left-panel {
+            width: 280px;
+            flex-shrink: 0;
+            background: #f5f0ff;
+            border-radius: 15px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .panel-title {
+            font-size: 1.1rem;
+            color: #8e44ad;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 3px solid #9b59b6;
+            display: flex;
+            align-items: center;
+        }
+        .panel-title i {
+            margin-right: 10px;
+            font-size: 1.2rem;
+            color: #9b59b6;
+        }
+        
+        .problem-type {
+            margin-bottom: 20px;
+        }
+        .type-btn {
+            display: block;
+            width: 100%;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #9b59b6, #8e44ad);
+            color: white;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(155, 89, 182, 0.3);
+            font-size: 14px;
+            border: none;
+        }
+        .type-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(155, 89, 182, 0.4);
+        }
+        .type-btn.active {
+            background: linear-gradient(45deg, #27ae60, #2ecc71);
+            box-shadow: 0 6px 12px rgba(39, 174, 96, 0.4);
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        .input-item {
+            margin-bottom: 15px;
+        }
+        .input-label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #8e44ad;
+            font-size: 0.95rem;
+        }
+        input {
+            padding: 12px 15px;
+            width: 100%;
+            border: 2px solid #9b59b6;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            text-align: center;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+        input:focus {
+            border-color: #27ae60;
+            outline: none;
+            box-shadow: 0 0 8px rgba(39, 174, 96, 0.3);
+        }
+        
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        button {
+            padding: 12px 20px;
+            font-size: 1rem;
+            background: linear-gradient(90deg, #9b59b6, #8e44ad);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.3s, background 0.3s;
+            box-shadow: 0 4px 10px rgba(155, 89, 182, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+        }
+        
+        button:disabled {
+            background: linear-gradient(90deg, #bdc3c7, #95a5a6);
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .start-btn {
+            background: linear-gradient(90deg, #27ae60, #2ecc71);
+            box-shadow: 0 4px 10px rgba(39, 174, 96, 0.3);
+        }
+        
+        .show-all-btn {
+            background: linear-gradient(90deg, #f39c12, #e67e22);
+            box-shadow: 0 4px 10px rgba(243, 156, 18, 0.3);
+        }
+        
+        .nav-buttons {
+            display: flex;
+            gap: 8px;
+        }
+        .nav-buttons button {
+            flex: 1;
+            padding: 10px 8px;
+            font-size: 0.9rem;
+        }
+        
+        .center-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-width: 400px;
+        }
+        
+        .visual-header {
+            background: linear-gradient(90deg, #9b59b6, #8e44ad);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 10px 10px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.1rem;
+        }
+        
+        .visual-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            border: 4px solid #9b59b6;
+            border-top: none;
+            border-radius: 0 0 15px 15px;
+            background: linear-gradient(135deg, #f5f0ff, #e8daff);
+            min-height: 400px;
+            padding: 20px;
+            gap: 20px;
+        }
+        
+        .problem-text {
+            background: linear-gradient(135deg, #fff, #ffeaa7);
+            padding: 15px 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-left: 5px solid #f39c12;
+            font-size: 1.1rem;
+            color: #2c3e50;
+            line-height: 1.6;
+            max-width: 95%;
+            text-align: center;
+        }
+        
+        .problem-text i {
+            color: #f39c12;
+            margin-right: 8px;
+        }
+        
+        .problem-text .question {
+            font-weight: bold;
+            color: #e74c3c;
+        }
+        
+        .distribution-visual {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            width: 100%;
+            max-width: 600px;
+        }
+        
+        .distribution-row {
+            background: white;
+            border-radius: 15px;
+            padding: 15px 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .distribution-title {
+            font-size: 1rem;
+            font-weight: bold;
+            color: #8e44ad;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .items-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            min-height: 50px;
+            align-items: center;
+        }
+        
+        .person-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 8px;
+            background: linear-gradient(135deg, #e8daff, #f5f0ff);
+            border-radius: 10px;
+            min-width: 50px;
+        }
+        
+        .person-icon {
+            font-size: 1.3rem;
+        }
+        
+        .person-items {
+            font-size: 0.8rem;
+            color: #8e44ad;
+            font-weight: bold;
+        }
+        
+        .result-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.95rem;
+        }
+        
+        .surplus {
+            background: linear-gradient(135deg, #d5f5e3, #abebc6);
+            color: #27ae60;
+        }
+        
+        .deficit {
+            background: linear-gradient(135deg, #fadbd8, #f5b7b1);
+            color: #e74c3c;
+        }
+        
+        .answer-cards {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+        
+        .answer-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px 30px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            min-width: 140px;
+        }
+        
+        .answer-card:hover {
+            transform: scale(1.05);
+        }
+        
+        .answer-icon {
+            font-size: 2.5rem;
+            margin-bottom: 8px;
+        }
+        
+        .answer-label {
+            font-size: 0.95rem;
+            color: #666;
+            margin-bottom: 5px;
+        }
+        
+        .answer-value {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #9b59b6;
+        }
+        
+        .answer-unit {
+            font-size: 0.85rem;
+            color: #999;
+        }
+        
+        .right-panel {
+            width: 350px;
+            flex-shrink: 0;
+            background: #f5f0ff;
+            border-radius: 15px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .steps-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+            background: linear-gradient(to right, #f5f0ff, #e8daff);
+            border-radius: 12px;
+        }
+        
+        .step {
+            padding: 10px 0;
+            display: none;
+            border-bottom: 1px dashed rgba(155, 89, 182, 0.3);
+        }
+        
+        .step:last-child {
+            border-bottom: none;
+        }
+        
+        .step.visible {
+            display: block;
+            animation: fadeInStep 0.4s ease;
+        }
+        
+        @keyframes fadeInStep {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .step.active {
+            animation: breathePurple 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes breathePurple {
+            0%, 100% { background-color: rgba(155, 89, 182, 0.1); }
+            50% { background-color: rgba(155, 89, 182, 0.25); }
+        }
+        
+        .step-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .step-number {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            background: #9b59b6;
+            color: white;
+            border-radius: 50%;
+            font-weight: bold;
+            margin-right: 12px;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+        
+        .step-title {
+            font-weight: bold;
+            color: #8e44ad;
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+        
+        .highlight {
+            color: #27ae60;
+            font-weight: bold;
+            background-color: #e8f8f5;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+        
+        .empty-steps {
+            text-align: center;
+            color: #7f8c8d;
+            padding: 40px 20px;
+            font-size: 1rem;
+        }
+        .empty-steps i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: #bdc3c7;
+            display: block;
+        }
+        
+        @media (max-width: 1200px) {
+            .main-content {
+                flex-direction: column;
+            }
+            .left-panel, .right-panel {
+                width: 100%;
+            }
+            .left-panel { order: 1; }
+            .center-panel { order: 2; min-height: 350px; }
+            .right-panel { order: 3; }
+            .controls {
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
+            .controls button {
+                flex: 1;
+                min-width: 120px;
+            }
+            .problem-type {
+                display: flex;
+                gap: 10px;
+            }
+            .type-btn {
+                flex: 1;
+                margin-bottom: 0;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            header h2 { font-size: 1.5rem; }
+            .controls { flex-direction: column; }
+            .answer-cards { flex-direction: column; gap: 15px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h2><i class="fas fa-balance-scale"></i> 皮卡丘学数学之盈亏问题分步解答</h2>
+            <p>两次分配有盈亏，盈亏总和除以分配差求数量</p>
+        </header>
+        
+        <div class="main-content">
+            <div class="left-panel">
+                <div class="panel-title">
+                    <i class="fas fa-question-circle"></i>
+                    <span>题目类型</span>
+                </div>
+                
+                <div class="problem-type">
+                    <button class="type-btn active" onclick="selectType('surplus_deficit')">
+                        <i class="fas fa-plus-minus"></i> 一盈一亏
+                    </button>
+                    <button class="type-btn" onclick="selectType('both_surplus')">
+                        <i class="fas fa-plus"></i> 两次都盈余
+                    </button>
+                    <button class="type-btn" onclick="selectType('both_deficit')">
+                        <i class="fas fa-minus"></i> 两次都不足
+                    </button>
+                </div>
+                
+                <div class="panel-title">
+                    <i class="fas fa-cog"></i>
+                    <span>问题设置</span>
+                </div>
+                
+                <div class="input-group" id="inputGroup"></div>
+                
+                <div class="controls">
+                    <button class="start-btn" onclick="startCalculation()">
+                        <i class="fas fa-play-circle"></i> 开始计算
+                    </button>
+                    <button class="show-all-btn" onclick="showAllSteps()">
+                        <i class="fas fa-eye"></i> 一键查看
+                    </button>
+                    <div class="nav-buttons">
+                        <button id="prevBtn" onclick="prevStep()" disabled>
+                            <i class="fas fa-arrow-left"></i> 上一步
+                        </button>
+                        <button id="nextBtn" onclick="nextStep()" disabled>
+                            下一步 <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="center-panel">
+                <div class="visual-header">
+                    <span><i class="fas fa-cubes"></i> 分配可视化</span>
+                    <span id="problemDesc">请设置题目</span>
+                </div>
+                <div class="visual-area" id="visualArea">
+                    <div class="problem-text" id="problemText">
+                        <i class="fas fa-question-circle"></i>
+                        <span>请设置题目条件，然后点击"开始计算"</span>
+                    </div>
+                    <div class="distribution-visual" id="distributionVisual"></div>
+                    <div class="answer-cards" id="answerCards">
+                        <div class="answer-card">
+                            <div class="answer-icon">👦</div>
+                            <div class="answer-label">人数</div>
+                            <div class="answer-value" id="peopleCount">?</div>
+                            <div class="answer-unit">人</div>
+                        </div>
+                        <div class="answer-card">
+                            <div class="answer-icon">🍎</div>
+                            <div class="answer-label">物品总数</div>
+                            <div class="answer-value" id="itemCount">?</div>
+                            <div class="answer-unit">个</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="right-panel">
+                <div class="panel-title">
+                    <i class="fas fa-list-ol"></i>
+                    <span>解题步骤</span>
+                    <span style="margin-left: auto; font-size: 0.9rem; color: #7f8c8d;">
+                        步骤: <span id="step-counter">0</span>/<span id="total-steps">0</span>
+                    </span>
+                </div>
+                <div class="steps-container" id="steps">
+                    <div class="empty-steps">
+                        <i class="fas fa-info-circle"></i>
+                        <p>请设置题目条件<br>然后点击"开始计算"</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let stepsData = [];
+        let currentStep = 0;
+        let maxReachedStep = 0;
+        let currentType = 'surplus_deficit';
+        let result = {};
+        
+        const problemConfigs = {
+            surplus_deficit: {
+                title: '一盈一亏',
+                desc: '每人分多了有剩余，分少了不够',
+                inputs: [
+                    { id: 'perMore', label: '📦 第一次每人分几个', placeholder: '如：5', value: 5 },
+                    { id: 'surplus', label: '✅ 剩余几个', placeholder: '如：3', value: 3 },
+                    { id: 'perLess', label: '📦 第二次每人分几个', placeholder: '如：3', value: 3 },
+                    { id: 'deficit', label: '❌ 不足几个', placeholder: '如：5', value: 5 }
+                ]
+            },
+            both_surplus: {
+                title: '两次都盈余',
+                desc: '两次分配都有剩余',
+                inputs: [
+                    { id: 'perMore', label: '📦 第一次每人分几个', placeholder: '如：6', value: 6 },
+                    { id: 'surplus1', label: '✅ 剩余几个', placeholder: '如：8', value: 8 },
+                    { id: 'perLess', label: '📦 第二次每人分几个', placeholder: '如：4', value: 4 },
+                    { id: 'surplus2', label: '✅ 剩余几个', placeholder: '如：20', value: 20 }
+                ]
+            },
+            both_deficit: {
+                title: '两次都不足',
+                desc: '两次分配都不够',
+                inputs: [
+                    { id: 'perMore', label: '📦 第一次每人分几个', placeholder: '如：8', value: 8 },
+                    { id: 'deficit1', label: '❌ 不足几个', placeholder: '如：10', value: 10 },
+                    { id: 'perLess', label: '📦 第二次每人分几个', placeholder: '如：6', value: 6 },
+                    { id: 'deficit2', label: '❌ 不足几个', placeholder: '如：2', value: 2 }
+                ]
+            }
+        };
+        
+        function selectType(type) {
+            currentType = type;
+            document.querySelectorAll('.type-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.closest('.type-btn').classList.add('active');
+            renderInputs();
+            resetVisualization();
+        }
+        
+        function renderInputs() {
+            const config = problemConfigs[currentType];
+            document.getElementById('inputGroup').innerHTML = config.inputs.map(input => `
+                <div class="input-item">
+                    <label class="input-label">${input.label}</label>
+                    <input type="number" id="${input.id}" placeholder="${input.placeholder}" value="${input.value}" min="1">
+                </div>
+            `).join('');
+        }
+        
+        function resetVisualization() {
+            document.getElementById('peopleCount').textContent = '?';
+            document.getElementById('itemCount').textContent = '?';
+            document.getElementById('problemDesc').textContent = problemConfigs[currentType].desc;
+            document.getElementById('problemText').innerHTML = `
+                <i class="fas fa-question-circle"></i>
+                <span>请设置题目条件，然后点击"开始计算"</span>
+            `;
+            document.getElementById('distributionVisual').innerHTML = '';
+            document.getElementById('steps').innerHTML = `
+                <div class="empty-steps">
+                    <i class="fas fa-info-circle"></i>
+                    <p>请设置题目条件<br>然后点击"开始计算"</p>
+                </div>
+            `;
+            stepsData = [];
+            currentStep = 0;
+            maxReachedStep = 0;
+            document.getElementById('step-counter').textContent = '0';
+            document.getElementById('total-steps').textContent = '0';
+            document.getElementById('prevBtn').disabled = true;
+            document.getElementById('nextBtn').disabled = true;
+        }
+        
+        function generateProblemText() {
+            let text = '';
+            if (currentType === 'surplus_deficit') {
+                const perMore = document.getElementById('perMore').value;
+                const surplus = document.getElementById('surplus').value;
+                const perLess = document.getElementById('perLess').value;
+                const deficit = document.getElementById('deficit').value;
+                text = `分苹果给小朋友，每人分 <span class="question">${perMore}</span> 个，剩 <span class="question">${surplus}</span> 个；每人分 <span class="question">${perLess}</span> 个，差 <span class="question">${deficit}</span> 个。<br>问：有多少小朋友？多少个苹果？`;
+            } else if (currentType === 'both_surplus') {
+                const perMore = document.getElementById('perMore').value;
+                const surplus1 = document.getElementById('surplus1').value;
+                const perLess = document.getElementById('perLess').value;
+                const surplus2 = document.getElementById('surplus2').value;
+                text = `分苹果给小朋友，每人分 <span class="question">${perMore}</span> 个，剩 <span class="question">${surplus1}</span> 个；每人分 <span class="question">${perLess}</span> 个，剩 <span class="question">${surplus2}</span> 个。<br>问：有多少小朋友？多少个苹果？`;
+            } else if (currentType === 'both_deficit') {
+                const perMore = document.getElementById('perMore').value;
+                const deficit1 = document.getElementById('deficit1').value;
+                const perLess = document.getElementById('perLess').value;
+                const deficit2 = document.getElementById('deficit2').value;
+                text = `分苹果给小朋友，每人分 <span class="question">${perMore}</span> 个，差 <span class="question">${deficit1}</span> 个；每人分 <span class="question">${perLess}</span> 个，差 <span class="question">${deficit2}</span> 个。<br>问：有多少小朋友？多少个苹果？`;
+            }
+            return text;
+        }
+        
+        function updateVisualization(people, items, showDistribution = false) {
+            document.getElementById('peopleCount').textContent = people !== null ? people : '?';
+            document.getElementById('itemCount').textContent = items !== null ? items : '?';
+            
+            if (showDistribution && people && items) {
+                updateDistributionVisual(people, items);
+            }
+        }
+        
+        function updateDistributionVisual(people, items) {
+            const perMore = parseInt(document.getElementById('perMore').value);
+            let perLess, surplus, deficit, surplus1, surplus2, deficit1, deficit2;
+            
+            if (currentType === 'surplus_deficit') {
+                perLess = parseInt(document.getElementById('perLess').value);
+                surplus = parseInt(document.getElementById('surplus').value);
+                deficit = parseInt(document.getElementById('deficit').value);
+            } else if (currentType === 'both_surplus') {
+                perLess = parseInt(document.getElementById('perLess').value);
+                surplus1 = parseInt(document.getElementById('surplus1').value);
+                surplus2 = parseInt(document.getElementById('surplus2').value);
+            } else {
+                perLess = parseInt(document.getElementById('perLess').value);
+                deficit1 = parseInt(document.getElementById('deficit1').value);
+                deficit2 = parseInt(document.getElementById('deficit2').value);
+            }
+            
+            let html = '';
+            
+            // 第一次分配
+            html += `<div class="distribution-row">
+                <div class="distribution-title">
+                    <span>📦 第一次分配：每人 ${perMore} 个</span>`;
+            
+            if (currentType === 'surplus_deficit') {
+                html += `<span class="result-badge surplus">✅ 剩余 ${surplus} 个</span>`;
+            } else if (currentType === 'both_surplus') {
+                html += `<span class="result-badge surplus">✅ 剩余 ${surplus1} 个</span>`;
+            } else {
+                html += `<span class="result-badge deficit">❌ 不足 ${deficit1} 个</span>`;
+            }
+            
+            html += `</div><div class="items-container">`;
+            const displayPeople = Math.min(people, 8);
+            for (let i = 0; i < displayPeople; i++) {
+                html += `<div class="person-item"><div class="person-icon">👦</div><div class="person-items">${perMore}个</div></div>`;
+            }
+            if (people > 8) {
+                html += `<div class="person-item"><div class="person-icon">...</div><div class="person-items">共${people}人</div></div>`;
+            }
+            html += `</div></div>`;
+            
+            // 第二次分配
+            html += `<div class="distribution-row">
+                <div class="distribution-title">
+                    <span>📦 第二次分配：每人 ${perLess} 个</span>`;
+            
+            if (currentType === 'surplus_deficit') {
+                html += `<span class="result-badge deficit">❌ 不足 ${deficit} 个</span>`;
+            } else if (currentType === 'both_surplus') {
+                html += `<span class="result-badge surplus">✅ 剩余 ${surplus2} 个</span>`;
+            } else {
+                html += `<span class="result-badge deficit">❌ 不足 ${deficit2} 个</span>`;
+            }
+            
+            html += `</div><div class="items-container">`;
+            for (let i = 0; i < displayPeople; i++) {
+                html += `<div class="person-item"><div class="person-icon">👦</div><div class="person-items">${perLess}个</div></div>`;
+            }
+            if (people > 8) {
+                html += `<div class="person-item"><div class="person-icon">...</div><div class="person-items">共${people}人</div></div>`;
+            }
+            html += `</div></div>`;
+            
+            document.getElementById('distributionVisual').innerHTML = html;
+        }
+        
+        function createStep(text, stepNum, people, items, showDist) {
+            const step = document.createElement('div');
+            step.className = 'step';
+            step.innerHTML = `
+                <div class="step-header">
+                    <div class="step-number">${stepNum + 1}</div>
+                    <div class="step-title">${text.replace(/(\d+)/g, '<span class="highlight">$1</span>')}</div>
+                </div>
+            `;
+            step.dataset.people = people;
+            step.dataset.items = items;
+            step.dataset.showDist = showDist;
+            return step;
+        }
+        
+        function generateSteps() {
+            const steps = [];
+            let people, items;
+            
+            if (currentType === 'surplus_deficit') {
+                const perMore = parseInt(document.getElementById('perMore').value);
+                const surplus = parseInt(document.getElementById('surplus').value);
+                const perLess = parseInt(document.getElementById('perLess').value);
+                const deficit = parseInt(document.getElementById('deficit').value);
+                
+                if (!perMore || !surplus || !perLess || !deficit || perMore <= perLess) {
+                    alert('请输入正确的数值：第一次每人分的数量应大于第二次');
+                    return null;
+                }
+                
+                const diffPerPerson = perMore - perLess;
+                const totalDiff = surplus + deficit;
+                people = totalDiff / diffPerPerson;
+                items = perMore * people + surplus;
+                
+                if (people % 1 !== 0 || people <= 0) {
+                    alert('请确保输入的数值能得出正整数结果');
+                    return null;
+                }
+                
+                result = { people, items };
+                
+                steps.push(
+                    [`题目分析：每人分 ${perMore} 个剩余 ${surplus} 个，每人分 ${perLess} 个不足 ${deficit} 个`, null, null, false],
+                    [`核心思想：每人少分一些，省出的物品 = 不用剩的 + 补上差的`, null, null, false],
+                    [`每人少分：${perMore} - ${perLess} = ${diffPerPerson} 个`, null, null, false],
+                    [`省出物品：剩余 ${surplus} 个不用剩 + 不足 ${deficit} 个被补上 = ${totalDiff} 个`, null, null, false],
+                    [`求人数：省出物品 ÷ 每人少分 = ${totalDiff} ÷ ${diffPerPerson} = ${people} 人`, people, null, false],
+                    [`求物品数：每人 ${perMore} 个 × ${people} 人 + 剩余 ${surplus} 个 = ${items} 个`, people, items, true],
+                    [`验证第一次：${perMore} × ${people} + ${surplus} = ${perMore * people + surplus} 个 = 总数 ${items} 个 ✓`, people, items, true],
+                    [`验证第二次：${perLess} × ${people} + ${deficit} = ${perLess * people + deficit} 个 = 总数 ${items} 个 ✓`, people, items, true]
+                );
+                
+            } else if (currentType === 'both_surplus') {
+                const perMore = parseInt(document.getElementById('perMore').value);
+                const surplus1 = parseInt(document.getElementById('surplus1').value);
+                const perLess = parseInt(document.getElementById('perLess').value);
+                const surplus2 = parseInt(document.getElementById('surplus2').value);
+                
+                if (!perMore || !surplus1 || !perLess || !surplus2 || perMore <= perLess || surplus2 <= surplus1) {
+                    alert('请输入正确的数值：第一次分的多剩的少，第二次分的少剩的多');
+                    return null;
+                }
+                
+                const diffPerPerson = perMore - perLess;
+                const surplusDiff = surplus2 - surplus1;
+                people = surplusDiff / diffPerPerson;
+                items = perMore * people + surplus1;
+                
+                if (people % 1 !== 0 || people <= 0) {
+                    alert('请确保输入的数值能得出正整数结果');
+                    return null;
+                }
+                
+                result = { people, items };
+                
+                steps.push(
+                    [`题目分析：每人分 ${perMore} 个剩 ${surplus1} 个，每人分 ${perLess} 个剩 ${surplus2} 个`, null, null, false],
+                    [`核心思想：每人少分一些，省出的物品都变成剩余`, null, null, false],
+                    [`每人少分：${perMore} - ${perLess} = ${diffPerPerson} 个`, null, null, false],
+                    [`多剩物品：${surplus2} - ${surplus1} = ${surplusDiff} 个`, null, null, false],
+                    [`求人数：多剩物品 ÷ 每人少分 = ${surplusDiff} ÷ ${diffPerPerson} = ${people} 人`, people, null, false],
+                    [`求物品数：${perMore} × ${people} + ${surplus1} = ${items} 个`, people, items, true],
+                    [`验证第一次：${perMore} × ${people} = ${perMore * people}，剩 ${items} - ${perMore * people} = ${surplus1} 个 ✓`, people, items, true],
+                    [`验证第二次：${perLess} × ${people} = ${perLess * people}，剩 ${items} - ${perLess * people} = ${surplus2} 个 ✓`, people, items, true]
+                );
+                
+            } else {
+                const perMore = parseInt(document.getElementById('perMore').value);
+                const deficit1 = parseInt(document.getElementById('deficit1').value);
+                const perLess = parseInt(document.getElementById('perLess').value);
+                const deficit2 = parseInt(document.getElementById('deficit2').value);
+                
+                if (!perMore || !deficit1 || !perLess || !deficit2 || perMore <= perLess || deficit1 <= deficit2) {
+                    alert('请输入正确的数值：第一次分的多差的多，第二次分的少差的少');
+                    return null;
+                }
+                
+                const diffPerPerson = perMore - perLess;
+                const deficitDiff = deficit1 - deficit2;
+                people = deficitDiff / diffPerPerson;
+                items = perMore * people - deficit1;
+                
+                if (people % 1 !== 0 || people <= 0 || items <= 0) {
+                    alert('请确保输入的数值能得出正整数结果');
+                    return null;
+                }
+                
+                result = { people, items };
+                
+                steps.push(
+                    [`题目分析：每人分 ${perMore} 个差 ${deficit1} 个，每人分 ${perLess} 个差 ${deficit2} 个`, null, null, false],
+                    [`核心思想：每人少分一些，省出的物品用来减少不足`, null, null, false],
+                    [`每人少分：${perMore} - ${perLess} = ${diffPerPerson} 个`, null, null, false],
+                    [`少差物品：${deficit1} - ${deficit2} = ${deficitDiff} 个`, null, null, false],
+                    [`求人数：少差物品 ÷ 每人少分 = ${deficitDiff} ÷ ${diffPerPerson} = ${people} 人`, people, null, false],
+                    [`求物品数：${perMore} × ${people} - ${deficit1} = ${items} 个`, people, items, true],
+                    [`验证第一次：${perMore} × ${people} = ${perMore * people}，差 ${perMore * people} - ${items} = ${deficit1} 个 ✓`, people, items, true],
+                    [`验证第二次：${perLess} × ${people} = ${perLess * people}，差 ${perLess * people} - ${items} = ${deficit2} 个 ✓`, people, items, true]
+                );
+            }
+            
+            return steps;
+        }
+        
+        function updateStepVisibility() {
+            stepsData.forEach((step, index) => {
+                step.classList.toggle('visible', index <= maxReachedStep);
+                step.classList.toggle('active', index === currentStep);
+            });
+        }
+        
+        function showStep(stepIndex) {
+            currentStep = stepIndex;
+            if (stepIndex > maxReachedStep) {
+                maxReachedStep = stepIndex;
+            }
+            
+            document.getElementById('step-counter').textContent = stepIndex + 1;
+            document.getElementById('prevBtn').disabled = stepIndex <= 0;
+            document.getElementById('nextBtn').disabled = stepIndex >= stepsData.length - 1;
+            
+            updateStepVisibility();
+            
+            const currentData = stepsData[stepIndex].dataset;
+            updateVisualization(
+                currentData.people !== 'null' ? parseInt(currentData.people) : null,
+                currentData.items !== 'null' ? parseInt(currentData.items) : null,
+                currentData.showDist === 'true'
+            );
+        }
+        
+        function nextStep() { 
+            if(currentStep < stepsData.length - 1) showStep(currentStep + 1); 
+        }
+        
+        function prevStep() { 
+            if(currentStep > 0) showStep(currentStep - 1); 
+        }
+        
+        function showAllSteps() {
+            if (stepsData.length === 0) {
+                startCalculation();
+            }
+            if (stepsData.length > 0) {
+                maxReachedStep = stepsData.length - 1;
+                showStep(stepsData.length - 1);
+            }
+        }
+        
+        function startCalculation() {
+            const steps = generateSteps();
+            if (!steps) return;
+            
+            document.getElementById('problemText').innerHTML = `<i class="fas fa-book"></i> ${generateProblemText()}`;
+            
+            const stepContainer = document.getElementById('steps');
+            stepContainer.innerHTML = '';
+            stepsData = [];
+            maxReachedStep = 0;
+            
+            steps.forEach(([text, people, items, showDist], index) => {
+                const step = createStep(text, index, people, items, showDist);
+                stepsData.push(step);
+                stepContainer.appendChild(step);
+            });
+            
+            document.getElementById('total-steps').textContent = stepsData.length;
+            currentStep = 0;
+            showStep(currentStep);
+        }
+        
+        window.onload = function() {
+            renderInputs();
+            resetVisualization();
+        };
+    </script>
+</body>
+</html>

@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no" />    
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="Expires" content="0">
+    <link rel="Shortcut Icon" href="https://cdn.bihe0832.com/images/zixie_32.ico" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="author" CONTENT="子勰(bihe0832), code@bihe0832.com" />
+    <meta name="keywords" content="子勰,bihe0832,工具咩" />
+    <meta name="description" content="皮卡丘学数学之鸽巢原理分步解答" />
+    <meta property="og:title" content="皮卡丘学数学之鸽巢原理分步解答" />
+    <meta property="og:locale" content="en_US" />
+    <title>皮卡丘学数学 - 鸽巢原理</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Microsoft YaHei', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #e74c3c, #f39c12);
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+            margin: 20px 0;
+            padding: 20px;
+        }
+        header {
+            background: linear-gradient(90deg, #e74c3c, #c0392b);
+            color: white;
+            padding: 20px 30px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        header h2 {
+            font-size: 2rem;
+            margin: 10px 0;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+        }
+        header p {
+            font-size: 1rem;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
+        
+        .main-content {
+            display: flex;
+            gap: 20px;
+            min-height: 500px;
+        }
+        
+        .left-panel {
+            width: 300px;
+            flex-shrink: 0;
+            background: #fff5f5;
+            border-radius: 15px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .panel-title {
+            font-size: 1.1rem;
+            color: #c0392b;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 3px solid #e74c3c;
+            display: flex;
+            align-items: center;
+        }
+        .panel-title i {
+            margin-right: 10px;
+            font-size: 1.2rem;
+            color: #e74c3c;
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        .input-item {
+            margin-bottom: 15px;
+        }
+        .input-label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #c0392b;
+            font-size: 0.95rem;
+        }
+        input, select {
+            padding: 12px 15px;
+            width: 100%;
+            border: 2px solid #e74c3c;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        input:focus, select:focus {
+            outline: none;
+            border-color: #c0392b;
+            box-shadow: 0 0 10px rgba(231, 76, 60, 0.3);
+        }
+        
+        .start-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(45deg, #27ae60, #2ecc71);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: bold;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
+            margin-top: auto;
+        }
+        .start-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(39, 174, 96, 0.4);
+        }
+        
+        /* 中间可视化区域 */
+        .center-panel {
+            flex: 1;
+            min-width: 400px;
+            background: #fff9f5;
+            border-radius: 15px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .problem-display {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            padding: 15px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+        
+        .problem-display .highlight {
+            background: rgba(255,255,255,0.2);
+            padding: 2px 8px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        
+        /* 抽屉可视化 */
+        .drawer-visualization {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .drawers-container {
+            display: flex;
+            gap: 15px 15px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 40px;
+            row-gap: 35px;
+        }
+        
+        .drawer {
+            width: 100px;
+            min-height: 100px;
+            background: linear-gradient(180deg, #8b4513, #654321);
+            border-radius: 8px 8px 0 0;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+        }
+        
+        .drawer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 8px;
+            background: linear-gradient(180deg, #a0522d, #8b4513);
+            border-radius: 5px 5px 0 0;
+        }
+        
+        .drawer-label {
+            position: absolute;
+            bottom: -25px;
+            font-size: 0.8rem;
+            color: #654321;
+            font-weight: bold;
+        }
+        
+        .items-in-drawer {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 3px;
+            justify-content: center;
+            padding: 5px;
+        }
+        
+        .item {
+            width: 28px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            animation: dropIn 0.3s ease-out;
+        }
+        
+        .item .pigeon {
+            font-size: 18px;
+        }
+        
+        .item .item-number {
+            font-size: 10px;
+            color: #654321;
+            font-weight: bold;
+            margin-top: -2px;
+        }
+        
+        @keyframes dropIn {
+            from {
+                transform: translateY(-30px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+        
+        .items-waiting {
+            display: flex;
+            flex-direction: row;
+            gap: 5px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 20px;
+            min-height: 40px;
+            padding: 10px;
+            background: rgba(231, 76, 60, 0.1);
+            border-radius: 10px;
+        }
+        
+        .answer-cards {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+        
+        .answer-card {
+            background: white;
+            border-radius: 15px;
+            padding: 15px 25px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            border: 3px solid #e74c3c;
+        }
+        
+        .answer-card .answer-icon {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+        }
+        
+        .answer-card .answer-label {
+            color: #666;
+            font-size: 0.85rem;
+            margin-bottom: 5px;
+        }
+        
+        .answer-card .answer-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #e74c3c;
+        }
+        
+        /* 右侧步骤面板 */
+        .right-panel {
+            width: 380px;
+            flex-shrink: 0;
+            background: #fff5f5;
+            border-radius: 15px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            max-height: 600px;
+        }
+        
+        .steps-container {
+            flex: 1;
+            overflow-y: auto;
+            max-height: 480px;
+            padding-right: 5px;
+        }
+        
+        .steps-container::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .steps-container::-webkit-scrollbar-track {
+            background: #ffe0e0;
+            border-radius: 3px;
+        }
+        
+        .steps-container::-webkit-scrollbar-thumb {
+            background: #e74c3c;
+            border-radius: 3px;
+        }
+        
+        .step-item {
+            background: white;
+            border-radius: 12px;
+            padding: 12px;
+            margin-bottom: 10px;
+            border-left: 4px solid #ddd;
+            opacity: 0.5;
+            transform: translateX(20px);
+            transition: all 0.3s;
+        }
+        
+        .step-item.visible {
+            opacity: 1;
+            transform: translateX(0);
+            border-left-color: #e74c3c;
+        }
+        
+        .step-item.active {
+            background: linear-gradient(135deg, #fff5f5, #ffe8e8);
+            border-left-color: #27ae60;
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.2);
+        }
+        
+        .step-number {
+            display: inline-block;
+            width: 26px;
+            height: 26px;
+            background: #e74c3c;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 26px;
+            font-weight: bold;
+            margin-right: 10px;
+            font-size: 0.85rem;
+        }
+        
+        .step-content {
+            display: inline;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .nav-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .nav-btn.prev {
+            background: linear-gradient(45deg, #95a5a6, #7f8c8d);
+            color: white;
+        }
+        
+        .nav-btn.next {
+            background: linear-gradient(45deg, #e74c3c, #c0392b);
+            color: white;
+        }
+        
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        /* 公式卡片 */
+        .formula-card {
+            background: linear-gradient(135deg, #fff3cd, #ffeeba);
+            border: 2px solid #f39c12;
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .formula-card .formula-title {
+            font-size: 0.9rem;
+            color: #856404;
+            margin-bottom: 8px;
+        }
+        
+        .formula-card .formula {
+            font-size: 1rem;
+            font-weight: bold;
+            color: #856404;
+            margin: 5px 0;
+        }
+        
+        /* 响应式 */
+        @media (max-width: 1200px) {
+            .main-content {
+                flex-direction: column;
+            }
+            .left-panel, .right-panel {
+                width: 100%;
+            }
+            .center-panel {
+                min-width: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h2>⚡ 皮卡丘学数学 - 鸽巢原理 🕊️</h2>
+            <p>n+1 只鸽子飞入 n 个鸽巢，至少有一个鸽巢住了 2 只以上<br>
+            又叫"抽屉原理"：n+1 个物品放入 n 个抽屉</p>
+        </header>
+        
+        <div class="main-content">
+            <!-- 左侧控制面板 -->
+            <div class="left-panel">
+                <div class="panel-title">
+                    <i class="fas fa-cog"></i> 题目设置
+                </div>
+                
+                <div class="input-group">
+                    <div class="input-item">
+                        <label class="input-label">🕊️ 鸽子数量（物品）</label>
+                        <input type="number" id="itemCount" value="5" min="1" max="100" placeholder="鸽子数">
+                    </div>
+                    <div class="input-item">
+                        <label class="input-label">🏠 鸽巢数量（抽屉）</label>
+                        <input type="number" id="drawerCount" value="2" min="1" max="20" placeholder="鸽巢数">
+                    </div>
+                </div>
+                
+                <div class="formula-card">
+                    <div class="formula-title">📐 核心公式</div>
+                    <div class="formula">至少 = ⌊(m-1)/n⌋ + 1</div>
+                    <div class="formula">最多 = m - n + 1</div>
+                </div>
+                
+                <button class="start-btn" onclick="startCalculation()">
+                    <i class="fas fa-play"></i> 开始演示
+                </button>
+            </div>
+            
+            <!-- 中间可视化区域 -->
+            <div class="center-panel">
+                <div class="panel-title">
+                    <i class="fas fa-question-circle"></i> 题目
+                </div>
+                <div class="problem-display" id="problemDisplay">
+                    <span class="highlight">5</span> 只鸽子飞入 <span class="highlight">2</span> 个鸽巢，每个里都要飞入，不管怎么飞，<br>
+                    总有一个鸽巢至少有几只？最多可能有几只？
+                </div>
+                
+                <div class="panel-title">
+                    <i class="fas fa-eye"></i> 可视化演示
+                </div>
+                
+                <div class="drawer-visualization">
+                    <div class="items-waiting" id="itemsWaiting">
+                        <!-- 等待放入的物品 -->
+                    </div>
+                    
+                    <div class="drawers-container" id="drawersContainer">
+                        <!-- 抽屉 -->
+                    </div>
+                </div>
+                
+                <div class="answer-cards">
+                    <div class="answer-card">
+                        <div class="answer-icon">🕊️</div>
+                        <div class="answer-label">鸽子数</div>
+                        <div class="answer-value" id="answerItems">5</div>
+                    </div>
+                    <div class="answer-card">
+                        <div class="answer-icon">🏠</div>
+                        <div class="answer-label">鸽巢数</div>
+                        <div class="answer-value" id="answerDrawers">2</div>
+                    </div>
+                    <div class="answer-card">
+                        <div class="answer-icon">📉</div>
+                        <div class="answer-label">至少有</div>
+                        <div class="answer-value" id="answerMin">?</div>
+                    </div>
+                    <div class="answer-card">
+                        <div class="answer-icon">📈</div>
+                        <div class="answer-label">最多有</div>
+                        <div class="answer-value" id="answerMax">?</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 右侧步骤面板 -->
+            <div class="right-panel">
+                <div class="panel-title">
+                    <i class="fas fa-shoe-prints"></i> 解题步骤
+                </div>
+                
+                <div class="steps-container" id="stepsContainer">
+                    <div class="step-item">
+                        <span class="step-number">1</span>
+                        <span class="step-content">点击"开始演示"查看详细步骤</span>
+                    </div>
+                </div>
+                
+                <div class="nav-buttons">
+                    <button class="nav-btn prev" onclick="prevStep()" id="prevBtn" disabled>
+                        <i class="fas fa-arrow-left"></i> 上一步
+                    </button>
+                    <button class="nav-btn next" onclick="nextStep()" id="nextBtn" disabled>
+                        下一步 <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let stepsData = [];
+        let currentStep = 0;
+        let maxReachedStep = 0;
+        let animationTimer = null;
+        
+        // 颜色数组（鸽子颜色）
+        const colors = ['#e74c3c', '#3498db', '#2ecc71', '#f39c12', '#9b59b6', '#1abc9c', '#e67e22', '#34495e'];
+        
+        // 更新题目文本
+        function updateProblemText() {
+            const n = parseInt(document.getElementById('drawerCount').value) || 2;
+            const m = parseInt(document.getElementById('itemCount').value) || 5;
+            
+            document.getElementById('problemDisplay').innerHTML = 
+                `<span class="highlight">${m}</span> 只鸽子飞入 <span class="highlight">${n}</span> 个鸽巢，每个里都要飞入，不管怎么飞，<br>
+                总有一个鸽巢至少有几只？最多可能有几只？`;
+            document.getElementById('answerItems').textContent = m;
+            document.getElementById('answerDrawers').textContent = n;
+        }
+        
+        // 初始化鸽巢显示
+        function initDrawers(n) {
+            const container = document.getElementById('drawersContainer');
+            container.innerHTML = '';
+            
+            for (let i = 0; i < n; i++) {
+                const drawer = document.createElement('div');
+                drawer.className = 'drawer';
+                drawer.id = `drawer-${i}`;
+                drawer.innerHTML = `
+                    <div class="items-in-drawer" id="items-${i}"></div>
+                    <span class="drawer-label">鸽巢${i + 1}</span>
+                `;
+                container.appendChild(drawer);
+            }
+        }
+        
+        // 初始化等待区物品（鸽子）
+        function initItems(m) {
+            const container = document.getElementById('itemsWaiting');
+            container.innerHTML = '';
+            
+            for (let i = 0; i < m; i++) {
+                const item = document.createElement('div');
+                item.className = 'item';
+                item.id = `item-${i}`;
+                item.innerHTML = `
+                    <span class="pigeon">🕊️</span>
+                    <span class="item-number">${i + 1}</span>
+                `;
+                container.appendChild(item);
+            }
+        }
+        
+        // 开始计算
+        function startCalculation() {
+            const n = parseInt(document.getElementById('drawerCount').value);
+            const m = parseInt(document.getElementById('itemCount').value);
+            
+            if (n < 1 || n > 20) {
+                alert('鸽巢数量请输入1-20之间的数');
+                return;
+            }
+            
+            if (m < 1 || m > 100) {
+                alert('鸽子数量请输入1-100之间的数');
+                return;
+            }
+            
+            if (m < n) {
+                alert('鸽子数量应该大于等于鸽巢数量');
+                return;
+            }
+            
+            calculate(n, m);
+        }
+        
+        // 计算"至少"和"最多"
+        function calculate(n, m) {
+            initDrawers(n);
+            initItems(m);
+            
+            // 至少有几只：用鸽巢原理公式
+            const minResult = Math.floor((m - 1) / n) + 1;
+            // 最多有几只：其他鸽巢都只住1只，剩下的都住一个鸽巢
+            const maxResult = m - n + 1;
+            
+            const quotient = Math.floor((m - 1) / n);
+            const evenCount = Math.floor(m / n);
+            const remainder = m % n;
+            
+            const steps = [];
+            
+            // 第一部分：求至少
+            steps.push({
+                text: `<strong>【问题一】至少有几只？</strong>`,
+                action: null
+            });
+            
+            steps.push({
+                text: `<strong>鸽巢原理</strong>：把 m 只鸽子放入 n 个鸽巢，至少有一个鸽巢有 ⌊(m-1)/n⌋+1 只鸽子`,
+                action: null
+            });
+            
+            steps.push({
+                text: `已知：鸽子数 m = <strong>${m}</strong>，鸽巢数 n = <strong>${n}</strong>`,
+                action: null
+            });
+            
+            steps.push({
+                text: `<strong>最坏情况思考</strong>：先尽量"平均分配"，让每个鸽巢的鸽子尽量少`,
+                action: 'distribute_even'
+            });
+            
+            steps.push({
+                text: `平均分：${m} ÷ ${n} = ${evenCount} ... ${remainder}（商${evenCount}，余${remainder}）`,
+                action: null
+            });
+            
+            if (remainder === 0) {
+                steps.push({
+                    text: `刚好平均分配，每个鸽巢 ${evenCount} 只`,
+                    action: null
+                });
+            } else {
+                steps.push({
+                    text: `不能平均分，${remainder} 个鸽巢会多住 1 只`,
+                    action: null
+                });
+            }
+            
+            steps.push({
+                text: `<strong>公式计算</strong>：⌊(${m}-1)/${n}⌋ + 1 = ⌊${m-1}/${n}⌋ + 1 = ${quotient} + 1 = <strong>${minResult}</strong>`,
+                action: null
+            });
+            
+            steps.push({
+                text: `<span style="color:#27ae60;font-size:1.05rem"><strong>✓ 答案1：至少有一个鸽巢有 ${minResult} 只鸽子</strong></span>`,
+                action: 'show_min'
+            });
+            
+            // 第二部分：求最多
+            steps.push({
+                text: `<strong>【问题二】最多可能有几只？</strong>`,
+                action: null
+            });
+            
+            steps.push({
+                text: `<strong>极端情况思考</strong>：把鸽子尽量集中到一个鸽巢`,
+                action: null
+            });
+            
+            steps.push({
+                text: `其他 ${n-1} 个鸽巢各住 1 只（保证每个鸽巢都有鸽子）`,
+                action: 'distribute_max'
+            });
+            
+            steps.push({
+                text: `剩下的鸽子数：${m} - ${n-1} = <strong>${m - (n-1)}</strong> 只`,
+                action: null
+            });
+            
+            steps.push({
+                text: `<strong>公式计算</strong>：最多 = m - (n-1) = m - n + 1 = ${m} - ${n} + 1 = <strong>${maxResult}</strong>`,
+                action: null
+            });
+            
+            steps.push({
+                text: `<span style="color:#e74c3c;font-size:1.05rem"><strong>✓ 答案2：最多可能有 ${maxResult} 只鸽子</strong></span>`,
+                action: 'show_max'
+            });
+            
+            steps.push({
+                text: `<span style="color:#3498db;font-size:1.05rem"><strong>📝 完整答案：至少 ${minResult} 只，最多 ${maxResult} 只</strong></span>`,
+                action: 'show_all'
+            });
+            
+            displaySteps(steps, { min: minResult, max: maxResult, n: n, m: m });
+        }
+        
+        // 显示步骤
+        function displaySteps(steps, results) {
+            const container = document.getElementById('stepsContainer');
+            container.innerHTML = '';
+            stepsData = [];
+            
+            steps.forEach((step, index) => {
+                const stepEl = document.createElement('div');
+                stepEl.className = 'step-item';
+                stepEl.innerHTML = `
+                    <span class="step-number">${index + 1}</span>
+                    <span class="step-content">${step.text}</span>
+                `;
+                stepEl.dataset.action = step.action || '';
+                stepEl.dataset.min = results.min;
+                stepEl.dataset.max = results.max;
+                stepEl.dataset.n = results.n;
+                stepEl.dataset.m = results.m;
+                container.appendChild(stepEl);
+                stepsData.push(stepEl);
+            });
+            
+            currentStep = 0;
+            maxReachedStep = 0;
+            document.getElementById('answerMin').textContent = '?';
+            document.getElementById('answerMax').textContent = '?';
+            updateStepVisibility();
+            updateButtons();
+        }
+        
+        // 执行动画
+        function executeAction(action, data) {
+            if (animationTimer) {
+                clearTimeout(animationTimer);
+            }
+            
+            const n = parseInt(data.n);
+            const m = parseInt(data.m);
+            
+            if (action === 'distribute_even') {
+                // 清空鸽巢
+                for (let i = 0; i < n; i++) {
+                    document.getElementById(`items-${i}`).innerHTML = '';
+                }
+                
+                // 重新初始化等待区
+                initItems(m);
+                
+                // 平均分配动画
+                let itemIndex = 0;
+                let drawerIndex = 0;
+                
+                function placeNext() {
+                    if (itemIndex >= m) return;
+                    
+                    const item = document.getElementById(`item-${itemIndex}`);
+                    if (item) {
+                        const targetDrawer = document.getElementById(`items-${drawerIndex}`);
+                        item.style.animation = 'none';
+                        item.offsetHeight;
+                        item.style.animation = 'dropIn 0.3s ease-out';
+                        targetDrawer.appendChild(item);
+                    }
+                    
+                    itemIndex++;
+                    drawerIndex = (drawerIndex + 1) % n;
+                    
+                    if (itemIndex < m) {
+                        animationTimer = setTimeout(placeNext, 200);
+                    }
+                }
+                
+                placeNext();
+            }
+            
+            if (action === 'distribute_max') {
+                // 清空鸽巢
+                for (let i = 0; i < n; i++) {
+                    document.getElementById(`items-${i}`).innerHTML = '';
+                }
+                
+                // 重新初始化等待区
+                initItems(m);
+                
+                // 极端分配：第一个鸽巢住最多，其他各住1只
+                let itemIndex = 0;
+                const maxInFirst = m - (n - 1);
+                
+                function placeMax() {
+                    if (itemIndex >= m) return;
+                    
+                    const item = document.getElementById(`item-${itemIndex}`);
+                    if (item) {
+                        let targetIndex;
+                        if (itemIndex < maxInFirst) {
+                            targetIndex = 0; // 前面的都住第一个鸽巢
+                        } else {
+                            targetIndex = itemIndex - maxInFirst + 1; // 后面的各住一个
+                        }
+                        
+                        const targetDrawer = document.getElementById(`items-${targetIndex}`);
+                        item.style.animation = 'none';
+                        item.offsetHeight;
+                        item.style.animation = 'dropIn 0.3s ease-out';
+                        targetDrawer.appendChild(item);
+                    }
+                    
+                    itemIndex++;
+                    
+                    if (itemIndex < m) {
+                        animationTimer = setTimeout(placeMax, 200);
+                    }
+                }
+                
+                placeMax();
+            }
+            
+            if (action === 'show_min') {
+                document.getElementById('answerMin').textContent = data.min;
+            }
+            
+            if (action === 'show_max') {
+                document.getElementById('answerMax').textContent = data.max;
+            }
+            
+            if (action === 'show_all') {
+                document.getElementById('answerMin').textContent = data.min;
+                document.getElementById('answerMax').textContent = data.max;
+            }
+        }
+        
+        // 更新步骤可见性（不执行动画）
+        function updateStepVisibility() {
+            stepsData.forEach((step, index) => {
+                step.classList.toggle('visible', index <= maxReachedStep);
+                step.classList.toggle('active', index === currentStep);
+            });
+            
+            // 自动滚动到当前步骤
+            if (stepsData[currentStep]) {
+                stepsData[currentStep].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        }
+        
+        // 执行当前步骤的动画
+        function executeCurrentStepAction() {
+            const currentStepEl = stepsData[currentStep];
+            if (currentStepEl) {
+                const action = currentStepEl.dataset.action;
+                if (action) {
+                    executeAction(action, {
+                        min: currentStepEl.dataset.min,
+                        max: currentStepEl.dataset.max,
+                        n: currentStepEl.dataset.n,
+                        m: currentStepEl.dataset.m
+                    });
+                }
+            }
+        }
+        
+        // 更新按钮状态
+        function updateButtons() {
+            document.getElementById('prevBtn').disabled = currentStep === 0;
+            document.getElementById('nextBtn').disabled = currentStep >= stepsData.length - 1;
+        }
+        
+        // 上一步
+        function prevStep() {
+            if (currentStep > 0) {
+                currentStep--;
+                updateStepVisibility();
+                updateButtons();
+            }
+        }
+        
+        // 下一步
+        function nextStep() {
+            if (currentStep < stepsData.length - 1) {
+                currentStep++;
+                if (currentStep > maxReachedStep) {
+                    maxReachedStep = currentStep;
+                }
+                updateStepVisibility();
+                updateButtons();
+                // 只在前进时执行动画
+                executeCurrentStepAction();
+            }
+        }
+        
+        // 重置演示状态
+        function resetDemo() {
+            const n = parseInt(document.getElementById('drawerCount').value) || 2;
+            const m = parseInt(document.getElementById('itemCount').value) || 5;
+            
+            // 停止动画
+            if (animationTimer) {
+                clearTimeout(animationTimer);
+                animationTimer = null;
+            }
+            
+            // 重置步骤
+            stepsData = [];
+            currentStep = 0;
+            maxReachedStep = 0;
+            
+            // 重置步骤容器
+            const container = document.getElementById('stepsContainer');
+            container.innerHTML = `
+                <div class="step-item">
+                    <span class="step-number">1</span>
+                    <span class="step-content">点击"开始演示"查看详细步骤</span>
+                </div>
+            `;
+            
+            // 重置答案
+            document.getElementById('answerMin').textContent = '?';
+            document.getElementById('answerMax').textContent = '?';
+            
+            // 重置按钮
+            document.getElementById('prevBtn').disabled = true;
+            document.getElementById('nextBtn').disabled = true;
+            
+            // 重新初始化可视化
+            initDrawers(n);
+            initItems(m);
+        }
+        
+        // 监听输入变化
+        document.getElementById('drawerCount').addEventListener('input', function() {
+            updateProblemText();
+            resetDemo();
+        });
+        document.getElementById('itemCount').addEventListener('input', function() {
+            updateProblemText();
+            resetDemo();
+        });
+        
+        // 初始化
+        updateProblemText();
+        initDrawers(2);
+        initItems(5);
+    </script>
+</body>
+</html>

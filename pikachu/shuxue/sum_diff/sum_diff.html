@@ -1,0 +1,1230 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no" />    
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="Expires" content="0">
+    <link rel="Shortcut Icon" href="https://cdn.bihe0832.com/images/zixie_32.ico" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="author" CONTENT="子勰(bihe0832), code@bihe0832.com" />
+    <meta name="keywords" content="子勰,bihe0832,工具咩" />
+    <meta name="description" content="皮卡丘学数学之和差倍问题分步解答" />
+    <meta property="og:title" content="皮卡丘学数学之和差倍问题分步解答" />
+    <meta property="og:locale" content="en_US" />
+    <title>皮卡丘学数学 - 和差倍问题</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Microsoft YaHei', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #3498db, #9b59b6);
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+            margin: 20px 0;
+            padding: 20px;
+        }
+        header {
+            background: linear-gradient(90deg, #3498db, #2980b9);
+            color: white;
+            padding: 20px 30px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        header h2 {
+            font-size: 2rem;
+            margin: 10px 0;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+        }
+        header p {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+        
+        .main-content {
+            display: flex;
+            gap: 20px;
+            min-height: 500px;
+        }
+        
+        .left-panel {
+            width: 300px;
+            flex-shrink: 0;
+            background: #f0f8ff;
+            border-radius: 15px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .panel-title {
+            font-size: 1.1rem;
+            color: #2980b9;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 3px solid #3498db;
+            display: flex;
+            align-items: center;
+        }
+        .panel-title i {
+            margin-right: 10px;
+            font-size: 1.2rem;
+            color: #3498db;
+        }
+        
+        .input-group {
+            margin-bottom: 15px;
+        }
+        .input-item {
+            margin-bottom: 12px;
+        }
+        .input-label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 6px;
+            color: #2980b9;
+            font-size: 0.9rem;
+        }
+        input, select {
+            padding: 10px 12px;
+            width: 100%;
+            border: 2px solid #3498db;
+            border-radius: 10px;
+            font-size: 1rem;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        input:focus, select:focus {
+            outline: none;
+            border-color: #2980b9;
+            box-shadow: 0 0 10px rgba(52, 152, 219, 0.3);
+        }
+        
+        .problem-type-selector {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .type-btn {
+            flex: 1;
+            min-width: 80px;
+            padding: 10px 5px;
+            border: 2px solid #3498db;
+            border-radius: 10px;
+            background: white;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+        
+        .type-btn.active {
+            background: linear-gradient(45deg, #3498db, #2980b9);
+            color: white;
+        }
+        
+        .type-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .start-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(45deg, #27ae60, #2ecc71);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: bold;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(39, 174, 96, 0.3);
+            margin-top: auto;
+        }
+        .start-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(39, 174, 96, 0.4);
+        }
+        
+        /* 中间可视化区域 */
+        .center-panel {
+            flex: 1;
+            min-width: 400px;
+            background: #f5faff;
+            border-radius: 15px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .problem-display {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            padding: 15px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+        
+        .problem-display .highlight {
+            background: rgba(255,255,255,0.2);
+            padding: 2px 8px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        
+        /* 线段图可视化 */
+        .visualization {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .bar-diagram {
+            width: 100%;
+            max-width: 500px;
+        }
+        
+        .bar-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+            position: relative;
+        }
+        
+        .bar-label {
+            width: 60px;
+            font-weight: bold;
+            color: #2980b9;
+            font-size: 0.9rem;
+        }
+        
+        .bar-container {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 0;
+        }
+        
+        .bar-segment {
+            height: 40px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 0.9rem;
+            transition: all 0.5s;
+        }
+        
+        .bar-segment.large {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+        }
+        
+        .bar-segment.small {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+        }
+        
+        .bar-segment.small-red {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+        }
+        
+        .bar-segment.diff {
+            background: linear-gradient(135deg, #f39c12, #e67e22);
+            border-radius: 0 5px 5px 0;
+            border-left: 2px dashed white;
+        }
+        
+        .bar-segment.base {
+            border-radius: 5px 0 0 5px;
+        }
+        
+        .bar-segment.mul-unit {
+            border-right: 2px dashed rgba(255,255,255,0.5);
+        }
+        
+        .bar-segment.mul-unit:last-child {
+            border-right: none;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .bar-segment.mul-unit:first-child {
+            border-radius: 5px 0 0 5px;
+        }
+        
+        .diff-bracket {
+            position: absolute;
+            right: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .diff-label {
+            background: #f39c12;
+            color: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+        
+        .sum-bracket {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 10px;
+            padding: 8px 15px;
+            background: rgba(39, 174, 96, 0.1);
+            border: 2px solid #27ae60;
+            border-radius: 10px;
+        }
+        
+        .sum-label {
+            color: #27ae60;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+        
+        .formula-box {
+            background: linear-gradient(135deg, #fff3cd, #ffeeba);
+            border: 2px solid #f39c12;
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 15px;
+            text-align: center;
+        }
+        
+        .formula-box .formula {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #856404;
+            margin-bottom: 5px;
+        }
+        
+        .formula-box .formula-note {
+            font-size: 0.85rem;
+            color: #856404;
+        }
+        
+        .answer-cards {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 15px;
+        }
+        
+        .answer-card {
+            background: white;
+            border-radius: 15px;
+            padding: 15px 25px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            border: 3px solid #3498db;
+        }
+        
+        .answer-card .answer-icon {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+        }
+        
+        .answer-card .answer-label {
+            color: #666;
+            font-size: 0.85rem;
+            margin-bottom: 5px;
+        }
+        
+        .answer-card .answer-value {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #3498db;
+        }
+        
+        .answer-card .answer-value.small-num {
+            color: #e74c3c;
+        }
+        
+        /* 右侧步骤面板 */
+        .right-panel {
+            width: 380px;
+            flex-shrink: 0;
+            background: #f0f8ff;
+            border-radius: 15px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            max-height: 600px;
+        }
+        
+        .steps-container {
+            flex: 1;
+            overflow-y: auto;
+            max-height: 480px;
+            padding: 15px;
+            background: linear-gradient(to right, #e3f2fd, #bbdefb);
+            border-radius: 12px;
+        }
+        
+        .steps-container::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .steps-container::-webkit-scrollbar-track {
+            background: #d6eaf8;
+            border-radius: 3px;
+        }
+        
+        .steps-container::-webkit-scrollbar-thumb {
+            background: #3498db;
+            border-radius: 3px;
+        }
+        
+        .step-item {
+            padding: 10px 0;
+            margin-bottom: 0;
+            border-left: none;
+            border-bottom: 1px dashed rgba(52, 152, 219, 0.3);
+            opacity: 0.5;
+            transform: translateX(20px);
+            transition: all 0.3s;
+            background: transparent;
+            border-radius: 0;
+        }
+        
+        .step-item:last-child {
+            border-bottom: none;
+        }
+        
+        .step-item.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .step-item.active {
+            animation: breatheBlue 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes breatheBlue {
+            0%, 100% { background-color: rgba(52, 152, 219, 0.1); }
+            50% { background-color: rgba(52, 152, 219, 0.25); }
+        }
+        
+        .step-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .step-number {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            background: #3498db;
+            color: white;
+            border-radius: 50%;
+            font-weight: bold;
+            margin-right: 12px;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+        
+        .step-title {
+            font-weight: bold;
+            color: #2c3e50;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        
+        .highlight {
+            color: #e74c3c;
+            font-weight: bold;
+            background-color: #ffecb3;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+        
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .nav-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .nav-btn.prev {
+            background: linear-gradient(45deg, #95a5a6, #7f8c8d);
+            color: white;
+        }
+        
+        .nav-btn.next {
+            background: linear-gradient(45deg, #3498db, #2980b9);
+            color: white;
+        }
+        
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        /* 响应式 */
+        @media (max-width: 1200px) {
+            .main-content {
+                flex-direction: column;
+            }
+            .left-panel, .right-panel {
+                width: 100%;
+            }
+            .center-panel {
+                min-width: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h2>⚡ 皮卡丘学数学 - 和差倍问题 📊</h2>
+            <p>和差问题：大数=(和+差)÷2 | 和倍问题：小数=和÷(倍数+1) | 差倍问题：小数=差÷(倍数-1)</p>
+        </header>
+        
+        <div class="main-content">
+            <!-- 左侧控制面板 -->
+            <div class="left-panel">
+                <div class="panel-title">
+                    <i class="fas fa-cog"></i> 题目类型
+                </div>
+                
+                <div class="problem-type-selector">
+                    <button class="type-btn active" onclick="selectType('sum_diff')" id="typeSumDiff">和差问题</button>
+                    <button class="type-btn" onclick="selectType('sum_mul')" id="typeSumMul">和倍问题</button>
+                    <button class="type-btn" onclick="selectType('diff_mul')" id="typeDiffMul">差倍问题</button>
+                </div>
+                
+                <div class="input-group" id="inputGroup">
+                    <!-- 和差问题输入 -->
+                    <div id="sumDiffInputs">
+                        <div class="input-item">
+                            <label class="input-label">➕ 两数之和</label>
+                            <input type="number" id="sumValue" value="50" placeholder="和">
+                        </div>
+                        <div class="input-item">
+                            <label class="input-label">➖ 两数之差</label>
+                            <input type="number" id="diffValue" value="10" placeholder="差">
+                        </div>
+                    </div>
+                    
+                    <!-- 和倍问题输入 -->
+                    <div id="sumMulInputs" style="display:none;">
+                        <div class="input-item">
+                            <label class="input-label">➕ 两数之和</label>
+                            <input type="number" id="sumValue2" value="48" placeholder="和">
+                        </div>
+                        <div class="input-item">
+                            <label class="input-label">✖️ 大数是小数的几倍</label>
+                            <input type="number" id="mulValue" value="3" min="1" placeholder="倍数">
+                        </div>
+                    </div>
+                    
+                    <!-- 差倍问题输入 -->
+                    <div id="diffMulInputs" style="display:none;">
+                        <div class="input-item">
+                            <label class="input-label">➖ 两数之差</label>
+                            <input type="number" id="diffValue2" value="20" placeholder="差">
+                        </div>
+                        <div class="input-item">
+                            <label class="input-label">✖️ 大数是小数的几倍</label>
+                            <input type="number" id="mulValue2" value="3" min="2" placeholder="倍数">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="formula-box">
+                    <div class="formula" id="formulaDisplay">
+                        大数 = (和+差) ÷ 2<br>
+                        小数 = (和-差) ÷ 2
+                    </div>
+                </div>
+                
+                <button class="start-btn" onclick="startCalculation()">
+                    <i class="fas fa-play"></i> 开始演示
+                </button>
+            </div>
+            
+            <!-- 中间可视化区域 -->
+            <div class="center-panel">
+                <div class="panel-title">
+                    <i class="fas fa-question-circle"></i> 题目
+                </div>
+                <div class="problem-display" id="problemDisplay">
+                    两个数的和是 <span class="highlight">50</span>，差是 <span class="highlight">10</span>，<br>
+                    求这两个数分别是多少？
+                </div>
+                
+                <div class="panel-title">
+                    <i class="fas fa-chart-bar"></i> 线段图
+                </div>
+                
+                <div class="visualization">
+                    <div class="bar-diagram" id="barDiagram">
+                        <!-- 动态生成的线段图 -->
+                    </div>
+                </div>
+                
+                <div class="answer-cards">
+                    <div class="answer-card">
+                        <div class="answer-icon">📈</div>
+                        <div class="answer-label">大数</div>
+                        <div class="answer-value" id="answerLarge">?</div>
+                    </div>
+                    <div class="answer-card">
+                        <div class="answer-icon">📉</div>
+                        <div class="answer-label">小数</div>
+                        <div class="answer-value small-num" id="answerSmall">?</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 右侧步骤面板 -->
+            <div class="right-panel">
+                <div class="panel-title">
+                    <i class="fas fa-shoe-prints"></i> 解题步骤
+                </div>
+                
+                <div class="steps-container" id="stepsContainer">
+                    <div class="step-item">
+                        <span class="step-number">1</span>
+                        <span class="step-content">点击"开始演示"查看详细步骤</span>
+                    </div>
+                </div>
+                
+                <div class="nav-buttons">
+                    <button class="nav-btn prev" onclick="prevStep()" id="prevBtn" disabled>
+                        <i class="fas fa-arrow-left"></i> 上一步
+                    </button>
+                    <button class="nav-btn next" onclick="nextStep()" id="nextBtn" disabled>
+                        下一步 <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let problemType = 'sum_diff';
+        let stepsData = [];
+        let currentStep = 0;
+        let maxReachedStep = 0;
+        
+        // 选择题目类型
+        function selectType(type) {
+            problemType = type;
+            
+            document.getElementById('typeSumDiff').classList.toggle('active', type === 'sum_diff');
+            document.getElementById('typeSumMul').classList.toggle('active', type === 'sum_mul');
+            document.getElementById('typeDiffMul').classList.toggle('active', type === 'diff_mul');
+            
+            document.getElementById('sumDiffInputs').style.display = type === 'sum_diff' ? 'block' : 'none';
+            document.getElementById('sumMulInputs').style.display = type === 'sum_mul' ? 'block' : 'none';
+            document.getElementById('diffMulInputs').style.display = type === 'diff_mul' ? 'block' : 'none';
+            
+            if (type === 'sum_diff') {
+                document.getElementById('formulaDisplay').innerHTML = '大数 = (和+差) ÷ 2<br>小数 = (和-差) ÷ 2';
+            } else if (type === 'sum_mul') {
+                document.getElementById('formulaDisplay').innerHTML = '小数 = 和 ÷ (倍数+1)<br>大数 = 小数 × 倍数';
+            } else {
+                document.getElementById('formulaDisplay').innerHTML = '小数 = 差 ÷ (倍数-1)<br>大数 = 小数 × 倍数';
+            }
+            
+            updateProblemText();
+            resetDemo();
+        }
+        
+        // 更新题目文本
+        function updateProblemText() {
+            let text = '';
+            
+            if (problemType === 'sum_diff') {
+                const sum = document.getElementById('sumValue').value || '?';
+                const diff = document.getElementById('diffValue').value || '?';
+                text = `两个数的和是 <span class="highlight">${sum}</span>，差是 <span class="highlight">${diff}</span>，<br>求这两个数分别是多少？`;
+            } else if (problemType === 'sum_mul') {
+                const sum = document.getElementById('sumValue2').value || '?';
+                const mul = document.getElementById('mulValue').value || '?';
+                text = `两个数的和是 <span class="highlight">${sum}</span>，大数是小数的 <span class="highlight">${mul}</span> 倍，<br>求这两个数分别是多少？`;
+            } else {
+                const diff = document.getElementById('diffValue2').value || '?';
+                const mul = document.getElementById('mulValue2').value || '?';
+                text = `两个数的差是 <span class="highlight">${diff}</span>，大数是小数的 <span class="highlight">${mul}</span> 倍，<br>求这两个数分别是多少？`;
+            }
+            
+            document.getElementById('problemDisplay').innerHTML = text;
+        }
+        
+        // 更新线段图 - 和差问题
+        function updateBarDiagramSumDiff(large, small, diff, showDiff = false, showValues = false) {
+            const maxWidth = 350;
+            const maxVal = Math.max(large, 1);
+            
+            const largeWidth = (large / maxVal) * maxWidth;
+            const smallWidth = (small / maxVal) * maxWidth;
+            const diffWidth = ((large - small) / maxVal) * maxWidth;
+            
+            const diagram = document.getElementById('barDiagram');
+            
+            let html = '';
+            
+            // 大数行
+            html += '<div class="bar-row">';
+            html += '<span class="bar-label">大数：</span>';
+            html += '<div class="bar-container">';
+            if (showDiff) {
+                html += `<div class="bar-segment large base" style="width: ${smallWidth}px;">${showValues ? small : ''}</div>`;
+                html += `<div class="bar-segment diff" style="width: ${diffWidth}px;">差=${diff}</div>`;
+            } else {
+                html += `<div class="bar-segment large" style="width: ${largeWidth}px;">${showValues ? large : '?'}</div>`;
+            }
+            html += '</div>';
+            html += '</div>';
+            
+            // 小数行
+            html += '<div class="bar-row">';
+            html += '<span class="bar-label">小数：</span>';
+            html += '<div class="bar-container">';
+            html += `<div class="bar-segment small-red" style="width: ${smallWidth}px;">${showValues ? small : '?'}</div>`;
+            html += '</div>';
+            html += '</div>';
+            
+            diagram.innerHTML = html;
+        }
+        
+        // 更新线段图 - 和倍/差倍问题
+        function updateBarDiagramMul(large, small, mul, showMul = false, showValues = false) {
+            const maxWidth = 350;
+            const maxVal = Math.max(large, 1);
+            
+            const unitWidth = (small / maxVal) * maxWidth;
+            
+            const diagram = document.getElementById('barDiagram');
+            
+            let html = '';
+            
+            // 大数行（mul份）
+            html += '<div class="bar-row">';
+            html += '<span class="bar-label">大数：</span>';
+            html += '<div class="bar-container">';
+            if (showMul) {
+                for (let i = 0; i < mul; i++) {
+                    const isLast = i === mul - 1;
+                    const isFirst = i === 0;
+                    let classes = 'bar-segment large mul-unit';
+                    if (isFirst) classes += ' first';
+                    html += `<div class="${classes}" style="width: ${unitWidth}px;">${i === 0 ? '1份' : ''}</div>`;
+                }
+            } else {
+                html += `<div class="bar-segment large" style="width: ${unitWidth * mul}px;">${showValues ? fmt(large) : '?'}</div>`;
+            }
+            html += '</div>';
+            if (showMul) {
+                html += `<span style="margin-left:10px;color:#666;font-size:0.85rem;">${mul}份</span>`;
+            }
+            html += '</div>';
+            
+            // 小数行（1份）
+            html += '<div class="bar-row">';
+            html += '<span class="bar-label">小数：</span>';
+            html += '<div class="bar-container">';
+            html += `<div class="bar-segment small-red" style="width: ${unitWidth}px;">${showMul ? '1份' : (showValues ? fmt(small) : '?')}</div>`;
+            html += '</div>';
+            if (showMul) {
+                html += `<span style="margin-left:10px;color:#666;font-size:0.85rem;">1份</span>`;
+            }
+            html += '</div>';
+            
+            diagram.innerHTML = html;
+        }
+        
+        // 简单更新线段图（初始状态）
+        function updateBarDiagram(large, small, showValues = false) {
+            const maxWidth = 350;
+            const maxVal = Math.max(large, small, 1);
+            
+            const largeWidth = (large / maxVal) * maxWidth;
+            const smallWidth = (small / maxVal) * maxWidth;
+            
+            const diagram = document.getElementById('barDiagram');
+            
+            let html = '';
+            html += '<div class="bar-row">';
+            html += '<span class="bar-label">大数：</span>';
+            html += '<div class="bar-container">';
+            html += `<div class="bar-segment large" style="width: ${largeWidth}px;">${showValues ? fmt(large) : '?'}</div>`;
+            html += '</div></div>';
+            
+            html += '<div class="bar-row">';
+            html += '<span class="bar-label">小数：</span>';
+            html += '<div class="bar-container">';
+            html += `<div class="bar-segment small-red" style="width: ${smallWidth}px;">${showValues ? fmt(small) : '?'}</div>`;
+            html += '</div></div>';
+            
+            diagram.innerHTML = html;
+        }
+        
+        // 开始计算
+        function startCalculation() {
+            if (problemType === 'sum_diff') {
+                calculateSumDiff();
+            } else if (problemType === 'sum_mul') {
+                calculateSumMul();
+            } else {
+                calculateDiffMul();
+            }
+        }
+        
+        // 和差问题
+        function calculateSumDiff() {
+            const sum = parseFloat(document.getElementById('sumValue').value);
+            const diff = parseFloat(document.getElementById('diffValue').value);
+            
+            if (isNaN(sum) || isNaN(diff)) {
+                alert('请输入正确的数值');
+                return;
+            }
+            
+            if (diff > sum) {
+                alert('差不能大于和');
+                return;
+            }
+            
+            if ((sum + diff) % 2 !== 0 || (sum - diff) % 2 !== 0) {
+                alert('和与差的奇偶性不同，无整数解');
+                return;
+            }
+            
+            const large = (sum + diff) / 2;
+            const small = (sum - diff) / 2;
+            
+            updateBarDiagram(large, small, false);
+            
+            const steps = [];
+            
+            steps.push({
+                text: `和差问题：已知两数的和与差，求这两个数`,
+                action: null
+            });
+            
+            steps.push({
+                text: `已知：和 = <span class="highlight">${sum}</span>，差 = <span class="highlight">${diff}</span>`,
+                action: 'init_bars'
+            });
+            
+            steps.push({
+                text: `画线段图理解：大数比小数多出"差"这一段`,
+                action: 'show_diff'
+            });
+            
+            steps.push({
+                text: `关键思路：如果把大数"多出的部分"补到小数上，两数就相等了`,
+                action: null
+            });
+            
+            steps.push({
+                text: `求大数：把差加到和上，相当于两个大数<br>(${sum} + ${diff}) ÷ 2 = ${sum + diff} ÷ 2 = <span class="highlight">${large}</span>`,
+                action: null
+            });
+            
+            steps.push({
+                text: `求小数：从和中减去差，相当于两个小数<br>(${sum} - ${diff}) ÷ 2 = ${sum - diff} ÷ 2 = <span class="highlight">${small}</span>`,
+                action: null
+            });
+            
+            steps.push({
+                text: `✓ 答案：大数是 <span class="highlight">${large}</span>，小数是 <span class="highlight">${small}</span>`,
+                action: 'show_result'
+            });
+            
+            steps.push({
+                text: `验证：${large} + ${small} = ${large + small}（和）✓<br>${large} - ${small} = ${large - small}（差）✓`,
+                action: null
+            });
+            
+            displaySteps(steps, large, small, { type: 'sum_diff', diff: diff });
+        }
+        
+        // 和倍问题
+        function calculateSumMul() {
+            const sum = parseFloat(document.getElementById('sumValue2').value);
+            const mul = parseFloat(document.getElementById('mulValue').value);
+            
+            if (isNaN(sum) || isNaN(mul)) {
+                alert('请输入正确的数值');
+                return;
+            }
+            
+            if (mul < 1) {
+                alert('倍数必须大于等于1');
+                return;
+            }
+            
+            const small = sum / (mul + 1);
+            const large = small * mul;
+            
+            if (!Number.isInteger(small)) {
+                // 允许小数结果
+            }
+            
+            updateBarDiagram(large, small, false);
+            
+            const steps = [];
+            
+            steps.push({
+                text: `和倍问题：已知两数的和与倍数关系，求这两个数`,
+                action: null
+            });
+            
+            steps.push({
+                text: `已知：和 = <span class="highlight">${sum}</span>，大数是小数的 <span class="highlight">${mul}</span> 倍`,
+                action: 'init_bars'
+            });
+            
+            steps.push({
+                text: `画线段图理解：把小数看作 1 份，大数就是 <span class="highlight">${mul}</span> 份`,
+                action: 'show_mul'
+            });
+            
+            steps.push({
+                text: `关键思路：和 = 小数 + 大数 = 1份 + ${mul}份 = <span class="highlight">${mul + 1}份</span>`,
+                action: null
+            });
+            
+            steps.push({
+                text: `求小数（1份）：${sum} ÷ ${mul + 1} = <span class="highlight">${fmt(small)}</span>`,
+                action: null
+            });
+            
+            steps.push({
+                text: `求大数（${mul}份）：${fmt(small)} × ${mul} = <span class="highlight">${fmt(large)}</span>`,
+                action: null
+            });
+            
+            steps.push({
+                text: `✓ 答案：大数是 <span class="highlight">${fmt(large)}</span>，小数是 <span class="highlight">${fmt(small)}</span>`,
+                action: 'show_result'
+            });
+            
+            steps.push({
+                text: `验证：${fmt(small)} + ${fmt(large)} = ${fmt(small + large)}（和）✓<br>${fmt(large)} ÷ ${fmt(small)} = ${mul}（倍数）✓`,
+                action: null
+            });
+            
+            displaySteps(steps, large, small, { type: 'sum_mul', mul: mul });
+        }
+        
+        // 差倍问题
+        function calculateDiffMul() {
+            const diff = parseFloat(document.getElementById('diffValue2').value);
+            const mul = parseFloat(document.getElementById('mulValue2').value);
+            
+            if (isNaN(diff) || isNaN(mul)) {
+                alert('请输入正确的数值');
+                return;
+            }
+            
+            if (mul <= 1) {
+                alert('倍数必须大于1');
+                return;
+            }
+            
+            const small = diff / (mul - 1);
+            const large = small * mul;
+            
+            updateBarDiagram(large, small, false);
+            
+            const steps = [];
+            
+            steps.push({
+                text: `差倍问题：已知两数的差与倍数关系，求这两个数`,
+                action: null
+            });
+            
+            steps.push({
+                text: `已知：差 = <span class="highlight">${diff}</span>，大数是小数的 <span class="highlight">${mul}</span> 倍`,
+                action: 'init_bars'
+            });
+            
+            steps.push({
+                text: `画线段图理解：把小数看作 1 份，大数就是 <span class="highlight">${mul}</span> 份`,
+                action: 'show_mul'
+            });
+            
+            steps.push({
+                text: `关键思路：差 = 大数 - 小数 = ${mul}份 - 1份 = <span class="highlight">${mul - 1}份</span>`,
+                action: null
+            });
+            
+            steps.push({
+                text: `求小数（1份）：${diff} ÷ ${mul - 1} = <span class="highlight">${fmt(small)}</span>`,
+                action: null
+            });
+            
+            steps.push({
+                text: `求大数（${mul}份）：${fmt(small)} × ${mul} = <span class="highlight">${fmt(large)}</span>`,
+                action: null
+            });
+            
+            steps.push({
+                text: `✓ 答案：大数是 <span class="highlight">${fmt(large)}</span>，小数是 <span class="highlight">${fmt(small)}</span>`,
+                action: null
+            });
+            
+            steps.push({
+                text: `验证：${fmt(large)} - ${fmt(small)} = ${fmt(large - small)}（差）✓<br>${fmt(large)} ÷ ${fmt(small)} = ${mul}（倍数）✓`,
+                action: 'show_result'
+            });
+            
+            displaySteps(steps, large, small, { type: 'diff_mul', mul: mul, diff: diff });
+        }
+        
+        // 格式化数字
+        function fmt(num) {
+            if (Number.isInteger(num)) return num;
+            return parseFloat(num.toFixed(2));
+        }
+        
+        // 当前问题的额外参数
+        let currentExtra = {};
+        
+        // 显示步骤
+        function displaySteps(steps, large, small, extra = {}) {
+            currentExtra = extra;
+            const container = document.getElementById('stepsContainer');
+            container.innerHTML = '';
+            stepsData = [];
+            
+            steps.forEach((step, index) => {
+                const stepEl = document.createElement('div');
+                stepEl.className = 'step-item';
+                stepEl.innerHTML = `
+                    <div class="step-header">
+                        <span class="step-number">${index + 1}</span>
+                        <span class="step-title">${step.text}</span>
+                    </div>
+                `;
+                stepEl.dataset.action = step.action || '';
+                stepEl.dataset.large = large;
+                stepEl.dataset.small = small;
+                container.appendChild(stepEl);
+                stepsData.push(stepEl);
+            });
+            
+            currentStep = 0;
+            maxReachedStep = 0;
+            document.getElementById('answerLarge').textContent = '?';
+            document.getElementById('answerSmall').textContent = '?';
+            updateStepVisibility();
+            updateButtons();
+        }
+        
+        // 执行动画
+        function executeAction(action, large, small) {
+            const extra = currentExtra;
+            
+            if (action === 'init_bars') {
+                updateBarDiagram(large, small, false);
+            }
+            
+            if (action === 'show_diff' && extra.type === 'sum_diff') {
+                // 和差问题：显示差的部分
+                updateBarDiagramSumDiff(large, small, extra.diff, true, false);
+            }
+            
+            if (action === 'show_mul' && (extra.type === 'sum_mul' || extra.type === 'diff_mul')) {
+                // 和倍/差倍问题：显示份数
+                updateBarDiagramMul(large, small, extra.mul, true, false);
+            }
+            
+            if (action === 'show_result') {
+                updateBarDiagram(large, small, true);
+                document.getElementById('answerLarge').textContent = fmt(large);
+                document.getElementById('answerSmall').textContent = fmt(small);
+            }
+        }
+        
+        // 更新步骤可见性
+        function updateStepVisibility() {
+            stepsData.forEach((step, index) => {
+                step.classList.toggle('visible', index <= maxReachedStep);
+                step.classList.toggle('active', index === currentStep);
+            });
+            
+            // 自动滚动到当前步骤
+            if (stepsData[currentStep]) {
+                stepsData[currentStep].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+            
+            const currentStepEl = stepsData[currentStep];
+            if (currentStepEl) {
+                const action = currentStepEl.dataset.action;
+                const large = parseFloat(currentStepEl.dataset.large);
+                const small = parseFloat(currentStepEl.dataset.small);
+                if (action) {
+                    executeAction(action, large, small);
+                }
+            }
+        }
+        
+        // 更新按钮状态
+        function updateButtons() {
+            document.getElementById('prevBtn').disabled = currentStep === 0;
+            document.getElementById('nextBtn').disabled = currentStep >= stepsData.length - 1;
+        }
+        
+        // 上一步
+        function prevStep() {
+            if (currentStep > 0) {
+                currentStep--;
+                updateStepVisibility();
+                updateButtons();
+            }
+        }
+        
+        // 下一步
+        function nextStep() {
+            if (currentStep < stepsData.length - 1) {
+                currentStep++;
+                if (currentStep > maxReachedStep) {
+                    maxReachedStep = currentStep;
+                }
+                updateStepVisibility();
+                updateButtons();
+            }
+        }
+        
+        // 重置演示状态
+        function resetDemo() {
+            // 清除所有步骤元素的动画状态
+            stepsData.forEach(step => {
+                step.classList.remove('visible', 'active');
+            });
+            
+            // 重置步骤
+            stepsData = [];
+            currentStep = 0;
+            maxReachedStep = 0;
+            currentExtra = {};
+            
+            // 重置步骤容器
+            const container = document.getElementById('stepsContainer');
+            container.innerHTML = `
+                <div class="step-item">
+                    <span class="step-number">1</span>
+                    <span class="step-content">点击"开始演示"查看详细步骤</span>
+                </div>
+            `;
+            
+            // 重置答案
+            document.getElementById('answerLarge').textContent = '?';
+            document.getElementById('answerSmall').textContent = '?';
+            
+            // 重置按钮
+            document.getElementById('prevBtn').disabled = true;
+            document.getElementById('nextBtn').disabled = true;
+            
+            // 重置线段图为初始状态
+            const diagram = document.getElementById('barDiagram');
+            diagram.innerHTML = `
+                <div class="bar-row">
+                    <span class="bar-label">大数：</span>
+                    <div class="bar-container">
+                        <div class="bar-segment large" style="width: 250px;">?</div>
+                    </div>
+                </div>
+                <div class="bar-row">
+                    <span class="bar-label">小数：</span>
+                    <div class="bar-container">
+                        <div class="bar-segment small-red" style="width: 150px;">?</div>
+                    </div>
+                </div>
+            `;
+            
+            // 滚动步骤容器到顶部
+            container.scrollTop = 0;
+        }
+        
+        // 监听输入变化
+        document.getElementById('sumValue').addEventListener('input', function() {
+            updateProblemText();
+            resetDemo();
+        });
+        document.getElementById('diffValue').addEventListener('input', function() {
+            updateProblemText();
+            resetDemo();
+        });
+        document.getElementById('sumValue2').addEventListener('input', function() {
+            updateProblemText();
+            resetDemo();
+        });
+        document.getElementById('mulValue').addEventListener('input', function() {
+            updateProblemText();
+            resetDemo();
+        });
+        document.getElementById('diffValue2').addEventListener('input', function() {
+            updateProblemText();
+            resetDemo();
+        });
+        document.getElementById('mulValue2').addEventListener('input', function() {
+            updateProblemText();
+            resetDemo();
+        });
+        
+        // 初始化
+        updateProblemText();
+    </script>
+</body>
+</html>

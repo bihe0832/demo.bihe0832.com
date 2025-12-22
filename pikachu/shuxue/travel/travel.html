@@ -1,0 +1,1267 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no" />    
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="Expires" content="0">
+    <link rel="Shortcut Icon" href="https://cdn.bihe0832.com/images/zixie_32.ico" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="author" CONTENT="子勰(bihe0832), code@bihe0832.com" />
+    <meta name="keywords" content="子勰,bihe0832,工具咩" />
+    <meta name="description" content="皮卡丘学数学之行程问题分步解答" />
+    <meta property="og:title" content="皮卡丘学数学之行程问题分步解答" />
+    <meta property="og:locale" content="en_US" />
+    <title>皮卡丘学数学之行程问题分步解答</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Microsoft YaHei', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #3498db, #2ecc71);
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+            margin: 20px 0;
+            padding: 20px;
+        }
+        header {
+            background: linear-gradient(90deg, #3498db, #2980b9);
+            color: white;
+            padding: 20px 30px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        header h2 {
+            font-size: 2rem;
+            margin: 10px 0;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+        }
+        
+        .main-content {
+            display: flex;
+            gap: 20px;
+            min-height: 500px;
+        }
+        
+        .left-panel {
+            width: 280px;
+            flex-shrink: 0;
+            background: #e8f4fc;
+            border-radius: 15px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .panel-title {
+            font-size: 1.1rem;
+            color: #2980b9;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 3px solid #3498db;
+            display: flex;
+            align-items: center;
+        }
+        .panel-title i {
+            margin-right: 10px;
+            font-size: 1.2rem;
+            color: #3498db;
+        }
+        
+        .problem-type {
+            margin-bottom: 20px;
+        }
+        .type-btn {
+            display: block;
+            width: 100%;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #3498db, #2980b9);
+            color: white;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(52, 152, 219, 0.3);
+            font-size: 14px;
+            border: none;
+        }
+        .type-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(52, 152, 219, 0.4);
+        }
+        .type-btn.active {
+            background: linear-gradient(45deg, #27ae60, #2ecc71);
+            box-shadow: 0 6px 12px rgba(39, 174, 96, 0.4);
+        }
+        
+        .input-group {
+            margin-bottom: 20px;
+        }
+        .input-item {
+            margin-bottom: 15px;
+        }
+        .input-label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #2980b9;
+            font-size: 0.95rem;
+        }
+        input {
+            padding: 12px 15px;
+            width: 100%;
+            border: 2px solid #3498db;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            text-align: center;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+        }
+        input:focus {
+            border-color: #27ae60;
+            outline: none;
+            box-shadow: 0 0 8px rgba(39, 174, 96, 0.3);
+        }
+        
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        
+        button {
+            padding: 12px 20px;
+            font-size: 1rem;
+            background: linear-gradient(90deg, #3498db, #2980b9);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.3s, background 0.3s;
+            box-shadow: 0 4px 10px rgba(52, 152, 219, 0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+        }
+        
+        button:disabled {
+            background: linear-gradient(90deg, #bdc3c7, #95a5a6);
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .start-btn {
+            background: linear-gradient(90deg, #27ae60, #2ecc71);
+            box-shadow: 0 4px 10px rgba(39, 174, 96, 0.3);
+        }
+        
+        .show-all-btn {
+            background: linear-gradient(90deg, #f39c12, #e67e22);
+            box-shadow: 0 4px 10px rgba(243, 156, 18, 0.3);
+        }
+        
+        .nav-buttons {
+            display: flex;
+            gap: 8px;
+        }
+        .nav-buttons button {
+            flex: 1;
+            padding: 10px 8px;
+            font-size: 0.9rem;
+        }
+        
+        .center-panel {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-width: 400px;
+        }
+        
+        .visual-header {
+            background: linear-gradient(90deg, #3498db, #2980b9);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 10px 10px 0 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.1rem;
+        }
+        
+        .visual-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            border: 4px solid #3498db;
+            border-top: none;
+            border-radius: 0 0 15px 15px;
+            background: linear-gradient(135deg, #e8f4fc, #d4edfc);
+            min-height: 400px;
+            padding: 20px;
+            gap: 20px;
+        }
+        
+        .problem-text {
+            background: linear-gradient(135deg, #fff, #ffeaa7);
+            padding: 15px 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-left: 5px solid #f39c12;
+            font-size: 1.1rem;
+            color: #2c3e50;
+            line-height: 1.6;
+            max-width: 95%;
+            text-align: center;
+        }
+        
+        .problem-text i {
+            color: #f39c12;
+            margin-right: 8px;
+        }
+        
+        .problem-text .question {
+            font-weight: bold;
+            color: #e74c3c;
+        }
+        
+        /* 行程动画区域 */
+        .travel-animation {
+            width: 100%;
+            max-width: 600px;
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        
+        .road-container {
+            position: relative;
+            height: 120px;
+            margin: 20px 0;
+        }
+        
+        .road {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 20px;
+            background: linear-gradient(90deg, #95a5a6, #7f8c8d);
+            border-radius: 10px;
+            transform: translateY(-50%);
+        }
+        
+        .road-line {
+            position: absolute;
+            top: 50%;
+            left: 5%;
+            right: 5%;
+            height: 3px;
+            background: repeating-linear-gradient(90deg, #fff 0, #fff 20px, transparent 20px, transparent 40px);
+            transform: translateY(-50%);
+        }
+        
+        .location {
+            position: absolute;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 10;
+        }
+        
+        .location-icon {
+            font-size: 2rem;
+            margin-bottom: 5px;
+        }
+        
+        .location-name {
+            font-size: 0.8rem;
+            color: #333;
+            font-weight: bold;
+            background: white;
+            padding: 2px 8px;
+            border-radius: 10px;
+        }
+        
+        .traveler {
+            position: absolute;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: left 0.5s ease-out;
+            z-index: 20;
+        }
+        
+        .traveler-icon {
+            font-size: 2rem;
+            display: inline-block;
+        }
+        
+        .traveler.face-right .traveler-icon {
+            transform: scaleX(-1);
+        }
+        
+        .traveler.face-left .traveler-icon {
+            transform: scaleX(1);
+        }
+        
+        .traveler-speed {
+            font-size: 0.75rem;
+            color: #fff;
+            background: #3498db;
+            padding: 2px 8px;
+            border-radius: 10px;
+            white-space: nowrap;
+        }
+        
+        .traveler.person-b .traveler-speed {
+            background: #e74c3c;
+        }
+        
+        .distance-label {
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1rem;
+            font-weight: bold;
+            color: #2980b9;
+            background: #e8f4fc;
+            padding: 5px 15px;
+            border-radius: 20px;
+        }
+        
+        /* 环形跑道 */
+        .track-container {
+            position: relative;
+            width: 350px;
+            height: 180px;
+            margin: 20px auto;
+        }
+        
+        .track-oval {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 15px solid #95a5a6;
+            border-radius: 75px;
+            background: #2ecc71;
+        }
+        
+        .track-inner {
+            position: absolute;
+            top: 25px;
+            left: 40px;
+            width: calc(100% - 80px);
+            height: calc(100% - 50px);
+            background: #27ae60;
+            border-radius: 50px;
+        }
+        
+        .track-line {
+            position: absolute;
+            top: 50%;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: white;
+            transform: translateY(-50%);
+        }
+        
+        .track-start {
+            position: absolute;
+            top: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.5rem;
+        }
+        
+        .runner {
+            position: absolute;
+            font-size: 1.8rem;
+            transition: all 0.3s ease-out;
+        }
+        
+        .runner-a {
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+        
+        .runner-b {
+            top: -25px;
+            left: calc(50% + 30px);
+            transform: translateX(-50%);
+        }
+        
+        .track-label {
+            text-align: center;
+            margin-top: 10px;
+            font-weight: bold;
+            color: #2980b9;
+        }
+        
+        /* 答案卡片 */
+        .answer-cards {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+        
+        .answer-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 15px 25px;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: all 0.3s;
+            min-width: 120px;
+        }
+        
+        .answer-card:hover {
+            transform: scale(1.05);
+        }
+        
+        .answer-icon {
+            font-size: 2rem;
+            margin-bottom: 5px;
+        }
+        
+        .answer-label {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 3px;
+        }
+        
+        .answer-value {
+            font-size: 1.6rem;
+            font-weight: bold;
+            color: #3498db;
+        }
+        
+        .answer-unit {
+            font-size: 0.8rem;
+            color: #999;
+        }
+        
+        .right-panel {
+            width: 350px;
+            flex-shrink: 0;
+            background: #e8f4fc;
+            border-radius: 15px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .steps-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+            background: linear-gradient(to right, #e8f4fc, #d4edfc);
+            border-radius: 12px;
+        }
+        
+        .step {
+            padding: 10px 0;
+            display: none;
+            border-bottom: 1px dashed rgba(52, 152, 219, 0.3);
+        }
+        
+        .step:last-child {
+            border-bottom: none;
+        }
+        
+        .step.visible {
+            display: block;
+            animation: fadeInStep 0.4s ease;
+        }
+        
+        @keyframes fadeInStep {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .step.active {
+            animation: breatheBlue 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes breatheBlue {
+            0%, 100% { background-color: rgba(52, 152, 219, 0.1); }
+            50% { background-color: rgba(52, 152, 219, 0.25); }
+        }
+        
+        .step-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .step-number {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            background: #3498db;
+            color: white;
+            border-radius: 50%;
+            font-weight: bold;
+            margin-right: 12px;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+        
+        .step-title {
+            font-weight: bold;
+            color: #2980b9;
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+        
+        .highlight {
+            color: #27ae60;
+            font-weight: bold;
+            background-color: #e8f8f5;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+        
+        .empty-steps {
+            text-align: center;
+            color: #7f8c8d;
+            padding: 40px 20px;
+            font-size: 1rem;
+        }
+        .empty-steps i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: #bdc3c7;
+            display: block;
+        }
+        
+        @media (max-width: 1200px) {
+            .main-content {
+                flex-direction: column;
+            }
+            .left-panel, .right-panel {
+                width: 100%;
+            }
+            .left-panel { order: 1; }
+            .center-panel { order: 2; min-height: 350px; }
+            .right-panel { order: 3; }
+            .controls {
+                flex-direction: row;
+                flex-wrap: wrap;
+            }
+            .controls button {
+                flex: 1;
+                min-width: 120px;
+            }
+            .problem-type {
+                display: flex;
+                gap: 10px;
+                flex-wrap: wrap;
+            }
+            .type-btn {
+                flex: 1;
+                margin-bottom: 0;
+                min-width: 100px;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            header h2 { font-size: 1.5rem; }
+            .controls { flex-direction: column; }
+            .answer-cards { flex-direction: column; gap: 10px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h2><i class="fas fa-route"></i> 皮卡丘学数学之行程问题分步解答</h2>
+            <p>路程 = 速度 × 时间，相遇用和、追及用差</p>
+        </header>
+        
+        <div class="main-content">
+            <div class="left-panel">
+                <div class="panel-title">
+                    <i class="fas fa-question-circle"></i>
+                    <span>题目类型</span>
+                </div>
+                
+                <div class="problem-type">
+                    <button class="type-btn active" onclick="selectType('meet')">
+                        <i class="fas fa-people-arrows"></i> 相遇问题
+                    </button>
+                    <button class="type-btn" onclick="selectType('chase')">
+                        <i class="fas fa-running"></i> 直线追及
+                    </button>
+                    <button class="type-btn" onclick="selectType('lap')">
+                        <i class="fas fa-circle-notch"></i> 环形套圈
+                    </button>
+                    <button class="type-btn" onclick="selectType('river_down')">
+                        <i class="fas fa-ship"></i> 顺水行船
+                    </button>
+                    <button class="type-btn" onclick="selectType('river_up')">
+                        <i class="fas fa-anchor"></i> 逆水行船
+                    </button>
+                </div>
+                
+                <div class="panel-title">
+                    <i class="fas fa-cog"></i>
+                    <span>问题设置</span>
+                </div>
+                
+                <div class="input-group" id="inputGroup"></div>
+                
+                <div class="controls">
+                    <button class="start-btn" onclick="startCalculation()">
+                        <i class="fas fa-play-circle"></i> 开始计算
+                    </button>
+                    <button class="show-all-btn" onclick="showAllSteps()">
+                        <i class="fas fa-eye"></i> 一键查看
+                    </button>
+                    <div class="nav-buttons">
+                        <button id="prevBtn" onclick="prevStep()" disabled>
+                            <i class="fas fa-arrow-left"></i> 上一步
+                        </button>
+                        <button id="nextBtn" onclick="nextStep()" disabled>
+                            下一步 <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="center-panel">
+                <div class="visual-header">
+                    <span><i class="fas fa-road"></i> 行程可视化</span>
+                    <span id="problemDesc">请设置题目</span>
+                </div>
+                <div class="visual-area" id="visualArea">
+                    <div class="problem-text" id="problemText">
+                        <i class="fas fa-question-circle"></i>
+                        <span>请设置题目条件，然后点击"开始计算"</span>
+                    </div>
+                    <div class="travel-animation" id="travelAnimation">
+                        <div class="road-container">
+                            <div class="road">
+                                <div class="road-line"></div>
+                            </div>
+                            <div class="location" id="locationA" style="left: 5%;">
+                                <div class="location-icon">🏠</div>
+                                <div class="location-name">A地</div>
+                            </div>
+                            <div class="location" id="locationB" style="left: 95%;">
+                                <div class="location-icon">🏢</div>
+                                <div class="location-name">B地</div>
+                            </div>
+                            <div class="traveler person-a face-right" id="travelerA" style="left: 5%;">
+                                <div class="traveler-icon">🚶</div>
+                                <div class="traveler-speed" id="speedLabelA">?km/h</div>
+                            </div>
+                            <div class="traveler person-b face-left" id="travelerB" style="left: 95%;">
+                                <div class="traveler-icon">🚴</div>
+                                <div class="traveler-speed" id="speedLabelB">?km/h</div>
+                            </div>
+                            <div class="distance-label" id="distanceLabel">? 千米</div>
+                        </div>
+                    </div>
+                    <div class="answer-cards" id="answerCards">
+                        <div class="answer-card">
+                            <div class="answer-icon">⏱️</div>
+                            <div class="answer-label">相遇时间</div>
+                            <div class="answer-value" id="timeAnswer">?</div>
+                            <div class="answer-unit">小时</div>
+                        </div>
+                        <div class="answer-card">
+                            <div class="answer-icon">📍</div>
+                            <div class="answer-label">相遇地点</div>
+                            <div class="answer-value" id="placeAnswer">?</div>
+                            <div class="answer-unit">距A地千米</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="right-panel">
+                <div class="panel-title">
+                    <i class="fas fa-list-ol"></i>
+                    <span>解题步骤</span>
+                    <span style="margin-left: auto; font-size: 0.9rem; color: #7f8c8d;">
+                        步骤: <span id="step-counter">0</span>/<span id="total-steps">0</span>
+                    </span>
+                </div>
+                <div class="steps-container" id="steps">
+                    <div class="empty-steps">
+                        <i class="fas fa-info-circle"></i>
+                        <p>请设置题目条件<br>然后点击"开始计算"</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let stepsData = [];
+        let currentStep = 0;
+        let maxReachedStep = 0;
+        let currentType = 'meet';
+        let result = {};
+        
+        const problemConfigs = {
+            meet: {
+                title: '相遇问题',
+                desc: '两人相向而行，求相遇时间',
+                inputs: [
+                    { id: 'distance', label: '🛤️ 两地距离（千米）', placeholder: '如：120', value: 120 },
+                    { id: 'speedA', label: '🚶 甲的速度（千米/时）', placeholder: '如：20', value: 20 },
+                    { id: 'speedB', label: '🚴 乙的速度（千米/时）', placeholder: '如：40', value: 40 }
+                ],
+                answerLabels: ['相遇时间', '甲走的路程']
+            },
+            chase: {
+                title: '直线追及',
+                desc: '两人同向而行，快的追慢的',
+                inputs: [
+                    { id: 'distance', label: '🛤️ 相距距离（千米）', placeholder: '如：30', value: 30 },
+                    { id: 'speedA', label: '🚴 快者速度（千米/时）', placeholder: '如：25', value: 25 },
+                    { id: 'speedB', label: '🚶 慢者速度（千米/时）', placeholder: '如：15', value: 15 }
+                ],
+                answerLabels: ['追上时间', '快者走的路程']
+            },
+            lap: {
+                title: '环形套圈',
+                desc: '环形跑道，快的套慢的圈',
+                inputs: [
+                    { id: 'perimeter', label: '🔄 跑道周长（米）', placeholder: '如：400', value: 400 },
+                    { id: 'speedA', label: '🏃 快者速度（米/分）', placeholder: '如：300', value: 300 },
+                    { id: 'speedB', label: '🚶 慢者速度（米/分）', placeholder: '如：200', value: 200 },
+                    { id: 'totalTime', label: '⏱️ 总时间（分钟）', placeholder: '如：20', value: 20 }
+                ],
+                answerLabels: ['套圈时间', '套圈次数']
+            },
+            river_down: {
+                title: '顺水行船',
+                desc: '船顺流而下，水流助力',
+                inputs: [
+                    { id: 'distance', label: '🛤️ 航行距离（千米）', placeholder: '如：60', value: 60 },
+                    { id: 'boatSpeed', label: '🚤 船速（千米/时）', placeholder: '如：15', value: 15 },
+                    { id: 'waterSpeed', label: '🌊 水速（千米/时）', placeholder: '如：5', value: 5 }
+                ],
+                answerLabels: ['航行时间', '实际速度']
+            },
+            river_up: {
+                title: '逆水行船',
+                desc: '船逆流而上，水流阻力',
+                inputs: [
+                    { id: 'distance', label: '🛤️ 航行距离（千米）', placeholder: '如：60', value: 60 },
+                    { id: 'boatSpeed', label: '🚤 船速（千米/时）', placeholder: '如：15', value: 15 },
+                    { id: 'waterSpeed', label: '🌊 水速（千米/时）', placeholder: '如：5', value: 5 }
+                ],
+                answerLabels: ['航行时间', '实际速度']
+            }
+        };
+        
+        function selectType(type) {
+            currentType = type;
+            document.querySelectorAll('.type-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.closest('.type-btn').classList.add('active');
+            renderInputs();
+            resetVisualization();
+        }
+        
+        function renderInputs() {
+            const config = problemConfigs[currentType];
+            document.getElementById('inputGroup').innerHTML = config.inputs.map(input => `
+                <div class="input-item">
+                    <label class="input-label">${input.label}</label>
+                    <input type="number" id="${input.id}" placeholder="${input.placeholder}" value="${input.value}" min="1">
+                </div>
+            `).join('');
+        }
+        
+        function resetVisualization() {
+            const config = problemConfigs[currentType];
+            document.getElementById('problemDesc').textContent = config.desc;
+            document.getElementById('problemText').innerHTML = `
+                <i class="fas fa-question-circle"></i>
+                <span>请设置题目条件，然后点击"开始计算"</span>
+            `;
+            document.getElementById('timeAnswer').textContent = '?';
+            document.getElementById('placeAnswer').textContent = '?';
+            document.getElementById('distanceLabel').textContent = '? 千米';
+            document.getElementById('speedLabelA').textContent = '?km/h';
+            document.getElementById('speedLabelB').textContent = '?km/h';
+            
+            // 更新答案卡片标签
+            const answerCards = document.querySelectorAll('.answer-card');
+            answerCards[0].querySelector('.answer-label').textContent = config.answerLabels[0];
+            answerCards[1].querySelector('.answer-label').textContent = config.answerLabels[1];
+            
+            // 更新可视化
+            updateTravelVisual();
+            
+            document.getElementById('steps').innerHTML = `
+                <div class="empty-steps">
+                    <i class="fas fa-info-circle"></i>
+                    <p>请设置题目条件<br>然后点击"开始计算"</p>
+                </div>
+            `;
+            stepsData = [];
+            currentStep = 0;
+            maxReachedStep = 0;
+            document.getElementById('step-counter').textContent = '0';
+            document.getElementById('total-steps').textContent = '0';
+            document.getElementById('prevBtn').disabled = true;
+            document.getElementById('nextBtn').disabled = true;
+        }
+        
+        function updateTravelVisual() {
+            const travelerA = document.getElementById('travelerA');
+            const travelerB = document.getElementById('travelerB');
+            const locationA = document.getElementById('locationA');
+            const locationB = document.getElementById('locationB');
+            const roadContainer = document.querySelector('.road-container');
+            
+            // 移除环形跑道（如果存在）
+            const existingTrack = document.querySelector('.track-container');
+            if (existingTrack) existingTrack.remove();
+            
+            // 重置位置图标
+            locationA.querySelector('.location-icon').textContent = '🏠';
+            locationB.querySelector('.location-icon').textContent = '🏢';
+            
+            if (currentType === 'lap') {
+                // 环形套圈：显示环形跑道
+                roadContainer.style.display = 'none';
+                
+                const trackHTML = `
+                    <div class="track-container">
+                        <div class="track-oval">
+                            <div class="track-inner"></div>
+                            <div class="track-line"></div>
+                            <div class="track-start">🚩</div>
+                            <div class="runner runner-a" id="runnerA">🏃</div>
+                            <div class="runner runner-b" id="runnerB">🚶</div>
+                        </div>
+                        <div class="track-label" id="trackLabel">周长 ? 米</div>
+                    </div>
+                `;
+                roadContainer.insertAdjacentHTML('afterend', trackHTML);
+                return;
+            }
+            
+            // 其他类型：显示直线道路
+            roadContainer.style.display = 'block';
+            
+            if (currentType === 'meet') {
+                // 相遇：甲从左往右走，乙从右往左走
+                travelerA.style.left = '5%';
+                travelerB.style.left = '95%';
+                travelerA.querySelector('.traveler-icon').textContent = '🚶';
+                travelerB.querySelector('.traveler-icon').textContent = '🚴';
+                travelerA.classList.add('face-right');
+                travelerA.classList.remove('face-left');
+                travelerB.classList.add('face-left');
+                travelerB.classList.remove('face-right');
+                travelerB.style.display = 'flex';
+                locationA.querySelector('.location-name').textContent = 'A地';
+                locationB.querySelector('.location-name').textContent = 'B地';
+            } else if (currentType === 'chase') {
+                // 追及：慢者在前（右），快者在后（左），都往右走
+                travelerA.style.left = '30%';  // 慢者在前
+                travelerB.style.left = '5%';   // 快者在后
+                travelerA.querySelector('.traveler-icon').textContent = '🚶';
+                travelerB.querySelector('.traveler-icon').textContent = '🚴';
+                travelerA.classList.add('face-right');
+                travelerA.classList.remove('face-left');
+                travelerB.classList.add('face-right');
+                travelerB.classList.remove('face-left');
+                travelerB.style.display = 'flex';
+                locationA.querySelector('.location-name').textContent = '起点';
+                locationB.querySelector('.location-name').textContent = '终点';
+            } else {
+                // 行船：船从左往右走
+                travelerA.style.left = '5%';
+                travelerA.querySelector('.traveler-icon').textContent = '🚤';
+                travelerA.classList.add('face-right');
+                travelerA.classList.remove('face-left');
+                travelerB.style.display = 'none';
+                locationA.querySelector('.location-name').textContent = '起点';
+                locationB.querySelector('.location-name').textContent = '终点';
+                locationA.querySelector('.location-icon').textContent = '⚓';
+                locationB.querySelector('.location-icon').textContent = '🏁';
+            }
+        }
+        
+        function generateProblemText() {
+            let text = '';
+            if (currentType === 'meet') {
+                const distance = document.getElementById('distance').value;
+                const speedA = document.getElementById('speedA').value;
+                const speedB = document.getElementById('speedB').value;
+                text = `甲乙两人分别从相距 <span class="question">${distance}</span> 千米的A、B两地同时出发，相向而行。甲的速度是 <span class="question">${speedA}</span> 千米/时，乙的速度是 <span class="question">${speedB}</span> 千米/时。<br>问：几小时后两人相遇？相遇时甲走了多少千米？`;
+            } else if (currentType === 'chase') {
+                const distance = document.getElementById('distance').value;
+                const speedA = document.getElementById('speedA').value;
+                const speedB = document.getElementById('speedB').value;
+                text = `甲乙两人同向而行，甲在前乙在后，相距 <span class="question">${distance}</span> 千米。乙的速度是 <span class="question">${speedA}</span> 千米/时，甲的速度是 <span class="question">${speedB}</span> 千米/时。<br>问：乙几小时后能追上甲？追上时乙走了多少千米？`;
+            } else if (currentType === 'lap') {
+                const perimeter = document.getElementById('perimeter').value;
+                const speedA = document.getElementById('speedA').value;
+                const speedB = document.getElementById('speedB').value;
+                const totalTime = document.getElementById('totalTime').value;
+                text = `甲乙两人在周长 <span class="question">${perimeter}</span> 米的环形跑道上同时同地同向跑步。甲的速度是 <span class="question">${speedA}</span> 米/分，乙的速度是 <span class="question">${speedB}</span> 米/分。<br>问：甲第一次套乙圈需要多少分钟？${totalTime} 分钟内甲能套乙几圈？`;
+            } else if (currentType === 'river_down') {
+                const distance = document.getElementById('distance').value;
+                const boatSpeed = document.getElementById('boatSpeed').value;
+                const waterSpeed = document.getElementById('waterSpeed').value;
+                text = `一艘船在静水中的速度是 <span class="question">${boatSpeed}</span> 千米/时，水流速度是 <span class="question">${waterSpeed}</span> 千米/时。船顺流航行 <span class="question">${distance}</span> 千米。<br>问：需要几小时？实际速度是多少？`;
+            } else {
+                const distance = document.getElementById('distance').value;
+                const boatSpeed = document.getElementById('boatSpeed').value;
+                const waterSpeed = document.getElementById('waterSpeed').value;
+                text = `一艘船在静水中的速度是 <span class="question">${boatSpeed}</span> 千米/时，水流速度是 <span class="question">${waterSpeed}</span> 千米/时。船逆流航行 <span class="question">${distance}</span> 千米。<br>问：需要几小时？实际速度是多少？`;
+            }
+            return text;
+        }
+        
+        function updateVisualization(time, place, animateProgress = 0) {
+            document.getElementById('timeAnswer').textContent = time !== null ? fmt(time) : '?';
+            document.getElementById('placeAnswer').textContent = place !== null ? fmt(place) : '?';
+            
+            if (animateProgress > 0) {
+                if (currentType === 'lap') {
+                    // 环形跑道动画 - 让跑步者绕圈移动
+                    const runnerA = document.getElementById('runnerA');
+                    const runnerB = document.getElementById('runnerB');
+                    if (runnerA && runnerB) {
+                        // 简单的位置变化表示套圈
+                        const angle = animateProgress * 360;
+                        const radius = 140;
+                        const centerX = 175;
+                        const centerY = 65;
+                        
+                        // 快者跑得更远
+                        const angleA = angle * 1.5;
+                        const angleB = angle;
+                        
+                        const radA = (angleA - 90) * Math.PI / 180;
+                        const radB = (angleB - 90) * Math.PI / 180;
+                        
+                        runnerA.style.left = (centerX + radius * Math.cos(radA)) + 'px';
+                        runnerA.style.top = (centerY + 50 * Math.sin(radA)) + 'px';
+                        
+                        runnerB.style.left = (centerX + radius * Math.cos(radB)) + 'px';
+                        runnerB.style.top = (centerY + 50 * Math.sin(radB)) + 'px';
+                    }
+                } else if (result.distance) {
+                    const travelerA = document.getElementById('travelerA');
+                    const travelerB = document.getElementById('travelerB');
+                    
+                    if (currentType === 'meet') {
+                        const meetPoint = 5 + (result.placeA / result.distance) * 90 * animateProgress;
+                        travelerA.style.left = (5 + (meetPoint - 5) * animateProgress) + '%';
+                        travelerB.style.left = (95 - (95 - meetPoint) * animateProgress) + '%';
+                    } else if (currentType === 'chase') {
+                        travelerA.style.left = (30 + 30 * animateProgress) + '%';
+                        travelerB.style.left = (5 + 55 * animateProgress) + '%';
+                    } else {
+                        travelerA.style.left = (5 + 90 * animateProgress) + '%';
+                    }
+                }
+            }
+        }
+        
+        function createStep(text, stepNum, time, place, progress) {
+            const step = document.createElement('div');
+            step.className = 'step';
+            step.innerHTML = `
+                <div class="step-header">
+                    <div class="step-number">${stepNum + 1}</div>
+                    <div class="step-title">${text.replace(/(\d+\.?\d*)/g, '<span class="highlight">$1</span>')}</div>
+                </div>
+            `;
+            step.dataset.time = time;
+            step.dataset.place = place;
+            step.dataset.progress = progress;
+            return step;
+        }
+        
+        // 格式化数字：如果是小数则保留1位，整数则不变
+        function fmt(num) {
+            if (num === null || num === undefined) return '?';
+            if (Number.isInteger(num)) return num;
+            return parseFloat(num.toFixed(1));
+        }
+        
+        function generateSteps() {
+            const steps = [];
+            
+            if (currentType === 'meet') {
+                const distance = parseInt(document.getElementById('distance').value);
+                const speedA = parseInt(document.getElementById('speedA').value);
+                const speedB = parseInt(document.getElementById('speedB').value);
+                
+                if (!distance || !speedA || !speedB) {
+                    alert('请输入正确的数值');
+                    return null;
+                }
+                
+                const sumSpeed = speedA + speedB;
+                const time = distance / sumSpeed;
+                const placeA = speedA * time;
+                
+                result = { distance, speedA, speedB, time, placeA };
+                
+                document.getElementById('distanceLabel').textContent = distance + ' 千米';
+                document.getElementById('speedLabelA').textContent = speedA + 'km/h';
+                document.getElementById('speedLabelB').textContent = speedB + 'km/h';
+                document.querySelectorAll('.answer-card')[1].querySelector('.answer-unit').textContent = '千米';
+                
+                steps.push(
+                    [`题目分析：甲乙相向而行，总距离 ${distance} 千米`, null, null, 0],
+                    [`核心思想：相遇问题用速度和，两人共同"消灭"这段距离`, null, null, 0],
+                    [`速度和：甲 ${speedA} + 乙 ${speedB} = ${sumSpeed} 千米/时`, null, null, 0],
+                    [`相遇时间：总距离 ÷ 速度和 = ${distance} ÷ ${sumSpeed} = ${fmt(time)} 小时`, fmt(time), null, 0.5],
+                    [`甲走的路程：甲速度 × 时间 = ${speedA} × ${fmt(time)} = ${fmt(placeA)} 千米`, fmt(time), fmt(placeA), 1],
+                    [`验证：甲走 ${fmt(placeA)} 千米 + 乙走 ${fmt(speedB * time)} 千米 = ${fmt(placeA + speedB * time)} 千米 = 总距离 ${distance} 千米 ✓`, fmt(time), fmt(placeA), 1]
+                );
+                
+            } else if (currentType === 'chase') {
+                const distance = parseInt(document.getElementById('distance').value);
+                const speedA = parseInt(document.getElementById('speedA').value);
+                const speedB = parseInt(document.getElementById('speedB').value);
+                
+                if (!distance || !speedA || !speedB || speedA <= speedB) {
+                    alert('请输入正确的数值：快者速度必须大于慢者');
+                    return null;
+                }
+                
+                const diffSpeed = speedA - speedB;
+                const time = distance / diffSpeed;
+                const placeA = speedA * time;
+                
+                result = { distance, speedA, speedB, time, placeA };
+                
+                document.getElementById('distanceLabel').textContent = distance + ' 千米';
+                document.getElementById('speedLabelA').textContent = speedB + 'km/h';
+                document.getElementById('speedLabelB').textContent = speedA + 'km/h';
+                document.querySelectorAll('.answer-card')[1].querySelector('.answer-unit').textContent = '千米';
+                
+                steps.push(
+                    [`题目分析：乙追甲，相距 ${distance} 千米，乙比甲快`, null, null, 0],
+                    [`核心思想：追及问题用速度差，每小时乙比甲多走一点`, null, null, 0],
+                    [`速度差：乙 ${speedA} - 甲 ${speedB} = ${diffSpeed} 千米/时`, null, null, 0],
+                    [`追上时间：相距距离 ÷ 速度差 = ${distance} ÷ ${diffSpeed} = ${fmt(time)} 小时`, fmt(time), null, 0.5],
+                    [`乙走的路程：乙速度 × 时间 = ${speedA} × ${fmt(time)} = ${fmt(placeA)} 千米`, fmt(time), fmt(placeA), 1],
+                    [`验证：乙走 ${fmt(placeA)} 千米 - 甲走 ${fmt(speedB * time)} 千米 = ${fmt(placeA - speedB * time)} 千米 = 原相距 ${distance} 千米 ✓`, fmt(time), fmt(placeA), 1]
+                );
+                
+            } else if (currentType === 'lap') {
+                const perimeter = parseInt(document.getElementById('perimeter').value);
+                const speedA = parseInt(document.getElementById('speedA').value);
+                const speedB = parseInt(document.getElementById('speedB').value);
+                const totalTime = parseInt(document.getElementById('totalTime').value);
+                
+                if (!perimeter || !speedA || !speedB || !totalTime || speedA <= speedB) {
+                    alert('请输入正确的数值：快者速度必须大于慢者');
+                    return null;
+                }
+                
+                const diffSpeed = speedA - speedB;
+                const lapTime = perimeter / diffSpeed;
+                const lapCount = Math.floor(totalTime / lapTime);
+                
+                result = { perimeter, speedA, speedB, totalTime, diffSpeed, lapTime, lapCount };
+                
+                // 更新跑道标签
+                const trackLabel = document.getElementById('trackLabel');
+                if (trackLabel) trackLabel.textContent = '周长 ' + perimeter + ' 米';
+                
+                document.querySelectorAll('.answer-card')[0].querySelector('.answer-unit').textContent = '分钟';
+                document.querySelectorAll('.answer-card')[1].querySelector('.answer-unit').textContent = '圈';
+                
+                steps.push(
+                    [`题目分析：甲乙同向跑步，跑道周长 ${perimeter} 米`, null, null, 0],
+                    [`核心思想：套圈 = 追上一整圈，本质还是追及问题`, null, null, 0],
+                    [`速度差：甲 ${speedA} - 乙 ${speedB} = ${diffSpeed} 米/分`, null, null, 0],
+                    [`套一圈时间：周长 ÷ 速度差 = ${perimeter} ÷ ${diffSpeed} = ${fmt(lapTime)} 分钟`, fmt(lapTime), null, 0.5],
+                    [`${totalTime} 分钟套圈次数：${totalTime} ÷ ${fmt(lapTime)} = ${fmt(totalTime / lapTime)}，取整数 = ${lapCount} 圈`, fmt(lapTime), lapCount, 1],
+                    [`验证：${lapCount} 圈 × ${fmt(lapTime)} 分钟 = ${fmt(lapCount * lapTime)} 分钟 ≤ ${totalTime} 分钟 ✓`, fmt(lapTime), lapCount, 1]
+                );
+                
+            } else if (currentType === 'river_down') {
+                const distance = parseInt(document.getElementById('distance').value);
+                const boatSpeed = parseInt(document.getElementById('boatSpeed').value);
+                const waterSpeed = parseInt(document.getElementById('waterSpeed').value);
+                
+                if (!distance || !boatSpeed || !waterSpeed) {
+                    alert('请输入正确的数值');
+                    return null;
+                }
+                
+                const actualSpeed = boatSpeed + waterSpeed;
+                const time = distance / actualSpeed;
+                
+                result = { distance, boatSpeed, waterSpeed, time, actualSpeed };
+                
+                document.getElementById('distanceLabel').textContent = distance + ' 千米';
+                document.getElementById('speedLabelA').textContent = boatSpeed + '+' + waterSpeed;
+                document.querySelectorAll('.answer-card')[1].querySelector('.answer-unit').textContent = '千米/时';
+                
+                steps.push(
+                    [`题目分析：船顺流而下，水流帮助船前进`, null, null, 0],
+                    [`核心思想：顺水速度 = 船速 + 水速（水流助力）`, null, null, 0],
+                    [`实际速度：船速 ${boatSpeed} + 水速 ${waterSpeed} = ${actualSpeed} 千米/时`, null, actualSpeed, 0],
+                    [`航行时间：距离 ÷ 实际速度 = ${distance} ÷ ${actualSpeed} = ${fmt(time)} 小时`, fmt(time), actualSpeed, 1],
+                    [`验证：${actualSpeed} 千米/时 × ${fmt(time)} 小时 = ${fmt(actualSpeed * time)} 千米 = 航行距离 ${distance} 千米 ✓`, fmt(time), actualSpeed, 1]
+                );
+                
+            } else {
+                const distance = parseInt(document.getElementById('distance').value);
+                const boatSpeed = parseInt(document.getElementById('boatSpeed').value);
+                const waterSpeed = parseInt(document.getElementById('waterSpeed').value);
+                
+                if (!distance || !boatSpeed || !waterSpeed || boatSpeed <= waterSpeed) {
+                    alert('请输入正确的数值：船速必须大于水速，否则无法前进');
+                    return null;
+                }
+                
+                const actualSpeed = boatSpeed - waterSpeed;
+                const time = distance / actualSpeed;
+                
+                result = { distance, boatSpeed, waterSpeed, time, actualSpeed };
+                
+                document.getElementById('distanceLabel').textContent = distance + ' 千米';
+                document.getElementById('speedLabelA').textContent = boatSpeed + '-' + waterSpeed;
+                document.querySelectorAll('.answer-card')[1].querySelector('.answer-unit').textContent = '千米/时';
+                
+                steps.push(
+                    [`题目分析：船逆流而上，水流阻碍船前进`, null, null, 0],
+                    [`核心思想：逆水速度 = 船速 - 水速（水流阻力）`, null, null, 0],
+                    [`实际速度：船速 ${boatSpeed} - 水速 ${waterSpeed} = ${actualSpeed} 千米/时`, null, actualSpeed, 0],
+                    [`航行时间：距离 ÷ 实际速度 = ${distance} ÷ ${actualSpeed} = ${fmt(time)} 小时`, fmt(time), actualSpeed, 1],
+                    [`验证：${actualSpeed} 千米/时 × ${fmt(time)} 小时 = ${fmt(actualSpeed * time)} 千米 = 航行距离 ${distance} 千米 ✓`, fmt(time), actualSpeed, 1]
+                );
+            }
+            
+            return steps;
+        }
+        
+        function updateStepVisibility() {
+            stepsData.forEach((step, index) => {
+                step.classList.toggle('visible', index <= maxReachedStep);
+                step.classList.toggle('active', index === currentStep);
+            });
+        }
+        
+        function showStep(stepIndex) {
+            currentStep = stepIndex;
+            if (stepIndex > maxReachedStep) {
+                maxReachedStep = stepIndex;
+            }
+            
+            document.getElementById('step-counter').textContent = stepIndex + 1;
+            document.getElementById('prevBtn').disabled = stepIndex <= 0;
+            document.getElementById('nextBtn').disabled = stepIndex >= stepsData.length - 1;
+            
+            updateStepVisibility();
+            
+            const currentData = stepsData[stepIndex].dataset;
+            updateVisualization(
+                currentData.time !== 'null' ? parseFloat(currentData.time) : null,
+                currentData.place !== 'null' ? parseFloat(currentData.place) : null,
+                parseFloat(currentData.progress)
+            );
+        }
+        
+        function nextStep() { 
+            if(currentStep < stepsData.length - 1) showStep(currentStep + 1); 
+        }
+        
+        function prevStep() { 
+            if(currentStep > 0) showStep(currentStep - 1); 
+        }
+        
+        function showAllSteps() {
+            if (stepsData.length === 0) {
+                startCalculation();
+            }
+            if (stepsData.length > 0) {
+                maxReachedStep = stepsData.length - 1;
+                showStep(stepsData.length - 1);
+            }
+        }
+        
+        function startCalculation() {
+            const steps = generateSteps();
+            if (!steps) return;
+            
+            updateTravelVisual();
+            document.getElementById('problemText').innerHTML = `<i class="fas fa-book"></i> ${generateProblemText()}`;
+            
+            const stepContainer = document.getElementById('steps');
+            stepContainer.innerHTML = '';
+            stepsData = [];
+            maxReachedStep = 0;
+            
+            steps.forEach(([text, time, place, progress], index) => {
+                const step = createStep(text, index, time, place, progress);
+                stepsData.push(step);
+                stepContainer.appendChild(step);
+            });
+            
+            document.getElementById('total-steps').textContent = stepsData.length;
+            currentStep = 0;
+            showStep(currentStep);
+        }
+        
+        window.onload = function() {
+            renderInputs();
+            resetVisualization();
+        };
+    </script>
+</body>
+</html>
