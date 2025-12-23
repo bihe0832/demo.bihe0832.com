@@ -934,6 +934,7 @@ const poemDetails = {
             { title: '别董大', author: '高适', content: '千里黄云白日曛，北风吹雁雪纷纷。\n莫愁前路无知己，天下谁人不识君。', note: '高适送别友人的名篇' }
         ]
     }
+};
 
 // 关系类型颜色映射
 const relationColors = {
