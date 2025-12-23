@@ -932,14 +932,13 @@
             
             if (isAnimating && !isPaused) {
                 // 正在播放，暂停
-                writer.pauseAnimation();
                 isPaused = true;
                 btn.innerHTML = '<i class="fas fa-play"></i> 继续播放';
             } else if (isAnimating && isPaused) {
-                // 已暂停，继续
-                writer.resumeAnimation();
+                // 已暂停，从当前笔画继续
                 isPaused = false;
                 btn.innerHTML = '<i class="fas fa-pause"></i> 暂停';
+                animateStrokeByStroke(currentStrokeIndex);
             } else {
                 // 未播放，开始播放
                 startAnimation();
@@ -961,13 +960,38 @@
             writer.setCharacter(currentCharacter);
             writer.hideCharacter();
             writer.showOutline();
-            writer.animateCharacter({
+            
+            // 逐笔动画，实时更新 currentStrokeIndex
+            animateStrokeByStroke(0);
+        }
+        
+        // 逐笔播放动画，实时更新进度
+        function animateStrokeByStroke(strokeNum) {
+            if (!writer || !charData) return;
+            if (!isAnimating) return; // 动画被取消
+            
+            const btn = document.getElementById('animateBtn');
+            const totalStrokes = charData.strokes.length;
+            
+            if (strokeNum >= totalStrokes) {
+                // 动画完成
+                isAnimating = false;
+                isPaused = false;
+                currentStrokeIndex = totalStrokes;
+                updateStrokeButtons();
+                btn.innerHTML = '<i class="fas fa-play"></i> 播放笔顺';
+                return;
+            }
+            
+            // 更新当前笔画索引（动画开始前就更新，这样暂停时能获取正确位置）
+            currentStrokeIndex = strokeNum + 1;
+            
+            writer.animateStroke(strokeNum, {
                 onComplete: function() {
-                    isAnimating = false;
-                    isPaused = false;
-                    currentStrokeIndex = charData.strokes.length;
-                    updateStrokeButtons();
-                    btn.innerHTML = '<i class="fas fa-play"></i> 播放笔顺';
+                    if (isAnimating && !isPaused) {
+                        // 继续下一笔
+                        animateStrokeByStroke(strokeNum + 1);
+                    }
                 }
             });
         }
