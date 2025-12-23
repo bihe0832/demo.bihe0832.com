@@ -809,9 +809,11 @@
         // 使用cnchar获取汉字详情（备用方案）
         function fetchCharDetailsByCnchar(char) {
             try {
-                // 使用 cnchar 获取拼音（带音调）
-                const pinyin = cnchar.spell(char, 'tone', 'low');
-                document.getElementById('detailPinyin').textContent = pinyin || '获取失败';
+                // 使用 cnchar 获取拼音（带音调，支持多音字）
+                const pinyin = cnchar.spell(char, 'tone', 'low', 'poly');
+                // poly 模式返回数组，用 / 分隔显示
+                const pinyinText = Array.isArray(pinyin) ? pinyin.join(' / ') : pinyin;
+                document.getElementById('detailPinyin').textContent = pinyinText || '获取失败';
                 
                 // 使用 cnchar-trad 获取繁体字
                 let traditional = char;
