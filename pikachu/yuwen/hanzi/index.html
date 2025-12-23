@@ -510,14 +510,41 @@
             .input-group input, .input-group button {
                 width: 100%;
             }
-            .main-content {
+            .char-display {
+                display: grid;
+                grid-template-areas:
+                    "writer"
+                    "buttons"
+                    "strokegrid"
+                    "details";
+                gap: 20px;
+            }
+            .char-display .main-content {
+                display: contents;
+            }
+            .char-display .writer-section {
+                grid-area: writer;
+                display: flex;
                 flex-direction: column;
                 align-items: center;
             }
-            .stroke-order-section {
-                width: 100%;
+            .char-display .stroke-order-section {
+                display: contents;
             }
-            .stroke-order-grid {
+            .char-display .stroke-order-grid {
+                grid-area: strokegrid;
+                justify-content: center;
+            }
+            .char-display .char-details {
+                grid-area: details;
+            }
+            .char-display .action-buttons {
+                grid-area: buttons;
+                flex-direction: column;
+                gap: 10px;
+            }
+            .char-display .action-buttons .action-btn {
+                width: 100%;
                 justify-content: center;
             }
         }
