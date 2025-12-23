@@ -492,6 +492,15 @@
                 <button class="start-btn" onclick="startCalculation()">
                     <i class="fas fa-play"></i> 开始还原
                 </button>
+                
+                <div class="nav-buttons" style="margin-top: 15px;">
+                    <button class="nav-btn prev" onclick="prevStep()" id="prevBtn" disabled>
+                        <i class="fas fa-arrow-left"></i> 上一步
+                    </button>
+                    <button class="nav-btn next" onclick="nextStep()" id="nextBtn" disabled>
+                        下一步 <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
             </div>
             
             <!-- 中间可视化区域 -->
@@ -541,15 +550,6 @@
                         <span class="step-number">1</span>
                         <span class="step-content">点击"开始还原"查看详细步骤</span>
                     </div>
-                </div>
-                
-                <div class="nav-buttons">
-                    <button class="nav-btn prev" onclick="prevStep()" id="prevBtn" disabled>
-                        <i class="fas fa-arrow-left"></i> 上一步
-                    </button>
-                    <button class="nav-btn next" onclick="nextStep()" id="nextBtn" disabled>
-                        下一步 <i class="fas fa-arrow-right"></i>
-                    </button>
                 </div>
             </div>
         </div>
@@ -910,6 +910,6 @@
         // 初始化
         init();
     </script>
-    <a href="../../index.html" style="display:block;text-align:center;margin:30px auto;color:#667eea;text-decoration:none;font-size:14px;">← 返回皮卡丘学习资源</a>
+    <a href="../../index.html" style="display:block;text-align:center;margin:30px auto;color:#fff;text-decoration:none;font-size:14px;">← 返回皮卡丘学习资源</a>
 </body>
 </html>

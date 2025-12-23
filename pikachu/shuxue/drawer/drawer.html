@@ -67,7 +67,7 @@
         .main-content {
             display: flex;
             gap: 20px;
-            min-height: 500px;
+            height: 700px;
         }
         
         .left-panel {
@@ -151,6 +151,7 @@
             padding: 15px;
             display: flex;
             flex-direction: column;
+            overflow: hidden;
         }
         
         .problem-display {
@@ -161,6 +162,7 @@
             margin-bottom: 15px;
             font-size: 1rem;
             line-height: 1.6;
+            flex-shrink: 0;
         }
         
         .problem-display .highlight {
@@ -176,8 +178,10 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            padding: 20px;
+            justify-content: flex-start;
+            padding: 10px;
+            overflow-y: auto;
+            min-height: 0;
         }
         
         .drawers-container {
@@ -185,8 +189,8 @@
             gap: 15px 15px;
             flex-wrap: wrap;
             justify-content: center;
-            margin-bottom: 40px;
-            row-gap: 35px;
+            margin-bottom: 20px;
+            row-gap: 25px;
         }
         
         .drawer {
@@ -316,14 +320,14 @@
             padding: 15px;
             display: flex;
             flex-direction: column;
-            max-height: 600px;
+            overflow: hidden;
         }
         
         .steps-container {
             flex: 1;
             overflow-y: auto;
-            max-height: 480px;
             padding-right: 5px;
+            min-height: 0;
         }
         
         .steps-container::-webkit-scrollbar {
@@ -346,12 +350,13 @@
             padding: 12px;
             margin-bottom: 10px;
             border-left: 4px solid #ddd;
-            opacity: 0.5;
+            display: none;
             transform: translateX(20px);
             transition: all 0.3s;
         }
         
         .step-item.visible {
+            display: block;
             opacity: 1;
             transform: translateX(0);
             border-left-color: #e74c3c;
@@ -493,6 +498,15 @@
                 <button class="start-btn" onclick="startCalculation()">
                     <i class="fas fa-play"></i> 开始演示
                 </button>
+                
+                <div class="nav-buttons" style="margin-top: 15px;">
+                    <button class="nav-btn prev" onclick="prevStep()" id="prevBtn" disabled>
+                        <i class="fas fa-arrow-left"></i> 上一步
+                    </button>
+                    <button class="nav-btn next" onclick="nextStep()" id="nextBtn" disabled>
+                        下一步 <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
             </div>
             
             <!-- 中间可视化区域 -->
@@ -554,15 +568,6 @@
                         <span class="step-number">1</span>
                         <span class="step-content">点击"开始演示"查看详细步骤</span>
                     </div>
-                </div>
-                
-                <div class="nav-buttons">
-                    <button class="nav-btn prev" onclick="prevStep()" id="prevBtn" disabled>
-                        <i class="fas fa-arrow-left"></i> 上一步
-                    </button>
-                    <button class="nav-btn next" onclick="nextStep()" id="nextBtn" disabled>
-                        下一步 <i class="fas fa-arrow-right"></i>
-                    </button>
                 </div>
             </div>
         </div>
@@ -665,11 +670,6 @@
             // 第一部分：求至少
             steps.push({
                 text: `<strong>【问题一】至少有几只？</strong>`,
-                action: null
-            });
-            
-            steps.push({
-                text: `<strong>鸽巢原理</strong>：把 m 只鸽子放入 n 个鸽巢，至少有一个鸽巢有 ⌊(m-1)/n⌋+1 只鸽子`,
                 action: null
             });
             
@@ -991,6 +991,6 @@
         initDrawers(2);
         initItems(5);
     </script>
-    <a href="../../index.html" style="display:block;text-align:center;margin:30px auto;color:#667eea;text-decoration:none;font-size:14px;">← 返回皮卡丘学习资源</a>
+    <a href="../../index.html" style="display:block;text-align:center;margin:30px auto;color:#fff;text-decoration:none;font-size:14px;">← 返回皮卡丘学习资源</a>
 </body>
 </html>

@@ -167,7 +167,8 @@
         }
         
         .problem-display .highlight {
-            background: rgba(255,255,255,0.2);
+            background: #f1c40f;
+            color: #333;
             padding: 2px 8px;
             border-radius: 5px;
             font-weight: bold;
@@ -179,31 +180,31 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 20px;
+            padding: 10px;
             overflow-y: auto;
         }
         
         .cycle-container {
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 8px;
             justify-content: flex-start;
-            margin-bottom: 20px;
-            padding: 15px;
+            margin-bottom: 10px;
+            padding: 10px;
             background: rgba(155, 89, 182, 0.1);
-            border-radius: 15px;
+            border-radius: 12px;
             max-width: 100%;
-            max-height: 300px;
+            flex: 1;
             overflow-y: auto;
         }
         
         .cycle-row {
             display: flex;
             align-items: center;
-            gap: 10px;
-            padding: 8px 12px;
+            gap: 8px;
+            padding: 5px 10px;
             background: rgba(255,255,255,0.7);
-            border-radius: 10px;
+            border-radius: 8px;
             transition: all 0.3s;
         }
         
@@ -213,45 +214,44 @@
         }
         
         .group-label {
-            min-width: 50px;
-            font-size: 12px;
+            min-width: 45px;
+            font-size: 11px;
             color: #8e44ad;
             font-weight: bold;
         }
         
         .cycle-row-items {
             display: flex;
-            gap: 8px;
+            gap: 5px;
             flex-wrap: wrap;
         }
         
         .cycle-item {
-            width: 40px;
-            min-height: 40px;
-            border-radius: 8px;
+            width: 32px;
+            height: 32px;
+            border-radius: 6px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            font-size: 18px;
+            font-size: 14px;
             font-weight: bold;
             color: white;
             position: relative;
             transition: all 0.3s;
-            padding-bottom: 18px;
         }
         
         .cycle-item .item-text {
-            line-height: 40px;
+            line-height: 32px;
         }
         
         .cycle-item .item-index {
             position: absolute;
-            bottom: 2px;
-            font-size: 10px;
+            bottom: -14px;
+            font-size: 9px;
             color: #666;
             background: rgba(255,255,255,0.8);
-            padding: 0 4px;
+            padding: 0 3px;
             border-radius: 3px;
         }
         
@@ -285,35 +285,35 @@
         
         .answer-cards {
             display: flex;
-            gap: 15px;
+            gap: 10px;
             justify-content: center;
             flex-wrap: wrap;
-            margin-top: 15px;
+            margin-top: 10px;
         }
         
         .answer-card {
             background: white;
-            border-radius: 15px;
-            padding: 12px 20px;
+            border-radius: 10px;
+            padding: 8px 12px;
             text-align: center;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-            border: 3px solid #9b59b6;
-            min-width: 100px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+            border: 2px solid #9b59b6;
+            min-width: 70px;
         }
         
         .answer-card .answer-icon {
-            font-size: 1.5rem;
-            margin-bottom: 5px;
+            font-size: 1.1rem;
+            margin-bottom: 2px;
         }
         
         .answer-card .answer-label {
             color: #666;
-            font-size: 0.8rem;
-            margin-bottom: 3px;
+            font-size: 0.7rem;
+            margin-bottom: 2px;
         }
         
         .answer-card .answer-value {
-            font-size: 1.5rem;
+            font-size: 1.1rem;
             font-weight: bold;
             color: #9b59b6;
         }
@@ -327,13 +327,11 @@
             padding: 15px;
             display: flex;
             flex-direction: column;
-            max-height: 600px;
         }
         
         .steps-container {
             flex: 1;
             overflow-y: auto;
-            max-height: 480px;
             padding: 15px;
             background: linear-gradient(to right, #f5f0ff, #ebe0ff);
             border-radius: 12px;
@@ -424,12 +422,12 @@
             padding: 2px 6px;
             border-radius: 4px;
         }
-        }
         
         .nav-buttons {
             display: flex;
             gap: 10px;
             margin-top: 15px;
+            width: 100%;
         }
         
         .nav-btn {
@@ -438,7 +436,7 @@
             border: none;
             border-radius: 10px;
             cursor: pointer;
-            font-size: 1rem;
+            font-size: 0.95rem;
             font-weight: bold;
             transition: all 0.3s;
         }
@@ -572,6 +570,15 @@
                 <button class="start-btn" onclick="startCalculation()">
                     <i class="fas fa-play"></i> 开始演示
                 </button>
+                
+                <div class="nav-buttons">
+                    <button class="nav-btn prev" onclick="prevStep()" id="prevBtn" disabled>
+                        <i class="fas fa-arrow-left"></i> 上一步
+                    </button>
+                    <button class="nav-btn next" onclick="nextStep()" id="nextBtn" disabled>
+                        下一步 <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
             </div>
             
             <!-- 中间可视化区域 -->
@@ -629,15 +636,6 @@
                         <span class="step-number">1</span>
                         <span class="step-content">点击"开始演示"查看详细步骤</span>
                     </div>
-                </div>
-                
-                <div class="nav-buttons">
-                    <button class="nav-btn prev" onclick="prevStep()" id="prevBtn" disabled>
-                        <i class="fas fa-arrow-left"></i> 上一步
-                    </button>
-                    <button class="nav-btn next" onclick="nextStep()" id="nextBtn" disabled>
-                        下一步 <i class="fas fa-arrow-right"></i>
-                    </button>
                 </div>
             </div>
         </div>
@@ -1045,6 +1043,6 @@
         const initTarget = parseInt(document.getElementById('targetPosition').value) || 1;
         initVisualization(initPattern, initTarget);
     </script>
-    <a href="../../index.html" style="display:block;text-align:center;margin:30px auto;color:#667eea;text-decoration:none;font-size:14px;">← 返回皮卡丘学习资源</a>
+    <a href="../../index.html" style="display:block;text-align:center;margin:20px auto;color:#fff;text-decoration:none;font-size:14px;">← 返回皮卡丘学习资源</a>
 </body>
 </html>
