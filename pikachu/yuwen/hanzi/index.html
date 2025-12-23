@@ -806,13 +806,74 @@
             }
         }
         
+        // 为多音字的每个读音获取不同的词语示例
+        function getPolyPhoneExamples(char, pinyinArr) {
+            if (!cnchar.words) return pinyinArr.map(py => py);
+            
+            try {
+                const words = cnchar.words(char);
+                if (!words || words.length === 0) {
+                    return pinyinArr.map(py => py);
+                }
+                
+                // 过滤出2-3字的词语
+                const shortWords = words.filter(w => w.length >= 2 && w.length <= 3);
+                if (shortWords.length === 0) {
+                    return pinyinArr.map(py => py);
+                }
+                
+                // 为每个读音分配一个不同的词语
+                const usedWords = new Set();
+                const results = [];
+                
+                for (let i = 0; i < pinyinArr.length; i++) {
+                    const py = pinyinArr[i];
+                    // 找一个还没用过的词语
+                    let foundWord = '';
+                    for (const word of shortWords) {
+                        if (!usedWords.has(word)) {
+                            foundWord = word;
+                            usedWords.add(word);
+                            break;
+                        }
+                    }
+                    results.push(foundWord ? `${py}（${foundWord}）` : py);
+                }
+                
+                return results;
+            } catch (e) {
+                console.log('获取多音字词语失败:', e);
+                return pinyinArr.map(py => py);
+            }
+        }
+        
         // 使用cnchar获取汉字详情（备用方案）
         function fetchCharDetailsByCnchar(char) {
             try {
                 // 使用 cnchar 获取拼音（带音调，支持多音字）
-                const pinyin = cnchar.spell(char, 'tone', 'low', 'poly');
-                // poly 模式返回数组，用 / 分隔显示
-                const pinyinText = Array.isArray(pinyin) ? pinyin.join(' / ') : pinyin;
+                let pinyin = cnchar.spell(char, 'tone', 'low', 'poly');
+                
+                // poly 模式返回格式可能是 "(yù|yǔ)" 或 "yù|yǔ" 或数组
+                let pinyinArr;
+                if (typeof pinyin === 'string') {
+                    // 去除首尾括号，按 | 分割
+                    let cleaned = pinyin.replace(/^\(|\)$/g, '');
+                    pinyinArr = cleaned.split('|').map(p => p.trim()).filter(p => p);
+                } else if (Array.isArray(pinyin)) {
+                    pinyinArr = pinyin;
+                } else {
+                    pinyinArr = [String(pinyin)];
+                }
+                
+                let pinyinText;
+                if (pinyinArr.length > 1) {
+                    // 多音字：显示格式 [ yǔ（语文）| yù（告语）]
+                    const parts = getPolyPhoneExamples(char, pinyinArr);
+                    pinyinText = '[ ' + parts.join(' | ') + ' ]';
+                } else {
+                    // 单音字
+                    pinyinText = pinyinArr[0] || pinyin;
+                }
                 document.getElementById('detailPinyin').textContent = pinyinText || '获取失败';
                 
                 // 使用 cnchar-trad 获取繁体字
