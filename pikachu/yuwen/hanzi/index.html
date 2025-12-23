@@ -170,7 +170,7 @@
             background: #fff;
         }
         
-        /* 横竖线（田字格） */
+        /* 横竖线（田字格）- 实线 */
         .mi-grid::before {
             content: '';
             position: absolute;
@@ -178,7 +178,7 @@
             left: 0;
             right: 0;
             height: 1px;
-            background: #ffcccc;
+            background: #ffaaaa;
         }
         
         .mi-grid::after {
@@ -188,10 +188,10 @@
             top: 0;
             bottom: 0;
             width: 1px;
-            background: #ffcccc;
+            background: #ffaaaa;
         }
         
-        /* 对角线（米字格） */
+        /* 对角线（米字格）- 虚线 */
         .mi-grid .diagonal1,
         .mi-grid .diagonal2 {
             position: absolute;
@@ -200,6 +200,7 @@
             width: 100%;
             height: 100%;
             overflow: hidden;
+            pointer-events: none;
         }
         
         .mi-grid .diagonal1::before {
@@ -208,8 +209,8 @@
             top: 0;
             left: 0;
             width: 354px;
-            height: 1px;
-            background: #ffcccc;
+            height: 0;
+            border-top: 1px dashed #ffaaaa;
             transform-origin: top left;
             transform: rotate(45deg);
         }
@@ -220,8 +221,8 @@
             top: 0;
             right: 0;
             width: 354px;
-            height: 1px;
-            background: #ffcccc;
+            height: 0;
+            border-top: 1px dashed #ffaaaa;
             transform-origin: top right;
             transform: rotate(-45deg);
         }
@@ -337,7 +338,7 @@
             overflow: hidden;
         }
         
-        /* 小米加田字格 - 横线 */
+        /* 小米加田字格 - 横线（实线） */
         .stroke-item::before {
             content: '';
             position: absolute;
@@ -345,11 +346,11 @@
             left: 0;
             right: 0;
             height: 1px;
-            background: #ffcccc;
+            background: #ffaaaa;
             z-index: 1;
         }
         
-        /* 小米加田字格 - 竖线 */
+        /* 小米加田字格 - 竖线（实线） */
         .stroke-item::after {
             content: '';
             position: absolute;
@@ -357,11 +358,11 @@
             top: 0;
             bottom: 0;
             width: 1px;
-            background: #ffcccc;
+            background: #ffaaaa;
             z-index: 1;
         }
         
-        /* 小米加田字格 - 对角线 */
+        /* 小米加田字格 - 对角线（虚线） */
         .stroke-item .diagonal {
             position: absolute;
             top: 0;
@@ -377,8 +378,8 @@
             content: '';
             position: absolute;
             width: 71px;
-            height: 1px;
-            background: #ffcccc;
+            height: 0;
+            border-top: 1px dashed #ffaaaa;
         }
         
         .stroke-item .diagonal::before {
