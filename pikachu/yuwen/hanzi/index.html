@@ -635,14 +635,15 @@
     </div>
 
     <script>
-        let writer = null;
+        let animationWriter = null;  // 用于自动播放动画的画笔
+        let manualWriter = null;     // 用于上一笔/下一笔手动控制的画笔
         let strokeWriters = [];
         let currentCharacter = '';
         let charData = null;
         let history = JSON.parse(localStorage.getItem('hanziHistory') || '[]');
         let isAnimating = false;
-        let isPaused = false;
-        let currentStrokeIndex = 0; // 当前显示到第几笔
+        let currentStrokeIndex = 0; // 当前显示到第几笔（用于上一笔/下一笔）
+        let animationTimer = null; // 动画定时器
         
         updateHistoryDisplay();
         
@@ -721,8 +722,8 @@
                 // 获取汉字详情（拼音、繁体、组词）
                 fetchCharDetails(input);
                 
-                // 创建主汉字显示
-                writer = HanziWriter.create('character-target', input, {
+                // 创建主汉字显示（初始用 manualWriter 显示完整汉字）
+                manualWriter = HanziWriter.create('character-target', input, {
                     width: 250,
                     height: 250,
                     padding: 10,
@@ -747,7 +748,8 @@
                 
             } catch (error) {
                 console.error('加载汉字失败:', error);
-                writer = null;
+                animationWriter = null;
+                manualWriter = null;
                 charData = null;
                 document.getElementById('strokeCount').textContent = '-';
                 document.getElementById('strokeNameList').textContent = '-';
@@ -926,74 +928,95 @@
         }
         
         function toggleAnimation() {
-            if (!writer) return;
+            if (!charData) return;
             
             const btn = document.getElementById('animateBtn');
             
-            if (isAnimating && !isPaused) {
+            if (isAnimating) {
                 // 正在播放，暂停
+                isAnimating = false;
                 isPaused = true;
-                btn.innerHTML = '<i class="fas fa-play"></i> 继续播放';
-            } else if (isAnimating && isPaused) {
-                // 已暂停，从当前笔画继续
-                isPaused = false;
-                btn.innerHTML = '<i class="fas fa-pause"></i> 暂停';
-                animateStrokeByStroke(currentStrokeIndex);
+                // 停止定时器
+                if (animationTimer) {
+                    clearTimeout(animationTimer);
+                    animationTimer = null;
+                }
+                btn.innerHTML = '<i class="fas fa-play"></i> 播放笔顺';
+                updateStrokeButtons();
             } else {
-                // 未播放，开始播放
+                // 未播放或已暂停，都从头开始播放
                 startAnimation();
             }
         }
         
         function startAnimation() {
-            if (!writer) return;
+            if (!charData) return;
             
             const btn = document.getElementById('animateBtn');
             isAnimating = true;
-            isPaused = false;
-            currentStrokeIndex = 0;
             btn.innerHTML = '<i class="fas fa-pause"></i> 暂停';
-            // 动画开始时启用按钮（允许用户中途切换）
             updateStrokeButtons();
             
-            // 隐藏笔画但保留轮廓，然后播放动画
-            writer.setCharacter(currentCharacter);
-            writer.hideCharacter();
-            writer.showOutline();
-            
-            // 逐笔动画，实时更新 currentStrokeIndex
-            animateStrokeByStroke(0);
-        }
-        
-        // 逐笔播放动画，实时更新进度
-        function animateStrokeByStroke(strokeNum) {
-            if (!writer || !charData) return;
-            if (!isAnimating) return; // 动画被取消
-            
-            const btn = document.getElementById('animateBtn');
-            const totalStrokes = charData.strokes.length;
-            
-            if (strokeNum >= totalStrokes) {
-                // 动画完成
-                isAnimating = false;
-                isPaused = false;
-                currentStrokeIndex = totalStrokes;
-                updateStrokeButtons();
-                btn.innerHTML = '<i class="fas fa-play"></i> 播放笔顺';
-                return;
+            // 停止之前的定时器
+            if (animationTimer) {
+                clearTimeout(animationTimer);
+                animationTimer = null;
             }
             
-            // 更新当前笔画索引（动画开始前就更新，这样暂停时能获取正确位置）
-            currentStrokeIndex = strokeNum + 1;
+            // 清除手动控制的画笔
+            manualWriter = null;
             
-            writer.animateStroke(strokeNum, {
-                onComplete: function() {
-                    if (isAnimating && !isPaused) {
-                        // 继续下一笔
-                        animateStrokeByStroke(strokeNum + 1);
-                    }
-                }
+            // 动画从第0笔开始，但不重置 currentStrokeIndex（保留给上一笔/下一笔用）
+            let animStrokeIndex = 0;
+            
+            // 重新创建 animationWriter 用于动画
+            const target = document.getElementById('character-target');
+            target.innerHTML = '';
+            
+            animationWriter = HanziWriter.create('character-target', currentCharacter, {
+                width: 250,
+                height: 250,
+                padding: 10,
+                strokeColor: '#333',
+                radicalColor: '#667eea',
+                outlineColor: '#ddd',
+                showOutline: true,
+                showCharacter: false,
+                strokeAnimationSpeed: 0.8,
+                delayBetweenStrokes: 300
             });
+            
+            // 逐笔播放动画
+            function animateNext() {
+                if (!animationWriter || !charData) return;
+                
+                if (animStrokeIndex >= charData.strokes.length) {
+                    // 动画完成
+                    isAnimating = false;
+                    currentStrokeIndex = charData.strokes.length;
+                    btn.innerHTML = '<i class="fas fa-play"></i> 播放笔顺';
+                    updateStrokeButtons();
+                    return;
+                }
+                
+                if (!isAnimating) {
+                    // 被暂停了，记录当前位置
+                    currentStrokeIndex = animStrokeIndex;
+                    return;
+                }
+                
+                // 播放当前笔画
+                animationWriter.animateStroke(animStrokeIndex, {
+                    onComplete: function() {
+                        animStrokeIndex++;
+                        currentStrokeIndex = animStrokeIndex; // 同步更新位置
+                        // 延迟后播放下一笔
+                        animationTimer = setTimeout(animateNext, 300);
+                    }
+                });
+            }
+            
+            animateNext();
         }
         
         // 更新上一笔/下一笔按钮状态
@@ -1010,29 +1033,29 @@
             nextBtn.disabled = false;
         }
         
-        // 显示到指定笔画
+        // 显示到指定笔画（使用 manualWriter，不影响 animationWriter）
         function showUpToStroke(strokeNum) {
             if (!charData) return;
             
-            // 停止动画（无论是否暂停）
-            if (isAnimating || isPaused) {
-                if (writer) {
-                    try {
-                        writer.cancelAnimation();
-                    } catch(e) {}
-                }
-                isAnimating = false;
-                isPaused = false;
-                document.getElementById('animateBtn').innerHTML = '<i class="fas fa-play"></i> 播放笔顺';
+            // 停止动画播放器和定时器
+            if (animationWriter) {
+                animationWriter = null;
             }
+            if (animationTimer) {
+                clearTimeout(animationTimer);
+                animationTimer = null;
+            }
+            isAnimating = false;
+            isPaused = false;
+            document.getElementById('animateBtn').innerHTML = '<i class="fas fa-play"></i> 播放笔顺';
             
-            // 重新创建 writer 显示指定笔画
+            // 使用 manualWriter 显示指定笔画
             const target = document.getElementById('character-target');
             target.innerHTML = '';
             
             if (strokeNum <= 0) {
                 // 显示空的轮廓（0笔）
-                writer = HanziWriter.create('character-target', currentCharacter, {
+                manualWriter = HanziWriter.create('character-target', currentCharacter, {
                     width: 250,
                     height: 250,
                     padding: 10,
@@ -1073,7 +1096,7 @@
                 fgDiv.style.cssText = 'position:absolute;top:0;left:0;z-index:10;';
                 target.appendChild(fgDiv);
                 
-                writer = HanziWriter.create('character-fg', currentCharacter, {
+                manualWriter = HanziWriter.create('character-fg', currentCharacter, {
                     width: 250,
                     height: 250,
                     padding: 10,
