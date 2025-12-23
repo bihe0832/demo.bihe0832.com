@@ -299,6 +299,13 @@
             flex: 1;
         }
 
+        .detail-section .biography-content {
+            color: #ccc;
+            font-size: 0.85em;
+            line-height: 1.8;
+            text-align: justify;
+        }
+
         .detail-section .masterpiece-list {
             display: flex;
             flex-wrap: wrap;
@@ -753,6 +760,10 @@
                 </div>
             </div>
             <div class="detail-section">
+                <h4>生平简介</h4>
+                <div class="biography-content" id="detail-biography"></div>
+            </div>
+            <div class="detail-section">
                 <h4>代表作</h4>
                 <div class="masterpiece-list" id="detail-masterpieces"></div>
             </div>
@@ -946,6 +957,7 @@
             document.getElementById('detail-title').innerText = poet.title;
             document.getElementById('detail-school').innerText = poet.category;
             document.getElementById('detail-primary-relation').innerText = poet.primaryRelation;
+            document.getElementById('detail-biography').innerText = poet.biography || poet.intro || '暂无生平简介。';
 
             const masterpiecesDiv = document.getElementById('detail-masterpieces');
             masterpiecesDiv.innerHTML = '';
