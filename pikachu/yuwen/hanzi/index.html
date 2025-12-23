@@ -1,0 +1,1066 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no" />    
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="Expires" content="0">
+    <link rel="Shortcut Icon" href="https://cdn.bihe0832.com/images/zixie_32.ico" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/hanzi-writer@3.5/dist/hanzi-writer.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/cnchar/cnchar.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/cnchar-order/cnchar.order.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/cnchar-trad/cnchar.trad.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/cnchar-idiom/cnchar.idiom.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/cnchar-words/cnchar.words.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/cnchar-xhy/cnchar.xhy.min.js"></script>
+    <meta name="author" content="子勰(bihe0832), code@bihe0832.com" />
+    <meta name="keywords" content="子勰,bihe0832,识字,汉字学习,笔画顺序" />
+    <meta name="description" content="皮卡丘识字学习 - 汉字笔画顺序" />
+    <title>皮卡丘识字学习</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Microsoft YaHei', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        header {
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            color: white;
+            padding: 25px 30px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+        }
+        
+        header h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+        }
+        
+        header p {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+        
+        .input-section {
+            background: #fff;
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        .input-group {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+        
+        .input-group input {
+            flex: 1;
+            padding: 15px 20px;
+            font-size: 1.5rem;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            text-align: center;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .input-group input:focus {
+            border-color: #667eea;
+        }
+        
+        .input-group button {
+            padding: 15px 30px;
+            font-size: 1.1rem;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            font-weight: 600;
+        }
+        
+        .input-group button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .result-section {
+            display: none;
+        }
+        
+        .result-section.show {
+            display: block;
+        }
+        
+        .char-display {
+            background: #fff;
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        .char-title {
+            font-size: 1.3rem;
+            color: #667eea;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .char-title span {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .main-content {
+            display: flex;
+            gap: 30px;
+            align-items: flex-start;
+            justify-content: center;
+        }
+        
+        .writer-section {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .writer-container {
+            position: relative;
+            width: 250px;
+            height: 250px;
+            margin-bottom: 15px;
+        }
+        
+        /* 米加田字格背景 */
+        .mi-grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 250px;
+            height: 250px;
+            border: 3px solid #e74c3c;
+            background: #fff;
+        }
+        
+        /* 横竖线（田字格） */
+        .mi-grid::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: #ffcccc;
+        }
+        
+        .mi-grid::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: #ffcccc;
+        }
+        
+        /* 对角线（米字格） */
+        .mi-grid .diagonal1,
+        .mi-grid .diagonal2 {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        
+        .mi-grid .diagonal1::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 354px;
+            height: 1px;
+            background: #ffcccc;
+            transform-origin: top left;
+            transform: rotate(45deg);
+        }
+        
+        .mi-grid .diagonal2::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 354px;
+            height: 1px;
+            background: #ffcccc;
+            transform-origin: top right;
+            transform: rotate(-45deg);
+        }
+        
+        #character-target {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 10;
+        }
+        
+        .stroke-info {
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            padding: 12px 20px;
+            border-radius: 20px;
+            font-size: 1rem;
+            display: inline-block;
+        }
+        
+        .stroke-info span {
+            color: #667eea;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        /* 笔顺名称展示 */
+        .stroke-names {
+            margin-top: 12px;
+            max-width: 250px;
+            background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+            padding: 10px 15px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+        
+        .stroke-names-label {
+            color: #666;
+            font-weight: 500;
+        }
+        
+        .stroke-names-list {
+            color: #667eea;
+            font-weight: 600;
+        }
+        
+        /* 笔画顺序展示区 */
+        .stroke-order-section {
+            flex: 1;
+            max-width: 400px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .stroke-order-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+        
+        /* 汉字详情区 */
+        .char-details {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 15px;
+        }
+        
+        .detail-item {
+            display: flex;
+            align-items: center;
+            padding: 10px 0;
+            line-height: 1.6;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .detail-item:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+        }
+        
+        .detail-item:first-child {
+            padding-top: 0;
+        }
+        
+        .detail-label {
+            color: #667eea;
+            font-weight: 600;
+            min-width: 60px;
+            flex-shrink: 0;
+            align-self: center;
+        }
+        
+        .detail-value {
+            color: #333;
+            align-self: center;
+        }
+        
+        .detail-value.pinyin {
+            font-size: 1.1rem;
+        }
+        
+        .detail-value.traditional {
+            font-size: 1.2rem;
+        }
+        
+        .stroke-item {
+            position: relative;
+            width: 50px;
+            height: 50px;
+            border: 1px solid #e74c3c;
+            background: #fff;
+            overflow: hidden;
+        }
+        
+        /* 小米加田字格 - 横线 */
+        .stroke-item::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: #ffcccc;
+            z-index: 1;
+        }
+        
+        /* 小米加田字格 - 竖线 */
+        .stroke-item::after {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 1px;
+            background: #ffcccc;
+            z-index: 1;
+        }
+        
+        /* 小米加田字格 - 对角线 */
+        .stroke-item .diagonal {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+        
+        .stroke-item .diagonal::before,
+        .stroke-item .diagonal::after {
+            content: '';
+            position: absolute;
+            width: 71px;
+            height: 1px;
+            background: #ffcccc;
+        }
+        
+        .stroke-item .diagonal::before {
+            top: 0;
+            left: 0;
+            transform-origin: top left;
+            transform: rotate(45deg);
+        }
+        
+        .stroke-item .diagonal::after {
+            top: 0;
+            right: 0;
+            transform-origin: top right;
+            transform: rotate(-45deg);
+        }
+        
+        .stroke-item .stroke-num {
+            position: absolute;
+            top: 0;
+            left: 2px;
+            font-size: 0.6rem;
+            color: #e74c3c;
+            font-weight: bold;
+            z-index: 20;
+        }
+        
+        .stroke-item svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 10;
+        }
+        
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 25px;
+        }
+        
+        .action-btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .action-btn.primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: #fff;
+        }
+        
+        .action-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        
+        .action-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .history-section {
+            background: #fff;
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        .history-section h4 {
+            font-size: 1rem;
+            color: #666;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .history-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .history-item {
+            background: #f0f0f0;
+            padding: 8px 15px;
+            border-radius: 20px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .history-item:hover {
+            background: #667eea;
+            color: #fff;
+        }
+        
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 25px;
+            color: #fff;
+            text-decoration: none;
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+        
+        .back-link:hover {
+            opacity: 1;
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 1.5rem;
+            }
+            .input-group {
+                flex-direction: column;
+            }
+            .input-group input, .input-group button {
+                width: 100%;
+            }
+            .main-content {
+                flex-direction: column;
+                align-items: center;
+            }
+            .stroke-order-section {
+                width: 100%;
+            }
+            .stroke-order-grid {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>✏️ 皮卡丘识字学习</h1>
+            <p>输入汉字，学习笔画顺序</p>
+        </header>
+        
+        <div class="input-section">
+            <div class="input-group">
+                <input type="text" id="charInput" placeholder="请输入一个汉字" maxlength="1" autofocus>
+                <button onclick="lookupChar()"><i class="fas fa-search"></i> 查询</button>
+            </div>
+        </div>
+        
+        <div class="history-section" id="historySection" style="display:none;">
+            <h4><i class="fas fa-history"></i> 最近查询</h4>
+            <div class="history-list" id="historyList"></div>
+        </div>
+        
+        <div class="result-section" id="resultSection">
+            <div class="char-display">
+                <div class="main-content">
+                    <div class="writer-section">
+                        <div class="writer-container">
+                            <div class="mi-grid">
+                                <div class="diagonal1"></div>
+                                <div class="diagonal2"></div>
+                            </div>
+                            <div id="character-target"></div>
+                        </div>
+                        <div class="stroke-info">
+                            笔画数：<span id="strokeCount">0</span> 画
+                        </div>
+                        <div class="stroke-names" id="strokeNames">
+                            <span class="stroke-names-label">笔顺：</span>
+                            <span class="stroke-names-list" id="strokeNameList">-</span>
+                        </div>
+                    </div>
+                    
+                    <div class="stroke-order-section">
+                        <div class="stroke-order-grid" id="strokeOrderGrid"></div>
+                        <div class="char-details" id="charDetails">
+                            <div class="detail-item">
+                                <span class="detail-label">拼音：</span>
+                                <span class="detail-value pinyin" id="detailPinyin">-</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">繁体：</span>
+                                <span class="detail-value traditional" id="detailTraditional">-</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">组词：</span>
+                                <span class="detail-value" id="detailWords">-</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">成语：</span>
+                                <span class="detail-value" id="detailIdiom">-</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="detail-label">歇后语：</span>
+                                <span class="detail-value" id="detailXhy">-</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="action-buttons">
+                    <button class="action-btn" onclick="prevStroke()" id="prevBtn" style="background:#6c757d;color:#fff;" disabled>
+                        <i class="fas fa-step-backward"></i> 上一笔
+                    </button>
+                    <button class="action-btn primary" onclick="toggleAnimation()" id="animateBtn" disabled>
+                        <i class="fas fa-play"></i> 播放笔顺
+                    </button>
+                    <button class="action-btn" onclick="nextStroke()" id="nextBtn" style="background:#6c757d;color:#fff;" disabled>
+                        <i class="fas fa-step-forward"></i> 下一笔
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <a href="../../index.html" class="back-link">← 返回皮卡丘学习资源</a>
+    </div>
+
+    <script>
+        let writer = null;
+        let strokeWriters = [];
+        let currentCharacter = '';
+        let charData = null;
+        let history = JSON.parse(localStorage.getItem('hanziHistory') || '[]');
+        let isAnimating = false;
+        let isPaused = false;
+        let currentStrokeIndex = 0; // 当前显示到第几笔
+        
+        updateHistoryDisplay();
+        
+        // 页面加载时默认查询"语"字
+        document.getElementById('charInput').value = '语';
+        lookupChar();
+        
+        // 回车查询
+        document.getElementById('charInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') lookupChar();
+        });
+        
+        function updateHistoryDisplay() {
+            const section = document.getElementById('historySection');
+            const list = document.getElementById('historyList');
+            if (history.length === 0) {
+                section.style.display = 'none';
+                return;
+            }
+            section.style.display = 'block';
+            list.innerHTML = history.map(char => 
+                `<span class="history-item" onclick="lookupFromHistory('${char}')">${char}</span>`
+            ).join('');
+        }
+        
+        function lookupFromHistory(char) {
+            document.getElementById('charInput').value = char;
+            lookupChar();
+        }
+        
+        function addToHistory(char) {
+            history = history.filter(c => c !== char);
+            history.unshift(char);
+            if (history.length > 12) history.pop();
+            localStorage.setItem('hanziHistory', JSON.stringify(history));
+            updateHistoryDisplay();
+        }
+        
+        async function lookupChar() {
+            const input = document.getElementById('charInput').value.trim();
+            const resultSection = document.getElementById('resultSection');
+            
+            if (!input) {
+                alert('请输入一个汉字');
+                return;
+            }
+            
+            // 检查是否为汉字
+            if (!/^[\u4e00-\u9fa5]$/.test(input)) {
+                alert('请输入一个有效的汉字');
+                return;
+            }
+            
+            currentCharacter = input;
+            addToHistory(input);
+            
+            // 清除之前的内容
+            const target = document.getElementById('character-target');
+            target.innerHTML = '';
+            const strokeGrid = document.getElementById('strokeOrderGrid');
+            strokeGrid.innerHTML = '';
+            strokeWriters = [];
+            
+            try {
+                // 先获取汉字数据
+                const response = await fetch(`https://cdn.jsdelivr.net/npm/hanzi-writer-data@2.0/${input}.json`);
+                if (!response.ok) throw new Error('Character not found');
+                charData = await response.json();
+                
+                // 更新笔画数
+                document.getElementById('strokeCount').textContent = charData.strokes.length;
+                
+                // 更新笔顺名称
+                updateStrokeNames(input);
+                
+                // 获取汉字详情（拼音、繁体、组词）
+                fetchCharDetails(input);
+                
+                // 创建主汉字显示
+                writer = HanziWriter.create('character-target', input, {
+                    width: 250,
+                    height: 250,
+                    padding: 10,
+                    strokeColor: '#333',
+                    radicalColor: '#667eea',
+                    outlineColor: '#ddd',
+                    showOutline: true,
+                    showCharacter: true,
+                    strokeAnimationSpeed: 0.8,
+                    delayBetweenStrokes: 300
+                });
+                
+                // 创建笔画顺序展示
+                createStrokeOrderDisplay(input, charData.strokes.length);
+                
+                document.getElementById('animateBtn').disabled = false;
+                // 初始化当前笔画索引（显示完整汉字）
+                currentStrokeIndex = charData.strokes.length;
+                // 更新按钮状态：上一笔可点，下一笔不可点
+                updateStrokeButtons();
+                resultSection.classList.add('show');
+                
+            } catch (error) {
+                console.error('加载汉字失败:', error);
+                writer = null;
+                charData = null;
+                document.getElementById('strokeCount').textContent = '-';
+                document.getElementById('strokeNameList').textContent = '-';
+                target.innerHTML = '<div style="padding:90px 20px;color:#e74c3c;text-align:center;font-size:1.1rem;">暂不支持该汉字</div>';
+                strokeGrid.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:#999;padding:20px;">无笔画数据</div>';
+                clearCharDetails();
+                document.getElementById('animateBtn').disabled = true;
+                document.getElementById('prevBtn').disabled = true;
+                document.getElementById('nextBtn').disabled = true;
+                resultSection.classList.add('show');
+            }
+        }
+        
+        // 获取汉字详情
+        function fetchCharDetails(char) {
+            fetchCharDetailsByCnchar(char);
+        }
+        
+        // 更新笔顺名称
+        function updateStrokeNames(char) {
+            const container = document.getElementById('strokeNameList');
+            try {
+                // 使用 cnchar 获取笔顺名称
+                let strokeNames = [];
+                if (cnchar.stroke) {
+                    // cnchar.stroke 返回的是字符串数组或嵌套数组
+                    const result = cnchar.stroke(char, 'order', 'name');
+                    console.log('stroke result:', result, typeof result);
+                    
+                    if (result) {
+                        // 如果是嵌套数组 [["横", "竖"...]]，取第一个
+                        if (Array.isArray(result) && result.length > 0) {
+                            if (Array.isArray(result[0])) {
+                                strokeNames = result[0];
+                            } else {
+                                strokeNames = result;
+                            }
+                        } else if (typeof result === 'string') {
+                            // 如果是字符串，按空格或逗号分割
+                            strokeNames = result.split(/[,，\s]+/).filter(s => s.trim());
+                        }
+                    }
+                }
+                
+                if (strokeNames.length > 0) {
+                    // 用顿号分隔显示
+                    container.textContent = strokeNames.join('、');
+                } else {
+                    container.textContent = '暂无笔顺数据';
+                }
+            } catch (e) {
+                console.log('获取笔顺名称失败:', e);
+                container.textContent = '暂无笔顺数据';
+            }
+        }
+        
+        // 使用cnchar获取汉字详情（备用方案）
+        function fetchCharDetailsByCnchar(char) {
+            try {
+                // 使用 cnchar 获取拼音（带音调）
+                const pinyin = cnchar.spell(char, 'tone', 'low');
+                document.getElementById('detailPinyin').textContent = pinyin || '获取失败';
+                
+                // 使用 cnchar-trad 获取繁体字
+                let traditional = char;
+                if (cnchar.trad) {
+                    traditional = cnchar.trad.convert.simpleToTrad(char);
+                }
+                document.getElementById('detailTraditional').textContent = traditional || '获取失败';
+                
+                // 获取组词：使用 cnchar-words 获取普通词语（2-3字）
+                let wordsList = [];
+                if (cnchar.words) {
+                    const words = cnchar.words(char);
+                    if (words && words.length > 0) {
+                        // 过滤出2-3字的常用词
+                        const shortWords = words.filter(w => w.length >= 2 && w.length <= 3);
+                        wordsList = shortWords.slice(0, 4);
+                        // 如果2-3字词不足，取所有词
+                        if (wordsList.length < 4) {
+                            wordsList = words.slice(0, 4);
+                        }
+                    }
+                }
+                document.getElementById('detailWords').textContent = wordsList.length > 0 ? wordsList.join('、') : '暂无';
+                
+                // 获取成语
+                let idiomList = [];
+                if (cnchar.idiom) {
+                    const idioms = cnchar.idiom(char);
+                    if (idioms && idioms.length > 0) {
+                        idiomList = idioms.slice(0, 3);
+                    }
+                }
+                document.getElementById('detailIdiom').textContent = idiomList.length > 0 ? idiomList.join('、') : '暂无';
+                
+                // 获取歇后语（随机取一个）
+                let xhyText = '暂无';
+                try {
+                    if (cnchar.xhy) {
+                        // xhy 搜索包含该字的歇后语
+                        const xhyResult = cnchar.xhy(char, 'fuzzy');
+                        if (xhyResult && xhyResult.length > 0) {
+                            // 随机取一个
+                            const randomIndex = Math.floor(Math.random() * xhyResult.length);
+                            const item = xhyResult[randomIndex];
+                            if (Array.isArray(item)) {
+                                xhyText = item[0] + ' —— ' + item[1];
+                            } else {
+                                // 字符串格式，替换可能的分隔符
+                                xhyText = String(item).replace(/[-—]+/g, ' —— ');
+                            }
+                        }
+                    }
+                } catch (xhyError) {
+                    console.log('歇后语获取失败:', xhyError);
+                }
+                document.getElementById('detailXhy').textContent = xhyText;
+                
+            } catch (e) {
+                console.error('cnchar处理失败:', e);
+                document.getElementById('detailPinyin').textContent = '暂无';
+                document.getElementById('detailTraditional').textContent = '暂无';
+                document.getElementById('detailWords').textContent = '暂无';
+                document.getElementById('detailIdiom').textContent = '暂无';
+                document.getElementById('detailXhy').textContent = '暂无';
+            }
+        }
+        
+        // 清空详情
+        function clearCharDetails() {
+            document.getElementById('detailPinyin').textContent = '暂无';
+            document.getElementById('detailTraditional').textContent = '暂无';
+            document.getElementById('detailWords').textContent = '暂无';
+            document.getElementById('detailIdiom').textContent = '暂无';
+            document.getElementById('detailXhy').textContent = '暂无';
+        }
+        
+        function createStrokeOrderDisplay(char, strokeCount) {
+            const grid = document.getElementById('strokeOrderGrid');
+            grid.innerHTML = '';
+            strokeWriters = [];
+            
+            for (let i = 0; i < strokeCount; i++) {
+                const item = document.createElement('div');
+                item.className = 'stroke-item';
+                item.innerHTML = `
+                    <div class="diagonal"></div>
+                    <span class="stroke-num">${i + 1}</span>
+                    <div id="stroke-${i}"></div>
+                `;
+                grid.appendChild(item);
+                
+                // 创建只显示前 i+1 笔的自定义数据
+                const strokeIndex = i;
+                const customCharData = JSON.parse(JSON.stringify(charData));
+                // 只保留前 strokeIndex+1 笔
+                customCharData.strokes = customCharData.strokes.slice(0, strokeIndex + 1);
+                customCharData.medians = customCharData.medians.slice(0, strokeIndex + 1);
+                
+                const strokeWriter = HanziWriter.create(`stroke-${i}`, char, {
+                    width: 50,
+                    height: 50,
+                    padding: 3,
+                    strokeColor: '#333',
+                    outlineColor: '#ddd',
+                    showOutline: true,
+                    showCharacter: true,
+                    charDataLoader: function() {
+                        return Promise.resolve(customCharData);
+                    }
+                });
+                
+                strokeWriters.push(strokeWriter);
+            }
+        }
+        
+        function toggleAnimation() {
+            if (!writer) return;
+            
+            const btn = document.getElementById('animateBtn');
+            
+            if (isAnimating && !isPaused) {
+                // 正在播放，暂停
+                writer.pauseAnimation();
+                isPaused = true;
+                btn.innerHTML = '<i class="fas fa-play"></i> 继续播放';
+            } else if (isAnimating && isPaused) {
+                // 已暂停，继续
+                writer.resumeAnimation();
+                isPaused = false;
+                btn.innerHTML = '<i class="fas fa-pause"></i> 暂停';
+            } else {
+                // 未播放，开始播放
+                startAnimation();
+            }
+        }
+        
+        function startAnimation() {
+            if (!writer) return;
+            
+            const btn = document.getElementById('animateBtn');
+            isAnimating = true;
+            isPaused = false;
+            currentStrokeIndex = 0;
+            btn.innerHTML = '<i class="fas fa-pause"></i> 暂停';
+            // 动画开始时启用按钮（允许用户中途切换）
+            updateStrokeButtons();
+            
+            // 隐藏笔画但保留轮廓，然后播放动画
+            writer.setCharacter(currentCharacter);
+            writer.hideCharacter();
+            writer.showOutline();
+            writer.animateCharacter({
+                onComplete: function() {
+                    isAnimating = false;
+                    isPaused = false;
+                    currentStrokeIndex = charData.strokes.length;
+                    updateStrokeButtons();
+                    btn.innerHTML = '<i class="fas fa-play"></i> 播放笔顺';
+                }
+            });
+        }
+        
+        // 更新上一笔/下一笔按钮状态
+        function updateStrokeButtons() {
+            const prevBtn = document.getElementById('prevBtn');
+            const nextBtn = document.getElementById('nextBtn');
+            if (!charData) {
+                prevBtn.disabled = true;
+                nextBtn.disabled = true;
+                return;
+            }
+            // 循环模式，按钮始终可用
+            prevBtn.disabled = false;
+            nextBtn.disabled = false;
+        }
+        
+        // 显示到指定笔画
+        function showUpToStroke(strokeNum) {
+            if (!charData) return;
+            
+            // 停止动画（无论是否暂停）
+            if (isAnimating || isPaused) {
+                if (writer) {
+                    try {
+                        writer.cancelAnimation();
+                    } catch(e) {}
+                }
+                isAnimating = false;
+                isPaused = false;
+                document.getElementById('animateBtn').innerHTML = '<i class="fas fa-play"></i> 播放笔顺';
+            }
+            
+            // 重新创建 writer 显示指定笔画
+            const target = document.getElementById('character-target');
+            target.innerHTML = '';
+            
+            if (strokeNum <= 0) {
+                // 显示空的轮廓（0笔）
+                writer = HanziWriter.create('character-target', currentCharacter, {
+                    width: 250,
+                    height: 250,
+                    padding: 10,
+                    strokeColor: '#333',
+                    radicalColor: '#667eea',
+                    outlineColor: '#ddd',
+                    showOutline: true,
+                    showCharacter: false,
+                    strokeAnimationSpeed: 0.8,
+                    delayBetweenStrokes: 300
+                });
+            } else {
+                // 创建只显示前 strokeNum 笔的自定义数据，但保留完整轮廓
+                const numStrokes = Math.min(strokeNum, charData.strokes.length);
+                const customCharData = JSON.parse(JSON.stringify(charData));
+                customCharData.strokes = customCharData.strokes.slice(0, numStrokes);
+                customCharData.medians = customCharData.medians.slice(0, numStrokes);
+                
+                // 先创建完整轮廓的背景层
+                const bgDiv = document.createElement('div');
+                bgDiv.id = 'character-bg';
+                bgDiv.style.cssText = 'position:absolute;top:0;left:0;z-index:5;';
+                target.appendChild(bgDiv);
+                
+                HanziWriter.create('character-bg', currentCharacter, {
+                    width: 250,
+                    height: 250,
+                    padding: 10,
+                    strokeColor: '#ddd',
+                    outlineColor: '#ddd',
+                    showOutline: true,
+                    showCharacter: false
+                });
+                
+                // 再创建显示笔画的前景层
+                const fgDiv = document.createElement('div');
+                fgDiv.id = 'character-fg';
+                fgDiv.style.cssText = 'position:absolute;top:0;left:0;z-index:10;';
+                target.appendChild(fgDiv);
+                
+                writer = HanziWriter.create('character-fg', currentCharacter, {
+                    width: 250,
+                    height: 250,
+                    padding: 10,
+                    strokeColor: '#333',
+                    radicalColor: '#667eea',
+                    outlineColor: '#ddd',
+                    showOutline: false,
+                    showCharacter: true,
+                    strokeAnimationSpeed: 0.8,
+                    delayBetweenStrokes: 300,
+                    charDataLoader: function() {
+                        return Promise.resolve(customCharData);
+                    }
+                });
+            }
+            
+            updateStrokeButtons();
+        }
+        
+        // 上一笔（循环）
+        function prevStroke() {
+            if (!charData) return;
+            currentStrokeIndex--;
+            if (currentStrokeIndex < 0) {
+                currentStrokeIndex = charData.strokes.length;
+            }
+            showUpToStroke(currentStrokeIndex);
+        }
+        
+        // 下一笔（循环）
+        function nextStroke() {
+            if (!charData) return;
+            currentStrokeIndex++;
+            if (currentStrokeIndex > charData.strokes.length) {
+                currentStrokeIndex = 0;
+            }
+            showUpToStroke(currentStrokeIndex);
+        }
+    </script>
+</body>
+</html>
