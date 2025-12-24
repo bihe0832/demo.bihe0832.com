@@ -1,0 +1,1179 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="Expires" content="0">
+    <link rel="Shortcut Icon" href="https://cdn.bihe0832.com/images/zixie_32.ico" />
+    <meta name="author" content="子勰(bihe0832), code@bihe0832.com" />
+    <meta name="keywords" content="子勰,bihe0832,皮卡丘,古诗词,艾宾浩斯,记忆曲线" />
+    <meta name="description" content="皮卡丘学语文之诗词记忆计划 - 基于艾宾浩斯记忆曲线的古诗词科学复习工具" />
+    <meta property="og:title" content="皮卡丘学语文之诗词记忆计划" />
+    <meta property="og:locale" content="zh_CN" />
+    <meta name="google-site-verification" content="3wzNgbjvFNHkH-8QpougMZ0s9Y4GEjG49kEb49QQqpw" />
+    <meta property="og:description" content="基于艾宾浩斯记忆曲线的古诗词科学复习工具，每天一首，科学复习" />
+    <link rel="canonical" href="https://blog.bihe0832.com/" />
+    <meta property="og:url" content="https://blog.bihe0832.com/" />
+    <meta property="og:site_name" content="皮卡丘学语文" />
+    <meta property="og:type" content="article" />
+    <title>皮卡丘学语文之诗词记忆计划</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="poems-75.js"></script>
+    <style>
+        @font-face {
+            font-family: 'ZCOOLKuaiLe-Regular';
+            src: url('https://cdn.jsdelivr.net/gh/nicefont/zcool-kuaile@1.0/ZCOOLKuaiLe-Regular.woff2') format('woff2');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html, body {
+            height: 100%;
+            overflow: hidden;
+        }
+
+        body {
+            font-family: 'ZCOOLKuaiLe-Regular', -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Hiragino Sans GB', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            background-attachment: fixed;
+            color: #e0e0e0;
+            padding: 15px;
+            padding-top: max(15px, env(safe-area-inset-top));
+            padding-bottom: max(15px, env(safe-area-inset-bottom));
+            padding-left: max(15px, env(safe-area-inset-left));
+            padding-right: max(15px, env(safe-area-inset-right));
+            display: flex;
+            flex-direction: column;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 0;
+            width: 100%;
+        }
+
+        /* 标题区域 */
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 10px 0;
+        }
+
+        .header h1 {
+            font-size: 1.6em;
+            color: #fff;
+            text-shadow: 0 0 15px rgba(255, 200, 100, 0.4);
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .header .subtitle {
+            color: #999;
+            font-size: 0.85em;
+        }
+
+        /* 选择诗词面板 */
+        .select-panel {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 16px;
+            padding: 18px;
+            flex: 1;
+            min-height: 0;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .select-panel h2 {
+            color: #ffd700;
+            font-size: 1.05em;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-shrink: 0;
+        }
+
+        .select-tip {
+            background: rgba(78, 205, 196, 0.15);
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 15px;
+            font-size: 0.85em;
+            color: #4ecdc4;
+            line-height: 1.6;
+            flex-shrink: 0;
+        }
+
+        .select-tip i {
+            margin-right: 6px;
+        }
+
+        .poem-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            flex: 1;
+            min-height: 0;
+            overflow-y: auto;
+            padding: 4px;
+            -webkit-overflow-scrolling: touch;
+            align-content: start;
+        }
+
+        .poem-option {
+            padding: 12px 6px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            font-size: 0.9em;
+            border: 2px solid transparent;
+            min-height: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .poem-option:active {
+            transform: scale(0.96);
+        }
+
+        .poem-option.selected {
+            background: rgba(78, 205, 196, 0.25);
+            border-color: #4ecdc4;
+        }
+
+        .poem-option.will-auto-add {
+            background: rgba(255, 217, 61, 0.15);
+            border-color: rgba(255, 217, 61, 0.4);
+        }
+
+        .poem-option.learned {
+            background: rgba(100, 100, 100, 0.2);
+            color: #666;
+        }
+
+        .poem-option .poem-num {
+            font-size: 0.7em;
+            color: #777;
+            margin-top: 4px;
+        }
+
+        .poem-option.will-auto-add .poem-num {
+            color: #ffd93d;
+        }
+
+        /* 长标题字体缩小 */
+        .poem-option.long-title {
+            font-size: 0.7em;
+        }
+
+        .select-panel-footer {
+            flex-shrink: 0;
+            flex-grow: 0;
+            padding-top: 10px;
+            margin-top: auto;
+        }
+
+        .confirm-btn {
+            width: 100%;
+            padding: 14px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
+            color: #fff;
+            font-size: 1.05em;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            font-weight: 500;
+        }
+
+        .confirm-btn:active {
+            transform: scale(0.98);
+        }
+
+        .confirm-btn:disabled {
+            background: rgba(100, 100, 100, 0.4);
+            color: #888;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .auto-add-info {
+            margin-top: 12px;
+            padding: 10px 14px;
+            background: rgba(255, 217, 61, 0.1);
+            border-radius: 10px;
+            font-size: 0.85em;
+            color: #ffd93d;
+            display: none;
+        }
+
+        .auto-add-info.show {
+            display: block;
+        }
+
+        .auto-add-info i {
+            margin-right: 6px;
+        }
+
+        /* 任务列表面板 */
+        .task-panel {
+            display: none;
+            flex: 1;
+            min-height: 0;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .task-panel.active {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* 统计卡片 */
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 18px;
+        }
+
+        .stat-item {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 12px 8px;
+            text-align: center;
+        }
+
+        .stat-item .num {
+            font-size: 1.6em;
+            font-weight: bold;
+            line-height: 1.2;
+        }
+
+        .stat-item.new .num { color: #4ecdc4; }
+        .stat-item.review .num { color: #ffd93d; }
+        .stat-item.failed .num { color: #ff6b6b; }
+
+        .stat-item .label {
+            font-size: 0.75em;
+            color: #888;
+            margin-top: 3px;
+        }
+
+        /* 返回按钮 */
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 10px 16px;
+            margin-bottom: 12px;
+            border: none;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            color: #aaa;
+            font-size: 0.85em;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .back-btn:active {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* 诗词列表 */
+        .poem-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 15px 0 12px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .section-title:first-child {
+            margin-top: 0;
+        }
+
+        .section-title.new { color: #4ecdc4; }
+        .section-title.review { color: #ffd93d; }
+        .section-title.failed { color: #ff6b6b; }
+
+        .section-title h3 {
+            font-size: 1em;
+        }
+
+        .section-title .count {
+            background: rgba(255, 255, 255, 0.12);
+            padding: 2px 10px;
+            border-radius: 10px;
+            font-size: 0.8em;
+        }
+
+        /* 诗词卡片 */
+        .poem-card {
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 14px;
+            overflow: hidden;
+            border-left: 4px solid transparent;
+            transition: all 0.2s;
+        }
+
+        .poem-card.new-poem { border-left-color: #4ecdc4; }
+        .poem-card.review-poem { border-left-color: #ffd93d; }
+        .poem-card.failed-poem { border-left-color: #ff6b6b; }
+
+        .poem-card .card-header {
+            padding: 14px 16px;
+            cursor: pointer;
+            text-align: center;
+        }
+
+        .poem-card:active .card-header {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .poem-card .poem-title-row {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 6px;
+            gap: 10px;
+        }
+
+        .poem-card .poem-title {
+            font-size: 1.15em;
+            color: #fff;
+        }
+
+        .poem-card .poem-index {
+            font-size: 0.75em;
+            color: #666;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 3px 8px;
+            border-radius: 6px;
+            flex-shrink: 0;
+        }
+
+        .poem-card .poem-author {
+            color: #999;
+            font-size: 0.85em;
+        }
+
+        .poem-card .review-info {
+            margin-top: 8px;
+            font-size: 0.8em;
+            color: #ffd93d;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .poem-card .review-info.failed {
+            color: #ff6b6b;
+        }
+
+        /* 诗词内容 */
+        .poem-card .poem-content {
+            display: none;
+            margin: 0 12px 12px;
+            padding: 14px;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            white-space: pre-line;
+            line-height: 2;
+            color: #ddd;
+            font-size: 1.1em;
+            text-align: center;
+        }
+
+        .poem-card.expanded .poem-content {
+            display: block;
+        }
+
+        /* 操作按钮 */
+        .poem-card .action-buttons {
+            display: none;
+            padding: 0 12px 14px;
+            gap: 10px;
+        }
+
+        .poem-card.expanded .action-buttons {
+            display: flex;
+        }
+
+        .action-btn {
+            flex: 1;
+            padding: 12px 8px;
+            border: none;
+            border-radius: 10px;
+            font-size: 0.95em;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            font-weight: 500;
+        }
+
+        .action-btn:active {
+            transform: scale(0.96);
+        }
+
+        .action-btn.pass {
+            background: linear-gradient(135deg, #4ecdc4 0%, #44a08d 100%);
+            color: #fff;
+        }
+
+        .action-btn.fail {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a5a 100%);
+            color: #fff;
+        }
+
+        /* 完成状态 */
+        .poem-card.done {
+            opacity: 0.5;
+        }
+
+        .poem-card.done .action-buttons {
+            display: none;
+        }
+
+        .poem-card.done .done-status {
+            display: block;
+            padding: 0 16px 12px;
+            font-size: 0.85em;
+        }
+
+        .poem-card .done-status {
+            display: none;
+        }
+
+        .done-status.passed {
+            color: #4ecdc4;
+        }
+
+        .done-status.failed-status {
+            color: #ff6b6b;
+        }
+
+        /* 完成提示 */
+        .complete-message {
+            display: none;
+            text-align: center;
+            padding: 30px 20px;
+            background: rgba(255, 255, 255, 0.06);
+            border-radius: 14px;
+            margin-top: 18px;
+        }
+
+        .complete-message.show {
+            display: block;
+        }
+
+        .complete-message i {
+            font-size: 2.5em;
+            color: #4ecdc4;
+            margin-bottom: 12px;
+        }
+
+        .complete-message h3 {
+            color: #fff;
+            font-size: 1.1em;
+            margin-bottom: 8px;
+        }
+
+        .complete-message p {
+            color: #999;
+            font-size: 0.9em;
+        }
+
+        /* 空状态 */
+        .empty-state {
+            text-align: center;
+            padding: 35px 20px;
+            color: #666;
+        }
+
+        .empty-state i {
+            font-size: 2.5em;
+            margin-bottom: 12px;
+            color: #444;
+        }
+
+        /* 滚动条 - 手机上隐藏 */
+        ::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.15);
+            border-radius: 2px;
+        }
+
+        /* 平板适配 */
+        @media (min-width: 600px) {
+            body {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .poem-grid {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 10px;
+            }
+
+            .poem-option {
+                padding: 14px 8px;
+                font-size: 0.95em;
+            }
+
+            .poem-option.long-title {
+                font-size: 0.75em;
+            }
+
+            .stats-bar {
+                gap: 15px;
+            }
+
+            .stat-item .num {
+                font-size: 2em;
+            }
+
+            .poem-card .poem-content {
+                font-size: 1.2em;
+                padding: 18px;
+            }
+        }
+
+        /* 小屏手机适配 */
+        @media (max-width: 360px) {
+            body {
+                padding: 10px;
+            }
+
+            .header h1 {
+                font-size: 1.4em;
+            }
+
+            .poem-grid {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 6px;
+            }
+
+            .poem-option {
+                padding: 10px 4px;
+                font-size: 0.8em;
+                min-height: 55px;
+            }
+
+            .poem-option.long-title {
+                font-size: 0.6em;
+            }
+
+            .stat-item {
+                padding: 10px 6px;
+            }
+
+            .stat-item .num {
+                font-size: 1.4em;
+            }
+
+            .poem-card .card-header {
+                padding: 12px 14px;
+            }
+
+            .poem-card .poem-title {
+                font-size: 1.05em;
+            }
+
+            .action-btn {
+                padding: 11px 6px;
+                font-size: 0.9em;
+            }
+        }
+
+        /* 横屏适配 */
+        @media (orientation: landscape) and (max-height: 500px) {
+            .header {
+                margin-bottom: 10px;
+                padding: 5px 0;
+            }
+        }
+
+        /* 深色模式增强 */
+        @media (prefers-color-scheme: dark) {
+            body {
+                background: linear-gradient(135deg, #0d0d1a 0%, #0f1729 50%, #0a1a30 100%);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-brain"></i> 皮卡丘学语文之诗词记忆计划</h1>
+            <p class="subtitle">每天一首，科学复习</p>
+        </div>
+
+        <!-- 选择诗词面板 -->
+        <div class="select-panel" id="selectPanel">
+            <h2><i class="fas fa-bookmark"></i> 选择今天要背的新诗词</h2>
+            <div class="select-tip">
+                <i class="fas fa-lightbulb"></i>
+                选择一首诗后，之前未学的诗会按艾宾浩斯曲线推算复习（每天一首往前推）
+            </div>
+            <div class="poem-grid" id="poemGrid">
+                <!-- 动态生成 -->
+            </div>
+            <div class="select-panel-footer">
+                <div class="auto-add-info" id="autoAddInfo">
+                    <i class="fas fa-info-circle"></i>
+                    <span id="autoAddText"></span>
+                </div>
+                <button class="confirm-btn" id="confirmBtn" onclick="confirmSelection()" disabled>
+                    <i class="fas fa-check"></i> 确认开始学习
+                </button>
+            </div>
+        </div>
+
+        <!-- 任务列表面板 -->
+        <div class="task-panel" id="taskPanel">
+            <button class="back-btn" onclick="showSelectPanel()">
+                <i class="fas fa-arrow-left"></i> 重新选择
+            </button>
+
+            <div class="stats-bar">
+                <div class="stat-item new">
+                    <div class="num" id="newCount">0</div>
+                    <div class="label">今日新学</div>
+                </div>
+                <div class="stat-item review">
+                    <div class="num" id="reviewCount">0</div>
+                    <div class="label">今日复习</div>
+                </div>
+                <div class="stat-item failed">
+                    <div class="num" id="failedCount">0</div>
+                    <div class="label">待加强</div>
+                </div>
+            </div>
+
+            <div class="poem-list" id="taskList">
+                <!-- 动态生成 -->
+            </div>
+
+            <div class="complete-message" id="completeMessage">
+                <i class="fas fa-trophy"></i>
+                <h3>今日任务完成！</h3>
+                <p>明天继续加油~</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 存储键名
+        const STORAGE_KEY = 'pikachu_poem_memory_v6';
+
+        // 艾宾浩斯复习间隔（天数）
+        const REVIEW_INTERVALS = [1, 2, 4, 7, 15, 30];
+
+        // 获取今天的日期字符串
+        function getTodayString() {
+            return new Date().toISOString().split('T')[0];
+        }
+
+        // 计算两个日期之间的天数差
+        function daysBetween(date1, date2) {
+            const d1 = new Date(date1);
+            const d2 = new Date(date2);
+            d1.setHours(0, 0, 0, 0);
+            d2.setHours(0, 0, 0, 0);
+            return Math.floor((d2 - d1) / (1000 * 60 * 60 * 24));
+        }
+
+        // 获取学习数据
+        function getData() {
+            const data = localStorage.getItem(STORAGE_KEY);
+            if (data) {
+                return JSON.parse(data);
+            }
+            return {
+                learnedPoems: {},
+                todaySelection: null,
+                completedToday: {}
+            };
+        }
+
+        // 保存数据
+        function saveData(data) {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+        }
+
+        // 根据选中诗词ID和今天日期，推算某首诗的虚拟学习日期
+        // 规则：选中的诗是今天学的，往前每首诗往前推一天
+        function getVirtualLearnDate(poemId, todaySelectedId, today) {
+            const daysBack = todaySelectedId - poemId;
+            const date = new Date(today);
+            date.setDate(date.getDate() - daysBack);
+            return date.toISOString().split('T')[0];
+        }
+
+        // 获取需要复习的诗词
+        function getReviewPoems() {
+            const data = getData();
+            const today = getTodayString();
+            const reviewPoems = [];
+
+            // 获取今天选中的诗词ID
+            const todaySelectedId = (data.todaySelection && data.todaySelection.date === today) 
+                ? data.todaySelection.poemId 
+                : null;
+
+            // 如果没有选择诗词，不显示复习
+            if (todaySelectedId === null) {
+                return reviewPoems;
+            }
+
+            // 遍历今天选中的诗之前的所有诗（ID < todaySelectedId）
+            for (let poemIdNum = 1; poemIdNum < todaySelectedId; poemIdNum++) {
+                const record = data.learnedPoems[poemIdNum];
+                const poem = poems75.find(p => p.id === poemIdNum);
+                if (!poem) continue;
+
+                // 如果这首诗有真实学习记录
+                if (record) {
+                    const daysSinceLearned = daysBetween(record.learnDate, today);
+                    
+                    // 跳过今天刚学的
+                    if (daysSinceLearned <= 0) continue;
+
+                    // 检查正常复习间隔
+                    for (let i = 0; i < REVIEW_INTERVALS.length; i++) {
+                        if (daysSinceLearned === REVIEW_INTERVALS[i]) {
+                            reviewPoems.push({
+                                ...poem,
+                                learnDate: record.learnDate,
+                                reviewRound: i + 1,
+                                type: 'review'
+                            });
+                            break;
+                        }
+                    }
+
+                    // 检查失败后的额外复习（第二天）
+                    if (record.failedDates && record.failedDates.length > 0) {
+                        for (const failDate of record.failedDates) {
+                            if (daysBetween(failDate, today) === 1) {
+                                if (!reviewPoems.find(p => p.id === poem.id)) {
+                                    reviewPoems.push({
+                                        ...poem,
+                                        learnDate: record.learnDate,
+                                        failDate: failDate,
+                                        type: 'failed-review'
+                                    });
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    // 没有学习记录的诗，根据艾宾浩斯曲线推算是否需要复习
+                    // 虚拟学习日期：从选中的诗往前推，每首诗往前一天
+                    const virtualLearnDate = getVirtualLearnDate(poemIdNum, todaySelectedId, today);
+                    const daysSinceVirtualLearned = daysBetween(virtualLearnDate, today);
+                    
+                    // 跳过虚拟学习日期在今天或未来的（不应该出现）
+                    if (daysSinceVirtualLearned <= 0) continue;
+
+                    // 检查是否符合艾宾浩斯复习间隔
+                    for (let i = 0; i < REVIEW_INTERVALS.length; i++) {
+                        if (daysSinceVirtualLearned === REVIEW_INTERVALS[i]) {
+                            reviewPoems.push({
+                                ...poem,
+                                type: 'review',
+                                reviewRound: i + 1,
+                                isAutoAdded: true,
+                                virtualLearnDate: virtualLearnDate
+                            });
+                            break;
+                        }
+                    }
+                }
+            }
+
+            return reviewPoems;
+        }
+
+        // 获取未学习的诗词ID列表（在选中诗词之前的）
+        function getUnlearnedPoemsBefore(selectedId) {
+            const data = getData();
+            const unlearned = [];
+            
+            for (let i = 1; i < selectedId; i++) {
+                if (!data.learnedPoems[i]) {
+                    unlearned.push(i);
+                }
+            }
+            
+            return unlearned;
+        }
+
+        // 渲染诗词选择网格
+        function renderPoemGrid() {
+            const container = document.getElementById('poemGrid');
+            const data = getData();
+            const today = getTodayString();
+
+            let html = '';
+            poems75.forEach(poem => {
+                const isLearned = data.learnedPoems[poem.id];
+                const isSelected = data.todaySelection && 
+                                   data.todaySelection.date === today && 
+                                   data.todaySelection.poemId === poem.id;
+
+                let className = '';
+                let poemNumText = '第' + poem.id + '首';
+
+                if (isSelected) {
+                    className = 'selected';
+                } else if (isLearned) {
+                    className = 'learned';
+                }
+
+                // 标题超过5个字的字体缩小
+                if (poem.title.length > 5) {
+                    className += ' long-title';
+                }
+
+                html += `
+                    <div class="poem-option ${className}" 
+                         data-id="${poem.id}"
+                         onclick="selectPoem(this)">
+                        ${poem.title}
+                        <div class="poem-num">${poemNumText}</div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+            updateConfirmButton();
+        }
+
+        // 选择诗词
+        function selectPoem(element) {
+            // 清除之前的选择和自动添加标记
+            document.querySelectorAll('.poem-option.selected').forEach(el => {
+                el.classList.remove('selected');
+            });
+            document.querySelectorAll('.poem-option.will-auto-add').forEach(el => {
+                el.classList.remove('will-auto-add');
+            });
+            
+            // 选中当前
+            element.classList.add('selected');
+            
+            const selectedId = parseInt(element.dataset.id);
+            const unlearned = getUnlearnedPoemsBefore(selectedId);
+            
+            // 标记将要自动添加的诗词
+            unlearned.forEach(id => {
+                const el = document.querySelector(`.poem-option[data-id="${id}"]`);
+                if (el && !el.classList.contains('learned')) {
+                    el.classList.add('will-auto-add');
+                }
+            });
+            
+            // 更新提示信息
+            const autoAddInfo = document.getElementById('autoAddInfo');
+            const autoAddText = document.getElementById('autoAddText');
+            
+            if (unlearned.length > 0) {
+                autoAddText.textContent = `前面 ${unlearned.length} 首未学的诗将按艾宾浩斯曲线推算复习日期`;
+                autoAddInfo.classList.add('show');
+            } else {
+                autoAddInfo.classList.remove('show');
+            }
+            
+            updateConfirmButton();
+        }
+
+        // 更新确认按钮状态
+        function updateConfirmButton() {
+            const selected = document.querySelector('.poem-option.selected');
+            const btn = document.getElementById('confirmBtn');
+            btn.disabled = !selected;
+        }
+
+        // 确认选择
+        function confirmSelection() {
+            const selected = document.querySelector('.poem-option.selected');
+            if (!selected) return;
+
+            const selectedId = parseInt(selected.dataset.id);
+            const data = getData();
+            const today = getTodayString();
+
+            // 只记录今天选择的诗词ID，不添加学习记录（等用户点击通过/不熟悉时再添加）
+            data.todaySelection = { date: today, poemId: selectedId };
+
+            saveData(data);
+            showTaskPanel();
+        }
+
+        // 显示选择面板
+        function showSelectPanel() {
+            document.getElementById('selectPanel').style.display = 'flex';
+            document.getElementById('taskPanel').classList.remove('active');
+            document.getElementById('autoAddInfo').classList.remove('show');
+            renderPoemGrid();
+        }
+
+        // 显示任务面板
+        function showTaskPanel() {
+            document.getElementById('selectPanel').style.display = 'none';
+            document.getElementById('taskPanel').classList.add('active');
+            renderTaskList();
+        }
+
+        // 渲染任务列表
+        function renderTaskList() {
+            const container = document.getElementById('taskList');
+            const data = getData();
+            const today = getTodayString();
+
+            let newPoem = null;
+            if (data.todaySelection && data.todaySelection.date === today) {
+                newPoem = poems75.find(p => p.id === data.todaySelection.poemId);
+                if (newPoem) {
+                    newPoem = { ...newPoem, type: 'new' };
+                }
+            }
+
+            const reviewPoems = getReviewPoems();
+            const normalReviews = reviewPoems.filter(p => p.type === 'review');
+            const failedReviews = reviewPoems.filter(p => p.type === 'failed-review');
+
+            document.getElementById('newCount').textContent = newPoem ? 1 : 0;
+            document.getElementById('reviewCount').textContent = normalReviews.length;
+            document.getElementById('failedCount').textContent = failedReviews.length;
+
+            const completedToday = data.completedToday[today] || {};
+
+            let html = '';
+
+            if (newPoem) {
+                html += `
+                    <div class="section-title new">
+                        <i class="fas fa-star"></i>
+                        <h3>今日新学</h3>
+                        <span class="count">1首</span>
+                    </div>
+                `;
+                html += renderPoemCard(newPoem, completedToday[newPoem.id]);
+            }
+
+            if (normalReviews.length > 0) {
+                html += `
+                    <div class="section-title review">
+                        <i class="fas fa-redo"></i>
+                        <h3>今日复习</h3>
+                        <span class="count">${normalReviews.length}首</span>
+                    </div>
+                `;
+                normalReviews.forEach(poem => {
+                    html += renderPoemCard(poem, completedToday[poem.id]);
+                });
+            }
+
+            if (failedReviews.length > 0) {
+                html += `
+                    <div class="section-title failed">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <h3>待加强</h3>
+                        <span class="count">${failedReviews.length}首</span>
+                    </div>
+                `;
+                failedReviews.forEach(poem => {
+                    html += renderPoemCard(poem, completedToday[poem.id]);
+                });
+            }
+
+            if (!newPoem && reviewPoems.length === 0) {
+                html = `
+                    <div class="empty-state">
+                        <i class="fas fa-check-circle"></i>
+                        <p>今日暂无复习任务</p>
+                    </div>
+                `;
+            }
+
+            container.innerHTML = html;
+            checkAllCompleted();
+        }
+
+        // 渲染诗词卡片
+        function renderPoemCard(poem, status) {
+            let cardClass = '';
+            let reviewInfo = '';
+
+            if (poem.type === 'new') {
+                cardClass = 'new-poem';
+            } else if (poem.type === 'failed-review') {
+                cardClass = 'failed-poem';
+                reviewInfo = `<div class="review-info failed"><i class="fas fa-exclamation-triangle"></i> 上次不熟悉</div>`;
+            } else if (poem.isAutoAdded) {
+                // 自动添加的诗（没有真实学习记录，按虚拟日期推算）
+                cardClass = 'review-poem';
+                reviewInfo = `<div class="review-info"><i class="fas fa-clock"></i> 第${poem.reviewRound}轮复习</div>`;
+            } else {
+                cardClass = 'review-poem';
+                reviewInfo = `<div class="review-info"><i class="fas fa-clock"></i> 第${poem.reviewRound}轮复习</div>`;
+            }
+
+            const isDone = status === 'pass' || status === 'fail';
+            const doneClass = isDone ? 'done' : '';
+            const doneStatus = status === 'pass' 
+                ? '<div class="done-status passed"><i class="fas fa-check-circle"></i> 已通过</div>'
+                : status === 'fail' 
+                    ? '<div class="done-status failed-status"><i class="fas fa-times-circle"></i> 明天继续</div>'
+                    : '<div class="done-status"></div>';
+
+            return `
+                <div class="poem-card ${cardClass} ${doneClass}" data-id="${poem.id}">
+                    <div class="card-header" onclick="togglePoemCard(this.parentElement)">
+                        <div class="poem-title-row">
+                            <span class="poem-title">${poem.title}</span>
+                            <span class="poem-index">第${poem.id}首</span>
+                        </div>
+                        <div class="poem-author">${poem.dynasty} · ${poem.author}</div>
+                        ${reviewInfo}
+                    </div>
+                    <div class="poem-content">${poem.content}</div>
+                    <div class="action-buttons">
+                        <button class="action-btn pass" onclick="event.stopPropagation(); markPoem(${poem.id}, 'pass')">
+                            <i class="fas fa-check"></i> 通过
+                        </button>
+                        <button class="action-btn fail" onclick="event.stopPropagation(); markPoem(${poem.id}, 'fail')">
+                            <i class="fas fa-times"></i> 不熟悉
+                        </button>
+                    </div>
+                    ${doneStatus}
+                </div>
+            `;
+        }
+
+        // 切换诗词卡片展开
+        function togglePoemCard(card) {
+            if (card.classList.contains('done')) return;
+            card.classList.toggle('expanded');
+        }
+
+        // 标记诗词
+        function markPoem(poemId, status) {
+            const data = getData();
+            const today = getTodayString();
+
+            if (!data.completedToday[today]) {
+                data.completedToday[today] = {};
+            }
+            data.completedToday[today][poemId] = status;
+
+            // 如果这首诗还没有学习记录，添加学习记录
+            if (!data.learnedPoems[poemId]) {
+                data.learnedPoems[poemId] = {
+                    learnDate: today,
+                    failedDates: []
+                };
+            }
+
+            // 如果点击不熟悉，记录失败日期
+            if (status === 'fail') {
+                if (!data.learnedPoems[poemId].failedDates) {
+                    data.learnedPoems[poemId].failedDates = [];
+                }
+                if (!data.learnedPoems[poemId].failedDates.includes(today)) {
+                    data.learnedPoems[poemId].failedDates.push(today);
+                }
+            }
+
+            saveData(data);
+            renderTaskList();
+        }
+
+        // 检查是否全部完成
+        function checkAllCompleted() {
+            const cards = document.querySelectorAll('.poem-card');
+            const doneCards = document.querySelectorAll('.poem-card.done');
+            const completeMessage = document.getElementById('completeMessage');
+
+            if (cards.length > 0 && cards.length === doneCards.length) {
+                completeMessage.classList.add('show');
+            } else {
+                completeMessage.classList.remove('show');
+            }
+        }
+
+        // 初始化
+        function init() {
+            const data = getData();
+            const today = getTodayString();
+
+            if (data.todaySelection && data.todaySelection.date === today) {
+                showTaskPanel();
+            } else {
+                showSelectPanel();
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="zh-CN">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
@@ -10,37 +10,41 @@
     <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
     <meta http-equiv="Expires" content="0">
     <link rel="Shortcut Icon" href="https://cdn.bihe0832.com/images/zixie_32.ico" />
-    <meta name="author" CONTENT="子勰(bihe0832), code@bihe0832.com" />
-    <meta name="keywords" content="子勰,bihe0832,工具咩,唐代诗人,诗人关系" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="author" content="子勰(bihe0832), code@bihe0832.com" />
+    <meta name="keywords" content="子勰,bihe0832,皮卡丘,唐代诗人,诗人关系" />
     <meta name="description" content="皮卡丘学语文之唐代诗人关系网络" />
     <meta property="og:title" content="皮卡丘学语文之唐代诗人关系网络" />
     <meta property="og:locale" content="zh_CN" />
     <meta name="google-site-verification" content="3wzNgbjvFNHkH-8QpougMZ0s9Y4GEjG49kEb49QQqpw" />
     <meta property="og:description" content="唐代诗人关系网络可视化，展示诗人之间的交往故事与相关诗词" />
-    <link rel="canonical" href="https://blog.bihe0832.com/" />
-    <meta property="og:url" content="https://blog.bihe0832.com/" />
-    <meta property="og:site_name" content="工具咩" />
+    <link rel="canonical" href="https://demo.bihe0832.com/pikachu/yuwen/poetry/" />
+    <meta property="og:url" content="https://demo.bihe0832.com/pikachu/yuwen/poetry/" />
+    <meta property="og:site_name" content="皮卡丘学习资源" />
     <meta property="og:type" content="article" />
     <title>皮卡丘学语文之唐代诗人关系网络</title>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/echarts@5.4.3/dist/echarts.min.js"></script>
     <script type="text/javascript" src="poetry-data.js?v=1"></script>
     <style>
-        @font-face {
-            font-family: 'ZCOOLKuaiLe-Regular';
-            src: url('https://cdn.jsdelivr.net/gh/googlefonts/zcool-kuaile@v1.000/ZCOOLKuaiLe-Regular.ttf') format('truetype');
-            font-weight: normal;
-            font-style: normal;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
         }
 
         body {
-            margin: 0;
-            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
             overflow: hidden;
-            background: linear-gradient(135deg, #0a1628 0%, #1a2a4a 100%); /* 深蓝渐变背景 */
+            background: linear-gradient(135deg, #0a1628 0%, #1a2a4a 100%);
             color: #e0e0e0;
             display: flex;
             flex-direction: column;
             height: 100vh;
+            padding-top: env(safe-area-inset-top);
+            padding-bottom: env(safe-area-inset-bottom);
+            padding-left: env(safe-area-inset-left);
+            padding-right: env(safe-area-inset-right);
         }
 
         #background-pattern {
