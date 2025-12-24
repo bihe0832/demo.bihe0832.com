@@ -67,7 +67,8 @@
         .main-content {
             display: flex;
             gap: 20px;
-            min-height: 500px;
+            height: 660px;
+            overflow: hidden;
         }
         
         .left-panel {
@@ -78,6 +79,7 @@
             padding: 15px;
             display: flex;
             flex-direction: column;
+            overflow-y: auto;
         }
         
         .panel-title {
@@ -211,11 +213,53 @@
             margin-top: 3px;
         }
         
-        .right-panel {
+        /* 中间时钟区域 */
+        .center-panel {
             flex: 1;
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            min-width: 400px;
+            overflow: hidden;
+            min-height: 0;
+        }
+        
+        /* 右侧步骤面板 */
+        .right-panel {
+            width: 380px;
+            flex-shrink: 0;
+            background: #edf7fe;
+            border-radius: 15px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        /* 核心公式卡片 */
+        .formula-card {
+            background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 10px;
+            flex-shrink: 0;
+        }
+        .formula-card .panel-title {
+            border-bottom-color: #4caf50;
+            color: #2e7d32;
+        }
+        .formula-card .panel-title i {
+            color: #4caf50;
+        }
+        .formula-content {
+            font-size: 0.85rem;
+            color: #1b5e20;
+        }
+        .formula-item {
+            padding: 4px 0;
+            border-bottom: 1px dashed rgba(76, 175, 80, 0.3);
+        }
+        .formula-item:last-child {
+            border-bottom: none;
         }
         
         .clock-area {
@@ -225,12 +269,16 @@
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: space-evenly;
+            flex: 1;
+            min-height: 0;
         }
         
         .clock-container {
             position: relative;
-            width: 300px;
-            height: 300px;
+            width: 280px;
+            height: 280px;
+            flex-shrink: 0;
         }
         
         .clock-face {
@@ -303,7 +351,7 @@
         }
         .hour-hand {
             width: 6px;
-            height: 70px;
+            height: 65px;
             background: linear-gradient(to top, #2c3e50, #34495e);
             margin-left: -3px;
             z-index: 3;
@@ -311,7 +359,7 @@
         }
         .minute-hand {
             width: 4px;
-            height: 100px;
+            height: 90px;
             background: linear-gradient(to top, #3498db, #2980b9);
             margin-left: -2px;
             z-index: 4;
@@ -327,35 +375,40 @@
         }
         
         .angle-display {
-            margin-top: 20px;
-            font-size: 1.5rem;
+            margin-top: 15px;
+            font-size: 1.2rem;
             font-weight: bold;
             color: #2c3e50;
             display: flex;
             align-items: center;
             gap: 10px;
+            flex-shrink: 0;
         }
         .angle-value {
             color: #e74c3c;
-            font-size: 2rem;
+            font-size: 1.5rem;
         }
         
         .solution-area {
             background: #f0f4f8;
             border-radius: 15px;
-            padding: 20px;
+            padding: 15px;
             flex: 1;
-            overflow-y: auto;
+            min-height: 0;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
         }
         
         .solution-title {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             color: #2c3e50;
-            margin-bottom: 15px;
-            padding-bottom: 10px;
+            margin-bottom: 10px;
+            padding-bottom: 8px;
             border-bottom: 3px solid #3498db;
             display: flex;
             align-items: center;
+            flex-shrink: 0;
         }
         .solution-title i {
             margin-right: 10px;
@@ -364,8 +417,25 @@
         
         .steps-container {
             flex: 1;
+            min-height: 0;
             overflow-y: auto;
             padding: 10px;
+        }
+        
+        /* 自定义滚动条 */
+        .steps-container::-webkit-scrollbar {
+            width: 6px;
+        }
+        .steps-container::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 3px;
+        }
+        .steps-container::-webkit-scrollbar-thumb {
+            background: #3498db;
+            border-radius: 3px;
+        }
+        .steps-container::-webkit-scrollbar-thumb:hover {
+            background: #2980b9;
         }
         
         .solution-step {
@@ -476,9 +546,10 @@
         
         .animation-controls {
             display: flex;
-            gap: 10px;
+            gap: 15px;
             margin-top: 15px;
             justify-content: center;
+            flex-shrink: 0;
         }
         .anim-btn {
             padding: 8px 20px;
@@ -509,16 +580,18 @@
         
         .problem-display {
             background: linear-gradient(135deg, #3498db, #2980b9);
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 15px;
+            border-radius: 12px;
+            padding: 12px 15px;
+            margin-bottom: 10px;
             box-shadow: 0 5px 15px rgba(52, 152, 219, 0.3);
+            flex-shrink: 0;
         }
         .problem-text {
+            text-align: left;
             color: white;
-            font-size: 1.2rem;
-            line-height: 1.8;
-            text-align: center;
+            font-size: 1rem;
+            line-height: 1.6;
+            
         }
         .problem-text .highlight {
             background: rgba(255, 255, 255, 0.2);
@@ -527,19 +600,23 @@
             font-weight: bold;
         }
         
-        @media (max-width: 900px) {
+        @media (max-width: 1200px) {
             .main-content {
                 flex-direction: column;
+                height: auto;
             }
-            .left-panel {
+            .left-panel, .center-panel, .right-panel {
                 width: 100%;
+            }
+            .center-panel {
+                min-width: auto;
             }
             .clock-container {
                 width: 250px;
                 height: 250px;
             }
             .hour-hand { height: 55px; }
-            .minute-hand { height: 80px; }
+            .minute-hand { height: 75px; }
         }
     </style>
 </head>
@@ -622,19 +699,10 @@
                         下一步 <i class="fas fa-arrow-right"></i>
                     </button>
                 </div>
-                
-                <div class="knowledge-card">
-                    <h4><i class="fas fa-lightbulb"></i> 核心公式</h4>
-                    <ul>
-                        <li><b>时针速度</b>：0.5°/分钟</li>
-                        <li><b>分针速度</b>：6°/分钟</li>
-                        <li><b>速度差</b>：5.5°/分钟</li>
-                        <li><b>追及时间</b>：角度差 ÷ 5.5</li>
-                    </ul>
-                </div>
             </div>
             
-            <div class="right-panel">
+            <!-- 中间时钟区域 -->
+            <div class="center-panel">
                 <div class="problem-display" id="problem-display">
                     <div class="problem-text" id="problem-text">
                         📝 请在左侧设置题目参数，点击"开始计算"生成题目
@@ -647,7 +715,7 @@
                             <div class="clock-center"></div>
                             <div class="hour-hand clock-hand" id="hour-hand"></div>
                             <div class="minute-hand clock-hand" id="minute-hand"></div>
-                            <svg class="angle-arc" id="angle-arc" width="300" height="300"></svg>
+                            <svg class="angle-arc" id="angle-arc" width="280" height="280"></svg>
                         </div>
                     </div>
                     <div class="angle-display">
@@ -663,15 +731,32 @@
                         </button>
                     </div>
                 </div>
-                
-                <div class="solution-area" id="solution-area">
-                    <div class="solution-title">
-                        <i class="fas fa-list-ol"></i>
-                        <span>解题步骤</span>
-                        <span style="margin-left: auto; font-size: 0.9rem; color: #7f8c8d;">
-                            步骤: <span id="step-counter">0</span>/<span id="step-total">0</span>
-                        </span>
+            </div>
+            
+            <!-- 右侧步骤面板 -->
+            <div class="right-panel">
+                <!-- 核心公式卡片 -->
+                <div class="formula-card">
+                    <div class="panel-title">
+                        <i class="fas fa-calculator"></i>
+                        <span>核心公式</span>
                     </div>
+                    <div class="formula-content">
+                        <div class="formula-item"><b>时针速度</b>：0.5°/分钟（每小时30°）</div>
+                        <div class="formula-item"><b>分针速度</b>：6°/分钟（每分钟6°）</div>
+                        <div class="formula-item"><b>速度差</b>：5.5°/分钟</div>
+                        <div class="formula-item"><b>追及时间</b>：角度差 ÷ 5.5</div>
+                    </div>
+                </div>
+                
+                <div class="panel-title" style="margin-top: 10px;">
+                    <i class="fas fa-shoe-prints"></i>
+                    <span>解题步骤</span>
+                    <span style="margin-left: auto; font-size: 0.85rem; color: #7f8c8d;">
+                        步骤: <span id="step-counter">0</span>/<span id="step-total">0</span>
+                    </span>
+                </div>
+                <div class="solution-area" id="solution-area">
                     <div id="solution-steps" class="steps-container">
                         <p style="color: #999; text-align: center; padding: 30px;">
                             👆 设置题目参数后点击"开始计算"按钮查看详细解答
@@ -705,7 +790,7 @@
                 const tick = document.createElement('div');
                 tick.className = 'clock-tick ' + (i % 5 === 0 ? 'major' : 'minor');
                 const angle = i * 6;
-                const radius = 140;
+                const radius = 130;
                 const tickHeight = i % 5 === 0 ? 12 : 8;
                 tick.style.left = `calc(50% - ${i % 5 === 0 ? 1.5 : 0.5}px)`;
                 tick.style.top = `${10}px`;
@@ -721,9 +806,9 @@
                 numEl.className = 'clock-number';
                 numEl.textContent = num;
                 const angle = (index * 30 - 90) * Math.PI / 180;
-                const radius = 115;
-                const x = 150 + radius * Math.cos(angle) - 15;
-                const y = 150 + radius * Math.sin(angle) - 15;
+                const radius = 105;
+                const x = 140 + radius * Math.cos(angle) - 15;
+                const y = 140 + radius * Math.sin(angle) - 15;
                 numEl.style.left = x + 'px';
                 numEl.style.top = y + 'px';
                 clockFace.appendChild(numEl);
@@ -921,7 +1006,7 @@
             
             if (diff < 1) return;
             
-            const cx = 150, cy = 150, r = 50;
+            const cx = 140, cy = 140, r = 45;
             const startRad = (startAngle - 90) * Math.PI / 180;
             const endRad = (endAngle - 90) * Math.PI / 180;
             

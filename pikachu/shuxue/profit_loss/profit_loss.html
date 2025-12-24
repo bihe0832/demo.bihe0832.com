@@ -13,10 +13,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <meta name="author" CONTENT="子勰(bihe0832), code@bihe0832.com" />
     <meta name="keywords" content="子勰,bihe0832,工具咩" />
-    <meta name="description" content="皮卡丘学数学之盈亏问题分步解答" />
-    <meta property="og:title" content="皮卡丘学数学之盈亏问题分步解答" />
+    <meta name="description" content="皮卡丘学数学 - 盈亏问题" />
+    <meta property="og:title" content="皮卡丘学数学 - 盈亏问题" />
     <meta property="og:locale" content="en_US" />
-    <title>皮卡丘学数学之盈亏问题分步解答</title>
+    <title>皮卡丘学数学 - 盈亏问题</title>
     
     <style>
         * {
@@ -26,7 +26,7 @@
             font-family: 'Microsoft YaHei', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         body {
-            background: linear-gradient(135deg, #9b59b6, #3498db);
+            background: linear-gradient(135deg, #f39c12, #e67e22);
             color: #333;
             min-height: 100vh;
             padding: 20px;
@@ -45,7 +45,7 @@
             padding: 20px;
         }
         header {
-            background: linear-gradient(90deg, #9b59b6, #8e44ad);
+            background: linear-gradient(90deg, #f39c12, #e67e22);
             color: white;
             padding: 20px 30px;
             border-radius: 15px;
@@ -58,36 +58,43 @@
             margin: 10px 0;
             text-shadow: 0 2px 8px rgba(0,0,0,0.4);
         }
+        header p {
+            font-size: 1rem;
+            opacity: 0.9;
+            line-height: 1.6;
+        }
         
         .main-content {
             display: flex;
             gap: 20px;
-            min-height: 500px;
+            height: 660px;
+            overflow: hidden;
         }
         
         .left-panel {
-            width: 280px;
+            width: 320px;
             flex-shrink: 0;
-            background: #f5f0ff;
+            background: #fff8f0;
             border-radius: 15px;
             padding: 20px;
             display: flex;
             flex-direction: column;
+            overflow-y: auto;
         }
         
         .panel-title {
             font-size: 1.1rem;
-            color: #8e44ad;
+            color: #e67e22;
             margin-bottom: 15px;
             padding-bottom: 8px;
-            border-bottom: 3px solid #9b59b6;
+            border-bottom: 3px solid #f39c12;
             display: flex;
             align-items: center;
         }
         .panel-title i {
             margin-right: 10px;
             font-size: 1.2rem;
-            color: #9b59b6;
+            color: #f39c12;
         }
         
         .problem-type {
@@ -98,19 +105,19 @@
             width: 100%;
             padding: 12px 15px;
             margin-bottom: 10px;
-            background: linear-gradient(45deg, #9b59b6, #8e44ad);
+            background: linear-gradient(45deg, #f39c12, #e67e22);
             color: white;
             border-radius: 10px;
             cursor: pointer;
             transition: all 0.3s;
             text-align: center;
-            box-shadow: 0 4px 8px rgba(155, 89, 182, 0.3);
+            box-shadow: 0 4px 8px rgba(243, 156, 18, 0.3);
             font-size: 14px;
             border: none;
         }
         .type-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 12px rgba(155, 89, 182, 0.4);
+            box-shadow: 0 6px 12px rgba(243, 156, 18, 0.4);
         }
         .type-btn.active {
             background: linear-gradient(45deg, #27ae60, #2ecc71);
@@ -120,22 +127,37 @@
         .input-group {
             margin-bottom: 20px;
         }
+        .input-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
         .input-item {
-            margin-bottom: 15px;
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            min-width: 0;
         }
         .input-label {
-            display: block;
             font-weight: bold;
-            margin-bottom: 8px;
-            color: #8e44ad;
-            font-size: 0.95rem;
+            white-space: nowrap;
+            color: #e67e22;
+            font-size: 0.85rem;
+            flex-shrink: 0;
+        }
+        .input-suffix {
+            font-size: 0.85rem;
+            color: #e67e22;
+            flex-shrink: 0;
         }
         input {
-            padding: 12px 15px;
-            width: 100%;
-            border: 2px solid #9b59b6;
-            border-radius: 10px;
-            font-size: 1.1rem;
+            width: 60px;
+            flex-shrink: 0;
+            padding: 8px 6px;
+            border: 2px solid #f39c12;
+            border-radius: 8px;
+            font-size: 0.95rem;
             text-align: center;
             box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
             transition: all 0.3s;
@@ -154,15 +176,15 @@
         }
         
         button {
-            padding: 12px 20px;
-            font-size: 1rem;
-            background: linear-gradient(90deg, #9b59b6, #8e44ad);
+            padding: 15px 20px;
+            font-size: 1.1rem;
+            background: linear-gradient(90deg, #f39c12, #e67e22);
             color: white;
             border: none;
             border-radius: 10px;
             cursor: pointer;
             transition: transform 0.3s, background 0.3s;
-            box-shadow: 0 4px 10px rgba(155, 89, 182, 0.3);
+            box-shadow: 0 4px 10px rgba(243, 156, 18, 0.3);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -185,8 +207,8 @@
         }
         
         .show-all-btn {
-            background: linear-gradient(90deg, #f39c12, #e67e22);
-            box-shadow: 0 4px 10px rgba(243, 156, 18, 0.3);
+            background: linear-gradient(90deg, #9b59b6, #8e44ad);
+            box-shadow: 0 4px 10px rgba(155, 89, 182, 0.3);
         }
         
         .nav-buttons {
@@ -203,11 +225,12 @@
             flex: 1;
             display: flex;
             flex-direction: column;
-            min-width: 400px;
+            min-width: 0;
+            overflow: hidden;
         }
         
         .visual-header {
-            background: linear-gradient(90deg, #9b59b6, #8e44ad);
+            background: linear-gradient(90deg, #f39c12, #e67e22);
             color: white;
             padding: 12px 20px;
             border-radius: 10px 10px 0 0;
@@ -215,6 +238,7 @@
             justify-content: space-between;
             align-items: center;
             font-size: 1.1rem;
+            flex-shrink: 0;
         }
         
         .visual-area {
@@ -223,16 +247,18 @@
             flex-direction: column;
             align-items: center;
             justify-content: flex-start;
-            border: 4px solid #9b59b6;
+            border: 4px solid #f39c12;
             border-top: none;
             border-radius: 0 0 15px 15px;
-            background: linear-gradient(135deg, #f5f0ff, #e8daff);
-            min-height: 400px;
+            background: linear-gradient(135deg, #fff8f0, #ffecd2);
+            min-height: 0;
+            overflow-y: auto;
             padding: 20px;
             gap: 20px;
         }
         
         .problem-text {
+            text-align: left;
             background: linear-gradient(135deg, #fff, #ffeaa7);
             padding: 15px 25px;
             border-radius: 12px;
@@ -242,7 +268,7 @@
             color: #2c3e50;
             line-height: 1.6;
             max-width: 95%;
-            text-align: center;
+            
         }
         
         .problem-text i {
@@ -273,7 +299,7 @@
         .distribution-title {
             font-size: 1rem;
             font-weight: bold;
-            color: #8e44ad;
+            color: #e67e22;
             margin-bottom: 10px;
             display: flex;
             align-items: center;
@@ -294,7 +320,7 @@
             flex-direction: column;
             align-items: center;
             padding: 8px;
-            background: linear-gradient(135deg, #e8daff, #f5f0ff);
+            background: linear-gradient(135deg, #ffecd2, #fff8f0);
             border-radius: 10px;
             min-width: 50px;
         }
@@ -305,7 +331,7 @@
         
         .person-items {
             font-size: 0.8rem;
-            color: #8e44ad;
+            color: #e67e22;
             font-weight: bold;
         }
         
@@ -367,7 +393,7 @@
         .answer-value {
             font-size: 1.8rem;
             font-weight: bold;
-            color: #9b59b6;
+            color: #f39c12;
         }
         
         .answer-unit {
@@ -376,27 +402,55 @@
         }
         
         .right-panel {
-            width: 350px;
+            width: 380px;
             flex-shrink: 0;
-            background: #f5f0ff;
+            background: #fff8f0;
             border-radius: 15px;
             padding: 20px;
             display: flex;
             flex-direction: column;
+            overflow: hidden;
+        }
+        
+        .formula-card {
+            padding: 0 12px 12px 12px;
+            margin-bottom: 15px;
+            flex-shrink: 0;
+        }
+        .formula-card .formula {
+            font-size: 0.9rem;
+            color: #e67e22;
+            margin: 8px 0;
         }
         
         .steps-container {
             flex: 1;
+            min-height: 0;
             overflow-y: auto;
             padding: 15px;
-            background: linear-gradient(to right, #f5f0ff, #e8daff);
+            background: linear-gradient(to right, #fff8f0, #ffecd2);
             border-radius: 12px;
+        }
+        
+        .steps-container::-webkit-scrollbar {
+            width: 6px;
+        }
+        .steps-container::-webkit-scrollbar-track {
+            background: rgba(243, 156, 18, 0.1);
+            border-radius: 3px;
+        }
+        .steps-container::-webkit-scrollbar-thumb {
+            background: #f39c12;
+            border-radius: 3px;
+        }
+        .steps-container::-webkit-scrollbar-thumb:hover {
+            background: #e67e22;
         }
         
         .step {
             padding: 10px 0;
             display: none;
-            border-bottom: 1px dashed rgba(155, 89, 182, 0.3);
+            border-bottom: 1px dashed rgba(243, 156, 18, 0.3);
         }
         
         .step:last-child {
@@ -414,12 +468,12 @@
         }
         
         .step.active {
-            animation: breathePurple 1.5s ease-in-out infinite;
+            animation: breatheOrange 1.5s ease-in-out infinite;
         }
         
-        @keyframes breathePurple {
-            0%, 100% { background-color: rgba(155, 89, 182, 0.1); }
-            50% { background-color: rgba(155, 89, 182, 0.25); }
+        @keyframes breatheOrange {
+            0%, 100% { background-color: rgba(243, 156, 18, 0.1); }
+            50% { background-color: rgba(243, 156, 18, 0.25); }
         }
         
         .step-header {
@@ -434,7 +488,7 @@
             justify-content: center;
             width: 28px;
             height: 28px;
-            background: #9b59b6;
+            background: #f39c12;
             color: white;
             border-radius: 50%;
             font-weight: bold;
@@ -445,7 +499,7 @@
         
         .step-title {
             font-weight: bold;
-            color: #8e44ad;
+            color: #e67e22;
             font-size: 0.95rem;
             line-height: 1.4;
         }
@@ -509,8 +563,8 @@
 <body>
     <div class="container">
         <header>
-            <h2><i class="fas fa-balance-scale"></i> 皮卡丘学数学之盈亏问题分步解答</h2>
-            <p>两次分配有盈亏，盈亏总和除以分配差求数量</p>
+            <h2>⚖️ 皮卡丘学数学 - 盈亏问题</h2>
+            <p>盈亏总和 ÷ 分配差 = 人数 | 两次分配有盈亏，盈亏总和除以分配差求数量</p>
         </header>
         
         <div class="main-content">
@@ -587,7 +641,18 @@
             
             <div class="right-panel">
                 <div class="panel-title">
-                    <i class="fas fa-list-ol"></i>
+                    <i class="fas fa-calculator"></i>
+                    <span>核心公式</span>
+                </div>
+                <div class="formula-card">
+                    <div class="formula">• 人数 = 盈亏总和 ÷ 分配差</div>
+                    <div class="formula">• 盈亏总和 = 盈余 + 不足</div>
+                    <div class="formula">• 分配差 = 每人多分 - 每人少分</div>
+                    <div class="formula">• 物品数 = 每人分数 × 人数 ± 盈亏</div>
+                </div>
+                
+                <div class="panel-title">
+                    <i class="fas fa-shoe-prints"></i>
                     <span>解题步骤</span>
                     <span style="margin-left: auto; font-size: 0.9rem; color: #7f8c8d;">
                         步骤: <span id="step-counter">0</span>/<span id="total-steps">0</span>
@@ -615,30 +680,30 @@
                 title: '一盈一亏',
                 desc: '每人分多了有剩余，分少了不够',
                 inputs: [
-                    { id: 'perMore', label: '📦 第一次每人分几个', placeholder: '如：5', value: 5 },
-                    { id: 'surplus', label: '✅ 剩余几个', placeholder: '如：3', value: 3 },
-                    { id: 'perLess', label: '📦 第二次每人分几个', placeholder: '如：3', value: 3 },
-                    { id: 'deficit', label: '❌ 不足几个', placeholder: '如：5', value: 5 }
+                    { id: 'perMore', label: '第一次每人', placeholder: '如：5', value: 5, suffix: '个' },
+                    { id: 'surplus', label: '剩', placeholder: '如：3', value: 3, suffix: '个' },
+                    { id: 'perLess', label: '第二次每人', placeholder: '如：3', value: 3, suffix: '个' },
+                    { id: 'deficit', label: '差', placeholder: '如：5', value: 5, suffix: '个' }
                 ]
             },
             both_surplus: {
                 title: '两次都盈余',
                 desc: '两次分配都有剩余',
                 inputs: [
-                    { id: 'perMore', label: '📦 第一次每人分几个', placeholder: '如：6', value: 6 },
-                    { id: 'surplus1', label: '✅ 剩余几个', placeholder: '如：8', value: 8 },
-                    { id: 'perLess', label: '📦 第二次每人分几个', placeholder: '如：4', value: 4 },
-                    { id: 'surplus2', label: '✅ 剩余几个', placeholder: '如：20', value: 20 }
+                    { id: 'perMore', label: '第一次每人', placeholder: '如：6', value: 6, suffix: '个' },
+                    { id: 'surplus1', label: '剩', placeholder: '如：8', value: 8, suffix: '个' },
+                    { id: 'perLess', label: '第二次每人', placeholder: '如：4', value: 4, suffix: '个' },
+                    { id: 'surplus2', label: '剩', placeholder: '如：20', value: 20, suffix: '个' }
                 ]
             },
             both_deficit: {
                 title: '两次都不足',
                 desc: '两次分配都不够',
                 inputs: [
-                    { id: 'perMore', label: '📦 第一次每人分几个', placeholder: '如：8', value: 8 },
-                    { id: 'deficit1', label: '❌ 不足几个', placeholder: '如：10', value: 10 },
-                    { id: 'perLess', label: '📦 第二次每人分几个', placeholder: '如：6', value: 6 },
-                    { id: 'deficit2', label: '❌ 不足几个', placeholder: '如：2', value: 2 }
+                    { id: 'perMore', label: '第一次每人', placeholder: '如：8', value: 8, suffix: '个' },
+                    { id: 'deficit1', label: '差', placeholder: '如：10', value: 10, suffix: '个' },
+                    { id: 'perLess', label: '第二次每人', placeholder: '如：6', value: 6, suffix: '个' },
+                    { id: 'deficit2', label: '差', placeholder: '如：2', value: 2, suffix: '个' }
                 ]
             }
         };
@@ -653,12 +718,54 @@
         
         function renderInputs() {
             const config = problemConfigs[currentType];
-            document.getElementById('inputGroup').innerHTML = config.inputs.map(input => `
-                <div class="input-item">
-                    <label class="input-label">${input.label}</label>
-                    <input type="number" id="${input.id}" placeholder="${input.placeholder}" value="${input.value}" min="1">
+            const inputs = config.inputs;
+            let html = '';
+            for (let i = 0; i < inputs.length; i += 2) {
+                html += '<div class="input-row">';
+                html += `<div class="input-item">
+                    <label class="input-label">${inputs[i].label}</label>
+                    <input type="number" id="${inputs[i].id}" placeholder="${inputs[i].placeholder}" value="${inputs[i].value}" min="1" oninput="onInputChange()">
+                    <span class="input-suffix">${inputs[i].suffix || ''}</span>
+                </div>`;
+                if (inputs[i + 1]) {
+                    html += `<div class="input-item">
+                        <label class="input-label">${inputs[i + 1].label}</label>
+                        <input type="number" id="${inputs[i + 1].id}" placeholder="${inputs[i + 1].placeholder}" value="${inputs[i + 1].value}" min="1" oninput="onInputChange()">
+                        <span class="input-suffix">${inputs[i + 1].suffix || ''}</span>
+                    </div>`;
+                }
+                html += '</div>';
+            }
+            document.getElementById('inputGroup').innerHTML = html;
+            updateProblemText();
+        }
+        
+        function onInputChange() {
+            updateProblemText();
+            resetSteps();
+        }
+        
+        function updateProblemText() {
+            document.getElementById('problemText').innerHTML = `<i class="fas fa-book"></i> ${generateProblemText()}`;
+        }
+        
+        function resetSteps() {
+            document.getElementById('peopleCount').textContent = '?';
+            document.getElementById('itemCount').textContent = '?';
+            document.getElementById('distributionVisual').innerHTML = '';
+            document.getElementById('steps').innerHTML = `
+                <div class="empty-steps">
+                    <i class="fas fa-info-circle"></i>
+                    <p>请设置题目条件<br>然后点击"开始计算"</p>
                 </div>
-            `).join('');
+            `;
+            stepsData = [];
+            currentStep = 0;
+            maxReachedStep = 0;
+            document.getElementById('step-counter').textContent = '0';
+            document.getElementById('total-steps').textContent = '0';
+            document.getElementById('prevBtn').disabled = true;
+            document.getElementById('nextBtn').disabled = true;
         }
         
         function resetVisualization() {

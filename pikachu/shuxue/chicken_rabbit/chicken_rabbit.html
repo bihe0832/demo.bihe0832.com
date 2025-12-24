@@ -13,8 +13,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <meta name="author" CONTENT="子勰(bihe0832), code@bihe0832.com" />
     <meta name="keywords" content="子勰,bihe0832,工具咩" />
-    <meta name="description" content="皮卡丘学数学之鸡兔同笼双假设演示" />
-    <meta property="og:title" content="皮卡丘学数学之鸡兔同笼双假设演示" />
+    <meta name="description" content="皮卡丘学数学 - 鸡兔同笼问题" />
+    <meta property="og:title" content="皮卡丘学数学 - 鸡兔同笼问题" />
     <meta property="og:locale" content="en_US" />
     <meta name="google-site-verification" content="3wzNgbjvFNHkH-8QpougMZ0s9Y4GEjG49kEb49QQqpw" />
     <meta property="og:description" content="" />
@@ -22,7 +22,7 @@
     <meta property="og:url" content="https://blog.bihe0832.com/" />
     <meta property="og:site_name" content="工具咩" />
     <meta property="og:type" content="article" />
-    <title>皮卡丘学数学之鸡兔同笼双假设演示</title>
+    <title>皮卡丘学数学 - 鸡兔同笼问题</title>
     
     <style>
         * {
@@ -72,18 +72,20 @@
         .main-content {
             display: flex;
             gap: 20px;
-            min-height: 500px;
+            height: 660px;
+            overflow: hidden;
         }
         
         /* 左侧控制面板 */
         .left-panel {
-            width: 250px;
+            width: 320px;
             flex-shrink: 0;
             background: #f8f9fa;
             border-radius: 15px;
-            padding: 20px;
+            padding: 15px;
             display: flex;
             flex-direction: column;
+            overflow-y: auto;
         }
         
         .panel-title {
@@ -102,7 +104,7 @@
         }
         
         .method-selector {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
         .method-btn {
             display: block;
@@ -116,7 +118,7 @@
             transition: all 0.3s;
             text-align: center;
             box-shadow: 0 4px 8px rgba(52, 152, 219, 0.3);
-            font-size: 14px;
+            font-size: 1rem;
         }
         .method-btn:hover {
             transform: translateY(-2px);
@@ -128,7 +130,7 @@
         }
         
         .input-group {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
         .input-item {
             margin-bottom: 15px;
@@ -160,12 +162,12 @@
             display: flex;
             flex-direction: column;
             gap: 10px;
-            margin-top: 10px;
+            margin-top: auto;
         }
         
         button {
-            padding: 12px 20px;
-            font-size: 1rem;
+            padding: 15px 20px;
+            font-size: 1.1rem;
             background: linear-gradient(90deg, #3498db, #2c3e50);
             color: white;
             border: none;
@@ -226,7 +228,31 @@
             flex: 1;
             display: flex;
             flex-direction: column;
-            min-width: 500px;
+            min-width: 400px;
+            overflow: hidden;
+            min-height: 0;
+        }
+        
+        /* 题目显示区域 */
+        .problem-display {
+            background: linear-gradient(135deg, #3498db, #2980b9);
+            color: white;
+            padding: 12px 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+            text-align: left;
+            flex-shrink: 0;
+        }
+        .problem-display i {
+            margin-right: 8px;
+        }
+        .problem-display .highlight {
+            background: rgba(255, 255, 255, 0.25);
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: bold;
         }
         
         .barn-header {
@@ -253,7 +279,8 @@
             border-radius: 0 0 15px 15px;
             background: #efebe9;
             position: relative;
-            min-height: 400px;
+            min-height: 0;
+            overflow-y: auto;
         }
         .barn::before {
             content: "";
@@ -286,21 +313,66 @@
         
         /* 右侧步骤面板 */
         .right-panel {
-            width: 320px;
+            width: 380px;
             flex-shrink: 0;
             background: #edf7fe;
             border-radius: 15px;
-            padding: 20px;
+            padding: 15px;
             display: flex;
             flex-direction: column;
+            overflow: hidden;
+        }
+        
+        /* 核心公式卡片 */
+        .formula-card {
+            background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+            border-radius: 10px;
+            padding: 12px;
+            margin-bottom: 10px;
+            flex-shrink: 0;
+        }
+        .formula-card .panel-title {
+            border-bottom-color: #4caf50;
+            color: #2e7d32;
+        }
+        .formula-card .panel-title i {
+            color: #4caf50;
+        }
+        .formula-content {
+            font-size: 0.85rem;
+            color: #1b5e20;
+        }
+        .formula-item {
+            padding: 6px 0;
+            border-bottom: 1px dashed rgba(76, 175, 80, 0.3);
+        }
+        .formula-item:last-child {
+            border-bottom: none;
         }
         
         .steps-container {
             flex: 1;
+            min-height: 0;
             overflow-y: auto;
             padding: 15px;
             background: linear-gradient(to right, #e3f2fd, #bbdefb);
             border-radius: 12px;
+        }
+        
+        /* 自定义滚动条 */
+        .steps-container::-webkit-scrollbar {
+            width: 6px;
+        }
+        .steps-container::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 3px;
+        }
+        .steps-container::-webkit-scrollbar-thumb {
+            background: #3498db;
+            border-radius: 3px;
+        }
+        .steps-container::-webkit-scrollbar-thumb:hover {
+            background: #2980b9;
         }
         
         .step {
@@ -440,8 +512,8 @@
 <body>
     <div class="container">
         <header>
-            <h2><i class="fas fa-calculator"></i> 皮卡丘学数学之鸡兔同笼双假设演示</h2>
-            <p>假设全是一种，用脚数差算另一种</p>
+            <h2><i class="fas fa-calculator"></i> 皮卡丘学数学 - 鸡兔同笼问题</h2>
+            <p>假设全是一种，用脚数差算另一种 | 掌握双假设法的解题思路</p>
         </header>
         
         <div class="main-content">
@@ -469,12 +541,12 @@
                 <div class="input-group">
                     <div class="input-item">
                         <label class="input-label">🐔🐰 头数</label>
-                        <input type="number" id="heads" placeholder="头数" min="1" value="5">
+                        <input type="number" id="heads" placeholder="头数" min="1" value="5" oninput="updateProblemDisplay()">
                     </div>
                     
                     <div class="input-item">
                         <label class="input-label">🦶 脚数</label>
-                        <input type="number" id="legs" step="2" placeholder="脚数" min="2" value="16">
+                        <input type="number" id="legs" step="2" placeholder="脚数" min="2" value="16" oninput="updateProblemDisplay()">
                     </div>
                 </div>
                 
@@ -498,6 +570,11 @@
             
             <!-- 中间动画区域 -->
             <div class="center-panel">
+                <!-- 题目显示区域 -->
+                <div class="problem-display">
+                    <i class="fas fa-question-circle"></i>
+                    <span id="problemText">笼子里有 <span class="highlight">5</span> 个头，<span class="highlight">16</span> 只脚，问鸡和兔各有几只？</span>
+                </div>
                 <div class="barn-header">
                     <span><i class="fas fa-home"></i> 笼子里的动物</span>
                     <span>🐔 <span id="chickenCount">0</span> 只 | 🐰 <span id="rabbitCount">0</span> 只</span>
@@ -507,10 +584,22 @@
             
             <!-- 右侧步骤面板 -->
             <div class="right-panel">
-                <div class="panel-title">
-                    <i class="fas fa-list-ol"></i>
+                <!-- 核心公式卡片 -->
+                <div class="formula-card">
+                    <div class="panel-title">
+                        <i class="fas fa-calculator"></i>
+                        <span>核心公式</span>
+                    </div>
+                    <div class="formula-content">
+                        <div class="formula-item">假设全是鸡：兔 = (实际脚数 - 头数×2) ÷ 2</div>
+                        <div class="formula-item">假设全是兔：鸡 = (头数×4 - 实际脚数) ÷ 2</div>
+                    </div>
+                </div>
+                
+                <div class="panel-title" style="margin-top: 10px;">
+                    <i class="fas fa-shoe-prints"></i>
                     <span>解题步骤</span>
-                    <span style="margin-left: auto; font-size: 0.9rem; color: #7f8c8d;">
+                    <span style="margin-left: auto; font-size: 0.85rem; color: #7f8c8d;">
                         步骤: <span id="step-counter">0</span>/4
                     </span>
                 </div>
@@ -616,6 +705,13 @@
                 step.classList.toggle('visible', index <= maxReachedStep);
                 step.classList.toggle('active', index === currentStep);
             });
+        }
+        
+        function updateProblemDisplay() {
+            const heads = document.getElementById('heads').value || '?';
+            const legs = document.getElementById('legs').value || '?';
+            document.getElementById('problemText').innerHTML = 
+                `笼子里有 <span class="highlight">${heads}</span> 个头，<span class="highlight">${legs}</span> 只脚，问鸡和兔各有几只？`;
         }
 
         function showStep(stepIndex) {

@@ -12,11 +12,11 @@
     <link rel="Shortcut Icon" href="https://cdn.bihe0832.com/images/zixie_32.ico" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <meta name="author" CONTENT="子勰(bihe0832), code@bihe0832.com" />
-    <meta name="keywords" content="子勰,bihe0832,工具咩" />
+    <meta name="keywords" content="子勰,bihe0832,行程问题" />
     <meta name="description" content="皮卡丘学数学之行程问题分步解答" />
     <meta property="og:title" content="皮卡丘学数学之行程问题分步解答" />
     <meta property="og:locale" content="en_US" />
-    <title>皮卡丘学数学之行程问题分步解答</title>
+    <title>皮卡丘学数学 - 行程问题</title>
     
     <style>
         * {
@@ -62,24 +62,26 @@
         .main-content {
             display: flex;
             gap: 20px;
-            min-height: 500px;
+            height: 660px;
+            overflow: hidden;
         }
         
         .left-panel {
-            width: 280px;
+            width: 320px;
             flex-shrink: 0;
             background: #e8f4fc;
             border-radius: 15px;
             padding: 20px;
             display: flex;
             flex-direction: column;
+            overflow-y: auto;
         }
         
         .panel-title {
-            font-size: 1.1rem;
+            font-size: 1rem;
             color: #2980b9;
-            margin-bottom: 15px;
-            padding-bottom: 8px;
+            margin-bottom: 10px;
+            padding-bottom: 6px;
             border-bottom: 3px solid #3498db;
             display: flex;
             align-items: center;
@@ -91,13 +93,13 @@
         }
         
         .problem-type {
-            margin-bottom: 20px;
+            margin-bottom: 10px;
         }
         .type-btn {
             display: block;
             width: 100%;
-            padding: 12px 15px;
-            margin-bottom: 10px;
+            padding: 8px 10px;
+            margin-bottom: 6px;
             background: linear-gradient(45deg, #3498db, #2980b9);
             color: white;
             border-radius: 10px;
@@ -105,7 +107,7 @@
             transition: all 0.3s;
             text-align: center;
             box-shadow: 0 4px 8px rgba(52, 152, 219, 0.3);
-            font-size: 14px;
+            font-size: 0.85rem;
             border: none;
         }
         .type-btn:hover {
@@ -118,24 +120,24 @@
         }
         
         .input-group {
-            margin-bottom: 20px;
+            margin-bottom: 10px;
         }
         .input-item {
-            margin-bottom: 15px;
+            margin-bottom: 10px;
         }
         .input-label {
             display: block;
             font-weight: bold;
-            margin-bottom: 8px;
+            margin-bottom: 5px;
             color: #2980b9;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
         }
         input {
-            padding: 12px 15px;
+            padding: 10px 12px;
             width: 100%;
             border: 2px solid #3498db;
             border-radius: 10px;
-            font-size: 1.1rem;
+            font-size: 1rem;
             text-align: center;
             box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
             transition: all 0.3s;
@@ -154,7 +156,7 @@
         }
         
         button {
-            padding: 12px 20px;
+            padding: 12px 15px;
             font-size: 1rem;
             background: linear-gradient(90deg, #3498db, #2980b9);
             color: white;
@@ -185,8 +187,12 @@
         }
         
         .show-all-btn {
-            background: linear-gradient(90deg, #f39c12, #e67e22);
-            box-shadow: 0 4px 10px rgba(243, 156, 18, 0.3);
+            background: linear-gradient(45deg, #9b59b6, #8e44ad);
+            box-shadow: 0 4px 10px rgba(155, 89, 182, 0.3);
+        }
+        .show-all-btn:hover {
+            transform: translateY(-2px);
+            background: linear-gradient(45deg, #8e44ad, #9b59b6);
         }
         
         .nav-buttons {
@@ -203,7 +209,8 @@
             flex: 1;
             display: flex;
             flex-direction: column;
-            min-width: 400px;
+            min-width: 0;
+            overflow: hidden;
         }
         
         .visual-header {
@@ -215,6 +222,7 @@
             justify-content: space-between;
             align-items: center;
             font-size: 1.1rem;
+            flex-shrink: 0;
         }
         
         .visual-area {
@@ -227,12 +235,14 @@
             border-top: none;
             border-radius: 0 0 15px 15px;
             background: linear-gradient(135deg, #e8f4fc, #d4edfc);
-            min-height: 400px;
+            min-height: 0;
+            overflow-y: auto;
             padding: 20px;
             gap: 20px;
         }
         
         .problem-text {
+            text-align: left;
             background: linear-gradient(135deg, #fff, #ffeaa7);
             padding: 15px 25px;
             border-radius: 12px;
@@ -242,7 +252,7 @@
             color: #2c3e50;
             line-height: 1.6;
             max-width: 95%;
-            text-align: center;
+            
         }
         
         .problem-text i {
@@ -484,21 +494,49 @@
         }
         
         .right-panel {
-            width: 350px;
+            width: 380px;
             flex-shrink: 0;
             background: #e8f4fc;
             border-radius: 15px;
             padding: 20px;
             display: flex;
             flex-direction: column;
+            overflow: hidden;
+        }
+        
+        .formula-card {
+            padding: 0 12px 12px 12px;
+            margin-bottom: 15px;
+            flex-shrink: 0;
+        }
+        .formula-card .formula {
+            font-size: 0.9rem;
+            color: #2980b9;
+            margin: 8px 0;
         }
         
         .steps-container {
             flex: 1;
+            min-height: 0;
             overflow-y: auto;
             padding: 15px;
             background: linear-gradient(to right, #e8f4fc, #d4edfc);
             border-radius: 12px;
+        }
+        
+        .steps-container::-webkit-scrollbar {
+            width: 6px;
+        }
+        .steps-container::-webkit-scrollbar-track {
+            background: rgba(52, 152, 219, 0.1);
+            border-radius: 3px;
+        }
+        .steps-container::-webkit-scrollbar-thumb {
+            background: #3498db;
+            border-radius: 3px;
+        }
+        .steps-container::-webkit-scrollbar-thumb:hover {
+            background: #2980b9;
         }
         
         .step {
@@ -582,12 +620,13 @@
         @media (max-width: 1200px) {
             .main-content {
                 flex-direction: column;
+                height: auto;
             }
             .left-panel, .right-panel {
                 width: 100%;
             }
             .left-panel { order: 1; }
-            .center-panel { order: 2; min-height: 350px; }
+            .center-panel { order: 2; min-height: 350px; min-width: auto; }
             .right-panel { order: 3; }
             .controls {
                 flex-direction: row;
@@ -619,8 +658,8 @@
 <body>
     <div class="container">
         <header>
-            <h2><i class="fas fa-route"></i> 皮卡丘学数学之行程问题分步解答</h2>
-            <p>路程 = 速度 × 时间，相遇用和、追及用差</p>
+            <h2>🚗 皮卡丘学数学 - 行程问题</h2>
+            <p>路程 = 速度 × 时间 | 相遇用和、追及用差</p>
         </header>
         
         <div class="main-content">
@@ -726,7 +765,19 @@
             
             <div class="right-panel">
                 <div class="panel-title">
-                    <i class="fas fa-list-ol"></i>
+                    <i class="fas fa-calculator"></i>
+                    <span>核心公式</span>
+                </div>
+                <div class="formula-card">
+                    <div class="formula">• 路程 = 速度 × 时间</div>
+                    <div class="formula">• 相遇时间 = 总路程 ÷ 速度和</div>
+                    <div class="formula">• 追及时间 = 路程差 ÷ 速度差</div>
+                    <div class="formula">• 顺水速度 = 船速 + 水速</div>
+                    <div class="formula">• 逆水速度 = 船速 - 水速</div>
+                </div>
+                
+                <div class="panel-title">
+                    <i class="fas fa-shoe-prints"></i>
                     <span>解题步骤</span>
                     <span style="margin-left: auto; font-size: 0.9rem; color: #7f8c8d;">
                         步骤: <span id="step-counter">0</span>/<span id="total-steps">0</span>
@@ -816,32 +867,24 @@
             document.getElementById('inputGroup').innerHTML = config.inputs.map(input => `
                 <div class="input-item">
                     <label class="input-label">${input.label}</label>
-                    <input type="number" id="${input.id}" placeholder="${input.placeholder}" value="${input.value}" min="1">
+                    <input type="number" id="${input.id}" placeholder="${input.placeholder}" value="${input.value}" min="1" oninput="onInputChange()">
                 </div>
             `).join('');
+            updateProblemText();
         }
         
-        function resetVisualization() {
-            const config = problemConfigs[currentType];
-            document.getElementById('problemDesc').textContent = config.desc;
-            document.getElementById('problemText').innerHTML = `
-                <i class="fas fa-question-circle"></i>
-                <span>请设置题目条件，然后点击"开始计算"</span>
-            `;
+        function onInputChange() {
+            updateProblemText();
+            resetSteps();
+        }
+        
+        function updateProblemText() {
+            document.getElementById('problemText').innerHTML = `<i class="fas fa-book"></i> ${generateProblemText()}`;
+        }
+        
+        function resetSteps() {
             document.getElementById('timeAnswer').textContent = '?';
             document.getElementById('placeAnswer').textContent = '?';
-            document.getElementById('distanceLabel').textContent = '? 千米';
-            document.getElementById('speedLabelA').textContent = '?km/h';
-            document.getElementById('speedLabelB').textContent = '?km/h';
-            
-            // 更新答案卡片标签
-            const answerCards = document.querySelectorAll('.answer-card');
-            answerCards[0].querySelector('.answer-label').textContent = config.answerLabels[0];
-            answerCards[1].querySelector('.answer-label').textContent = config.answerLabels[1];
-            
-            // 更新可视化
-            updateTravelVisual();
-            
             document.getElementById('steps').innerHTML = `
                 <div class="empty-steps">
                     <i class="fas fa-info-circle"></i>
@@ -855,6 +898,28 @@
             document.getElementById('total-steps').textContent = '0';
             document.getElementById('prevBtn').disabled = true;
             document.getElementById('nextBtn').disabled = true;
+        }
+        
+        function resetVisualization() {
+            const config = problemConfigs[currentType];
+            document.getElementById('problemDesc').textContent = config.desc;
+            document.getElementById('distanceLabel').textContent = '? 千米';
+            document.getElementById('speedLabelA').textContent = '?km/h';
+            document.getElementById('speedLabelB').textContent = '?km/h';
+            
+            // 更新答案卡片标签
+            const answerCards = document.querySelectorAll('.answer-card');
+            answerCards[0].querySelector('.answer-label').textContent = config.answerLabels[0];
+            answerCards[1].querySelector('.answer-label').textContent = config.answerLabels[1];
+            
+            // 更新可视化
+            updateTravelVisual();
+            
+            // 更新题目文本
+            updateProblemText();
+            
+            // 重置步骤
+            resetSteps();
         }
         
         function updateTravelVisual() {
