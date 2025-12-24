@@ -683,9 +683,6 @@
                 </div>
                 
                 <div class="btn-group">
-                    <button class="btn btn-primary" onclick="startCalculation()">
-                        <i class="fas fa-calculator"></i> 开始计算
-                    </button>
                     <button class="btn btn-secondary" onclick="showAllSteps()">
                         <i class="fas fa-eye"></i> 一键查看
                     </button>
@@ -695,7 +692,7 @@
                     <button class="btn btn-secondary" id="prevBtn" onclick="prevStep()" disabled>
                         <i class="fas fa-arrow-left"></i> 上一步
                     </button>
-                    <button class="btn btn-secondary" id="nextBtn" onclick="nextStep()" disabled>
+                    <button class="btn btn-secondary" id="nextBtn" onclick="nextStep()">
                         下一步 <i class="fas fa-arrow-right"></i>
                     </button>
                 </div>
@@ -705,7 +702,7 @@
             <div class="center-panel">
                 <div class="problem-display" id="problem-display">
                     <div class="problem-text" id="problem-text">
-                        📝 请在左侧设置题目参数，点击"开始计算"生成题目
+                        👆 点击下一步开始解答
                     </div>
                 </div>
                 
@@ -759,7 +756,7 @@
                 <div class="solution-area" id="solution-area">
                     <div id="solution-steps" class="steps-container">
                         <p style="color: #999; text-align: center; padding: 30px;">
-                            👆 设置题目参数后点击"开始计算"按钮查看详细解答
+                            👆 设置题目参数后👆 点击下一步开始解答
                         </p>
                     </div>
                 </div>
@@ -1083,7 +1080,7 @@
             // 清空解答区域，提示用户点击计算
             document.getElementById('solution-steps').innerHTML = `
                 <p style="color: #999; text-align: center; padding: 30px;">
-                    👆 点击"开始计算"按钮查看详细解答
+                    👆 👆 点击下一步开始解答
                 </p>
             `;
             document.getElementById('step-counter').textContent = '0';
@@ -1149,7 +1146,12 @@
         }
         
         function nextStep() {
-            if (currentStep < stepsData.length - 1) showStep(currentStep + 1);
+            // 如果还没有生成步骤，先生成
+            if (stepsData.length === 0) {
+                startCalculation();
+                return;
+            }
+            if(currentStep < stepsData.length - 1) showStep(currentStep + 1);
         }
         
         function prevStep() {
@@ -1520,10 +1522,10 @@
             document.getElementById('step-counter').textContent = '0';
             document.getElementById('step-total').textContent = '0';
             document.getElementById('prevBtn').disabled = true;
-            document.getElementById('nextBtn').disabled = true;
+            document.getElementById('nextBtn').disabled = false;
             document.getElementById('solution-steps').innerHTML = `
                 <p style="color: #999; text-align: center; padding: 30px;">
-                    👆 设置题目参数后点击"开始计算"按钮查看详细解答
+                    👆 设置题目参数后👆 点击下一步开始解答
                 </p>
             `;
         }

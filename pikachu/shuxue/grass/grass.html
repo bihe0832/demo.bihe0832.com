@@ -642,14 +642,11 @@
                 </div>
                 
                 <div class="controls">
-                    <button class="start-btn" onclick="startCalculation()">
-                        <i class="fas fa-play-circle"></i> 开始计算
-                    </button>
                     <div class="nav-buttons">
                         <button id="prevBtn" onclick="prevStep()" disabled>
                             <i class="fas fa-arrow-left"></i> 上一步
                         </button>
-                        <button id="nextBtn" onclick="nextStep()" disabled>
+                        <button id="nextBtn" onclick="nextStep()">
                             下一步 <i class="fas fa-arrow-right"></i>
                         </button>
                     </div>
@@ -705,7 +702,7 @@
                 </div>
                 <div class="steps-container" id="steps">
                     <div style="text-align: center; color: #666; padding: 40px 20px;">
-                        点击"开始计算"查看步骤
+                        👆 点击下一步开始解答
                     </div>
                 </div>
                 <div class="answer-box" id="answerBox">
@@ -879,6 +876,11 @@
         }
 
         function nextStep() {
+            // 如果还没有生成步骤，先生成
+            if (stepsData.length === 0) {
+                startCalculation();
+                return;
+            }
             if (currentStep < stepsData.length - 1) {
                 showStep(++currentStep);
             }
@@ -899,7 +901,7 @@
             isAutoPlaying = true;
             document.getElementById('autoBtn').innerHTML = '<i class="fas fa-pause"></i> 暂停';
             document.getElementById('prevBtn').disabled = true;
-            document.getElementById('nextBtn').disabled = true;
+            document.getElementById('nextBtn').disabled = false;
             
             autoPlayTimer = setInterval(() => {
                 if (currentStep < stepsData.length - 1) {
@@ -936,7 +938,7 @@
             currentStep = stepsData.length - 1;
             document.getElementById('step-counter').textContent = currentStep + 1;
             document.getElementById('prevBtn').disabled = false;
-            document.getElementById('nextBtn').disabled = true;
+            document.getElementById('nextBtn').disabled = false;
             
             // 更新草地显示为最终状态
             const lastData = stepsData[currentStep].dataset;

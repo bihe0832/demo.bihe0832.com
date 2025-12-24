@@ -533,22 +533,18 @@
                     <i class="fas fa-plus"></i> 添加运算步骤
                 </button>
                 
-                <button class="start-btn" onclick="startCalculation()">
-                    <i class="fas fa-play"></i> 开始还原
-                </button>
-                
-                <button class="show-all-btn" onclick="showAllSteps()">
-                    <i class="fas fa-eye"></i> 一键查看
-                </button>
-                
                 <div class="nav-buttons" style="margin-top: 15px;">
                     <button class="nav-btn prev" onclick="prevStep()" id="prevBtn" disabled>
                         <i class="fas fa-arrow-left"></i> 上一步
                     </button>
-                    <button class="nav-btn next" onclick="nextStep()" id="nextBtn" disabled>
+                    <button class="nav-btn next" onclick="nextStep()" id="nextBtn">
                         下一步 <i class="fas fa-arrow-right"></i>
                     </button>
                 </div>
+                
+                <button class="show-all-btn" onclick="showAllSteps()">
+                    <i class="fas fa-eye"></i> 一键查看
+                </button>
             </div>
             
             <!-- 中间可视化区域 -->
@@ -611,7 +607,7 @@
                 <div class="steps-container" id="stepsContainer">
                     <div class="empty-steps" style="text-align: center; padding: 30px; color: #7f8c8d;">
                         <i class="fas fa-info-circle" style="font-size: 2rem; margin-bottom: 10px; display: block;"></i>
-                        <p>请设置运算步骤<br>然后点击"开始还原"</p>
+                        <p>👆 点击"下一步"开始解答</p>
                     </div>
                 </div>
             </div>
@@ -918,6 +914,11 @@
         
         // 下一步
         function nextStep() {
+            // 如果还没有生成步骤，先生成
+            if (stepsData.length === 0) {
+                startCalculation();
+                return;
+            }
             if (currentStep < stepsData.length - 1) {
                 currentStep++;
                 if (currentStep > maxReachedStep) {
@@ -966,7 +967,7 @@
             container.innerHTML = `
                 <div class="empty-steps" style="text-align: center; padding: 30px; color: #7f8c8d;">
                     <i class="fas fa-info-circle" style="font-size: 2rem; margin-bottom: 10px; display: block;"></i>
-                    <p>请设置运算步骤<br>然后点击"开始还原"</p>
+                    <p>👆 点击"下一步"开始解答</p>
                 </div>
             `;
             
@@ -980,7 +981,7 @@
             
             // 重置按钮
             document.getElementById('prevBtn').disabled = true;
-            document.getElementById('nextBtn').disabled = true;
+            document.getElementById('nextBtn').disabled = false;
             
             // 重置步骤计数器
             document.getElementById('step-counter').textContent = '0';

@@ -551,9 +551,6 @@
                 </div>
                 
                 <div class="controls">
-                    <button class="start-btn" onclick="startCalculation()">
-                        <i class="fas fa-play-circle"></i> 开始计算
-                    </button>
                     <button class="show-all-btn" onclick="showAllSteps()">
                         <i class="fas fa-eye"></i> 一键查看
                     </button>
@@ -561,7 +558,7 @@
                         <button id="prevBtn" onclick="prevStep()" disabled>
                             <i class="fas fa-arrow-left"></i> 上一步
                         </button>
-                        <button id="nextBtn" onclick="nextStep()" disabled>
+                        <button id="nextBtn" onclick="nextStep()">
                             下一步 <i class="fas fa-arrow-right"></i>
                         </button>
                     </div>
@@ -606,7 +603,7 @@
                 <div class="steps-container" id="steps">
                     <div class="empty-steps">
                         <i class="fas fa-info-circle"></i>
-                        <p>请设置头数和脚数<br>然后点击"开始计算"</p>
+                        <p>👆 点击下一步开始解答</p>
                     </div>
                 </div>
             </div>
@@ -730,8 +727,13 @@
             updateBarn(parseInt(currentData.chickens), parseInt(currentData.rabbits));
         }
 
-        function nextStep() { 
-            if(currentStep < stepsData.length - 1) showStep(currentStep + 1); 
+        function nextStep() {
+            // 如果还没有生成步骤，先生成
+            if (stepsData.length === 0) {
+                startCalculation();
+                return;
+            }
+            if(currentStep < stepsData.length - 1) showStep(currentStep + 1);
         }
         
         function prevStep() { 

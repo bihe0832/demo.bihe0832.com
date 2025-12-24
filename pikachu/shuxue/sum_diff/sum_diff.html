@@ -595,18 +595,18 @@
                     </div>
                 </div>
                 
-                <button class="start-btn" onclick="startCalculation()">
-                    <i class="fas fa-play"></i> 开始演示
-                </button>
-                
                 <div class="nav-buttons" style="margin-top: 15px;">
                     <button class="nav-btn prev" onclick="prevStep()" id="prevBtn" disabled>
                         <i class="fas fa-arrow-left"></i> 上一步
                     </button>
-                    <button class="nav-btn next" onclick="nextStep()" id="nextBtn" disabled>
+                    <button class="nav-btn next" onclick="nextStep()" id="nextBtn">
                         下一步 <i class="fas fa-arrow-right"></i>
                     </button>
                 </div>
+                
+                <button class="show-all-btn" onclick="showAllSteps()" style="margin-top: 10px;">
+                    <i class="fas fa-eye"></i> 一键查看
+                </button>
             </div>
             
             <!-- 中间可视化区域 -->
@@ -652,7 +652,7 @@
                 <div class="steps-container" id="stepsContainer">
                     <div class="step-item">
                         <span class="step-number">1</span>
-                        <span class="step-content">点击"开始演示"查看详细步骤</span>
+                        <span class="step-content">👆 点击"下一步"开始解答</span>
                     </div>
                 </div>
             </div>
@@ -1139,11 +1139,29 @@
         
         // 下一步
         function nextStep() {
+            // 如果还没有生成步骤，先生成
+            if (stepsData.length === 0) {
+                startCalculation();
+                return;
+            }
             if (currentStep < stepsData.length - 1) {
                 currentStep++;
                 if (currentStep > maxReachedStep) {
                     maxReachedStep = currentStep;
                 }
+                updateStepVisibility();
+                updateButtons();
+            }
+        }
+        
+        // 一键查看所有步骤
+        function showAllSteps() {
+            if (stepsData.length === 0) {
+                startCalculation();
+            }
+            if (stepsData.length > 0) {
+                maxReachedStep = stepsData.length - 1;
+                currentStep = stepsData.length - 1;
                 updateStepVisibility();
                 updateButtons();
             }
@@ -1167,7 +1185,7 @@
             container.innerHTML = `
                 <div class="step-item">
                     <span class="step-number">1</span>
-                    <span class="step-content">点击"开始演示"查看详细步骤</span>
+                    <span class="step-content">👆 点击"下一步"开始解答</span>
                 </div>
             `;
             
@@ -1177,7 +1195,7 @@
             
             // 重置按钮
             document.getElementById('prevBtn').disabled = true;
-            document.getElementById('nextBtn').disabled = true;
+            document.getElementById('nextBtn').disabled = false;
             
             // 重置线段图为初始状态
             const diagram = document.getElementById('barDiagram');
