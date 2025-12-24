@@ -45,42 +45,46 @@
         header {
             background: linear-gradient(90deg, #667eea, #764ba2);
             color: white;
-            padding: 25px 30px;
+            padding: 15px 20px;
             border-radius: 15px;
-            margin-bottom: 25px;
+            margin-bottom: 15px;
             text-align: center;
             box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
         }
         
         header h1 {
-            font-size: 2rem;
-            margin-bottom: 10px;
+            font-size: 1.5rem;
+            margin-bottom: 5px;
             text-shadow: 0 2px 8px rgba(0,0,0,0.3);
         }
         
         header p {
-            font-size: 1rem;
+            font-size: 0.9rem;
             opacity: 0.9;
         }
         
         .input-section {
             background: #fff;
             border-radius: 15px;
-            padding: 25px;
-            margin-bottom: 25px;
+            padding: 15px 20px;
+            margin-bottom: 15px;
             box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            gap: 20px;
         }
         
         .input-group {
             display: flex;
-            gap: 15px;
+            gap: 10px;
             align-items: center;
+            flex-shrink: 0;
         }
         
         .input-group input {
-            flex: 1;
-            padding: 15px 20px;
-            font-size: 1.5rem;
+            width: 80px;
+            padding: 10px 15px;
+            font-size: 1.3rem;
             border: 2px solid #e0e0e0;
             border-radius: 10px;
             text-align: center;
@@ -93,8 +97,8 @@
         }
         
         .input-group button {
-            padding: 15px 30px;
-            font-size: 1.1rem;
+            padding: 10px 20px;
+            font-size: 1rem;
             background: linear-gradient(135deg, #667eea, #764ba2);
             color: #fff;
             border: none;
@@ -107,6 +111,50 @@
         .input-group button:hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .history-inline {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            overflow: hidden;
+        }
+        
+        .history-inline h4 {
+            font-size: 0.9rem;
+            color: #666;
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            flex-shrink: 0;
+        }
+        
+        .history-list {
+            display: flex;
+            flex-wrap: nowrap;
+            gap: 6px;
+            overflow-x: auto;
+        }
+        
+        .history-list::-webkit-scrollbar {
+            display: none;
+        }
+        
+        .history-item {
+            background: #f0f0f0;
+            padding: 6px 12px;
+            border-radius: 15px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            flex-shrink: 0;
+        }
+        
+        .history-item:hover {
+            background: #667eea;
+            color: #fff;
         }
         
         .result-section {
@@ -449,43 +497,6 @@
             transform: none;
         }
         
-        .history-section {
-            background: #fff;
-            border-radius: 15px;
-            padding: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
-        }
-        
-        .history-section h4 {
-            font-size: 1rem;
-            color: #666;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .history-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 8px;
-        }
-        
-        .history-item {
-            background: #f0f0f0;
-            padding: 8px 15px;
-            border-radius: 20px;
-            font-size: 1.1rem;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        
-        .history-item:hover {
-            background: #667eea;
-            color: #fff;
-        }
-        
         .back-link {
             display: block;
             text-align: center;
@@ -503,13 +514,26 @@
         
         @media (max-width: 768px) {
             header h1 {
-                font-size: 1.5rem;
+                font-size: 1.3rem;
+            }
+            header p {
+                font-size: 0.8rem;
+            }
+            .input-section {
+                flex-direction: column;
+                gap: 10px;
+                padding: 12px 15px;
             }
             .input-group {
-                flex-direction: column;
-            }
-            .input-group input, .input-group button {
                 width: 100%;
+            }
+            .input-group input {
+                flex: 1;
+                width: auto;
+            }
+            .history-inline {
+                width: 100%;
+                justify-content: flex-start;
             }
             .char-display {
                 display: grid;
@@ -561,14 +585,13 @@
         
         <div class="input-section">
             <div class="input-group">
-                <input type="text" id="charInput" placeholder="请输入一个汉字" maxlength="1" autofocus>
+                <input type="text" id="charInput" placeholder="输入汉字" maxlength="1" autofocus>
                 <button onclick="lookupChar()"><i class="fas fa-search"></i> 查询</button>
             </div>
-        </div>
-        
-        <div class="history-section" id="historySection" style="display:none;">
-            <h4><i class="fas fa-history"></i> 最近查询</h4>
-            <div class="history-list" id="historyList"></div>
+            <div class="history-inline" id="historySection" style="display:none;">
+                <h4><i class="fas fa-history"></i> 最近</h4>
+                <div class="history-list" id="historyList"></div>
+            </div>
         </div>
         
         <div class="result-section" id="resultSection">
@@ -664,7 +687,7 @@
                 section.style.display = 'none';
                 return;
             }
-            section.style.display = 'block';
+            section.style.display = 'flex';
             list.innerHTML = history.map(char => 
                 `<span class="history-item" onclick="lookupFromHistory('${char}')">${char}</span>`
             ).join('');
