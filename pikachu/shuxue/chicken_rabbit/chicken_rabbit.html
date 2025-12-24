@@ -453,10 +453,12 @@
             color: #bdc3c7;
         }
         
-        /* 响应式布局 */
+        /* 响应式布局 - 平板 */
         @media (max-width: 1200px) {
             .main-content {
                 flex-direction: column;
+                height: auto;
+                min-height: 660px;
             }
             .left-panel, .right-panel {
                 width: 100%;
@@ -467,9 +469,11 @@
             .center-panel {
                 order: 2;
                 min-height: 350px;
+                min-width: unset;
             }
             .right-panel {
                 order: 3;
+                min-height: 300px;
             }
             .controls {
                 flex-direction: row;
@@ -492,19 +496,123 @@
             }
         }
         
+        /* 响应式布局 - 手机竖屏 */
         @media (max-width: 600px) {
-            .animal {
-                width: 60px;
-                height: 60px;
+            body {
+                padding: 10px;
+            }
+            .container {
+                padding: 15px;
+                margin: 10px 0;
+                border-radius: 15px;
+            }
+            header {
+                padding: 15px 20px;
+                border-radius: 12px;
+                margin-bottom: 15px;
             }
             header h2 {
-                font-size: 1.5rem;
+                font-size: 1.3rem;
+            }
+            header p {
+                font-size: 0.85rem;
+            }
+            .main-content {
+                gap: 15px;
+            }
+            .left-panel, .right-panel {
+                padding: 12px;
+                border-radius: 12px;
+            }
+            .panel-title {
+                font-size: 1rem;
+                margin-bottom: 12px;
+            }
+            .method-selector {
+                flex-direction: column;
+                gap: 8px;
+            }
+            .method-btn {
+                padding: 10px 12px;
+                font-size: 0.9rem;
+            }
+            .input-label {
+                font-size: 0.9rem;
+            }
+            input {
+                padding: 10px 12px;
+                font-size: 1rem;
             }
             .controls {
                 flex-direction: column;
+                gap: 8px;
+            }
+            .controls button {
+                padding: 12px 15px;
+                font-size: 1rem;
             }
             .nav-buttons {
                 width: 100%;
+            }
+            .nav-buttons button {
+                padding: 10px 12px;
+                font-size: 0.85rem;
+            }
+            .center-panel {
+                min-height: 280px;
+            }
+            .problem-display {
+                padding: 10px 12px;
+                font-size: 0.9rem;
+            }
+            .barn-header {
+                padding: 10px 15px;
+                font-size: 0.95rem;
+            }
+            .barn {
+                padding: 10px 12px;
+                gap: 4px;
+            }
+            .animal {
+                width: 50px;
+                height: 50px;
+            }
+            .formula-card {
+                padding: 10px;
+            }
+            .formula-content {
+                font-size: 0.8rem;
+            }
+            .formula-item {
+                padding: 5px 0;
+            }
+            .steps-container {
+                padding: 12px;
+            }
+            .step-number {
+                width: 24px;
+                height: 24px;
+                font-size: 0.8rem;
+            }
+            .step-title {
+                font-size: 0.9rem;
+            }
+            .right-panel {
+                min-height: 250px;
+            }
+        }
+        
+        /* 超小屏幕 */
+        @media (max-width: 380px) {
+            header h2 {
+                font-size: 1.1rem;
+            }
+            .animal {
+                width: 42px;
+                height: 42px;
+            }
+            .formula-content {
+                font-size: 0.75rem;
             }
         }
     </style>

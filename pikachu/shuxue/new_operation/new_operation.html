@@ -1,0 +1,1214 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=0" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no" />    
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="Expires" content="0">
+    <link rel="Shortcut Icon" href="https://cdn.bihe0832.com/images/zixie_32.ico" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <meta name="author" content="子勰(bihe0832), code@bihe0832.com" />
+    <meta name="keywords" content="子勰,bihe0832,皮卡丘,数学,定义新运算" />
+    <meta name="description" content="皮卡丘学数学之定义新运算分步解答" />
+    <meta property="og:title" content="皮卡丘学数学 - 定义新运算" />
+    <meta property="og:locale" content="zh_CN" />
+    <meta property="og:description" content="皮卡丘学数学之定义新运算分步解答" />
+    <link rel="canonical" href="https://demo.bihe0832.com/pikachu/shuxue/new_operation/new_operation.html" />
+    <meta property="og:url" content="https://demo.bihe0832.com/pikachu/shuxue/new_operation/new_operation.html" />
+    <meta property="og:site_name" content="皮卡丘学习资源" />
+    <meta property="og:type" content="article" />
+    <meta name="google-site-verification" content="3wzNgbjvFNHkH-8QpougMZ0s9Y4GEjG49kEb49QQqpw" />
+    <title>皮卡丘学数学 - 定义新运算</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+            margin: 20px 0;
+            padding: 20px;
+        }
+        header {
+            background: linear-gradient(90deg, #9b59b6, #8e44ad);
+            color: white;
+            padding: 20px 30px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+        header h2 {
+            font-size: 2rem;
+            margin: 10px 0;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+        }
+        header p {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+        
+        .main-content {
+            display: flex;
+            gap: 20px;
+            height: 660px;
+            overflow: hidden;
+        }
+        
+        .left-panel {
+            width: 320px;
+            flex-shrink: 0;
+            background: #f5f0ff;
+            border-radius: 15px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+        
+        .panel-title {
+            font-size: 1.1rem;
+            color: #8e44ad;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 3px solid #9b59b6;
+            display: flex;
+            align-items: center;
+        }
+        .panel-title i {
+            margin-right: 10px;
+            font-size: 1.2rem;
+            color: #9b59b6;
+        }
+        
+        .input-group {
+            margin-bottom: 15px;
+        }
+        .input-item {
+            margin-bottom: 12px;
+        }
+        .input-label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 6px;
+            color: #8e44ad;
+            font-size: 0.9rem;
+        }
+        input, select {
+            padding: 10px 12px;
+            width: 100%;
+            border: 2px solid #9b59b6;
+            border-radius: 10px;
+            font-size: 1rem;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        input:focus, select:focus {
+            outline: none;
+            border-color: #8e44ad;
+            box-shadow: 0 0 10px rgba(155, 89, 182, 0.3);
+        }
+        
+        .problem-type-selector {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 15px;
+        }
+        
+        .type-btn {
+            flex: 1;
+            min-width: 80px;
+            padding: 10px 5px;
+            border: 2px solid #9b59b6;
+            border-radius: 10px;
+            background: white;
+            cursor: pointer;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+        
+        .type-btn.active {
+            background: linear-gradient(45deg, #9b59b6, #8e44ad);
+            color: white;
+        }
+        
+        .type-btn:hover {
+            transform: translateY(-2px);
+        }
+        
+        .controls {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: auto;
+        }
+        
+        .show-all-btn {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(45deg, #9b59b6, #8e44ad);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(155, 89, 182, 0.3);
+        }
+        .show-all-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(155, 89, 182, 0.4);
+        }
+        
+        .nav-buttons {
+            display: flex;
+            gap: 10px;
+        }
+        
+        .nav-btn {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+        
+        .nav-btn.prev {
+            background: linear-gradient(45deg, #95a5a6, #7f8c8d);
+            color: white;
+        }
+        
+        .nav-btn.next {
+            background: linear-gradient(45deg, #9b59b6, #8e44ad);
+            color: white;
+        }
+        
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+        
+        .nav-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        /* 中间可视化区域 */
+        .center-panel {
+            flex: 1;
+            min-width: 400px;
+            background: #faf5ff;
+            border-radius: 15px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .problem-display {
+            text-align: left;
+            background: linear-gradient(135deg, #9b59b6, #8e44ad);
+            color: white;
+            padding: 15px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+        
+        .problem-display .highlight {
+            background: rgba(255,255,255,0.2);
+            padding: 2px 8px;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        
+        /* 可视化区域 */
+        .visualization {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            justify-content: center;
+            padding: 20px;
+            gap: 15px;
+        }
+        
+        .definition-box {
+            background: linear-gradient(135deg, #fff3cd, #ffeeba);
+            border: 3px solid #f39c12;
+            border-radius: 15px;
+            padding: 25px 40px;
+            text-align: center;
+            margin-bottom: 20px;
+            box-shadow: 0 5px 20px rgba(243, 156, 18, 0.2);
+            width: 100%;
+        }
+        
+        .definition-title {
+            font-size: 1rem;
+            color: #856404;
+            margin-bottom: 10px;
+        }
+        
+        .definition-formula {
+            font-size: 2rem;
+            font-weight: bold;
+            color: #9b59b6;
+            font-family: 'Times New Roman', serif;
+        }
+        
+        .operation-symbol {
+            display: inline-block;
+            width: 36px;
+            height: 36px;
+            line-height: 36px;
+            text-align: center;
+            background: linear-gradient(45deg, #9b59b6, #8e44ad);
+            color: white;
+            border-radius: 50%;
+            font-size: 1.2rem;
+            margin: 0 5px;
+        }
+        
+        .calculation-box {
+            background: white;
+            border: 3px solid #9b59b6;
+            border-radius: 15px;
+            padding: 25px 40px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(155, 89, 182, 0.15);
+            width: 100%;
+        }
+        
+        .calc-title {
+            font-size: 1rem;
+            color: #666;
+            margin-bottom: 15px;
+        }
+        
+        .calc-expression {
+            font-size: 1.6rem;
+            font-weight: bold;
+            color: #333;
+            font-family: 'Times New Roman', serif;
+            line-height: 2;
+        }
+        
+        .calc-substitution {
+            display: none;
+        }
+        
+        .calc-result {
+            display: none;
+            font-family: 'Times New Roman', serif;
+        }
+        
+        /* 右侧步骤面板 */
+        .right-panel {
+            width: 380px;
+            flex-shrink: 0;
+            background: #f5f0ff;
+            border-radius: 15px;
+            padding: 15px;
+            display: flex;
+            flex-direction: column;
+            max-height: 660px;
+        }
+        
+        .formula-card {
+            background: linear-gradient(135deg, #e8daef, #d7bde2);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .formula-card h4 {
+            color: #8e44ad;
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+        }
+        
+        .formula-card .formula {
+            font-size: 1.1rem;
+            color: #5b2c6f;
+            font-weight: bold;
+            text-align: center;
+            padding: 10px;
+            background: rgba(255,255,255,0.5);
+            border-radius: 8px;
+        }
+        
+        .steps-container {
+            flex: 1;
+            overflow-y: auto;
+            padding: 15px;
+            background: linear-gradient(to right, #f3e5f5, #e1bee7);
+            border-radius: 12px;
+        }
+        
+        .steps-container::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .steps-container::-webkit-scrollbar-track {
+            background: #e8daef;
+            border-radius: 3px;
+        }
+        
+        .steps-container::-webkit-scrollbar-thumb {
+            background: #9b59b6;
+            border-radius: 3px;
+        }
+        
+        .step-item {
+            padding: 10px 0;
+            margin-bottom: 0;
+            border-left: none;
+            border-bottom: 1px dashed rgba(155, 89, 182, 0.3);
+            opacity: 0.5;
+            transform: translateX(20px);
+            transition: all 0.3s;
+            background: transparent;
+            border-radius: 0;
+        }
+        
+        .step-item:last-child {
+            border-bottom: none;
+        }
+        
+        .step-item.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .step-item.active {
+            animation: breathePurple 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes breathePurple {
+            0%, 100% { background-color: rgba(155, 89, 182, 0.1); }
+            50% { background-color: rgba(155, 89, 182, 0.25); }
+        }
+        
+        .step-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+        }
+        
+        .step-number {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            background: #9b59b6;
+            color: white;
+            border-radius: 50%;
+            font-weight: bold;
+            margin-right: 12px;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+        
+        .step-title {
+            font-weight: bold;
+            color: #2c3e50;
+            font-size: 0.95rem;
+            line-height: 1.5;
+        }
+        
+        .highlight {
+            color: #e74c3c;
+            font-weight: bold;
+            background-color: #ffecb3;
+            padding: 2px 6px;
+            border-radius: 4px;
+        }
+        
+        /* 响应式布局 */
+        @media (max-width: 1200px) {
+            .main-content {
+                flex-direction: column;
+                height: auto;
+                min-height: 660px;
+            }
+            .left-panel, .right-panel {
+                width: 100%;
+                max-width: none;
+            }
+            .center-panel {
+                min-width: unset;
+                width: 100%;
+            }
+        }
+        
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+            .container {
+                padding: 15px;
+                margin: 10px 0;
+                border-radius: 15px;
+            }
+            header h2 {
+                font-size: 1.3rem;
+            }
+            .problem-type-selector {
+                flex-direction: column;
+                gap: 8px;
+            }
+            .type-btn {
+                width: 100%;
+                padding: 10px;
+            }
+            .controls {
+                flex-direction: column;
+                gap: 8px;
+            }
+            .nav-buttons {
+                width: 100%;
+            }
+            .nav-buttons button {
+                flex: 1;
+                padding: 10px;
+                font-size: 0.9rem;
+            }
+            .show-all-btn {
+                width: 100%;
+                padding: 10px;
+            }
+            .formula-card {
+                padding: 12px;
+            }
+            .step {
+                padding: 12px;
+            }
+            .definition-formula {
+                font-size: 1.5rem;
+            }
+            .calc-expression {
+                font-size: 1.4rem;
+            }
+        }
+        
+        @media (max-width: 380px) {
+            header h2 {
+                font-size: 1.1rem;
+            }
+            .type-btn {
+                font-size: 0.85rem;
+                padding: 8px;
+            }
+            .nav-buttons button {
+                font-size: 0.85rem;
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h2>⚡ 皮卡丘学数学 - 定义新运算 ✨</h2>
+            <p>理解运算定义 → 代入数值 → 按规则计算 → 得出答案</p>
+        </header>
+        
+        <div class="main-content">
+            <!-- 左侧控制面板 -->
+            <div class="left-panel">
+                <div class="panel-title">
+                    <i class="fas fa-cog"></i> 运算类型
+                </div>
+                
+                <div class="problem-type-selector">
+                    <button class="type-btn active" onclick="selectType('add')" id="typeAdd">加法型</button>
+                    <button class="type-btn" onclick="selectType('mul')" id="typeMul">乘法型</button>
+                    <button class="type-btn" onclick="selectType('mix')" id="typeMix">混合型</button>
+                    <button class="type-btn" onclick="selectType('nested')" id="typeNested">嵌套型</button>
+                </div>
+                
+                <div class="input-group">
+                    <!-- 加法型输入 -->
+                    <div id="addInputs">
+                        <div class="input-item">
+                            <label class="input-label">📐 运算定义：a ★ b = a + b + c</label>
+                            <input type="number" id="addConstant" value="1" placeholder="常数 c">
+                        </div>
+                        <div class="input-item">
+                            <label class="input-label">🔢 第一个数 a</label>
+                            <input type="number" id="addA" value="3" placeholder="a">
+                        </div>
+                        <div class="input-item">
+                            <label class="input-label">🔢 第二个数 b</label>
+                            <input type="number" id="addB" value="2" placeholder="b">
+                        </div>
+                    </div>
+                    
+                    <!-- 乘法型输入 -->
+                    <div id="mulInputs" style="display:none;">
+                        <div class="input-item">
+                            <label class="input-label">📐 运算定义：a ⊕ b = a × b - c</label>
+                            <input type="number" id="mulConstant" value="1" placeholder="常数 c">
+                        </div>
+                        <div class="input-item">
+                            <label class="input-label">🔢 第一个数 a</label>
+                            <input type="number" id="mulA" value="4" placeholder="a">
+                        </div>
+                        <div class="input-item">
+                            <label class="input-label">🔢 第二个数 b</label>
+                            <input type="number" id="mulB" value="5" placeholder="b">
+                        </div>
+                    </div>
+                    
+                    <!-- 混合型输入 -->
+                    <div id="mixInputs" style="display:none;">
+                        <div class="input-item">
+                            <label class="input-label">📐 运算定义：a ◇ b = a × b + a + b</label>
+                        </div>
+                        <div class="input-item">
+                            <label class="input-label">🔢 第一个数 a</label>
+                            <input type="number" id="mixA" value="3" placeholder="a">
+                        </div>
+                        <div class="input-item">
+                            <label class="input-label">🔢 第二个数 b</label>
+                            <input type="number" id="mixB" value="4" placeholder="b">
+                        </div>
+                    </div>
+                    
+                    <!-- 嵌套型输入 -->
+                    <div id="nestedInputs" style="display:none;">
+                        <div class="input-item">
+                            <label class="input-label">📐 运算定义：a ★ b = a + b + 1</label>
+                        </div>
+                        <div class="input-item">
+                            <label class="input-label">🔢 求 (a ★ b) ★ c</label>
+                        </div>
+                        <div class="input-item">
+                            <label class="input-label">数 a</label>
+                            <input type="number" id="nestedA" value="2" placeholder="a">
+                        </div>
+                        <div class="input-item">
+                            <label class="input-label">数 b</label>
+                            <input type="number" id="nestedB" value="3" placeholder="b">
+                        </div>
+                        <div class="input-item">
+                            <label class="input-label">数 c</label>
+                            <input type="number" id="nestedC" value="4" placeholder="c">
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="controls">
+                    <div class="nav-buttons">
+                        <button class="nav-btn prev" onclick="prevStep()" id="prevBtn" disabled>
+                            <i class="fas fa-arrow-left"></i> 上一步
+                        </button>
+                        <button class="nav-btn next" onclick="nextStep()" id="nextBtn">
+                            下一步 <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                    <button class="show-all-btn" onclick="showAllSteps()">
+                        <i class="fas fa-eye"></i> 一键查看
+                    </button>
+                </div>
+            </div>
+            
+            <!-- 中间可视化区域 -->
+            <div class="center-panel">
+                <div class="panel-title">
+                    <i class="fas fa-question-circle"></i> 题目
+                </div>
+                <div class="problem-display" id="problemDisplay">
+                    定义新运算：a <span class="highlight">★</span> b = a + b + 1<br>
+                    求 <span class="highlight">3 ★ 2</span> 等于多少？
+                </div>
+                
+                <div class="panel-title">
+                    <i class="fas fa-eye"></i> 计算过程
+                </div>
+                
+                <div class="visualization">
+                    <div class="definition-box">
+                        <div class="definition-title">运算定义</div>
+                        <div class="definition-formula" id="definitionFormula">
+                            a <span class="operation-symbol">★</span> b = a + b + 1
+                        </div>
+                    </div>
+                    
+                    <div class="calculation-box" id="calculationBox">
+                        <div class="calc-title">代入计算</div>
+                        <div class="calc-expression" id="calcExpression">3 ★ 2 = ?</div>
+                        <div class="calc-substitution" id="calcSubstitution"></div>
+                        <div class="calc-result" id="calcResult"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 右侧步骤面板 -->
+            <div class="right-panel">
+                <div class="panel-title">
+                    <i class="fas fa-calculator"></i> 核心公式
+                </div>
+                
+                <div class="formula-card">
+                    <h4><i class="fas fa-lightbulb"></i> 解题思路</h4>
+                    <div class="formula" id="formulaDisplay">
+                        a ★ b = a + b + 1<br>
+                        把 a、b 代入公式即可
+                    </div>
+                </div>
+                
+                <div class="panel-title">
+                    <i class="fas fa-shoe-prints"></i> 解题步骤
+                </div>
+                
+                <div class="steps-container" id="stepsContainer">
+                    <div class="step-item">
+                        <span class="step-number">1</span>
+                        <span class="step-content">👆 点击"下一步"开始解答</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        let problemType = 'add';
+        let stepsData = [];
+        let currentStep = 0;
+        let maxReachedStep = 0;
+        let calculationResult = null;
+        
+        // 选择题目类型
+        function selectType(type) {
+            problemType = type;
+            
+            document.getElementById('typeAdd').classList.toggle('active', type === 'add');
+            document.getElementById('typeMul').classList.toggle('active', type === 'mul');
+            document.getElementById('typeMix').classList.toggle('active', type === 'mix');
+            document.getElementById('typeNested').classList.toggle('active', type === 'nested');
+            
+            document.getElementById('addInputs').style.display = type === 'add' ? 'block' : 'none';
+            document.getElementById('mulInputs').style.display = type === 'mul' ? 'block' : 'none';
+            document.getElementById('mixInputs').style.display = type === 'mix' ? 'block' : 'none';
+            document.getElementById('nestedInputs').style.display = type === 'nested' ? 'block' : 'none';
+            
+            updateFormulaDisplay();
+            updateProblemText();
+            resetDemo();
+        }
+        
+        // 更新公式显示
+        function updateFormulaDisplay() {
+            let formula = '';
+            if (problemType === 'add') {
+                const c = document.getElementById('addConstant').value || 1;
+                formula = `a ★ b = a + b + ${c}<br>把 a、b 代入公式即可`;
+            } else if (problemType === 'mul') {
+                const c = document.getElementById('mulConstant').value || 1;
+                formula = `a ⊕ b = a × b - ${c}<br>把 a、b 代入公式即可`;
+            } else if (problemType === 'mix') {
+                formula = `a ◇ b = a × b + a + b<br>把 a、b 代入公式即可`;
+            } else {
+                formula = `a ★ b = a + b + 1<br>先算括号内，再算外层`;
+            }
+            document.getElementById('formulaDisplay').innerHTML = formula;
+        }
+        
+        // 更新题目文本
+        function updateProblemText() {
+            let text = '';
+            let defFormula = '';
+            let calcExpr = '';
+            
+            if (problemType === 'add') {
+                const c = document.getElementById('addConstant').value || 1;
+                const a = document.getElementById('addA').value || '?';
+                const b = document.getElementById('addB').value || '?';
+                text = `定义新运算：a <span class="highlight">★</span> b = a + b + ${c}<br>求 <span class="highlight">${a} ★ ${b}</span> 等于多少？`;
+                defFormula = `a <span class="operation-symbol">★</span> b = a + b + ${c}`;
+                calcExpr = `${a} ★ ${b} = ?`;
+            } else if (problemType === 'mul') {
+                const c = document.getElementById('mulConstant').value || 1;
+                const a = document.getElementById('mulA').value || '?';
+                const b = document.getElementById('mulB').value || '?';
+                text = `定义新运算：a <span class="highlight">⊕</span> b = a × b - ${c}<br>求 <span class="highlight">${a} ⊕ ${b}</span> 等于多少？`;
+                defFormula = `a <span class="operation-symbol">⊕</span> b = a × b - ${c}`;
+                calcExpr = `${a} ⊕ ${b} = ?`;
+            } else if (problemType === 'mix') {
+                const a = document.getElementById('mixA').value || '?';
+                const b = document.getElementById('mixB').value || '?';
+                text = `定义新运算：a <span class="highlight">◇</span> b = a × b + a + b<br>求 <span class="highlight">${a} ◇ ${b}</span> 等于多少？`;
+                defFormula = `a <span class="operation-symbol">◇</span> b = a × b + a + b`;
+                calcExpr = `${a} ◇ ${b} = ?`;
+            } else {
+                const a = document.getElementById('nestedA').value || '?';
+                const b = document.getElementById('nestedB').value || '?';
+                const c = document.getElementById('nestedC').value || '?';
+                text = `定义新运算：a <span class="highlight">★</span> b = a + b + 1<br>求 <span class="highlight">(${a} ★ ${b}) ★ ${c}</span> 等于多少？`;
+                defFormula = `a <span class="operation-symbol">★</span> b = a + b + 1`;
+                calcExpr = `(${a} ★ ${b}) ★ ${c} = ?`;
+            }
+            
+            document.getElementById('problemDisplay').innerHTML = text;
+            document.getElementById('definitionFormula').innerHTML = defFormula;
+            document.getElementById('calcExpression').innerHTML = calcExpr;
+            document.getElementById('calcSubstitution').innerHTML = '';
+            document.getElementById('calcResult').innerHTML = '';
+        }
+        
+        // 开始计算
+        function startCalculation() {
+            if (problemType === 'add') {
+                calculateAdd();
+            } else if (problemType === 'mul') {
+                calculateMul();
+            } else if (problemType === 'mix') {
+                calculateMix();
+            } else {
+                calculateNested();
+            }
+        }
+        
+        // 加法型计算
+        function calculateAdd() {
+            const c = parseFloat(document.getElementById('addConstant').value);
+            const a = parseFloat(document.getElementById('addA').value);
+            const b = parseFloat(document.getElementById('addB').value);
+            
+            if (isNaN(c) || isNaN(a) || isNaN(b)) {
+                alert('请输入正确的数值');
+                return;
+            }
+            
+            const result = a + b + c;
+            calculationResult = result;
+            
+            const steps = [];
+            
+            steps.push({
+                text: `理解运算定义：a ★ b = a + b + ${c}`,
+                action: null
+            });
+            
+            steps.push({
+                text: `这是一个"加法型"新运算，把两个数相加后再加 ${c}`,
+                action: null
+            });
+            
+            steps.push({
+                text: `代入数值：a = <span class="highlight">${a}</span>，b = <span class="highlight">${b}</span>`,
+                action: 'show_substitution'
+            });
+            
+            steps.push({
+                text: `按定义计算：${a} + ${b} + ${c}`,
+                action: 'show_calculation'
+            });
+            
+            steps.push({
+                text: `先算 ${a} + ${b} = <span class="highlight">${a + b}</span>`,
+                action: null
+            });
+            
+            steps.push({
+                text: `再算 ${a + b} + ${c} = <span class="highlight">${result}</span>`,
+                action: null
+            });
+            
+            steps.push({
+                text: `✓ 答案：${a} ★ ${b} = <span class="highlight">${result}</span>`,
+                action: 'show_result'
+            });
+            
+            displaySteps(steps, { type: 'add', a, b, c, result });
+        }
+        
+        // 乘法型计算
+        function calculateMul() {
+            const c = parseFloat(document.getElementById('mulConstant').value);
+            const a = parseFloat(document.getElementById('mulA').value);
+            const b = parseFloat(document.getElementById('mulB').value);
+            
+            if (isNaN(c) || isNaN(a) || isNaN(b)) {
+                alert('请输入正确的数值');
+                return;
+            }
+            
+            const product = a * b;
+            const result = product - c;
+            calculationResult = result;
+            
+            const steps = [];
+            
+            steps.push({
+                text: `理解运算定义：a ⊕ b = a × b - ${c}`,
+                action: null
+            });
+            
+            steps.push({
+                text: `这是一个"乘法型"新运算，把两个数相乘后再减 ${c}`,
+                action: null
+            });
+            
+            steps.push({
+                text: `代入数值：a = <span class="highlight">${a}</span>，b = <span class="highlight">${b}</span>`,
+                action: 'show_substitution'
+            });
+            
+            steps.push({
+                text: `按定义计算：${a} × ${b} - ${c}`,
+                action: 'show_calculation'
+            });
+            
+            steps.push({
+                text: `先算 ${a} × ${b} = <span class="highlight">${product}</span>`,
+                action: null
+            });
+            
+            steps.push({
+                text: `再算 ${product} - ${c} = <span class="highlight">${result}</span>`,
+                action: null
+            });
+            
+            steps.push({
+                text: `✓ 答案：${a} ⊕ ${b} = <span class="highlight">${result}</span>`,
+                action: 'show_result'
+            });
+            
+            displaySteps(steps, { type: 'mul', a, b, c, result, product });
+        }
+        
+        // 混合型计算
+        function calculateMix() {
+            const a = parseFloat(document.getElementById('mixA').value);
+            const b = parseFloat(document.getElementById('mixB').value);
+            
+            if (isNaN(a) || isNaN(b)) {
+                alert('请输入正确的数值');
+                return;
+            }
+            
+            const product = a * b;
+            const result = product + a + b;
+            calculationResult = result;
+            
+            const steps = [];
+            
+            steps.push({
+                text: `理解运算定义：a ◇ b = a × b + a + b`,
+                action: null
+            });
+            
+            steps.push({
+                text: `这是一个"混合型"新运算，包含乘法和加法`,
+                action: null
+            });
+            
+            steps.push({
+                text: `代入数值：a = <span class="highlight">${a}</span>，b = <span class="highlight">${b}</span>`,
+                action: 'show_substitution'
+            });
+            
+            steps.push({
+                text: `按定义计算：${a} × ${b} + ${a} + ${b}`,
+                action: 'show_calculation'
+            });
+            
+            steps.push({
+                text: `先算乘法：${a} × ${b} = <span class="highlight">${product}</span>`,
+                action: null
+            });
+            
+            steps.push({
+                text: `再算加法：${product} + ${a} + ${b} = ${product} + ${a + b} = <span class="highlight">${result}</span>`,
+                action: null
+            });
+            
+            steps.push({
+                text: `✓ 答案：${a} ◇ ${b} = <span class="highlight">${result}</span>`,
+                action: 'show_result'
+            });
+            
+            displaySteps(steps, { type: 'mix', a, b, result, product });
+        }
+        
+        // 嵌套型计算
+        function calculateNested() {
+            const a = parseFloat(document.getElementById('nestedA').value);
+            const b = parseFloat(document.getElementById('nestedB').value);
+            const c = parseFloat(document.getElementById('nestedC').value);
+            
+            if (isNaN(a) || isNaN(b) || isNaN(c)) {
+                alert('请输入正确的数值');
+                return;
+            }
+            
+            const inner = a + b + 1;
+            const result = inner + c + 1;
+            calculationResult = result;
+            
+            const steps = [];
+            
+            steps.push({
+                text: `理解运算定义：a ★ b = a + b + 1`,
+                action: null
+            });
+            
+            steps.push({
+                text: `这是一个"嵌套型"问题，需要先算括号内的运算`,
+                action: null
+            });
+            
+            steps.push({
+                text: `先算括号内：${a} ★ ${b}`,
+                action: 'show_inner'
+            });
+            
+            steps.push({
+                text: `代入定义：${a} + ${b} + 1 = <span class="highlight">${inner}</span>`,
+                action: null
+            });
+            
+            steps.push({
+                text: `所以 (${a} ★ ${b}) = <span class="highlight">${inner}</span>`,
+                action: 'show_inner_result'
+            });
+            
+            steps.push({
+                text: `再算外层：${inner} ★ ${c}`,
+                action: 'show_outer'
+            });
+            
+            steps.push({
+                text: `代入定义：${inner} + ${c} + 1 = <span class="highlight">${result}</span>`,
+                action: null
+            });
+            
+            steps.push({
+                text: `✓ 答案：(${a} ★ ${b}) ★ ${c} = <span class="highlight">${result}</span>`,
+                action: 'show_result'
+            });
+            
+            displaySteps(steps, { type: 'nested', a, b, c, inner, result });
+        }
+        
+        // 当前问题的额外参数
+        let currentExtra = {};
+        
+        // 显示步骤
+        function displaySteps(steps, extra = {}) {
+            currentExtra = extra;
+            const container = document.getElementById('stepsContainer');
+            container.innerHTML = '';
+            stepsData = [];
+            
+            steps.forEach((step, index) => {
+                const stepEl = document.createElement('div');
+                stepEl.className = 'step-item';
+                stepEl.innerHTML = `
+                    <div class="step-header">
+                        <span class="step-number">${index + 1}</span>
+                        <span class="step-title">${step.text}</span>
+                    </div>
+                `;
+                stepEl.dataset.action = step.action || '';
+                container.appendChild(stepEl);
+                stepsData.push(stepEl);
+            });
+            
+            currentStep = 0;
+            maxReachedStep = 0;
+            updateStepVisibility();
+            updateButtons();
+        }
+        
+        // 执行动画
+        function executeAction(action) {
+            const extra = currentExtra;
+            
+            if (action === 'show_substitution') {
+                if (extra.type === 'add') {
+                    document.getElementById('calcExpression').innerHTML = `${extra.a} ★ ${extra.b} = ?`;
+                } else if (extra.type === 'mul') {
+                    document.getElementById('calcExpression').innerHTML = `${extra.a} ⊕ ${extra.b} = ?`;
+                } else if (extra.type === 'mix') {
+                    document.getElementById('calcExpression').innerHTML = `${extra.a} ◇ ${extra.b} = ?`;
+                }
+            }
+            
+            if (action === 'show_calculation') {
+                if (extra.type === 'add') {
+                    document.getElementById('calcExpression').innerHTML = `${extra.a} ★ ${extra.b} = ${extra.a} + ${extra.b} + ${extra.c} = ?`;
+                } else if (extra.type === 'mul') {
+                    document.getElementById('calcExpression').innerHTML = `${extra.a} ⊕ ${extra.b} = ${extra.a} × ${extra.b} - ${extra.c} = ?`;
+                } else if (extra.type === 'mix') {
+                    document.getElementById('calcExpression').innerHTML = `${extra.a} ◇ ${extra.b} = ${extra.a} × ${extra.b} + ${extra.a} + ${extra.b} = ?`;
+                }
+            }
+            
+            if (action === 'show_inner') {
+                document.getElementById('calcExpression').innerHTML = `(${extra.a} ★ ${extra.b}) ★ ${extra.c}<br>先算：${extra.a} ★ ${extra.b} = ${extra.a} + ${extra.b} + 1 = ?`;
+            }
+            
+            if (action === 'show_inner_result') {
+                document.getElementById('calcExpression').innerHTML = `(${extra.a} ★ ${extra.b}) ★ ${extra.c} = ${extra.inner} ★ ${extra.c} = ?`;
+            }
+            
+            if (action === 'show_outer') {
+                document.getElementById('calcExpression').innerHTML = `${extra.inner} ★ ${extra.c} = ${extra.inner} + ${extra.c} + 1 = ?`;
+            }
+            
+            if (action === 'show_result') {
+                if (extra.type === 'add') {
+                    document.getElementById('calcExpression').innerHTML = `${extra.a} ★ ${extra.b} = ${extra.a} + ${extra.b} + ${extra.c} = <span style="color:#27ae60;font-size:2rem;">${extra.result}</span>`;
+                } else if (extra.type === 'mul') {
+                    document.getElementById('calcExpression').innerHTML = `${extra.a} ⊕ ${extra.b} = ${extra.a} × ${extra.b} - ${extra.c} = <span style="color:#27ae60;font-size:2rem;">${extra.result}</span>`;
+                } else if (extra.type === 'mix') {
+                    document.getElementById('calcExpression').innerHTML = `${extra.a} ◇ ${extra.b} = ${extra.a} × ${extra.b} + ${extra.a} + ${extra.b} = <span style="color:#27ae60;font-size:2rem;">${extra.result}</span>`;
+                } else if (extra.type === 'nested') {
+                    document.getElementById('calcExpression').innerHTML = `(${extra.a} ★ ${extra.b}) ★ ${extra.c} = ${extra.inner} ★ ${extra.c} = <span style="color:#27ae60;font-size:2rem;">${extra.result}</span>`;
+                }
+            }
+        }
+        
+        // 更新步骤可见性
+        function updateStepVisibility() {
+            stepsData.forEach((step, index) => {
+                step.classList.toggle('visible', index <= maxReachedStep);
+                step.classList.toggle('active', index === currentStep);
+            });
+            
+            // 自动滚动到当前步骤
+            if (stepsData[currentStep]) {
+                stepsData[currentStep].scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+            
+            const currentStepEl = stepsData[currentStep];
+            if (currentStepEl) {
+                const action = currentStepEl.dataset.action;
+                if (action) {
+                    executeAction(action);
+                }
+            }
+        }
+        
+        // 更新按钮状态
+        function updateButtons() {
+            document.getElementById('prevBtn').disabled = currentStep === 0;
+            document.getElementById('nextBtn').disabled = currentStep >= stepsData.length - 1;
+        }
+        
+        // 上一步
+        function prevStep() {
+            if (currentStep > 0) {
+                currentStep--;
+                updateStepVisibility();
+                updateButtons();
+            }
+        }
+        
+        // 下一步
+        function nextStep() {
+            // 如果还没有生成步骤，先生成
+            if (stepsData.length === 0) {
+                startCalculation();
+                return;
+            }
+            if (currentStep < stepsData.length - 1) {
+                currentStep++;
+                if (currentStep > maxReachedStep) {
+                    maxReachedStep = currentStep;
+                }
+                updateStepVisibility();
+                updateButtons();
+            }
+        }
+        
+        // 一键查看所有步骤
+        function showAllSteps() {
+            if (stepsData.length === 0) {
+                startCalculation();
+            }
+            if (stepsData.length > 0) {
+                maxReachedStep = stepsData.length - 1;
+                currentStep = stepsData.length - 1;
+                updateStepVisibility();
+                updateButtons();
+            }
+        }
+        
+        // 重置演示状态
+        function resetDemo() {
+            stepsData.forEach(step => {
+                step.classList.remove('visible', 'active');
+            });
+            
+            stepsData = [];
+            currentStep = 0;
+            maxReachedStep = 0;
+            currentExtra = {};
+            calculationResult = null;
+            
+            const container = document.getElementById('stepsContainer');
+            container.innerHTML = `
+                <div class="step-item">
+                    <span class="step-number">1</span>
+                    <span class="step-content">👆 点击"下一步"开始解答</span>
+                </div>
+            `;
+            
+            document.getElementById('calcSubstitution').innerHTML = '';
+            document.getElementById('calcResult').innerHTML = '';
+            
+            document.getElementById('prevBtn').disabled = true;
+            document.getElementById('nextBtn').disabled = false;
+            
+            container.scrollTop = 0;
+        }
+        
+        // 监听输入变化
+        document.querySelectorAll('input').forEach(input => {
+            input.addEventListener('input', function() {
+                updateFormulaDisplay();
+                updateProblemText();
+                resetDemo();
+            });
+        });
+        
+        // 初始化
+        updateFormulaDisplay();
+        updateProblemText();
+    </script>
+    <a href="../../index.html" style="display:block;text-align:center;margin:30px auto;color:#fff;text-decoration:none;font-size:14px;">← 返回皮卡丘学习资源</a>
+</body>
+</html>
