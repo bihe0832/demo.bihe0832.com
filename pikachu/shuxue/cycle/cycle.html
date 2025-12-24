@@ -516,7 +516,7 @@
         /* 一键查看按钮 */
         .show-all-btn {
             width: 100%;
-            padding: 15px;
+            padding: 12px;
             background: linear-gradient(45deg, #9b59b6, #8e44ad);
             color: white;
             border: none;
@@ -587,10 +587,6 @@
                     </div>
                 </div>
                 
-                <button class="show-all-btn" onclick="showAllSteps()">
-                    <i class="fas fa-eye"></i> 一键查看
-                </button>
-                
                 <div class="nav-buttons">
                     <button class="nav-btn prev" onclick="prevStep()" id="prevBtn" disabled>
                         <i class="fas fa-arrow-left"></i> 上一步
@@ -599,6 +595,9 @@
                         下一步 <i class="fas fa-arrow-right"></i>
                     </button>
                 </div>
+                    <button class="show-all-btn" onclick="showAllSteps()">
+                    <i class="fas fa-eye"></i> 一键查看
+                </button>
             </div>
             
             <!-- 中间可视化区域 -->

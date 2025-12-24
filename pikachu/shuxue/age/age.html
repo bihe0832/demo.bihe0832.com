@@ -220,7 +220,7 @@
         }
         .nav-buttons button {
             flex: 1;
-            padding: 10px 8px;
+            padding: 12px;
             font-size: 0.9rem;
             white-space: nowrap;
         }
@@ -577,9 +577,6 @@
                 </div>
                 
                 <div class="controls">
-                    <button class="show-all-btn" onclick="showAllSteps()">
-                        <i class="fas fa-eye"></i> 一键查看
-                    </button>
                     <div class="nav-buttons">
                         <button id="prevBtn" onclick="prevStep()" disabled>
                             <i class="fas fa-arrow-left"></i> 上一步
@@ -588,6 +585,9 @@
                             下一步 <i class="fas fa-arrow-right"></i>
                         </button>
                     </div>
+                    <button class="show-all-btn" onclick="showAllSteps()">
+                        <i class="fas fa-eye"></i> 一键查看
+                    </button>
                 </div>
             </div>
             
