@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Cache-Control" content="no-cache, must-revalidate">
+    <meta http-equiv="Expires" content="0">
+    <link rel="Shortcut Icon" href="https://cdn.bihe0832.com/images/zixie_32.ico" />
+    <meta name="author" content="子勰(bihe0832), code@bihe0832.com" />
+    <meta name="keywords" content="子勰,bihe0832,皮卡丘,运动,拉伸,热身,核心训练" />
+    <meta name="description" content="皮卡丘运动拉伸指南 - 专为6岁儿童设计的科学运动热身与拉伸方案" />
+    <meta property="og:title" content="皮卡丘运动拉伸指南" />
+    <meta property="og:locale" content="zh_CN" />
+    <meta name="google-site-verification" content="3wzNgbjvFNHkH-8QpougMZ0s9Y4GEjG49kEb49QQqpw" />
+    <meta property="og:description" content="专为6岁儿童设计的科学运动热身与拉伸方案" />
+    <link rel="canonical" href="https://demo.bihe0832.com/pikachu/sport/stretch.html" />
+    <meta property="og:url" content="https://demo.bihe0832.com/pikachu/sport/stretch.html" />
+    <meta property="og:site_name" content="皮卡丘学习资源" />
+    <meta property="og:type" content="article" />
+    <title>皮卡丘运动拉伸指南</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="stretch-data.js?v=20251225"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html {
+            height: 100%;
+        }
+
+        body {
+            min-height: 100%;
+            font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            background-attachment: fixed;
+            color: #e0e0e0;
+            padding: 15px;
+            padding-top: max(15px, env(safe-area-inset-top));
+            padding-bottom: max(80px, calc(env(safe-area-inset-bottom) + 60px));
+            padding-left: max(15px, env(safe-area-inset-left));
+            padding-right: max(15px, env(safe-area-inset-right));
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* 标题区域 */
+        .header {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 15px 0;
+        }
+
+        .header h1 {
+            font-size: 1.6em;
+            color: #fff;
+            text-shadow: 0 0 15px rgba(100, 200, 255, 0.4);
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .header .subtitle {
+            color: #999;
+            font-size: 0.85em;
+        }
+
+        /* 分类选择器 */
+        .category-selector {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 20px;
+            overflow-x: auto;
+            padding: 5px 0;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .category-btn {
+            flex-shrink: 0;
+            padding: 10px 16px;
+            border: none;
+            border-radius: 20px;
+            font-size: 0.9em;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: rgba(255, 255, 255, 0.1);
+            color: #ccc;
+            white-space: nowrap;
+        }
+
+        .category-btn.active {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+        }
+
+        .category-btn:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        /* 动作卡片列表 */
+        .exercise-list {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+
+        /* 大屏幕一行两个 */
+        @media (min-width: 600px) {
+            .exercise-list {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* 更大屏幕一行三个 */
+        @media (min-width: 900px) {
+            .exercise-list {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        .exercise-card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .exercise-card:hover {
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        .card-header {
+            padding: 16px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .card-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2em;
+            flex-shrink: 0;
+        }
+
+        .card-info {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .card-title {
+            font-size: 1em;
+            font-weight: 600;
+            color: #fff;
+            margin-bottom: 4px;
+        }
+
+        .card-meta {
+            font-size: 0.8em;
+            color: #999;
+            display: flex;
+            gap: 12px;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+
+        .card-meta span {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            flex-shrink: 0;
+        }
+
+        .card-meta span:first-child {
+            flex-shrink: 1;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .card-toggle {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s;
+            flex-shrink: 0;
+        }
+
+        .exercise-card.expanded .card-toggle {
+            transform: rotate(180deg);
+        }
+
+        .card-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out;
+        }
+
+        .exercise-card.expanded .card-content {
+            max-height: 1000px;
+        }
+
+        .card-body {
+            padding: 0 16px 16px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .detail-section {
+            margin-top: 12px;
+        }
+
+        .detail-title {
+            font-size: 0.85em;
+            color: #667eea;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* 详情信息网格 */
+        .detail-info-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px 24px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 12px;
+        }
+
+        .detail-info-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .detail-info-label {
+            font-size: 0.85em;
+            color: #888;
+        }
+
+        .detail-info-label i {
+            margin-right: 4px;
+        }
+
+        .detail-info-value {
+            font-size: 0.9em;
+            color: #fff;
+            font-weight: 500;
+        }
+
+        .detail-list {
+            list-style: none;
+            font-size: 0.9em;
+            line-height: 1.8;
+            color: #ccc;
+        }
+
+        .detail-list li {
+            padding-left: 16px;
+            position: relative;
+        }
+
+        .detail-list li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: #667eea;
+        }
+
+        .game-tip {
+            background: rgba(102, 126, 234, 0.15);
+            border-radius: 10px;
+            padding: 12px;
+            margin-top: 12px;
+            font-size: 0.85em;
+            color: #a8b4ff;
+        }
+
+        .game-tip i {
+            margin-right: 6px;
+        }
+
+        /* 主题色 */
+        .theme-core .card-icon { background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%); }
+        .theme-warmup .card-icon { background: linear-gradient(135deg, #f39c12 0%, #e67e22 100%); }
+        .theme-badminton .card-icon { background: linear-gradient(135deg, #1abc9c 0%, #16a085 100%); }
+        .theme-climbing .card-icon { background: linear-gradient(135deg, #3498db 0%, #2980b9 100%); }
+        .theme-stretch-badminton .card-icon { background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%); }
+        .theme-stretch-climbing .card-icon { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+
+        /* 底部导航 */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(26, 26, 46, 0.95);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            padding: 12px 20px;
+            padding-bottom: max(12px, env(safe-area-inset-bottom));
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-btn {
+            padding: 10px 24px;
+            border: none;
+            border-radius: 20px;
+            font-size: 0.9em;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .nav-btn.primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+        }
+
+        .nav-btn.secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ccc;
+        }
+
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        /* 统计信息 */
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .stat-item {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 12px 8px;
+            text-align: center;
+        }
+
+        .stat-item .num {
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #667eea;
+        }
+
+        .stat-item .label {
+            font-size: 0.75em;
+            color: #999;
+            margin-top: 4px;
+        }
+
+        /* 响应式 */
+        @media (min-width: 600px) {
+            body {
+                padding: 20px;
+                padding-bottom: max(90px, calc(env(safe-area-inset-bottom) + 70px));
+            }
+
+            .header h1 {
+                font-size: 1.8em;
+            }
+
+            .exercise-list {
+                display: grid;
+                grid-template-columns: repeat(2, 1fr);
+                gap: 16px;
+            }
+
+            .exercise-card.expanded {
+                grid-column: 1 / -1;
+            }
+        }
+
+        @media (max-width: 360px) {
+            body {
+                padding: 10px;
+            }
+
+            .header h1 {
+                font-size: 1.4em;
+            }
+
+            .category-btn {
+                padding: 8px 12px;
+                font-size: 0.85em;
+            }
+        }
+
+        /* 隐藏类 */
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-running"></i> 运动拉伸指南</h1>
+            <div class="subtitle">专为6岁儿童设计的科学运动方案</div>
+        </div>
+
+        <div class="stats-bar">
+            <div class="stat-item">
+                <div class="num" id="totalExercises">0</div>
+                <div class="label">动作总数</div>
+            </div>
+            <div class="stat-item">
+                <div class="num" id="totalSets">0</div>
+                <div class="label">总组数</div>
+            </div>
+        </div>
+
+        <div class="category-selector" id="categorySelector">
+            <button class="category-btn active" data-category="all">
+                <i class="fas fa-th-large"></i> 全部
+            </button>
+            <button class="category-btn" data-category="core">
+                <i class="fas fa-bullseye"></i> 核心训练
+            </button>
+            <button class="category-btn" data-category="warmup">
+                <i class="fas fa-fire"></i> 通用热身
+            </button>
+            <button class="category-btn" data-category="badminton">
+                <i class="fas fa-shuttlecock"></i> 羽毛球热身
+            </button>
+            <button class="category-btn" data-category="climbing">
+                <i class="fas fa-mountain"></i> 攀岩热身
+            </button>
+            <button class="category-btn" data-category="stretch-badminton">
+                <i class="fas fa-spa"></i> 羽毛球拉伸
+            </button>
+            <button class="category-btn" data-category="stretch-climbing">
+                <i class="fas fa-leaf"></i> 攀岩拉伸
+            </button>
+        </div>
+
+        <div class="exercise-list" id="exerciseList">
+            <!-- 动态生成 -->
+        </div>
+    </div>
+
+    <div class="bottom-nav">
+        <button class="nav-btn secondary" onclick="collapseAll()">
+            <i class="fas fa-compress-alt"></i> 收起全部
+        </button>
+        <button class="nav-btn primary" onclick="expandAll()">
+            <i class="fas fa-expand-alt"></i> 展开全部
+        </button>
+    </div>
+
+    <a href="../index.html" style="display:block;text-align:center;margin:30px auto 80px;color:#fff;text-decoration:none;font-size:14px;">← 返回皮卡丘学习资源</a>
+
+    <script>
+        let currentCategory = 'all';
+
+        // 初始化
+        function init() {
+            renderCategories();
+            renderExercises();
+            updateStats();
+            bindEvents();
+        }
+
+        // 绑定事件
+        function bindEvents() {
+            document.getElementById('categorySelector').addEventListener('click', (e) => {
+                const btn = e.target.closest('.category-btn');
+                if (btn) {
+                    document.querySelectorAll('.category-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    currentCategory = btn.dataset.category;
+                    renderExercises();
+                    updateStats();
+                }
+            });
+        }
+
+        // 渲染分类
+        function renderCategories() {
+            // 分类已在 HTML 中定义
+        }
+
+        // 分类顺序（保证动作按正确顺序显示）
+        const categoryOrder = ['core', 'warmup', 'badminton', 'climbing', 'stretch-badminton', 'stretch-climbing'];
+
+        // 渲染动作列表
+        function renderExercises() {
+            const container = document.getElementById('exerciseList');
+            let exercises = [];
+
+            if (currentCategory === 'all') {
+                // 全部：按固定顺序显示所有分类
+                categoryOrder.forEach(cat => {
+                    if (stretchData[cat]) {
+                        exercises = exercises.concat(stretchData[cat].map(e => ({...e, category: cat})));
+                    }
+                });
+            } else if (currentCategory === 'badminton') {
+                // 羽毛球热身 = 通用热身 + 羽毛球专项
+                exercises = stretchData['warmup'].map(e => ({...e, category: 'warmup'}));
+                exercises = exercises.concat(stretchData['badminton'].map(e => ({...e, category: 'badminton'})));
+            } else if (currentCategory === 'climbing') {
+                // 攀岩热身 = 通用热身 + 攀岩专项
+                exercises = stretchData['warmup'].map(e => ({...e, category: 'warmup'}));
+                exercises = exercises.concat(stretchData['climbing'].map(e => ({...e, category: 'climbing'})));
+            } else {
+                exercises = (stretchData[currentCategory] || []).map(e => ({...e, category: currentCategory}));
+            }
+
+            container.innerHTML = exercises.map((exercise, index) => {
+                // 去掉括号及其内容，用于卡片外部显示
+                const termShort = (exercise.term || exercise.stage || '').replace(/（[^）]*）/g, '').replace(/\([^)]*\)/g, '');
+                return `
+                <div class="exercise-card theme-${exercise.category}" data-index="${index}">
+                    <div class="card-header" onclick="toggleCard(this)">
+                        <div class="card-icon">
+                            <i class="fas ${getIcon(exercise.category)}"></i>
+                        </div>
+                        <div class="card-info">
+                            <div class="card-title">${exercise.name}</div>
+                            <div class="card-meta">
+                                <span><i class="fas fa-tag"></i> ${termShort}</span>
+                                <span><i class="fas fa-redo"></i> ${exercise.sets}</span>
+                            </div>
+                        </div>
+                        <div class="card-toggle">
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-body">
+                            <div class="detail-section detail-info-grid">
+                                ${exercise.stage ? `
+                                <div class="detail-info-item">
+                                    <span class="detail-info-label"><i class="fas fa-layer-group"></i> 阶段</span>
+                                    <span class="detail-info-value">${exercise.stage}</span>
+                                </div>
+                                ` : ''}
+                                ${exercise.intensity ? `
+                                <div class="detail-info-item">
+                                    <span class="detail-info-label"><i class="fas fa-tachometer-alt"></i> 强度</span>
+                                    <span class="detail-info-value">${exercise.intensity}</span>
+                                </div>
+                                ` : ''}
+                                <div class="detail-info-item">
+                                    <span class="detail-info-label"><i class="fas fa-redo"></i> 组数</span>
+                                    <span class="detail-info-value">${exercise.sets}</span>
+                                </div>
+                            </div>
+                            <div class="detail-section">
+                                <div class="detail-title"><i class="fas fa-list-check"></i> 动作要点</div>
+                                <ul class="detail-list">
+                                    ${exercise.details.map(d => `<li>${d}</li>`).join('')}
+                                </ul>
+                            </div>
+                            ${exercise.gameTip ? `
+                            <div class="game-tip">
+                                <i class="fas fa-gamepad"></i> <strong>游戏化提示：</strong>${exercise.gameTip}
+                            </div>
+                            ` : ''}
+                        </div>
+                    </div>
+                </div>
+            `}).join('');
+        }
+
+        // 获取分类图标
+        function getIcon(category) {
+            const icons = {
+                'core': 'fa-bullseye',
+                'warmup': 'fa-fire',
+                'badminton': 'fa-feather',
+                'climbing': 'fa-mountain',
+                'stretch-badminton': 'fa-spa',
+                'stretch-climbing': 'fa-leaf'
+            };
+            return icons[category] || 'fa-dumbbell';
+        }
+
+        // 切换卡片展开/收起
+        function toggleCard(header) {
+            const card = header.closest('.exercise-card');
+            card.classList.toggle('expanded');
+        }
+
+        // 展开全部
+        function expandAll() {
+            document.querySelectorAll('.exercise-card').forEach(card => {
+                card.classList.add('expanded');
+            });
+        }
+
+        // 收起全部
+        function collapseAll() {
+            document.querySelectorAll('.exercise-card').forEach(card => {
+                card.classList.remove('expanded');
+            });
+        }
+
+        // 更新统计
+        function updateStats() {
+            let exercises = [];
+            if (currentCategory === 'all') {
+                categoryOrder.forEach(cat => {
+                    if (stretchData[cat]) {
+                        exercises = exercises.concat(stretchData[cat]);
+                    }
+                });
+            } else if (currentCategory === 'badminton') {
+                // 羽毛球热身 = 通用热身 + 羽毛球专项
+                exercises = stretchData['warmup'].concat(stretchData['badminton']);
+            } else if (currentCategory === 'climbing') {
+                // 攀岩热身 = 通用热身 + 攀岩专项
+                exercises = stretchData['warmup'].concat(stretchData['climbing']);
+            } else {
+                exercises = stretchData[currentCategory] || [];
+            }
+
+            document.getElementById('totalExercises').textContent = exercises.length;
+            
+            // 计算总组数
+            let totalSets = 0;
+            exercises.forEach(e => {
+                const match = e.sets.match(/(\d+)组/);
+                if (match) {
+                    totalSets += parseInt(match[1]);
+                }
+            });
+            document.getElementById('totalSets').textContent = totalSets;
+        }
+
+        // 页面加载完成后初始化
+        document.addEventListener('DOMContentLoaded', init);
+    </script>
+</body>
+</html>
