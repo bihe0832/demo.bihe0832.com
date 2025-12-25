@@ -77,7 +77,7 @@ const poems75 = [
         title: "春晓",
         author: "孟浩然",
         dynasty: "唐",
-        content: "春眠不觉晓，处处闻啼鸟。\n夜来风雨声，花落知多少。",
+        content: "春眠不觉晓，处处闻啼鸟。\n夜来风雨声，花落知多少？",
         grade: "一年级下"
     },
     {
@@ -85,7 +85,7 @@ const poems75 = [
         title: "凉州词",
         author: "王翰",
         dynasty: "唐",
-        content: "葡萄美酒夜光杯，欲饮琵琶马上催。\n醉卧沙场君莫笑，古来征战几人回。",
+        content: "葡萄美酒夜光杯，欲饮琵琶马上催。\n醉卧沙场君莫笑，古来征战几人回？",
         grade: "五年级"
     },
     {
@@ -174,7 +174,7 @@ const poems75 = [
         author: "李白",
         dynasty: "唐",
         content: "朝辞白帝彩云间，千里江陵一日还。\n两岸猿声啼不住，轻舟已过万重山。",
-        grade: "三年级上"
+        grade: "三年级"
     },
     {
         id: 23,
@@ -189,7 +189,7 @@ const poems75 = [
         title: "别董大",
         author: "高适",
         dynasty: "唐",
-        content: "千里黄云白日曛，北风吹雁雪纷纷。\n莫愁前路无知己，天下谁人不识君。",
+        content: "千里黄云白日曛，北风吹雁雪纷纷。\n莫愁前路无知己，天下谁人不识君？",
         grade: "四年级"
     },
     {
@@ -226,46 +226,6 @@ const poems75 = [
     },
     {
         id: 29,
-        title: "闻官军收河南河北",
-        author: "杜甫",
-        dynasty: "唐",
-        content: "剑外忽传收蓟北，初闻涕泪满衣裳。\n却看妻子愁何在，漫卷诗书喜欲狂。\n白日放歌须纵酒，青春作伴好还乡。\n即从巴峡穿巫峡，便下襄阳向洛阳。",
-        grade: "六年级"
-    },
-    {
-        id: 30,
-        title: "江南逢李龟年",
-        author: "杜甫",
-        dynasty: "唐",
-        content: "岐王宅里寻常见，崔九堂前几度闻。\n正是江南好风景，落花时节又逢君。",
-        grade: "五年级"
-    },
-    {
-        id: 31,
-        title: "游子吟",
-        author: "孟郊",
-        dynasty: "唐",
-        content: "慈母手中线，游子身上衣。\n临行密密缝，意恐迟迟归。\n谁言寸草心，报得三春晖。",
-        grade: "三年级"
-    },
-    {
-        id: 32,
-        title: "江雪",
-        author: "柳宗元",
-        dynasty: "唐",
-        content: "千山鸟飞绝，万径人踪灭。\n孤舟蓑笠翁，独钓寒江雪。",
-        grade: "二年级上"
-    },
-    {
-        id: 33,
-        title: "寻隐者不遇",
-        author: "贾岛",
-        dynasty: "唐",
-        content: "松下问童子，言师采药去。\n只在此山中，云深不知处。",
-        grade: "一年级下"
-    },
-    {
-        id: 34,
         title: "枫桥夜泊",
         author: "张继",
         dynasty: "唐",
@@ -273,7 +233,31 @@ const poems75 = [
         grade: "五年级"
     },
     {
-        id: 35,
+        id: 30,
+        title: "滁州西涧",
+        author: "韦应物",
+        dynasty: "唐",
+        content: "独怜幽草涧边生，上有黄鹂深树鸣。\n春潮带雨晚来急，野渡无人舟自横。",
+        grade: "四年级"
+    },
+    {
+        id: 31,
+        title: "游子吟",
+        author: "孟郊",
+        dynasty: "唐",
+        content: "慈母手中线，游子身上衣。\n临行密密缝，意恐迟迟归。\n谁言寸草心，报得三春晖？",
+        grade: "三年级"
+    },
+    {
+        id: 32,
+        title: "早春呈水部张十八员外",
+        author: "韩愈",
+        dynasty: "唐",
+        content: "天街小雨润如酥，草色遥看近却无。\n最是一年春好处，绝胜烟柳满皇都。",
+        grade: "四年级"
+    },
+    {
+        id: 33,
         title: "渔歌子",
         author: "张志和",
         dynasty: "唐",
@@ -281,7 +265,7 @@ const poems75 = [
         grade: "四年级"
     },
     {
-        id: 36,
+        id: 34,
         title: "塞下曲",
         author: "卢纶",
         dynasty: "唐",
@@ -289,7 +273,7 @@ const poems75 = [
         grade: "四年级"
     },
     {
-        id: 37,
+        id: 35,
         title: "望洞庭",
         author: "刘禹锡",
         dynasty: "唐",
@@ -297,7 +281,7 @@ const poems75 = [
         grade: "四年级"
     },
     {
-        id: 38,
+        id: 36,
         title: "浪淘沙",
         author: "刘禹锡",
         dynasty: "唐",
@@ -305,7 +289,7 @@ const poems75 = [
         grade: "五年级"
     },
     {
-        id: 39,
+        id: 37,
         title: "赋得古原草送别",
         author: "白居易",
         dynasty: "唐",
@@ -313,7 +297,7 @@ const poems75 = [
         grade: "二年级下"
     },
     {
-        id: 40,
+        id: 38,
         title: "池上",
         author: "白居易",
         dynasty: "唐",
@@ -321,7 +305,7 @@ const poems75 = [
         grade: "一年级下"
     },
     {
-        id: 41,
+        id: 39,
         title: "忆江南",
         author: "白居易",
         dynasty: "唐",
@@ -329,23 +313,7 @@ const poems75 = [
         grade: "四年级"
     },
     {
-        id: 42,
-        title: "悯农（其一）",
-        author: "李绅",
-        dynasty: "唐",
-        content: "春种一粒粟，秋收万颗子。\n四海无闲田，农夫犹饿死。",
-        grade: "二年级下"
-    },
-    {
-        id: 43,
-        title: "悯农（其二）",
-        author: "李绅",
-        dynasty: "唐",
-        content: "锄禾日当午，汗滴禾下土。\n谁知盘中餐，粒粒皆辛苦。",
-        grade: "一年级上"
-    },
-    {
-        id: 44,
+        id: 40,
         title: "小儿垂钓",
         author: "胡令能",
         dynasty: "唐",
@@ -353,19 +321,51 @@ const poems75 = [
         grade: "二年级上"
     },
     {
-        id: 45,
-        title: "清明",
-        author: "杜牧",
+        id: 41,
+        title: "悯农（其一）",
+        author: "李绅",
         dynasty: "唐",
-        content: "清明时节雨纷纷，路上行人欲断魂。\n借问酒家何处有？牧童遥指杏花村。",
-        grade: "三年级"
+        content: "锄禾日当午，汗滴禾下土。\n谁知盘中餐，粒粒皆辛苦。",
+        grade: "一年级上"
     },
     {
-        id: 46,
+        id: 42,
+        title: "悯农（其二）",
+        author: "李绅",
+        dynasty: "唐",
+        content: "春种一粒粟，秋收万颗子。\n四海无闲田，农夫犹饿死。",
+        grade: "二年级下"
+    },
+    {
+        id: 43,
+        title: "江雪",
+        author: "柳宗元",
+        dynasty: "唐",
+        content: "千山鸟飞绝，万径人踪灭。\n孤舟蓑笠翁，独钓寒江雪。",
+        grade: "二年级上"
+    },
+    {
+        id: 44,
+        title: "寻隐者不遇",
+        author: "贾岛",
+        dynasty: "唐",
+        content: "松下问童子，言师采药去。\n只在此山中，云深不知处。",
+        grade: "一年级下"
+    },
+    {
+        id: 45,
         title: "山行",
         author: "杜牧",
         dynasty: "唐",
         content: "远上寒山石径斜，白云生处有人家。\n停车坐爱枫林晚，霜叶红于二月花。",
+        grade: "三年级"
+    },
+    {
+        id: 46,
+        title: "清明",
+        author: "杜牧",
+        dynasty: "唐",
+        content: "清明时节雨纷纷，路上行人欲断魂。\n借问酒家何处有？牧童遥指杏花村。",
         grade: "三年级"
     },
     {
@@ -378,19 +378,19 @@ const poems75 = [
     },
     {
         id: 48,
-        title: "乐游原",
-        author: "李商隐",
-        dynasty: "唐",
-        content: "向晚意不适，驱车登古原。\n夕阳无限好，只是近黄昏。",
-        grade: "五年级"
-    },
-    {
-        id: 49,
         title: "蜂",
         author: "罗隐",
         dynasty: "唐",
         content: "不论平地与山尖，无限风光尽被占。\n采得百花成蜜后，为谁辛苦为谁甜？",
         grade: "四年级"
+    },
+    {
+        id: 49,
+        title: "江上渔者",
+        author: "范仲淹",
+        dynasty: "宋",
+        content: "江上往来人，但爱鲈鱼美。\n君看一叶舟，出没风波里。",
+        grade: "三年级"
     },
     {
         id: 50,
@@ -405,7 +405,7 @@ const poems75 = [
         title: "泊船瓜洲",
         author: "王安石",
         dynasty: "宋",
-        content: "京口瓜洲一水间，钟山只隔数重山。\n春风又绿江南岸，明月何时照我还？",
+        content: "京口瓜洲一水间，钟山只隔数重山。\n春风又绿江南岸，明月何时照我还。",
         grade: "五年级"
     },
     {
@@ -434,7 +434,7 @@ const poems75 = [
     },
     {
         id: 55,
-        title: "惠崇春江晚景",
+        title: "惠崇春江晓景",
         author: "苏轼",
         dynasty: "宋",
         content: "竹外桃花三两枝，春江水暖鸭先知。\n蒌蒿满地芦芽短，正是河豚欲上时。",
@@ -482,18 +482,18 @@ const poems75 = [
     },
     {
         id: 61,
-        title: "四时田园杂兴（其二十五）",
+        title: "四时田园杂兴（其一）",
         author: "范成大",
         dynasty: "宋",
-        content: "梅子金黄杏子肥，麦花雪白菜花稀。\n日长篱落无人过，惟有蜻蜓蛱蝶飞。",
+        content: "昼出耘田夜绩麻，村庄儿女各当家。\n童孙未解供耕织，也傍桑阴学种瓜。",
         grade: "四年级"
     },
     {
         id: 62,
-        title: "四时田园杂兴（其三十一）",
+        title: "四时田园杂兴（其二）",
         author: "范成大",
         dynasty: "宋",
-        content: "昼出耘田夜绩麻，村庄儿女各当家。\n童孙未解供耕织，也傍桑阴学种瓜。",
+        content: "梅子金黄杏子肥，麦花雪白菜花稀。\n日长篱落无人过，惟有蜻蜓蛱蝶飞。",
         grade: "四年级"
     },
     {
@@ -557,7 +557,7 @@ const poems75 = [
         title: "墨梅",
         author: "王冕",
         dynasty: "元",
-        content: "我家洗砚池头树，朵朵花开淡墨痕。\n不要人夸好颜色，只留清气满乾坤。",
+        content: "我家洗砚池边树，朵朵花开淡墨痕。\n不要人夸好颜色，只留清气满乾坤。",
         grade: "四年级"
     },
     {
