@@ -6,6 +6,7 @@ const stretchData = {
         // 核心激活
         {
             name: '仰卧交替抬腿（屈膝伸直式）',
+            originalDesc: '屈膝伸直',
             term: '核心激活（下腹部）',
             stage: '核心激活',
             intensity: '低',
@@ -18,20 +19,8 @@ const stretchData = {
             ]
         },
         {
-            name: '仰卧交替抬腿（直腿式）',
-            term: '核心激活（下腹部+髋屈肌）',
-            stage: '核心激活',
-            intensity: '中低',
-            sets: '2组×10次',
-            details: [
-                '仰卧，双腿伸直并拢（离地面约10cm），脚尖回勾',
-                '双手放体侧（或轻触耳朵），腹部收紧',
-                '单腿缓慢向上抬起（与地面成45°）→ 缓慢回落（脚跟轻触地面）',
-                '左右交替进行（左腿抬起→回落→右腿抬起→回落）'
-            ]
-        },
-        {
             name: '仰卧交替交叉抬腿（脚跟接触式）',
+            originalDesc: '左腿伸直向右交叉（脚跟触右脚外侧面）',
             term: '核心激活（侧核心+髋部）',
             stage: '核心激活',
             intensity: '中低',
@@ -44,7 +33,22 @@ const stretchData = {
             ]
         },
         {
+            name: '仰卧交替抬腿（直腿式）',
+            originalDesc: '交替上下',
+            term: '核心激活（下腹部+髋屈肌）',
+            stage: '核心激活',
+            intensity: '中低',
+            sets: '2组×10次',
+            details: [
+                '仰卧，双腿伸直并拢（离地面约10cm），脚尖回勾',
+                '双手放体侧（或轻触耳朵），腹部收紧',
+                '单腿缓慢向上抬起（与地面成45°）→ 缓慢回落（脚跟轻触地面）',
+                '左右交替进行（左腿抬起→回落→右腿抬起→回落）'
+            ]
+        },
+        {
             name: '仰卧横向分腿（并拢式）',
+            originalDesc: '横向分开合拢',
             term: '核心激活（侧核心+髋外展肌）',
             stage: '核心激活',
             intensity: '中低',
@@ -59,6 +63,7 @@ const stretchData = {
         // 核心强化
         {
             name: '仰卧双腿抬升保持（静态稳定）',
+            originalDesc: '双腿同时抬起固定',
             term: '核心强化（整体核心持续收缩）',
             stage: '核心强化',
             intensity: '中低',
@@ -73,6 +78,7 @@ const stretchData = {
         },
         {
             name: '仰卧双腿抬升+上肢动态稳定',
+            originalDesc: '双腿同时抬起固定+双手快速触地抬起',
             term: '核心强化（抗旋转+协调性）',
             stage: '核心强化',
             intensity: '中低',
@@ -92,6 +98,7 @@ const stretchData = {
         // 颈部（头部）- 静态/小幅度
         {
             name: '颈部屈伸（垂直方向）',
+            originalDesc: '上下点头',
             term: '局部激活（颈部）',
             stage: '局部激活',
             sets: '2个八拍×2组',
@@ -102,6 +109,7 @@ const stretchData = {
         },
         {
             name: '颈部侧屈（水平方向）',
+            originalDesc: '颈部侧屈（水平方向）',
             term: '局部激活（颈部）',
             stage: '局部激活',
             sets: '2个八拍×2组',
@@ -113,6 +121,7 @@ const stretchData = {
         },
         {
             name: '颈部复合圆周伸展（前屈+侧屈）',
+            originalDesc: '颈部U型圆周运动（下巴贴紧身体）',
             term: '局部激活（颈部）',
             stage: '局部激活',
             sets: '2个八拍×2组',
@@ -125,6 +134,7 @@ const stretchData = {
         // 肩部 - 静态到动态
         {
             name: '肩部水平内收与外展',
+            originalDesc: '双臂左右打开再收回',
             term: '局部激活（肩部）',
             stage: '局部激活',
             sets: '1个八拍×2组',
@@ -135,6 +145,7 @@ const stretchData = {
         },
         {
             name: '肩部绕环（前-上-后复合运动）',
+            originalDesc: '双臂向前再向上伸直再向前后收回',
             term: '局部激活（肩部）',
             stage: '局部激活',
             sets: '2个八拍×2组',
@@ -146,6 +157,7 @@ const stretchData = {
         // 手腕
         {
             name: '肩部-腕部复合伸展',
+            originalDesc: '双手握拳再展开',
             term: '专项准备（抓握类）',
             stage: '专项准备',
             sets: '2个八拍×2组',
@@ -158,6 +170,7 @@ const stretchData = {
         // 躯干（腰部）
         {
             name: '躯干屈伸与侧屈',
+            originalDesc: '双手叉腰，前后左右扭腰',
             term: '局部激活（躯干）',
             stage: '局部激活',
             sets: '1个八拍×2组',
@@ -170,6 +183,7 @@ const stretchData = {
         // 下肢 - 静态到动态
         {
             name: '提踵（踝关节跖屈-背屈）',
+            originalDesc: '双脚掂起脚后跟到最高后恢复',
             term: '局部激活（下肢）',
             stage: '局部激活',
             sets: '2个八拍×2组',
@@ -180,6 +194,7 @@ const stretchData = {
         },
         {
             name: '动态弓步（矢状面+下压）',
+            originalDesc: '前后弓步（下压式）',
             term: '动态拉伸（下肢）',
             stage: '动态拉伸',
             sets: '1个八拍×2组（前后）',
@@ -191,6 +206,7 @@ const stretchData = {
         },
         {
             name: '动态弓步（冠状面+下压）',
+            originalDesc: '左右弓步（下压式）',
             term: '动态拉伸（下肢）',
             stage: '动态拉伸',
             sets: '1个八拍×2组（左右）',
@@ -204,6 +220,7 @@ const stretchData = {
         // 全身动态（最后）
         {
             name: '开合跳',
+            originalDesc: '开合跳',
             term: '全身性动态激活',
             stage: '全身唤醒',
             sets: '1个八拍×2组',
@@ -219,6 +236,7 @@ const stretchData = {
         // 肩部
         {
             name: '肩部「画小圈」（前-上-后）',
+            originalDesc: '肩部「画小圈」（前-上-后）',
             term: '肩部动态激活（小幅度绕环）',
             stage: '专项热身',
             intensity: '低',
@@ -231,6 +249,7 @@ const stretchData = {
         // 手腕
         {
             name: '手腕-手指复合伸展',
+            originalDesc: '手腕绕环+手指开合',
             term: '手腕灵活性训练',
             stage: '专项热身',
             intensity: '低',
@@ -243,6 +262,7 @@ const stretchData = {
         // 下肢平衡（静态）
         {
             name: '单脚站立+抛接轻球',
+            originalDesc: '单脚站立+抛接轻球（家长辅助）',
             term: '核心-下肢平衡训练',
             stage: '专项热身',
             intensity: '中低',
@@ -255,6 +275,7 @@ const stretchData = {
         // 下肢动态
         {
             name: '侧滑步+交叉步（小范围）',
+            originalDesc: '侧滑步+交叉步（小范围）',
             term: '下肢变向敏捷训练',
             stage: '专项热身',
             intensity: '中低',
@@ -271,6 +292,7 @@ const stretchData = {
         // 肩部
         {
             name: '肩部「推墙」（小幅度）',
+            originalDesc: '肩部「推墙」（小幅度）',
             term: '肩部-手臂协调性训练',
             stage: '专项热身',
             intensity: '低',
@@ -283,6 +305,7 @@ const stretchData = {
         // 手指
         {
             name: '手指「捏软球」',
+            originalDesc: '手指「捏软球」（或海绵块）',
             term: '手指抓握力训练',
             stage: '专项热身',
             intensity: '低',
@@ -295,6 +318,7 @@ const stretchData = {
         // 核心静态
         {
             name: '平板支撑（跪姿简化版）',
+            originalDesc: '平板支撑（跪姿简化版）',
             term: '核心静态稳定训练',
             stage: '专项热身',
             intensity: '中低',
@@ -307,6 +331,7 @@ const stretchData = {
         // 下肢动态
         {
             name: '跪姿「小步爬」（模拟攀岩脚法）',
+            originalDesc: '跪姿「小步爬」（模拟攀岩脚法）',
             term: '下肢静态支撑+脚法练习',
             stage: '专项热身',
             intensity: '中低',
@@ -323,6 +348,7 @@ const stretchData = {
         // 肩部（静态）
         {
             name: '肩部静态拉伸（三角肌后束）',
+            originalDesc: '双臂交叉抱肘，向两侧轻拉',
             term: '肩部拉伸',
             stage: '运动后拉伸',
             sets: '每侧20秒×2组',
@@ -336,6 +362,7 @@ const stretchData = {
         // 手腕（静态）
         {
             name: '手腕伸肌静态拉伸',
+            originalDesc: '手腕背伸+手指下压',
             term: '手腕拉伸',
             stage: '运动后拉伸',
             sets: '每侧15秒×2组',
@@ -349,6 +376,7 @@ const stretchData = {
         // 核心（动态）
         {
             name: '腹直肌+竖脊肌动态放松',
+            originalDesc: '双手抱膝，身体左右摇晃',
             term: '核心放松',
             stage: '运动后拉伸',
             sets: '每侧10次×2组',
@@ -362,6 +390,7 @@ const stretchData = {
         // 大腿前侧（静态）
         {
             name: '股四头肌静态拉伸',
+            originalDesc: '单脚后勾，双手轻拉脚背',
             term: '大腿前侧拉伸',
             stage: '运动后拉伸',
             sets: '每侧15秒×2组',
@@ -375,6 +404,7 @@ const stretchData = {
         // 小腿（静态）
         {
             name: '小腿三头肌静态拉伸（腓肠肌）',
+            originalDesc: '双脚前后分开，后腿伸直，身体前倾',
             term: '小腿拉伸',
             stage: '运动后拉伸',
             sets: '每侧20秒×2组',
@@ -392,6 +422,7 @@ const stretchData = {
         // 肩背（动态）
         {
             name: '背阔肌动态放松',
+            originalDesc: '双手交叉上举，向两侧轻微摆动',
             term: '肩背拉伸',
             stage: '运动后拉伸',
             sets: '每侧10次×2组',
@@ -405,6 +436,7 @@ const stretchData = {
         // 前臂（静态）
         {
             name: '前臂屈肌静态拉伸',
+            originalDesc: '手臂前伸，掌心向下，另一手轻压手掌',
             term: '前臂拉伸',
             stage: '运动后拉伸',
             sets: '每侧20秒×2组',
@@ -419,6 +451,7 @@ const stretchData = {
         // 腰部（静态）
         {
             name: '腰方肌静态拉伸',
+            originalDesc: '双手叉腰，左右侧屈',
             term: '腰部拉伸',
             stage: '运动后拉伸',
             sets: '每侧20秒×2组',
@@ -432,6 +465,7 @@ const stretchData = {
         // 大腿后侧（静态）
         {
             name: '腘绳肌静态拉伸',
+            originalDesc: '坐姿单腿伸直，身体前倾',
             term: '大腿后侧拉伸',
             stage: '运动后拉伸',
             sets: '每侧20秒×2组',
@@ -446,6 +480,7 @@ const stretchData = {
         // 小腿（动态）
         {
             name: '小腿三头肌+跟腱动态拉伸',
+            originalDesc: '双脚并拢，身体前倾，双手扶墙',
             term: '小腿拉伸',
             stage: '运动后拉伸',
             sets: '每组10次×2组',

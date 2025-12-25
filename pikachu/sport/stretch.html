@@ -564,6 +564,14 @@
                     </div>
                     <div class="card-content">
                         <div class="card-body">
+                            ${exercise.originalDesc ? `
+                            <div class="detail-section detail-info-grid" style="margin-bottom: 0; padding-bottom: 0; border-bottom: none;">
+                                <div class="detail-info-item" style="flex-basis: 100%;">
+                                    <span class="detail-info-label"><i class="fas fa-quote-left"></i> 原描述</span>
+                                    <span class="detail-info-value">${exercise.originalDesc}</span>
+                                </div>
+                            </div>
+                            ` : ''}
                             <div class="detail-section detail-info-grid">
                                 ${exercise.stage ? `
                                 <div class="detail-info-item">
