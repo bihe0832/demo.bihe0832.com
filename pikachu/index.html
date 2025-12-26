@@ -188,11 +188,11 @@
     <div class="p-action">🎓 皮卡丘学习资源</div>
     
     <div class="g-box">
-      <!-- 最近常用 -->
+      <!-- 最近使用 -->
       <div class="category" v-if="recentList.length > 0" :class="{ collapsed: recentCollapsed }">
         <div class="category-header" @click="recentCollapsed = !recentCollapsed">
           <span class="category-icon">⭐</span>
-          <span class="category-title">最近常用</span>
+          <span class="category-title">最近使用</span>
           <span class="category-count">{{ recentList.length }}项</span>
           <span class="category-arrow">▼</span>
         </div>
@@ -223,7 +223,7 @@
 
   <script src="./../js/vue/2.6.10/vue.min.js"></script>
   <script>
-    const STORAGE_KEY = 'pikachu_click_count';
+    const STORAGE_KEY = 'pikachu_recent_clicks';
     
     new Vue({
       el: '#app',
@@ -269,10 +269,10 @@
               icon: "📜",
               collapsed: false,
               data: [
-                { name: '识字学习', emoji: '✏️', onlineURL: 'https://cdn.bihe0832.com/pikachu/yuwen/hanzi/' },
-                { name: '唐代诗人关系网络', emoji: '🎭', onlineURL: 'https://cdn.bihe0832.com/pikachu/yuwen/poetry/' },
-                { name: '诗词记忆计划', emoji: '🧠', onlineURL: 'https://cdn.bihe0832.com/pikachu/yuwen/memory/' },
-                { name: '脑筋急转弯', emoji: '💡', onlineURL: 'https://cdn.bihe0832.com/pikachu/yuwen/riddle/' }
+                { name: '识字学习', emoji: '✏️', onlineURL: 'https://cdn.bihe0832.com/pikachu/yuwen/hanzi/index.html' },
+                { name: '唐代诗人关系网络', emoji: '🎭', onlineURL: 'https://cdn.bihe0832.com/pikachu/yuwen/poetry/index.html' },
+                { name: '诗词记忆计划', emoji: '🧠', onlineURL: 'https://cdn.bihe0832.com/pikachu/yuwen/memory/index.html' },
+                { name: '脑筋急转弯', emoji: '💡', onlineURL: 'https://cdn.bihe0832.com/pikachu/yuwen/riddle/index.html' }
               ]
             },
             {
@@ -322,30 +322,35 @@
           return tools;
         },
         recentList() {
-          const counts = this.getClickCounts();
-          const sorted = Object.entries(counts)
-            .filter(([url, count]) => count > 0)
-            .sort((a, b) => b[1] - a[1])
+          const recentClicks = this.getRecentClicks();
+          // 按时间倒序排列，取最近5个
+          return recentClicks
+            .sort((a, b) => b.time - a.time)
             .slice(0, 5)
-            .map(([url]) => url);
-          return sorted.map(url => this.allTools.find(t => t.onlineURL === url)).filter(Boolean);
+            .map(item => this.allTools.find(t => t.onlineURL === item.url))
+            .filter(Boolean);
         }
       },
       methods: {
         toggleCategory(index) {
           this.$set(this.dataList[index], 'collapsed', !this.dataList[index].collapsed);
         },
-        getClickCounts() {
+        getRecentClicks() {
           try {
-            return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+            return JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
           } catch {
-            return {};
+            return [];
           }
         },
         recordClick(url) {
-          const counts = this.getClickCounts();
-          counts[url] = (counts[url] || 0) + 1;
-          localStorage.setItem(STORAGE_KEY, JSON.stringify(counts));
+          let recentClicks = this.getRecentClicks();
+          // 移除已存在的相同URL记录
+          recentClicks = recentClicks.filter(item => item.url !== url);
+          // 添加新记录到开头
+          recentClicks.unshift({ url: url, time: Date.now() });
+          // 只保留最近20条记录
+          recentClicks = recentClicks.slice(0, 20);
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(recentClicks));
         }
       }
     });
