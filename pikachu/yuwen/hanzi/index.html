@@ -220,8 +220,8 @@
             margin-bottom: 15px;
         }
         
-        /* 米加田字格背景 */
-        .mi-grid {
+        /* 田字格背景 */
+        .tian-grid {
             position: absolute;
             top: 0;
             left: 0;
@@ -231,61 +231,25 @@
             background: #fff;
         }
         
-        /* 横竖线（田字格）- 实线 */
-        .mi-grid::before {
+        /* 横竖线（田字格）- 虚线 */
+        .tian-grid::before {
             content: '';
             position: absolute;
             top: 50%;
             left: 0;
             right: 0;
             height: 1px;
-            background: #ffaaaa;
+            border-top: 1px dashed #ffaaaa;
         }
         
-        .mi-grid::after {
+        .tian-grid::after {
             content: '';
             position: absolute;
             left: 50%;
             top: 0;
             bottom: 0;
             width: 1px;
-            background: #ffaaaa;
-        }
-        
-        /* 对角线（米字格）- 虚线 */
-        .mi-grid .diagonal1,
-        .mi-grid .diagonal2 {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            pointer-events: none;
-        }
-        
-        .mi-grid .diagonal1::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 354px;
-            height: 0;
-            border-top: 1px dashed #ffaaaa;
-            transform-origin: top left;
-            transform: rotate(45deg);
-        }
-        
-        .mi-grid .diagonal2::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 354px;
-            height: 0;
-            border-top: 1px dashed #ffaaaa;
-            transform-origin: top right;
-            transform: rotate(-45deg);
+            border-left: 1px dashed #ffaaaa;
         }
         
         #character-target {
@@ -352,6 +316,46 @@
             padding: 15px;
         }
         
+        .detail-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            margin-bottom: 10px;
+            gap: 8px;
+            font-size: 0.85rem;
+            color: #666;
+        }
+        
+        .toggle-switch {
+            position: relative;
+            width: 40px;
+            height: 22px;
+            background: #ccc;
+            border-radius: 11px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .toggle-switch.active {
+            background: #667eea;
+        }
+        
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 18px;
+            height: 18px;
+            background: #fff;
+            border-radius: 50%;
+            transition: left 0.3s;
+        }
+        
+        .toggle-switch.active::after {
+            left: 20px;
+        }
+        
         .detail-item {
             display: flex;
             align-items: center;
@@ -399,62 +403,34 @@
             overflow: hidden;
         }
         
-        /* 小米加田字格 - 横线（实线） */
+        /* 小田字格 - 横线（虚线） */
         .stroke-item::before {
             content: '';
             position: absolute;
             top: 50%;
             left: 0;
             right: 0;
-            height: 1px;
-            background: #ffaaaa;
+            height: 0;
+            border-top: 1px dashed #ffaaaa;
             z-index: 1;
         }
         
-        /* 小米加田字格 - 竖线（实线） */
+        /* 小田字格 - 竖线（虚线） */
         .stroke-item::after {
             content: '';
             position: absolute;
             left: 50%;
             top: 0;
             bottom: 0;
-            width: 1px;
-            background: #ffaaaa;
+            width: 0;
+            border-left: 1px dashed #ffaaaa;
             z-index: 1;
         }
         
-        /* 小米加田字格 - 对角线（虚线） */
-        .stroke-item .diagonal {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-            pointer-events: none;
-        }
-        
-        .stroke-item .diagonal::before,
-        .stroke-item .diagonal::after {
-            content: '';
-            position: absolute;
-            width: 71px;
-            height: 0;
-            border-top: 1px dashed #ffaaaa;
-        }
-        
-        .stroke-item .diagonal::before {
-            top: 0;
-            left: 0;
-            transform-origin: top left;
-            transform: rotate(45deg);
-        }
-        
-        .stroke-item .diagonal::after {
-            top: 0;
-            right: 0;
-            transform-origin: top right;
-            transform: rotate(-45deg);
+        /* 当前笔画高亮 */
+        .stroke-item.current-stroke {
+            border: 2px solid #ff69b4;
+            box-shadow: 0 0 8px rgba(255, 105, 180, 0.5);
         }
         
         .stroke-item .stroke-num {
@@ -612,10 +588,7 @@
                 <div class="main-content">
                     <div class="writer-section">
                         <div class="writer-container">
-                            <div class="mi-grid">
-                                <div class="diagonal1"></div>
-                                <div class="diagonal2"></div>
-                            </div>
+                            <div class="tian-grid"></div>
                             <div id="character-target"></div>
                         </div>
                         <div class="stroke-info">
@@ -630,6 +603,10 @@
                     <div class="stroke-order-section">
                         <div class="stroke-order-grid" id="strokeOrderGrid"></div>
                         <div class="char-details" id="charDetails">
+                            <div class="detail-toggle">
+                                <span>显示组词/成语/歇后语</span>
+                                <div class="toggle-switch" id="detailToggle" onclick="toggleDetailDisplay()"></div>
+                            </div>
                             <div class="detail-item">
                                 <span class="detail-label">拼音：</span>
                                 <span class="detail-value pinyin" id="detailPinyin">-</span>
@@ -638,17 +615,17 @@
                                 <span class="detail-label">繁体：</span>
                                 <span class="detail-value traditional" id="detailTraditional">-</span>
                             </div>
-                            <div class="detail-item">
+                            <div class="detail-item" id="wordsRow">
                                 <span class="detail-label">组词：</span>
-                                <span class="detail-value" id="detailWords">-</span>
+                                <span class="detail-value" id="detailWords">默认不展示</span>
                             </div>
-                            <div class="detail-item">
+                            <div class="detail-item" id="idiomRow">
                                 <span class="detail-label">成语：</span>
-                                <span class="detail-value" id="detailIdiom">-</span>
+                                <span class="detail-value" id="detailIdiom">默认不展示</span>
                             </div>
-                            <div class="detail-item">
+                            <div class="detail-item" id="xhyRow">
                                 <span class="detail-label">歇后语：</span>
-                                <span class="detail-value" id="detailXhy">-</span>
+                                <span class="detail-value" id="detailXhy">默认不展示</span>
                             </div>
                         </div>
                     </div>
@@ -658,8 +635,11 @@
                     <button class="action-btn" onclick="prevStroke()" id="prevBtn" style="background:#6c757d;color:#fff;" disabled>
                         <i class="fas fa-step-backward"></i> 上一笔
                     </button>
-                    <button class="action-btn primary" onclick="toggleAnimation()" id="animateBtn" disabled>
-                        <i class="fas fa-play"></i> 播放笔顺
+                    <button class="action-btn primary" onclick="toggleAnimation('fast')" id="animateFastBtn" disabled>
+                        <i class="fas fa-forward"></i> 快速播放
+                    </button>
+                    <button class="action-btn primary" onclick="toggleAnimation('slow')" id="animateSlowBtn" disabled>
+                        <i class="fas fa-play"></i> 慢速播放
                     </button>
                     <button class="action-btn" onclick="nextStroke()" id="nextBtn" style="background:#6c757d;color:#fff;" disabled>
                         <i class="fas fa-step-forward"></i> 下一笔
@@ -681,6 +661,63 @@
         let isAnimating = false;
         let currentStrokeIndex = 0; // 当前显示到第几笔（用于上一笔/下一笔）
         let animationTimer = null; // 动画定时器
+        let currentSpeed = 'fast'; // 当前播放速度：'fast' 或 'slow'
+        let animationId = 0; // 动画实例 ID，用于区分不同的动画
+        
+        // 速度配置
+        const speedConfig = {
+            fast: { strokeSpeed: 0.9, delay: 200 },
+            slow: { strokeSpeed: 0.3, delay: 800 }
+        };
+        
+        // 是否显示组词/成语/歇后语
+        let showExtraDetails = localStorage.getItem('hanziShowExtra') === 'true';
+        
+        // 缓存真实内容
+        let cachedWords = '';
+        let cachedIdiom = '';
+        let cachedXhy = '';
+        
+        // 初始化开关状态
+        function initDetailToggle() {
+            const toggle = document.getElementById('detailToggle');
+            if (showExtraDetails) {
+                toggle.classList.add('active');
+            }
+        }
+        
+        // 切换显示状态
+        function toggleDetailDisplay() {
+            showExtraDetails = !showExtraDetails;
+            localStorage.setItem('hanziShowExtra', showExtraDetails);
+            const toggle = document.getElementById('detailToggle');
+            if (showExtraDetails) {
+                toggle.classList.add('active');
+                // 如果开关打开且有当前字符，重新获取数据
+                if (currentCharacter && (!cachedWords || cachedWords === '暂无')) {
+                    fetchCharDetails(currentCharacter);
+                    return; // fetchCharDetails 会调用 updateExtraDetailsDisplay
+                }
+            } else {
+                toggle.classList.remove('active');
+            }
+            updateExtraDetailsDisplay();
+        }
+        
+        // 更新额外详情的显示
+        function updateExtraDetailsDisplay() {
+            if (showExtraDetails) {
+                document.getElementById('detailWords').textContent = cachedWords || '暂无';
+                document.getElementById('detailIdiom').textContent = cachedIdiom || '暂无';
+                document.getElementById('detailXhy').textContent = cachedXhy || '暂无';
+            } else {
+                document.getElementById('detailWords').textContent = '默认不展示';
+                document.getElementById('detailIdiom').textContent = '默认不展示';
+                document.getElementById('detailXhy').textContent = '默认不展示';
+            }
+        }
+        
+        initDetailToggle();
         
         updateHistoryDisplay();
         
@@ -691,6 +728,23 @@
         // 回车查询
         document.getElementById('charInput').addEventListener('keypress', (e) => {
             if (e.key === 'Enter') lookupChar();
+        });
+        
+        // 输入框获得焦点时自动选中所有文字
+        document.getElementById('charInput').addEventListener('focus', (e) => {
+            e.target.select();
+        });
+        
+        // 输入内容变化时自动查询（仅当输入为单个汉字时）
+        document.getElementById('charInput').addEventListener('input', (e) => {
+            const value = e.target.value.trim();
+            if (/^[\u4e00-\u9fa5]$/.test(value)) {
+                lookupChar();
+                // 查询完成后自动全选，方便重复输入
+                setTimeout(() => {
+                    e.target.select();
+                }, 100);
+            }
         });
         
         function updateHistoryDisplay() {
@@ -776,7 +830,8 @@
                 // 创建笔画顺序展示
                 createStrokeOrderDisplay(input, charData.strokes.length);
                 
-                document.getElementById('animateBtn').disabled = false;
+                document.getElementById('animateFastBtn').disabled = false;
+                document.getElementById('animateSlowBtn').disabled = false;
                 // 初始化当前笔画索引（显示完整汉字）
                 currentStrokeIndex = charData.strokes.length;
                 // 更新按钮状态：上一笔可点，下一笔不可点
@@ -793,7 +848,8 @@
                 target.innerHTML = '<div style="padding:90px 20px;color:#e74c3c;text-align:center;font-size:1.1rem;">暂不支持该汉字</div>';
                 strokeGrid.innerHTML = '<div style="grid-column:1/-1;text-align:center;color:#999;padding:20px;">无笔画数据</div>';
                 clearCharDetails();
-                document.getElementById('animateBtn').disabled = true;
+                document.getElementById('animateFastBtn').disabled = true;
+                document.getElementById('animateSlowBtn').disabled = true;
                 document.getElementById('prevBtn').disabled = true;
                 document.getElementById('nextBtn').disabled = true;
                 resultSection.classList.add('show');
@@ -934,7 +990,8 @@
                         }
                     }
                 }
-                document.getElementById('detailWords').textContent = wordsList.length > 0 ? wordsList.join('、') : '暂无';
+                // 缓存组词内容
+                cachedWords = wordsList.length > 0 ? wordsList.join('、') : '暂无';
                 
                 // 获取成语
                 let idiomList = [];
@@ -944,10 +1001,11 @@
                         idiomList = idioms.slice(0, 3);
                     }
                 }
-                document.getElementById('detailIdiom').textContent = idiomList.length > 0 ? idiomList.join('、') : '暂无';
+                // 缓存成语内容
+                cachedIdiom = idiomList.length > 0 ? idiomList.join('、') : '暂无';
                 
                 // 获取歇后语（随机取一个）
-                let xhyText = '暂无';
+                cachedXhy = '暂无';
                 try {
                     if (cnchar.xhy) {
                         // xhy 搜索包含该字的歇后语
@@ -957,25 +1015,28 @@
                             const randomIndex = Math.floor(Math.random() * xhyResult.length);
                             const item = xhyResult[randomIndex];
                             if (Array.isArray(item)) {
-                                xhyText = item[0] + ' —— ' + item[1];
+                                cachedXhy = item[0] + ' —— ' + item[1];
                             } else {
                                 // 字符串格式，替换可能的分隔符
-                                xhyText = String(item).replace(/[-—]+/g, ' —— ');
+                                cachedXhy = String(item).replace(/[-—]+/g, ' —— ');
                             }
                         }
                     }
                 } catch (xhyError) {
                     console.log('歇后语获取失败:', xhyError);
                 }
-                document.getElementById('detailXhy').textContent = xhyText;
+                
+                // 根据开关状态显示内容
+                updateExtraDetailsDisplay();
                 
             } catch (e) {
                 console.error('cnchar处理失败:', e);
                 document.getElementById('detailPinyin').textContent = '暂无';
                 document.getElementById('detailTraditional').textContent = '暂无';
-                document.getElementById('detailWords').textContent = '暂无';
-                document.getElementById('detailIdiom').textContent = '暂无';
-                document.getElementById('detailXhy').textContent = '暂无';
+                cachedWords = '暂无';
+                cachedIdiom = '暂无';
+                cachedXhy = '暂无';
+                updateExtraDetailsDisplay();
             }
         }
         
@@ -983,9 +1044,10 @@
         function clearCharDetails() {
             document.getElementById('detailPinyin').textContent = '暂无';
             document.getElementById('detailTraditional').textContent = '暂无';
-            document.getElementById('detailWords').textContent = '暂无';
-            document.getElementById('detailIdiom').textContent = '暂无';
-            document.getElementById('detailXhy').textContent = '暂无';
+            cachedWords = '暂无';
+            cachedIdiom = '暂无';
+            cachedXhy = '暂无';
+            updateExtraDetailsDisplay();
         }
         
         function createStrokeOrderDisplay(char, strokeCount) {
@@ -993,24 +1055,31 @@
             grid.innerHTML = '';
             strokeWriters = [];
             
+            // 先保存当前的 charData 完整快照
+            const savedCharData = JSON.parse(JSON.stringify(charData));
+            
             for (let i = 0; i < strokeCount; i++) {
                 const item = document.createElement('div');
                 item.className = 'stroke-item';
-                item.innerHTML = `
-                    <div class="diagonal"></div>
-                    <span class="stroke-num">${i + 1}</span>
-                    <div id="stroke-${i}"></div>
-                `;
+                item.id = `stroke-item-${i}`;
+                item.innerHTML = `<span class="stroke-num">${i + 1}</span>`;
                 grid.appendChild(item);
                 
-                // 创建只显示前 i+1 笔的自定义数据
                 const strokeIndex = i;
-                const customCharData = JSON.parse(JSON.stringify(charData));
-                // 只保留前 strokeIndex+1 笔
-                customCharData.strokes = customCharData.strokes.slice(0, strokeIndex + 1);
-                customCharData.medians = customCharData.medians.slice(0, strokeIndex + 1);
                 
-                const strokeWriter = HanziWriter.create(`stroke-${i}`, char, {
+                // 显示从第1笔到当前笔的所有笔画
+                const strokeData = {
+                    strokes: savedCharData.strokes.slice(0, strokeIndex + 1),
+                    medians: savedCharData.medians.slice(0, strokeIndex + 1),
+                    radStrokes: savedCharData.radStrokes
+                };
+                
+                const writerDiv = document.createElement('div');
+                writerDiv.id = `stroke-writer-${i}`;
+                writerDiv.style.cssText = 'position:absolute;top:0;left:0;';
+                item.appendChild(writerDiv);
+                
+                const writer = HanziWriter.create(`stroke-writer-${i}`, char, {
                     width: 50,
                     height: 50,
                     padding: 3,
@@ -1019,32 +1088,43 @@
                     showOutline: true,
                     showCharacter: true,
                     charDataLoader: function() {
-                        return Promise.resolve(customCharData);
+                        return Promise.resolve(strokeData);
                     }
                 });
                 
-                strokeWriters.push(strokeWriter);
+                strokeWriters.push(writer);
             }
         }
         
-        function toggleAnimation() {
+        function toggleAnimation(speed) {
             if (!charData) return;
             
-            const btn = document.getElementById('animateBtn');
+            const fastBtn = document.getElementById('animateFastBtn');
+            const slowBtn = document.getElementById('animateSlowBtn');
             
-            if (isAnimating) {
-                // 正在播放，暂停
+            if (isAnimating && currentSpeed === speed) {
+                // 点击的是当前正在播放的速度按钮，暂停
                 isAnimating = false;
                 isPaused = true;
-                // 停止定时器
                 if (animationTimer) {
                     clearTimeout(animationTimer);
                     animationTimer = null;
                 }
-                btn.innerHTML = '<i class="fas fa-play"></i> 播放笔顺';
+                fastBtn.innerHTML = '<i class="fas fa-forward"></i> 快速播放';
+                slowBtn.innerHTML = '<i class="fas fa-play"></i> 慢速播放';
                 updateStrokeButtons();
             } else {
-                // 未播放或已暂停，都从头开始播放
+                // 未播放、已暂停、或切换速度，都从头开始播放
+                // 先彻底停止之前的动画
+                isAnimating = false;
+                if (animationTimer) {
+                    clearTimeout(animationTimer);
+                    animationTimer = null;
+                }
+                // 清除之前的 writer
+                animationWriter = null;
+                
+                currentSpeed = speed;
                 startAnimation();
             }
         }
@@ -1052,9 +1132,22 @@
         function startAnimation() {
             if (!charData) return;
             
-            const btn = document.getElementById('animateBtn');
+            const fastBtn = document.getElementById('animateFastBtn');
+            const slowBtn = document.getElementById('animateSlowBtn');
+            const config = speedConfig[currentSpeed];
+            
+            // 生成新的动画 ID
+            animationId++;
+            const thisAnimationId = animationId;
+            
             isAnimating = true;
-            btn.innerHTML = '<i class="fas fa-pause"></i> 暂停';
+            if (currentSpeed === 'fast') {
+                fastBtn.innerHTML = '<i class="fas fa-pause"></i> 暂停';
+                slowBtn.innerHTML = '<i class="fas fa-play"></i> 慢速播放';
+            } else {
+                slowBtn.innerHTML = '<i class="fas fa-pause"></i> 暂停';
+                fastBtn.innerHTML = '<i class="fas fa-forward"></i> 快速播放';
+            }
             updateStrokeButtons();
             
             // 停止之前的定时器
@@ -1066,7 +1159,7 @@
             // 清除手动控制的画笔
             manualWriter = null;
             
-            // 动画从第0笔开始，但不重置 currentStrokeIndex（保留给上一笔/下一笔用）
+            // 动画从第0笔开始
             let animStrokeIndex = 0;
             
             // 重新创建 animationWriter 用于动画
@@ -1082,19 +1175,22 @@
                 outlineColor: '#ddd',
                 showOutline: true,
                 showCharacter: false,
-                strokeAnimationSpeed: 0.8,
-                delayBetweenStrokes: 300
+                strokeAnimationSpeed: config.strokeSpeed,
+                delayBetweenStrokes: config.delay
             });
             
             // 逐笔播放动画
             function animateNext() {
+                // 检查是否是当前动画实例
+                if (thisAnimationId !== animationId) return;
                 if (!animationWriter || !charData) return;
                 
                 if (animStrokeIndex >= charData.strokes.length) {
                     // 动画完成
                     isAnimating = false;
                     currentStrokeIndex = charData.strokes.length;
-                    btn.innerHTML = '<i class="fas fa-play"></i> 播放笔顺';
+                    fastBtn.innerHTML = '<i class="fas fa-forward"></i> 快速播放';
+                    slowBtn.innerHTML = '<i class="fas fa-play"></i> 慢速播放';
                     updateStrokeButtons();
                     return;
                 }
@@ -1108,10 +1204,13 @@
                 // 播放当前笔画
                 animationWriter.animateStroke(animStrokeIndex, {
                     onComplete: function() {
+                        // 再次检查是否是当前动画实例
+                        if (thisAnimationId !== animationId) return;
+                        
                         animStrokeIndex++;
-                        currentStrokeIndex = animStrokeIndex; // 同步更新位置
+                        currentStrokeIndex = animStrokeIndex;
                         // 延迟后播放下一笔
-                        animationTimer = setTimeout(animateNext, 300);
+                        animationTimer = setTimeout(animateNext, speedConfig[currentSpeed].delay);
                     }
                 });
             }
@@ -1147,7 +1246,8 @@
             }
             isAnimating = false;
             isPaused = false;
-            document.getElementById('animateBtn').innerHTML = '<i class="fas fa-play"></i> 播放笔顺';
+            document.getElementById('animateFastBtn').innerHTML = '<i class="fas fa-forward"></i> 快速播放';
+            document.getElementById('animateSlowBtn').innerHTML = '<i class="fas fa-play"></i> 慢速播放';
             
             // 使用 manualWriter 显示指定笔画
             const target = document.getElementById('character-target');
